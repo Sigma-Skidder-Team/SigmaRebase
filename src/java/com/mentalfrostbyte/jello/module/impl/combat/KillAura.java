@@ -3,6 +3,8 @@ package com.mentalfrostbyte.jello.module.impl.combat;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.gui.base.Animation;
 import com.mentalfrostbyte.jello.gui.base.Direction;
+import com.mentalfrostbyte.jello.misc.TimedEntity;
+import com.mentalfrostbyte.jello.module.impl.combat.killaura.InteractAutoBlock;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;

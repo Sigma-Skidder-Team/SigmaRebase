@@ -118,7 +118,7 @@ public abstract class PlayerEntity extends LivingEntity
     protected static final DataParameter<CompoundNBT> LEFT_SHOULDER_ENTITY = EntityDataManager.createKey(PlayerEntity.class, DataSerializers.COMPOUND_NBT);
     protected static final DataParameter<CompoundNBT> RIGHT_SHOULDER_ENTITY = EntityDataManager.createKey(PlayerEntity.class, DataSerializers.COMPOUND_NBT);
     private long timeEntitySatOnShoulder;
-    public final PlayerInventory inventory = new PlayerInventory(this);
+    public PlayerInventory inventory = new PlayerInventory(this);
     protected EnderChestInventory enterChestInventory = new EnderChestInventory();
     public final PlayerContainer container;
     public Container openContainer;
