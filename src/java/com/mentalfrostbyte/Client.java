@@ -51,6 +51,7 @@ public class Client {
     public CombatManager combatManager;
     public SoundManager soundManager;
     public AccountManager accountManager;
+    public FriendManager friendManager;
     public WaypointsManager waypointsManager;
     public NotificationManager notificationManager;
     public MusicManager musicManager;
@@ -88,6 +89,8 @@ public class Client {
         this.accountManager.registerEvents();
         this.waypointsManager = new WaypointsManager();
         this.waypointsManager.init();
+        this.friendManager = new FriendManager();
+        this.friendManager.init();
         GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Sigma 5.0");
         this.logger.info("Initialized.");
     }
