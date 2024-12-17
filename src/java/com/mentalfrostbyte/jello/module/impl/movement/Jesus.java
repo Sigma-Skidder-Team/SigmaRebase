@@ -62,7 +62,7 @@ public class Jesus extends Module {
                         }
 
                         VoxelShape var7 = VoxelShapes.create(0.0, 0.0, 0.0, 1.0, (double)var6, 1.0);
-                        var1.setBoxelShape(var7);
+                        var1.setVoxelShape(var7);
                      }
                   }
                }

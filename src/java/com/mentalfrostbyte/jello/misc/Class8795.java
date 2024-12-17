@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mentalfrostbyte.Client;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import com.mentalfrostbyte.jello.module.impl.movement.BlockFly;
@@ -24,8 +26,8 @@ import org.lwjgl.opengl.GL11;
 public class Class8795 {
     private Minecraft mc = Minecraft.getInstance();
     private List<Class9510> field39613 = new ArrayList<Class9510>();
-    public float field39614 = -999.0F;
-    public float field39615 = -999.0F;
+    public float lastUpdateYaw = -999.0F;
+    public float lastUpdatePitch = -999.0F;
     private BlockPos field39616;
     private boolean field39617 = true;
     public Class9510 field39618 = null;
@@ -36,8 +38,8 @@ public class Class8795 {
 
     public void method31738() {
         this.field39613.clear();
-        this.field39614 = -999.0F;
-        this.field39615 = -999.0F;
+        this.lastUpdateYaw = -999.0F;
+        this.lastUpdatePitch = -999.0F;
         Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).setState(false);
         Client.getInstance().moduleManager.getModuleByClass(Fly.class).setState(false);
     }
@@ -69,7 +71,7 @@ public class Class8795 {
     }
 
     public float method31744() {
-        return this.method31743() ? this.field39614 : -999.0F;
+        return this.method31743() ? this.lastUpdateYaw : -999.0F;
     }
 
     @EventTarget
@@ -155,7 +157,7 @@ public class Class8795 {
                 }
 
                 float var43 = RotationHelper.method34145(this.mc.player.getPositionVec(), var8.field44271.method33972())[0];
-                this.field39614 = var43;
+                this.lastUpdateYaw = var43;
                 double var21 = Math.cos(Math.toRadians((double)(this.mc.player.rotationYaw - var43)));
                 double var23 = Math.sin(Math.toRadians((double)(this.mc.player.rotationYaw - var43)));
                 boolean var25 = Class8627.method30924(var8);
@@ -250,7 +252,7 @@ public class Class8795 {
                 ArrayList var4 = new ArrayList();
                 int var5 = this.field39613.size() - 1;
                 Class9510 var6 = this.field39613.get(var5);
-                if (this.field39615 != -999.0F && var6.field44279 == Class2317.field15876) {
+                if (this.lastUpdatePitch != -999.0F && var6.field44279 == Class2317.field15876) {
                 }
 
                 for (long var8 : var6.field44281) {
@@ -270,7 +272,7 @@ public class Class8795 {
                             || Math.sqrt(
                             this.mc
                                     .player
-                                    .getDistanceNearest(
+                                    .getDistanceSq(
                                             (double)this.field39616.getX() + 0.5,
                                             (double)this.field39616.getY() + 0.5,
                                             (double)this.field39616.getZ() + 0.5
@@ -293,12 +295,12 @@ public class Class8795 {
                     var1.setYaw(var15[0]);
                     var1.setPitch(var15[1]);
                     EventKeyPress var12 = new EventKeyPress(0, false, this.field39616);
-                    Client.getInstance().getEventManager().call(var12);
+                    Client.getInstance().eventManager.call(var12);
                 }
 
                 if (var6.field44279 != Class2317.field15876) {
-                    this.field39615 = var1.getPitch();
-                    this.field39614 = var1.getYaw();
+                    this.lastUpdatePitch = var1.getPitch();
+                    this.lastUpdateYaw = var1.getYaw();
                 }
             }
         }
@@ -311,14 +313,14 @@ public class Class8795 {
             Class9510 var5 = this.field39613.get(var4);
             if (var5 != null && var5.field44282.contains(var1.getBlockPos().toLong())) {
                 VoxelShape var6 = VoxelShapes.create(0.0, 0.0, 0.0, 1.0, 0.1, 1.0);
-                var1.setBoxelShape(var6);
+                var1.setVoxelShape(var6);
             }
         }
     }
 
     @EventTarget
     public void method31749(SafeWalkEvent var1) {
-        if (this.method31743() && this.mc.player.onGround) {
+        if (this.method31743() && this.mc.player.isOnGround()) {
             int var4 = this.field39613.size() - 1;
             Class9510 var5 = this.field39613.get(var4);
             if (var5.field44279 == Class2317.field15876) {

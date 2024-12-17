@@ -2,7 +2,6 @@ package com.mentalfrostbyte.jello.util;
 
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.misc.Class2258;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
 import net.minecraft.client.Minecraft;
@@ -30,6 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.newdawn.slick.TrueTypeFont;
 import totalcross.json.JSONArray;
 import totalcross.json.JSONObject;
 
@@ -110,8 +110,8 @@ public class MultiUtilities {
 
     public static boolean method17684(Entity var0) {
         ClientWorld var3 = mc.world;
-        AxisAlignedBB var4 = var0.boundingBox;
-        return var3.method7014(var4);
+        AxisAlignedBB var4 = var0.getBoundingBox();
+        return var3.containsAnyLiquid(var4);
     }
 
     public static boolean method17686() {
@@ -605,7 +605,7 @@ public class MultiUtilities {
         }
     }
 
-    public static String[] method17745(String var0, int var1, ClientResource var2) {
+    public static String[] method17745(String var0, int var1, TrueTypeFont var2) {
         String[] var5 = var0.split(" ");
         HashMap<Integer, String> var6 = new HashMap();
         int var7 = 0;
@@ -613,14 +613,14 @@ public class MultiUtilities {
         for (String var11 : var5) {
             String var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
             boolean var13 = var6.get(var7) == null;
-            boolean var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-            boolean var15 = var2.getStringWidth(var11) >= var1;
+            boolean var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+            boolean var15 = var2.getWidth(var11) >= var1;
             if (!var14 && !var15) {
                 var7++;
                 var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
                 var13 = var6.get(var7) == null;
-                var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-                var15 = var2.getStringWidth(var11) >= var1;
+                var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+                var15 = var2.getWidth(var11) >= var1;
             }
 
             if (var14) {
@@ -636,7 +636,7 @@ public class MultiUtilities {
                     while (true) {
                         if (var16 <= var11.length()) {
                             String var17 = var11.substring(0, var11.length() - var16);
-                            if (var2.getStringWidth(var17) > var1) {
+                            if (var2.getWidth(var17) > var1) {
                                 var16++;
                                 continue;
                             }
@@ -646,8 +646,8 @@ public class MultiUtilities {
                         }
 
                         var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
-                        var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-                        var15 = var2.getStringWidth(var11) >= var1;
+                        var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+                        var15 = var2.getWidth(var11) >= var1;
                         var13 = var6.get(var7) == null;
                         break;
                     }
@@ -739,13 +739,13 @@ public class MultiUtilities {
     }
 
     public static Vector3d method17751(Entity var0) {
-        return method17752(var0.boundingBox);
+        return method17752(var0.getBoundingBox());
     }
 
     public static Vector3d method17752(AxisAlignedBB var0) {
-        double var3 = var0.method19685().x;
+        double var3 = var0.getCenter().x;
         double var5 = var0.minY;
-        double var7 = var0.method19685().z;
+        double var7 = var0.getCenter().z;
         double var9 = (var0.maxY - var5) * 0.95;
         double var11 = (var0.maxX - var0.minX) * 0.95;
         double var13 = (var0.maxZ - var0.minZ) * 0.95;
@@ -805,7 +805,7 @@ public class MultiUtilities {
     public static boolean method17761() {
         double var2 = 1.0E-7;
         return mc.world
-                .getCollisionShapes(mc.player, mc.player.boundingBox.expand(var2, 0.0, var2).expand(-var2, 0.0, -var2)).findAny().isPresent();
+                .getCollisionShapes(mc.player, mc.player.getBoundingBox().expand(var2, 0.0, var2).expand(-var2, 0.0, -var2)).findAny().isPresent();
     }
 
     public static long method17762() {
@@ -820,7 +820,7 @@ public class MultiUtilities {
             if (!var0.isOnGround()) {
                 AxisAlignedBB var3 = var0.getBoundingBox();
                 var3 = var3.expand(0.0, -var0.getPosY(), 0.0);
-                return mc.world.getCollisionShapes(mc.player, var3).count() == 0L;
+                return !mc.world.getCollisionShapes(mc.player, var3).findAny().isPresent();
             } else {
                 return false;
             }

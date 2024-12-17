@@ -45,7 +45,7 @@ public class UnfullPhase extends Module {
                                     mc.world.getBlockState(event.getBlockPos()).getBlock() instanceof SlabBlock) ||
                             mc.world.getBlockState(event.getBlockPos()).getBlock() instanceof StairsBlock)) {
 
-                event.setBoxelShape(null);
+                event.setVoxelShape(null);
             }
         }
     }
