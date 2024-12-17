@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.render.classic.esp;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class2258;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.Module;
