@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
+import net.minecraft.util.math.RayTraceResult;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventStep;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
@@ -58,7 +59,7 @@ public class NoGroundCriticals extends Module {
     @HigherPriority
     private void method16036(EventUpdate var1) {
         if (this.isEnabled()) {
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23413 = false;
                 if (this.field23412 && this.field23410 != 1) {
                     this.field23412 = !this.field23412;
