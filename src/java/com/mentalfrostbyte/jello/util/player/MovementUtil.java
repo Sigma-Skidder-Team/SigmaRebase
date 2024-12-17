@@ -43,6 +43,25 @@ public class MovementUtil {
         return var2 * (double)var4;
     }
 
+    public static void setSpeed(EventMove moveEvent, double motionSpeed) {
+        float[] var5 = lenientStrafe();
+        float var6 = var5[1];
+        float var7 = var5[2];
+        float var8 = var5[0];
+        if (var6 == 0.0F && var7 == 0.0F) {
+            moveEvent.setX(0.0);
+            moveEvent.setZ(0.0);
+        }
+
+        double var9 = Math.cos(Math.toRadians((double)var8));
+        double var11 = Math.sin(Math.toRadians((double)var8));
+        double var13 = ((double)var6 * var9 + (double)var7 * var11) * motionSpeed;
+        double var15 = ((double)var6 * var11 - (double)var7 * var9) * motionSpeed;
+        moveEvent.setX(var13);
+        moveEvent.setZ(var15);
+        MultiUtilities.setPlayerXMotion(moveEvent.getX());
+        MultiUtilities.setPlayerZMotion(moveEvent.getZ());
+    }
     public static double method37076() {
         double var2 = 0.2873 + (double)method37078() * 0.057;
         if (mc.player.isSneaking()) {
@@ -205,5 +224,4 @@ public class MovementUtil {
         MultiUtilities.setPlayerZMotion(event.getZ());
         return tween;
     }
-
 }
