@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.util;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class2258;
 import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
@@ -53,7 +54,7 @@ public class MultiUtilities {
 
     public static void addChatMessage(String text) {
         StringTextComponent textComp = new StringTextComponent(text);
-        mc.ingameGUI.getChatGUI().sendChatMessage(textComp);
+        mc.ingameGUI.getChatGUI().func_238495_b_(textComp);
     }
 
     public static void sendChatMessage(String text) {
@@ -663,7 +664,7 @@ public class MultiUtilities {
         return var6.values().toArray(new String[var6.values().size()]);
     }
 
-    public static void method17746(ServerData var0) {
+    public static void isHypixel(ServerData var0) {
         field24954 = var0.serverIP.toLowerCase().contains("hypixel.net");
         if (field24954) {
             new Thread(() -> {
