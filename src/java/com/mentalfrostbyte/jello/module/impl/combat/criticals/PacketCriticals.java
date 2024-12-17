@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRayTraceResult;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
@@ -10,7 +11,6 @@ import com.mentalfrostbyte.jello.module.impl.movement.Step;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -33,7 +33,7 @@ public class PacketCriticals extends Module {
                     && var4.hurtResistantTime <= (int) this.getNumberValueBySettingName("HurtTime")
                     && Step.field23887 > 1
                     && (this.timer.getElapsedTime() > 200L || var4.hurtResistantTime > 0)
-                    && mc.player.onGround
+                    && mc.player.isOnGround()
                     && mc.player.collidedVertically) {
                 double[] var5 = new double[]{0.2, 0.0};
                 if (this.getStringSettingValueByName("Mode").equals("Hypixel")) {
@@ -64,8 +64,8 @@ public class PacketCriticals extends Module {
                     this.timer.start();
                 }
 
-                if (this.field23999 && mc.player.onGround) {
-                    var1.setCancelled(true);
+                if (this.field23999 && mc.player.isOnGround()) {
+                    var1.cancelled = true;
                     this.field23999 = false;
                 }
             }
