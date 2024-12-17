@@ -557,7 +557,7 @@ public class MultiUtilities {
     }
 
     public static void method17739() {
-        if (mc.getRenderViewEntity() instanceof PlayerEntity && Client.getInstance().getGuiManager().method33470()) {
+        if (mc.getRenderViewEntity() instanceof PlayerEntity && Client.getInstance().guiManager.getGuiBlur()) {
             if (mc.gameRenderer.shaderGroup != null) {
                 mc.gameRenderer.shaderGroup.close();
             }
