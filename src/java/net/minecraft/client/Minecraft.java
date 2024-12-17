@@ -267,7 +267,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
     private final DataFixer dataFixer;
     private final VirtualScreen virtualScreen;
     private final MainWindow mainWindow;
-    private final Timer timer = new Timer(20.0F, 0L);
+    public final Timer timer = new Timer(20.0F, 0L);
     private final Snooper snooper = new Snooper("client", this, Util.milliTime());
     private final RenderTypeBuffers renderTypeBuffers;
     public final WorldRenderer worldRenderer;

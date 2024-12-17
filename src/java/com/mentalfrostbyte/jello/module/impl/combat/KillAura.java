@@ -1,6 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.gui.base.Animation;
+import com.mentalfrostbyte.jello.gui.base.Direction;
+import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowestPriority;
@@ -16,7 +19,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ColorSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MathUtils;
-//import com.mentalfrostbyte.jello.util.MultiUtilities;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.Rotations;
 //import com.mentalfrostbyte.jello.util.render.animation.Animation;
 //import com.mentalfrostbyte.jello.util.render.animation.Direction;
@@ -54,7 +57,7 @@ public class KillAura extends Module {
     private int field23939;
     private int field23940;
     private int field23941;
-    private int field23942;
+    private int targetIdx;
     private int currentitem;
     private int field23945;
     private int field23946;
@@ -111,11 +114,11 @@ public class KillAura extends Module {
     }
 
     public static int method16846(KillAura killaura) {
-        return killaura.field23942;
+        return killaura.targetIdx;
     }
 
     public static int method16847(KillAura killaura, int var1) {
-        return killaura.field23942 = var1;
+        return killaura.targetIdx = var1;
     }
 
     @Override
@@ -132,9 +135,9 @@ public class KillAura extends Module {
         timedEntityIdk = null;
         this.field23939 = (int) interactAB.method36819(0);
         this.field23940 = 0;
-        this.field23942 = 0;
+        this.targetIdx = 0;
         field23954 = 0;
-        this.rotations2 = new Rotations(mc.player.rotYaw, mc.player.rotPitch);
+        this.rotations2 = new Rotations(mc.player.rotationYaw, mc.player.rotationPitch);
         this.rotations = new Rotations(mc.player.rotationYaw, mc.player.rotationPitch);
         previousRotations = new Rotations(mc.player.rotationYaw, mc.player.rotationPitch);
         this.field23957 = -1.0F;
@@ -143,7 +146,7 @@ public class KillAura extends Module {
         this.field23946 = -1;
         interactAB.field44349.clear();
         this.field23961.clear();
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             this.field23941 = 1;
         }
 
@@ -163,7 +166,7 @@ public class KillAura extends Module {
     @EventTarget
     public void onWorldChange(WorldLoadEvent event) {
         if (this.isEnabled() && this.getBooleanValueFromSettingName("Disable on death")) {
-            Client.getInstance().getNotificationManager().send(new Notification("Aura", "Aura disabled due to respawn"));
+            Client.getInstance().notificationManager.send(new Notification("Aura", "Aura disabled due to respawn"));
             this.toggle();
         }
     }
@@ -178,7 +181,7 @@ public class KillAura extends Module {
             if (this.getBooleanValueFromSettingName("Disable on death")) {
                 if (!mc.player.isAlive()) {
                     this.toggle();
-                    Client.getInstance().getNotificationManager().send(new Notification("Aura", "Aura disabled due to death"));
+                    Client.getInstance().notificationManager.send(new Notification("Aura", "Aura disabled due to death"));
                 }
             }
         }
@@ -365,9 +368,9 @@ public class KillAura extends Module {
                 var1.lastTickPosZ + (var1.getPosZ() - var1.lastTickPosZ) * var4
         );
         GL11.glTranslated(
-                -mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                -mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                -mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
+                -mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                -mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                -mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
         );
         GL11.glEnable(32823);
         GL11.glEnable(3008);
@@ -382,9 +385,9 @@ public class KillAura extends Module {
         this.method16826(var8, 0.45F * var9, 0.6F, 0.35F * var9, this.field23961.get(var1).calcPercent());
         GL11.glPushMatrix();
         GL11.glTranslated(
-                mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
+                mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
         );
         GL11.glPopMatrix();
         GL11.glEnable(3553);
@@ -470,7 +473,7 @@ public class KillAura extends Module {
             }
         }
 
-        boolean var9 = !Jesus.isWalkingOnLiquid() && (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F));
+        boolean var9 = !Jesus.isWalkingOnLiquid() && (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F));
         if (!var9) {
             this.field23941 = 0;
             this.field23940 = 0;
@@ -561,11 +564,11 @@ public class KillAura extends Module {
                             timedEntityIdk = entities.get(0);
                         }
                     } else {
-                        if (this.field23942 >= entities.size()) {
-                            this.field23942 = 0;
+                        if (this.targetIdx >= entities.size()) {
+                            this.targetIdx = 0;
                         }
 
-                        timedEntityIdk = entities.get(this.field23942);
+                        timedEntityIdk = entities.get(this.targetIdx);
                     }
                 } else if ((
                         timedEntityIdk == null
@@ -575,25 +578,25 @@ public class KillAura extends Module {
                                 || mc.player.getDistance(timedEntityIdk.getEntity()) > range
                 )
                         && !entities.isEmpty()) {
-                    if (this.field23942 + 1 < entities.size()) {
-                        if (timedEntityIdk != null && !Client.getInstance().getFriendManager().isFriend(entities.get(this.field23942).getEntity())) {
-                            this.field23942++;
+                    if (this.targetIdx + 1 < entities.size()) {
+                        if (timedEntityIdk != null && !Client.getInstance().friendManager.isFriend(entities.get(this.targetIdx).getEntity())) {
+                            this.targetIdx++;
                         }
                     } else {
-                        this.field23942 = 0;
+                        this.targetIdx = 0;
                     }
 
-                    Vector3d var14 = MultiUtilities.method17751(entities.get(this.field23942).getEntity());
+                    Vector3d var14 = MultiUtilities.method17751(entities.get(this.targetIdx).getEntity());
                     float var9 = Math.abs(MultiUtilities.method17756(RotationHelper.getRotationsToVector(var14).yaw, previousRotations.yaw));
                     this.field23956 = var9 * 1.95F / 50.0F;
                     this.field23955 = Math.random();
                     timedEntityIdk = new TimedEntity(
-                            entities.get(this.field23942).getEntity(), new ExpirationTimer(!this.getStringSettingValueByName("Rotation Mode").equals("NCP") ? 500L : 270L)
+                            entities.get(this.targetIdx).getEntity(), new ExpirationTimer(!this.getStringSettingValueByName("Rotation Mode").equals("NCP") ? 500L : 270L)
                     );
                 }
 
-                if (this.field23942 >= entities.size()) {
-                    this.field23942 = 0;
+                if (this.targetIdx >= entities.size()) {
+                    this.targetIdx = 0;
                 }
 
                 if (!mode.equals("Multi")) {
