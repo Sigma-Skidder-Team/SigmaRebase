@@ -21,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import org.lwjgl.opengl.GL11;
 
-// brb
-
 public class Class8795 {
     private Minecraft mc = Minecraft.getInstance();
     private List<Class9510> field39613 = new ArrayList<Class9510>();
