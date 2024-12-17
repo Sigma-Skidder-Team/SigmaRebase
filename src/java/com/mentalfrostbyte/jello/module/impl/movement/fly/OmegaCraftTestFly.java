@@ -82,7 +82,7 @@ public class OmegaCraftTestFly extends Module {
                     if (this.field23854 >= 20 && this.field23854 % 20 == 0) {
                         var1.setY(0.0);
                     } else {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {

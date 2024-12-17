@@ -51,7 +51,7 @@ public class ViperMCFly extends Module {
     private void method16329(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23598 = true;
             }
         }
@@ -61,7 +61,7 @@ public class ViperMCFly extends Module {
     private void method16330(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23598 = false;
             }
         }
@@ -115,7 +115,7 @@ public class ViperMCFly extends Module {
                         var1.setY(-150.0 - Math.random() * 150.0);
                         this.field23595 += 2;
                     } else {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {
@@ -138,7 +138,7 @@ public class ViperMCFly extends Module {
                     String var6 = var5.getChatComponent().getString();
                     if (this.field23595 > 0 && (var6.contains("Now leaving: §") || var6.contains("Now entering: §"))) {
                         this.field23595--;
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {

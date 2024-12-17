@@ -51,7 +51,7 @@ public class VeltPvPFly extends Module {
     private void method16045(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23423 = true;
             }
         }
@@ -61,7 +61,7 @@ public class VeltPvPFly extends Module {
     private void method16046(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23423 = false;
             }
         }
@@ -113,7 +113,7 @@ public class VeltPvPFly extends Module {
                         var1.setY(var6);
                         this.field23420 += 2;
                     } else {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {
@@ -137,7 +137,7 @@ public class VeltPvPFly extends Module {
                     String var6 = var5.getChatComponent().getString();
                     if (this.field23420 > 0 && (var6.contains("Now leaving: §") || var6.contains("Now entering: §"))) {
                         this.field23420--;
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {

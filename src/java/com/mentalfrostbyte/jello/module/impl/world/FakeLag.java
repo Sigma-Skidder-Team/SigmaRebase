@@ -71,7 +71,7 @@ public class FakeLag extends Module {
                 // Check for packet types and module settings
                 if (shouldDelayPacket(packet)) {
                     this.packets.add(packet);
-                    event.setCancelled(true);
+                    event.cancelled = true;
                 }
             } else {
                 // End lagging and send all delayed packets

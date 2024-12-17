@@ -190,7 +190,7 @@ public class KillAura extends Module {
             if (!this.getStringSettingValueByName("Autoblock Mode").equals("None")
                     && (mc.player.getHeldItemMainhand().getItem() instanceof SwordItem || this.currentitem != mc.player.inventory.currentItem)
                     && target != null) {
-                event.setCancelled(true);
+                event.cancelled = true;
             } else if (mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) {
                 this.field23945 = 2;
             }

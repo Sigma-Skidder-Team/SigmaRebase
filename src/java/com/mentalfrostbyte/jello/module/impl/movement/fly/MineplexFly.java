@@ -201,7 +201,7 @@ public class MineplexFly extends Module {
                     && this.field23671 < (double) this.getNumberValueBySettingName("Boost")
                     && (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F))
                     && !this.field23675) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

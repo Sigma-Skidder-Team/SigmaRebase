@@ -435,7 +435,7 @@ public class NameTags extends Module {
     @EventTarget
     public void method16934(EventRenderNameTag var1) {
         if (this.isEnabled() && var1.getEntity() instanceof PlayerEntity) {
-            var1.setCancelled(true);
+            var1.cancelled = true;
         }
     }
 }

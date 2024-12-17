@@ -4,7 +4,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import com.mentalfrostbyte.jello.module.util.InDevelopment;
+import com.mentalfrostbyte.jello.module.InDevelopment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.play.server.*;
 
@@ -23,32 +23,32 @@ public class PacketEssentials extends Module {
                         if (!(var1.getPacket() instanceof SUpdateBossInfoPacket)) {
                             if (!(var1.getPacket() instanceof SScoreboardObjectivePacket)) {
                                 if (var1.getPacket() instanceof SEntityMetadataPacket) {
-                                    var1.setCancelled(true);
+                                    var1.cancelled = true;
                                 }
                             } else {
-                                var1.setCancelled(true);
+                                var1.cancelled = true;
                             }
                         } else {
-                            var1.setCancelled(true);
+                            var1.cancelled = true;
                         }
                     } else {
                         SSpawnParticlePacket var4 = (SSpawnParticlePacket) var1.getPacket();
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 } else {
                     SSpawnMobPacket var5 = (SSpawnMobPacket) var1.getPacket();
                     if (var5.method17537() == 1) {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {
                 SSpawnObjectPacket var6 = (SSpawnObjectPacket) var1.getPacket();
                 if (var6.method17266() == EntityType.ARMOR_STAND) {
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
 
                 if (var6.method17266() == EntityType.GIANT) {
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             }
         }

@@ -32,14 +32,14 @@ public class DelayAntiKB extends Module {
             if (var1.getPacket() instanceof SExplosionPacket) {
                 SExplosionPacket var4 = (SExplosionPacket) var1.getPacket();
                 this.field23518.add(var4);
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
 
             if (mc.player != null && var1.getPacket() instanceof SEntityVelocityPacket) {
                 SEntityVelocityPacket var5 = (SEntityVelocityPacket) var1.getPacket();
                 if (var5.getEntityID() == mc.player.getEntityId()) {
                     this.field23518.add(var5);
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                     if (this.field23519 == 0) {
                         this.field23519 = (int) this.getNumberValueBySettingName("Delay");
                     }

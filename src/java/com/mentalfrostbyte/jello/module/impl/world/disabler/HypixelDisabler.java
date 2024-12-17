@@ -121,7 +121,7 @@ public class HypixelDisabler extends Module {
                         this.field23983.add(var1.getPacket());
                     }
 
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             }
         }
@@ -137,7 +137,7 @@ public class HypixelDisabler extends Module {
                         Client.getInstance().getNotificationManager().send(new Notification("Hypixel disabler", "You can do what you want for 5s"));
                     } else {
                         SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                         mc.getConnection()
                                 .sendPacket(new CPlayerPacket.PositionRotationPacket(var4.x, var4.y, var4.z, var4.yaw, var4.pitch, false));
                         int var5 = this.field23983.size();

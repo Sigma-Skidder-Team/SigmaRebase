@@ -61,7 +61,7 @@ public class Unstuck extends Module {
                         this.field23574 = 0;
                     }
 
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             } else {
                 this.field23574 = 0;
@@ -76,7 +76,7 @@ public class Unstuck extends Module {
                 if (var1.getPacket() instanceof SPlayerPositionLookPacket && !MultiUtilities.isAboveBounds(mc.player, 0.3F) && mc.player.ticksExisted > 10) {
                     this.field23574++;
                     if ((float) this.field23574 > this.getNumberValueBySettingName("Flags")) {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             }

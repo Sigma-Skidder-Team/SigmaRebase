@@ -21,7 +21,7 @@ public class AACStep extends Module {
         if (this.isEnabled() && !var1.isCancelled()) {
             double var4 = var1.getHeight();
             if (!MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             } else {
                 if (!MovementUtil.isInWater() && var4 >= 0.625) {
                     double var6 = mc.player.getPosX();

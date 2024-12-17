@@ -60,7 +60,7 @@ public class CakeEater extends Module {
             if (var1.getPacket() instanceof SChatPacket) {
                 SChatPacket var4 = (SChatPacket) var1.getPacket();
                 if (var4.getChatComponent().getString().equals("§9Game> §r§7You cannot eat your own cake!§r")) {
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             }
         }

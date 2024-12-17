@@ -62,7 +62,7 @@ public class CubecraftFly extends Module {
     private void method16686(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23846 = true;
             }
         }
@@ -72,7 +72,7 @@ public class CubecraftFly extends Module {
     private void method16687(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23846 = false;
             }
         }
@@ -175,7 +175,7 @@ public class CubecraftFly extends Module {
         if (var1.isPre() && MultiUtilities.isCubecraft()) {
             var1.method13908(true);
             if (/*JelloPortal.getCurrentVersionApplied() == ViaVerList._1_8_x.getVersionNumber() && */this.field23845 == 0 && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
 
             if (this.field23845 >= 2) {

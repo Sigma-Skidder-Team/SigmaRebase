@@ -51,7 +51,7 @@ public class ACRFly extends Module {
     private void method16902(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23988 = true;
             }
         }
@@ -61,7 +61,7 @@ public class ACRFly extends Module {
     private void method16903(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23988 = false;
             }
         }

@@ -82,7 +82,7 @@ public class Nametags extends Module {
     @EventTarget
     public void onNametagsRender(EventRenderNameTag event) {
         if (this.isEnabled() && event.getEntity() instanceof PlayerEntity) {
-            event.setCancelled(true);
+            event.cancelled = true;
         }
     }
 }

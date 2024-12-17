@@ -67,7 +67,7 @@ public class Cubecraft2Fly extends PremiumModule {
     private void method16483(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23699 = true;
             }
         }
@@ -77,7 +77,7 @@ public class Cubecraft2Fly extends PremiumModule {
     private void method16484(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23699 = false;
             }
         }
@@ -133,7 +133,7 @@ public class Cubecraft2Fly extends PremiumModule {
     @EventTarget
     public void method16486(EventUpdate var1) {
         if (this.field23696 == -3) {
-            var1.setCancelled(true);
+            var1.cancelled = true;
         }
 
         if (this.isEnabled() && var1.isPre()) {
@@ -145,7 +145,7 @@ public class Cubecraft2Fly extends PremiumModule {
                         var1.setY(-150.0);
                         this.field23698.reset();
                     } else {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {

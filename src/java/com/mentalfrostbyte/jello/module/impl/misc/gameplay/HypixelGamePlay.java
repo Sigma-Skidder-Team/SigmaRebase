@@ -149,7 +149,7 @@ public class HypixelGamePlay extends Module {
                     String var27 = var26.getPrefix().getString() + var26.getSuffix().getString();
                     String[] var28 = var27.split(" ");
                     if (var28 != null && var28.length > 1 && StringUtils.countMatches(var28[0], "/") == 2) {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             }

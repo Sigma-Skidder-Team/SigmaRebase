@@ -50,7 +50,7 @@ public class VClip extends Module {
                 return;
             }
 
-            var1.setCancelled(true);
+            var1.cancelled = true;
             int var7 = 0;
             var5 = var5.replace("/" + var6, "").replaceAll("\\s", "");
             if (method16291(var5)) {

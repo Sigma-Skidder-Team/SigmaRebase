@@ -78,11 +78,11 @@ public class ViperDisabler extends Module {
         if (this.isEnabled()) {
             IPacket incomingPacket = event.getPacket();
             if (incomingPacket instanceof SKeepAlivePacket) {
-                event.setCancelled(true);
+                event.cancelled = true;
             }
 
             if (incomingPacket instanceof SConfirmTransactionPacket) {
-                event.setCancelled(true);
+                event.cancelled = true;
             }
         }
     }

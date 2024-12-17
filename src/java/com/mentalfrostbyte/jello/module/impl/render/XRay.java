@@ -36,7 +36,7 @@ public class XRay extends Module {
         if (this.isEnabled()) {
             AbstractBlock.AbstractBlockState blockState = event.method13970();
             if (!(blockState.getBlock() instanceof Class3420) && blockState.getBlock() != Blocks.field37121) {
-                event.setCancelled(true);
+                event.cancelled = true;
             } else {
                 event.method13972(true);
             }

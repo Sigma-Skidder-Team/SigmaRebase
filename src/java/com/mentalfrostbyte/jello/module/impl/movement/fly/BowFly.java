@@ -43,7 +43,7 @@ public class BowFly extends Module {
     public void onStopuseItem(StopUseItemEvent var1) {
         if (this.isEnabled()) {
             if (mc.player.getHeldItem(Hand.MAIN_HAND).getItem() == Items.BOW && this.field23504 >= 1) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

@@ -152,7 +152,7 @@ public class BlockFlyNCPMode extends Module {
     private void method16806(EventKeyPress var1) {
         if (this.isEnabled() && this.getBooleanValueFromSettingName("Downwards")) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23929 = true;
             }
         }
@@ -162,7 +162,7 @@ public class BlockFlyNCPMode extends Module {
     private void method16807(MouseHoverEvent var1) {
         if (this.isEnabled() && this.getBooleanValueFromSettingName("Downwards")) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23929 = false;
             }
         }
@@ -393,7 +393,7 @@ public class BlockFlyNCPMode extends Module {
     public void method16810(SendPacketEvent var1) {
         if (this.isEnabled() && mc.player != null) {
             if (var1.getPacket() instanceof CHeldItemChangePacket && ((BlockFly) this.access()).field23884 >= 0) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }
@@ -403,7 +403,7 @@ public class BlockFlyNCPMode extends Module {
         if (this.isEnabled() && this.field23930) {
             if (this.access().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
                     && (!MultiUtilities.method17686() || this.access().getBooleanValueFromSettingName("Tower while moving"))) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

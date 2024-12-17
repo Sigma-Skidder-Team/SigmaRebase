@@ -109,13 +109,13 @@ public class PingSpoofDisabler extends Module {
                     int var6 = var8.getActionNumber() - this.field23463;
                     if (var6 > 0 || var6 < -20 || !this.getBooleanValueFromSettingName("Inv Bypass")) {
                         this.field23461.add(new Class8772(var8, this, (long) this.getNumberValueBySettingName("Lag")));
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {
                 SKeepAlivePacket var9 = (SKeepAlivePacket) var7;
                 this.field23461.add(new Class8772(var9, this, (long) this.getNumberValueBySettingName("Lag")));
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

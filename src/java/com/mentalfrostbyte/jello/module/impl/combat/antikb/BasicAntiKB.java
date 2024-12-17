@@ -24,7 +24,7 @@ public class BasicAntiKB extends Module {
             SEntityVelocityPacket var4 = (SEntityVelocityPacket)var1.getPacket();
             if (var4.getEntityID() == mc.player.getEntityId()) {
                if (this.getNumberValueBySettingName("H-Multiplier") == 0.0F && this.getNumberValueBySettingName("V-Multiplier") == 0.0F) {
-                  var1.setCancelled(true);
+                  var1.cancelled = true;
                }
 
                var4.motionX = (int)((float)var4.motionX * this.getNumberValueBySettingName("H-Multiplier"));

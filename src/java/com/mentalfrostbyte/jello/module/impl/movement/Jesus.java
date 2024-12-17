@@ -162,7 +162,7 @@ public class Jesus extends Module {
       if (this.isEnabled() && mc.world != null && mc.getCurrentServerData() != null) {
          if (isWalkingOnLiquid()) {
             if (this.field24015 % 2 != 0) {
-               var1.setCancelled(true);
+               var1.cancelled = true;
             }
 
             var1.method14003(0.2);
@@ -174,7 +174,7 @@ public class Jesus extends Module {
    public void method16949(EventStep var1) {
       if (this.isEnabled() && !(var1.getHeight() < 0.2)) {
          if (isWalkingOnLiquid()) {
-            var1.setCancelled(true);
+            var1.cancelled = true;
          }
       }
    }

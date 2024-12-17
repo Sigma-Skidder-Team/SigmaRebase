@@ -42,7 +42,7 @@ public class AGCFly extends Module {
     private void method16780(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23904 = true;
             }
         }
@@ -52,7 +52,7 @@ public class AGCFly extends Module {
     private void method16781(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23904 = false;
             }
         }
@@ -93,7 +93,7 @@ public class AGCFly extends Module {
             if (this.field23902 != (this.field23903 != 3 ? this.field23903 : 1)) {
                 if (this.field23902 > (this.field23903 != 3 ? this.field23903 : 1)) {
                     if (this.field23902 % 20 != 0) {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     } else {
                         double var4 = this.method16785();
                         var1.setY(var4 - 1.0E-4);

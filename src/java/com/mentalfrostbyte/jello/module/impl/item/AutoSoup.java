@@ -86,7 +86,7 @@ public class AutoSoup extends Module {
             if (this.field23433 && var1.getPacket() instanceof CClientStatusPacket) {
                 CClientStatusPacket var4 = (CClientStatusPacket) var1.getPacket();
                 if (var4.getStatus() == CClientStatusPacket.State.OPEN_INVENTORY) {
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             }
         }

@@ -16,7 +16,7 @@ public class NoClipPhase extends Module {
     @EventTarget
     private void EventPushBlock(EventPushBlock event) {
         if (this.isEnabled()) {
-            event.setCancelled(true);
+            event.cancelled = true;
         }
     }
 

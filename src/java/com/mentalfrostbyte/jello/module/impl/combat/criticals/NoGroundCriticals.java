@@ -11,7 +11,6 @@ import com.mentalfrostbyte.jello.module.impl.movement.Jesus;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
-import mapped.RayTraceResult;
 
 public class NoGroundCriticals extends Module {
     private int field23410;
@@ -40,7 +39,7 @@ public class NoGroundCriticals extends Module {
     private void method16034(EventStep var1) {
         if (this.isEnabled() && !(var1.getHeight() < 0.625)) {
             if (this.field23410 == 0 && this.field23411) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }
@@ -49,7 +48,7 @@ public class NoGroundCriticals extends Module {
     private void method16035(JumpEvent var1) {
         if (this.isEnabled()) {
             if (this.field23410 == 1) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23412 = true;
             }
         }

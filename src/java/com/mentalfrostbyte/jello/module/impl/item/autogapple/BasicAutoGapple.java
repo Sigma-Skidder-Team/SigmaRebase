@@ -35,7 +35,7 @@ public class BasicAutoGapple extends Module {
     public void onStopUseItem(StopUseItemEvent event) {
         if (this.isEnabled()) {
             if (this.currentGappleSlot >= 0) {
-                event.setCancelled(true);
+                event.cancelled = true;
             }
         }
     }

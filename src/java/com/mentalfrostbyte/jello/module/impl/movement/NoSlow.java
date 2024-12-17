@@ -22,7 +22,7 @@ public class NoSlow extends Module {
     @EventTarget
     private void onSlowDown(EventSlowDown event) {
         if (this.isEnabled()) {
-            event.setCancelled(true);
+            event.cancelled = true;
         }
     }
 

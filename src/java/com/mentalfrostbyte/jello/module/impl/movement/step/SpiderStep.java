@@ -40,7 +40,7 @@ public class SpiderStep extends Module {
             double var4 = var1.getHeight();
             Class2131 var6 = ((Step) this.access()).method16748(var1);
             if (var6 == Class2131.field13904) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             } else if (var6 != Class2131.field13905) {
                 if (!MovementUtil.isInWater() && var4 >= 0.625) {
                     this.field23760 = var4;

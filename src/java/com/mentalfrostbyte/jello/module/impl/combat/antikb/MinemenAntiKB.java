@@ -62,7 +62,7 @@ public class MinemenAntiKB extends Module {
         if (mc.player != null && var1.getPacket() instanceof SEntityVelocityPacket) {
             SEntityVelocityPacket var5 = (SEntityVelocityPacket) var1.getPacket();
             if (var5.getEntityID() == mc.player.getEntityId() && var5.motionY < 0 && mc.player.onGround) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         } else if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
             SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();

@@ -31,7 +31,7 @@ public class MinisCriticals extends Module {
     private void method16127(EventStep var1) {
         if (this.isEnabled()) {
             if (KillAura.field23937) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

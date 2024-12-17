@@ -172,7 +172,7 @@ public class ShadowESP extends Module {
     @EventTarget
     public void method16610(EventRenderNameTag var1) {
         if (this.isEnabled() && field23794 != Class2191.field14327 && var1.getEntity() instanceof PlayerEntity) {
-            var1.setCancelled(true);
+            var1.cancelled = true;
         }
     }
 

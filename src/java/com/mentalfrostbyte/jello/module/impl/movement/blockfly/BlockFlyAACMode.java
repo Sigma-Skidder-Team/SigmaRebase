@@ -278,7 +278,7 @@ public class BlockFlyAACMode extends Module {
         if (this.isEnabled()) {
             if (this.access().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
                     && (!MultiUtilities.method17686() || this.access().getBooleanValueFromSettingName("Tower while moving"))) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
             }
         }
     }

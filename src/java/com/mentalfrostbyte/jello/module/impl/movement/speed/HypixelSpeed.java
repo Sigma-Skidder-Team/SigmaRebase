@@ -183,7 +183,7 @@ public class HypixelSpeed extends Module {
         if (!Jesus.isWalkingOnLiquid() && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
             if (this.getBooleanValueFromSettingName("Auto Jump") || mc.player.isJumping) {
                 if (this.field23414 < 0) {
-                    var1.setCancelled(true);
+                    var1.cancelled = true;
                 }
             }
         }

@@ -17,12 +17,12 @@ public class NoServerInfo extends Module {
         if (this.isEnabled()) {
             if (event.getPacket() instanceof SUpdateBossInfoPacket) {
                 SUpdateBossInfoPacket sUpdateBossInfoPacket = (SUpdateBossInfoPacket) event.getPacket();
-                event.setCancelled(true);
+                event.cancelled = true;
             }
 
             if (event.getPacket() instanceof SScoreboardObjectivePacket) {
                 SScoreboardObjectivePacket sScoreboardObjectivePacket = (SScoreboardObjectivePacket) event.getPacket();
-                event.setCancelled(true);
+                event.cancelled = true;
             }
         }
     }

@@ -45,7 +45,7 @@ public class LibreCraftFly extends Module {
     private void method16791(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23911 = true;
             }
         }
@@ -55,7 +55,7 @@ public class LibreCraftFly extends Module {
     private void method16792(MouseHoverEvent var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
-                var1.setCancelled(true);
+                var1.cancelled = true;
                 this.field23911 = false;
             }
         }
@@ -93,7 +93,7 @@ public class LibreCraftFly extends Module {
                     if (this.field23910 >= 20 && this.field23910 % 20 == 0) {
                         var1.setY(0.1);
                     } else {
-                        var1.setCancelled(true);
+                        var1.cancelled = true;
                     }
                 }
             } else {
