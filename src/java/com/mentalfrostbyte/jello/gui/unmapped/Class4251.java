@@ -101,15 +101,15 @@ public class Class4251 extends UIBase {
       RenderUtil.drawString(
          ResourceRegistry.JelloMediumFont40,
          (float)this.xA,
-         (float)((this.icoPanel.getHeightA() - this.heightA) / 2 - 70),
+         (float)((this.screen.getHeightA() - this.heightA) / 2 - 70),
          "Jello Maps",
          ClientColors.LIGHT_GREYISH_BLUE.getColor()
       );
       String var7 = Client.getInstance().waypointsManager.method29998().replace("/", " - ");
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont24,
-         (float)(this.xA + this.widthA - ResourceRegistry.JelloLightFont24.getStringWidth(var7) - 10),
-         (float)((this.icoPanel.getHeightA() - this.heightA) / 2 - 62),
+         (float)(this.xA + this.widthA - ResourceRegistry.JelloLightFont24.getWidth(var7) - 10),
+         (float)((this.screen.getHeightA() - this.heightA) / 2 - 62),
          var7,
               ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F)
       );

@@ -14,8 +14,7 @@ import net.minecraft.util.text.StringTextComponent;
 import team.sdhq.eventBus.EventBus;
 
 public class ModuleKeyPress {
-   private static String[] field35740;
-   private static final Minecraft field35741 = Minecraft.getInstance();
+   private static final Minecraft mc = Minecraft.getInstance();
 
    public static void press(int key) {
       if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
@@ -32,7 +31,7 @@ public class ModuleKeyPress {
                               .getDeclaredConstructor(ITextComponent.class)
                               .newInstance(new StringTextComponent(GuiManager.screenToScreenName.get(var5.method27057())));
                            if (Client.getInstance().guiManager.method33484(var6)) {
-                              field35741.displayGuiScreen(var6);
+                              mc.displayGuiScreen(var6);
                            }
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException var7) {
                            var7.printStackTrace();

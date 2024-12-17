@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.gui.unmapped;
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.TimerUtil;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
@@ -31,18 +31,18 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
       this.field20876 = var7;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, boolean var8) {
-      super(var1, var2, var3, var4, var5, var6, var7);
+   public AnimatedIconPanel(CustomGuiScreen screen, String name, int var3, int var4, int var5, int var6, ColorHelper var7, boolean var8) {
+      super(screen, name, var3, var4, var5, var6, var7);
       this.field20876 = var8;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, boolean var9) {
-      super(var1, var2, var3, var4, var5, var6, var7, var8);
+   public AnimatedIconPanel(CustomGuiScreen screen, String name, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, boolean var9) {
+      super(screen, name, var3, var4, var5, var6, var7, var8);
       this.field20876 = var9;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, ClientResource var9, boolean var10) {
-      super(var1, var2, var3, var4, var5, var6, var7, var8, var9);
+   public AnimatedIconPanel(CustomGuiScreen screen, String name, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, TrueTypeFont var9, boolean var10) {
+      super(screen, name, var3, var4, var5, var6, var7, var8, var9);
       this.field20876 = var10;
    }
 
@@ -105,10 +105,10 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
             this.method13217(true);
          }
       } else if (this.method13216()) {
-         this.setXA(var1 - this.field20880 - (this.icoPanel == null ? 0 : this.icoPanel.method13271()));
-         this.setYA(var2 - this.field20881 - (this.icoPanel == null ? 0 : this.icoPanel.method13272()));
+         this.setXA(var1 - this.field20880 - (this.screen == null ? 0 : this.screen.method13271()));
+         this.setYA(var2 - this.field20881 - (this.screen == null ? 0 : this.screen.method13272()));
          if (this.field20882) {
-            if (this.icoPanel == null) {
+            if (this.screen == null) {
                if (this.getXA() < 0) {
                   this.setXA(0);
                }
@@ -129,16 +129,16 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
                   this.setXA(0);
                }
 
-               if (this.getXA() + this.getWidthA() > this.icoPanel.getWidthA()) {
-                  this.setXA(this.icoPanel.getWidthA() - this.getWidthA());
+               if (this.getXA() + this.getWidthA() > this.screen.getWidthA()) {
+                  this.setXA(this.screen.getWidthA() - this.getWidthA());
                }
 
                if (this.getYA() < 0) {
                   this.setYA(0);
                }
 
-               if (this.getYA() + this.getHeightA() > this.icoPanel.getHeightA() && !this.field20883) {
-                  this.setYA(this.icoPanel.getHeightA() - this.getHeightA());
+               if (this.getYA() + this.getHeightA() > this.screen.getHeightA() && !this.field20883) {
+                  this.setYA(this.screen.getHeightA() - this.getHeightA());
                }
             }
          }

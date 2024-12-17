@@ -32,7 +32,7 @@ public class AccountSignUpScreen extends UIBase {
             "Register",
             228,
             43,
-            ResourceRegistry.JelloMediumFont40.getStringWidth("New Account"),
+            ResourceRegistry.JelloMediumFont40.getWidth("New Account"),
             50,
             new ColorHelper(ClientColors.DEEP_TEAL.getColor(), ClientColors.DEEP_TEAL.getColor(), ClientColors.DEEP_TEAL.getColor(), -7631989),
             "New Account",
@@ -41,12 +41,12 @@ public class AccountSignUpScreen extends UIBase {
       );
       this.addToList(
          this.registerButton = new UIButton(
-            this, "RegisterButton", 468, 291, ResourceRegistry.JelloLightFont25.getStringWidth("Register"), 70, ColorHelper.field27961, "Register", ResourceRegistry.JelloLightFont25
+            this, "RegisterButton", 468, 291, ResourceRegistry.JelloLightFont25.getWidth("Register"), 70, ColorHelper.field27961, "Register", ResourceRegistry.JelloLightFont25
          )
       );
       this.addToList(
          this.loginButton = new UIButton(
-            this, "LoginButton", 98, 333, ResourceRegistry.JelloLightFont14.getStringWidth("Login"), 14, ColorHelper.field27961, "Login", ResourceRegistry.JelloLightFont14
+            this, "LoginButton", 98, 333, ResourceRegistry.JelloLightFont14.getWidth("Login"), 14, ColorHelper.field27961, "Login", ResourceRegistry.JelloLightFont14
          )
       );
       this.addToList(this.loadingBox = new UILoadingCircle(this, "loading", 530, 314, 30, 30));
@@ -68,7 +68,7 @@ public class AccountSignUpScreen extends UIBase {
       this.captchaBox.setEnabled(false);
       this.registerButton.doThis((var1x, var2x) -> this.method13126());
       this.loginButton.doThis((var1x, var2x) -> {
-         LoginAndOutScreen var5x = (LoginAndOutScreen)this.getIcoPanel();
+         LoginAndOutScreen var5x = (LoginAndOutScreen)this.getScreen();
          var5x.method13423();
       });
    }
@@ -113,7 +113,7 @@ public class AccountSignUpScreen extends UIBase {
                String var4 = Client.getInstance()
                   .networkManager
                   .method30448(this.usernameInputBox.getTypedText(), this.passwordInputBox.getTypedText(), this.emailInputBox.getTypedText(), var3);
-               LoginAndOutScreen var5 = (LoginAndOutScreen)this.getIcoPanel();
+               LoginAndOutScreen var5 = (LoginAndOutScreen)this.getScreen();
                var5.method13424("Success", "You can now login.");
                var5.method13423();
 

@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.managers.*;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;
 import com.mentalfrostbyte.jello.util.FileUtil;
-import com.mentalfrostbyte.jello.util.render.Texture;
+import org.newdawn.slick.opengl.Texture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -40,7 +40,7 @@ public class Client {
     public static List<Texture> textureList = new ArrayList<Texture>();
 
     private static Client instance;
-    public ClientMode clientMode = ClientMode.PREMIUM;
+    public ClientMode clientMode = ClientMode.INDETERMINATE;
     public DiscordRichPresence discordRichPresence;
 
     private JSONObject config;
@@ -201,18 +201,17 @@ public class Client {
     }
 
     private void initRPC() {
-        DiscordRPC var3 = DiscordRPC.INSTANCE;
-        String var4 = "693493612754763907";
-        String var5 = "";
-        DiscordEventHandlers var6 = new DiscordEventHandlers();
-        var6.ready = var0 -> System.out.println("Ready!");
-        var3.Discord_Initialize(var4, var6, true, var5);
+        DiscordRPC updatePresence = DiscordRPC.INSTANCE;
+        String id = "693493612754763907";
+        DiscordEventHandlers eventHandlers = new DiscordEventHandlers();
+        eventHandlers.ready = e -> logger.info("Discord RPC Ready!");
+        updatePresence.Discord_Initialize(id, eventHandlers, true, "var5");
         discordRichPresence = new DiscordRichPresence();
         discordRichPresence.startTimestamp = System.currentTimeMillis() / 1000L;
         discordRichPresence.state = "Playing Minecraft";
         discordRichPresence.details = "Jello for Sigma";
         discordRichPresence.largeImageKey = "jello";
-        var3.Discord_UpdatePresence(discordRichPresence);
+        updatePresence.Discord_UpdatePresence(discordRichPresence);
     }
 
     public void setupClient(ClientMode mode) {
@@ -239,7 +238,7 @@ public class Client {
         try {
             FileUtil.save(this.config, new File(this.file + "/config.json"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 

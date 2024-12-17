@@ -3,8 +3,7 @@ package com.mentalfrostbyte.jello.managers.impl.account.microsoft;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.util.render.ImageUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
-import com.mentalfrostbyte.jello.util.render.TextureUtil;
+import org.newdawn.slick.opengl.Texture;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
@@ -12,6 +11,7 @@ import net.minecraft.util.Session;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.newdawn.slick.util.BufferedImageUtil;
 import totalcross.json.JSONArray;
 import totalcross.json.JSONException;
 import totalcross.json.JSONObject;
@@ -212,7 +212,7 @@ public class Account {
     public Texture setSkinTexture() {
         if (this.skinTexture == null && this.skin != null) {
             try {
-                this.skinTexture = TextureUtil.method32933("skin", this.skin.getSubimage(8, 8, 8, 8));
+                this.skinTexture = BufferedImageUtil.getTexture("skin", this.skin.getSubimage(8, 8, 8, 8));
             } catch (IOException var4) {
                 var4.printStackTrace();
             }

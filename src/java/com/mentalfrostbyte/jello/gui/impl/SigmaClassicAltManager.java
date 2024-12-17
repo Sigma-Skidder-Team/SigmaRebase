@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
+import org.newdawn.slick.opengl.Texture;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
@@ -169,7 +169,7 @@ public class SigmaClassicAltManager extends Screen {
       int var3 = 0;
 
       for (CustomGuiScreen var5 : this.field21055.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                var3++;
             }
@@ -201,7 +201,7 @@ public class SigmaClassicAltManager extends Screen {
    @Override
    public void method13161(JSONObject var1) {
       for (CustomGuiScreen var5 : this.field21055.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                this.field21055.method13234(var7);
             }
@@ -251,7 +251,7 @@ public class SigmaClassicAltManager extends Screen {
 
    public Class4349 method13406() {
       for (CustomGuiScreen var4 : this.field21055.method13241()) {
-         if (!(var4 instanceof Class4292)) {
+         if (!(var4 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var6 : var4.method13241()) {
                if (var6 instanceof Class4349) {
                   Class4349 var7 = (Class4349)var6;

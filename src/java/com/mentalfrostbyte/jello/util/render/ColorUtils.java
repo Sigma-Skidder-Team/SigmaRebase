@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.util.render;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -83,7 +83,7 @@ public class ColorUtils {
         return new float[]{var10, var11, var8, var9};
     }
 
-    public static String[] method17745(String var0, int var1, ClientResource var2) {
+    public static String[] method17745(String var0, int var1, TrueTypeFont var2) {
         String[] var5 = var0.split(" ");
         HashMap<Integer, String> var6 = new HashMap();
         int var7 = 0;
@@ -91,14 +91,14 @@ public class ColorUtils {
         for (String var11 : var5) {
             String var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
             boolean var13 = var6.get(var7) == null;
-            boolean var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-            boolean var15 = var2.getStringWidth(var11) >= var1;
+            boolean var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+            boolean var15 = var2.getWidth(var11) >= var1;
             if (!var14 && !var15) {
                 var7++;
                 var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
                 var13 = var6.get(var7) == null;
-                var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-                var15 = var2.getStringWidth(var11) >= var1;
+                var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+                var15 = var2.getWidth(var11) >= var1;
             }
 
             if (var14) {
@@ -114,7 +114,7 @@ public class ColorUtils {
                     while (true) {
                         if (var16 <= var11.length()) {
                             String var17 = var11.substring(0, var11.length() - var16);
-                            if (var2.getStringWidth(var17) > var1) {
+                            if (var2.getWidth(var17) > var1) {
                                 var16++;
                                 continue;
                             }
@@ -124,8 +124,8 @@ public class ColorUtils {
                         }
 
                         var12 = var6.get(var7) != null ? (String)var6.get(var7) : "";
-                        var14 = var2.getStringWidth(var12) + var2.getStringWidth(var11) <= var1;
-                        var15 = var2.getStringWidth(var11) >= var1;
+                        var14 = var2.getWidth(var12) + var2.getWidth(var11) <= var1;
+                        var15 = var2.getWidth(var11) >= var1;
                         var13 = var6.get(var7) == null;
                         break;
                     }

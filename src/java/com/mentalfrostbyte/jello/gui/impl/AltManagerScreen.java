@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
 import totalcross.json.JSONObject;
 
 import java.io.IOException;
@@ -217,7 +218,7 @@ public class AltManagerScreen extends Screen {
             this.field21018.method13178(var5.selectedAccount);
 
             for (CustomGuiScreen var7 : this.field21010.method13241()) {
-               if (!(var7 instanceof Class4292)) {
+               if (!(var7 instanceof VerticalScrollBar)) {
                   for (CustomGuiScreen var9 : var7.method13241()) {
                      ((Class4294)var9).method13166(false);
                   }
@@ -309,33 +310,6 @@ public class AltManagerScreen extends Screen {
       super.draw(var1);
    }
 
-   private void method13364() {
-      if (this.field21021 != (float)this.field21010.method13513()) {
-         try {
-            this.field21020 = TextureUtil.method32933(
-               "blur", ImageUtil.method35038(0, 0, (int)((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014) - 15, 114, 4, 40, -921102)
-            );
-         } catch (IOException var4) {
-            var4.printStackTrace();
-         }
-      }
-
-      float var3 = this.field21021 < 25.0F ? this.field21021 / 25.0F : 1.0F;
-      GL11.glTexParameteri(3553, 10241, 9728);
-      if (this.field21020 != null) {
-         RenderUtil.drawImage(
-            0.0F,
-            0.0F,
-            (float)((int)((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014) - 15),
-            114.0F,
-            this.field21020,
-            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var3)
-         );
-      }
-
-      this.field21021 = (float)this.field21010.method13513();
-   }
-
    /**
     * Hell yeah
     */
@@ -354,7 +328,7 @@ public class AltManagerScreen extends Screen {
       float var3 = 1.0F;
 
       for (CustomGuiScreen var5 : this.field21010.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                if (var7 instanceof Class4294) {
                   Class4294 var8 = (Class4294)var7;
@@ -380,7 +354,7 @@ public class AltManagerScreen extends Screen {
       boolean var3 = false;
 
       for (CustomGuiScreen var5 : this.field21010.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                Class4294 var8 = (Class4294)var7;
                var8.method13172(false);
@@ -393,7 +367,7 @@ public class AltManagerScreen extends Screen {
       boolean var3 = false;
 
       for (CustomGuiScreen var5 : this.field21010.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                if (var7.method13280() != 0 && var7.getXA() > this.widthA) {
                   return false;
@@ -409,7 +383,7 @@ public class AltManagerScreen extends Screen {
       int var3 = 0;
 
       for (CustomGuiScreen var5 : this.field21010.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                var3++;
             }
@@ -460,7 +434,7 @@ public class AltManagerScreen extends Screen {
    @Override
    public void method13161(JSONObject var1) {
       for (CustomGuiScreen var5 : this.field21010.method13241()) {
-         if (!(var5 instanceof Class4292)) {
+         if (!(var5 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var7 : var5.method13241()) {
                this.field21010.method13234(var7);
             }

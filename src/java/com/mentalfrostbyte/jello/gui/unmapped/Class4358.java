@@ -67,7 +67,7 @@ public class Class4358 extends UIBase {
          var16.doThis((var2x, var3x) -> {
             for (Entry var7 : GuiManager.screenToScreenName.entrySet()) {
                Class6984 var8 = new Class6984((Class<? extends Screen>)var7.getKey());
-               if (var8.method21596().equals(var16.method13257()) && !this.field21311) {
+               if (var8.method21596().equals(var16.getName()) && !this.field21311) {
                   this.field21309 = var8;
                   this.field21311 = true;
                   break;
@@ -117,7 +117,7 @@ public class Class4358 extends UIBase {
       List<ButtonPanel> var8 = new ArrayList();
 
       for (CustomGuiScreen var10 : this.field21308.method13241()) {
-         if (!(var10 instanceof Class4292)) {
+         if (!(var10 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var12 : var10.method13241()) {
                if (var12 instanceof ButtonPanel) {
                   ButtonPanel var13 = (ButtonPanel)var12;

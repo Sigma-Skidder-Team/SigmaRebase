@@ -32,7 +32,7 @@ public class LoginScreen extends UIBase {
                   "Login",
                   228,
                   43,
-                  ResourceRegistry.JelloMediumFont40.getStringWidth("Login"),
+                  ResourceRegistry.JelloMediumFont40.getWidth("Login"),
                   50,
                   new ColorHelper(ClientColors.DEEP_TEAL.getColor(), ClientColors.DEEP_TEAL.getColor(), ClientColors.DEEP_TEAL.getColor(), -7631989),
                   "Login",
@@ -41,12 +41,12 @@ public class LoginScreen extends UIBase {
       );
       this.addToList(
          this.loginButton = new UIButton(
-            this, "LoginButton", 468, 238, ResourceRegistry.JelloLightFont25.getStringWidth("Login"), 70, ColorHelper.field27961, "Login", ResourceRegistry.JelloLightFont25
+            this, "LoginButton", 468, 238, ResourceRegistry.JelloLightFont25.getWidth("Login"), 70, ColorHelper.field27961, "Login", ResourceRegistry.JelloLightFont25
          )
       );
       this.addToList(
          this.registerButton = new UIButton(
-            this, "RegisterButton", 88, 250, ResourceRegistry.JelloLightFont14.getStringWidth("Register"), 14, ColorHelper.field27961, "Register", ResourceRegistry.JelloLightFont14
+            this, "RegisterButton", 88, 250, ResourceRegistry.JelloLightFont14.getWidth("Register"), 14, ColorHelper.field27961, "Register", ResourceRegistry.JelloLightFont14
          )
       );
       this.addToList(
@@ -55,7 +55,7 @@ public class LoginScreen extends UIBase {
             "ForgotButton",
             60,
             275,
-            ResourceRegistry.JelloLightFont14.getStringWidth("Forgot password?"),
+            ResourceRegistry.JelloLightFont14.getWidth("Forgot password?"),
             14,
             ColorHelper.field27961,
             "Forgot password?",
@@ -79,7 +79,7 @@ public class LoginScreen extends UIBase {
       this.field21355.setEnabled(false);
       this.loginButton.doThis((var1x, var2x) -> this.method13688());
       this.registerButton.doThis((var1x, var2x) -> {
-         LoginAndOutScreen var5x = (LoginAndOutScreen)this.getIcoPanel();
+         LoginAndOutScreen var5x = (LoginAndOutScreen)this.getScreen();
          var5x.method13422();
       });
       this.forgotButton.doThis((var0, var1x) -> Util.getOSType().openLink("https://sigma-web-alpha.vercel.app/"));
@@ -121,9 +121,9 @@ public class LoginScreen extends UIBase {
 
          String var4 = Client.getInstance().networkManager.newAccount(this.inputUsername.getTypedText(), this.inputPassword.getTypedText(), var3);
          if (var4 != null) {
-            LoginAndOutScreen var5 = (LoginAndOutScreen)this.getIcoPanel();
+            LoginAndOutScreen var5 = (LoginAndOutScreen)this.getScreen();
             var5.method13424("Error", var4);
-            this.field21355.method13304("");
+            this.field21355.setTypedText("");
          } else {
             this.method13037();
          }

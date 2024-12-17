@@ -15,7 +15,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -43,7 +43,7 @@ public class ClassicMainScreen extends Screen {
         this.field21100 = new Animation(175, 325);
         this.field21100.changeDirection(Direction.FORWARDS);
         this.field21101.changeDirection(Direction.BACKWARDS);
-        ClientResource var9 = Resources.regular20;
+        TrueTypeFont var9 = Resources.regular20;
         String var11 = "© Sigma Prod";
         StringBuilder var10000 = new StringBuilder().append("Sigma ");
         Client.getInstance();
@@ -54,7 +54,7 @@ public class ClassicMainScreen extends Screen {
         this.addToList(this.field21103 = new Class4337(this, "group", (this.getWidthA() - var13) / 2, this.getHeightA() / 2 - 230, var13, var14));
         this.addToList(
                 this.field21095 = new UITextDisplay(
-                        this, "Copyright", 10, 8, var9.getStringWidth(var11), 140, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var11, ResourceRegistry.JelloLightFont18
+                        this, "Copyright", 10, 8, var9.getWidth(var11), 140, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var11, ResourceRegistry.JelloLightFont18
                 )
         );
         ColorHelper var15 = new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F));
@@ -64,12 +64,12 @@ public class ClassicMainScreen extends Screen {
         var16.add("Omikron");
         Collections.shuffle(var16);
         String var17 = "by " + var16.get(0) + ", " + var16.get(1);
-        this.addToList(new UITextDisplay(this, "names", 130, 9, var9.getStringWidth(var11), 140, var15, var17, Resources.regular17));
+        this.addToList(new UITextDisplay(this, "names", 130, 9, var9.getWidth(var11), 140, var15, var17, Resources.regular17));
         this.addToList(
                 this.field21094 = new UITextDisplay(
                         this,
                         "Version",
-                        this.getWidthA() - var9.getStringWidth(var12) - 9,
+                        this.getWidthA() - var9.getWidth(var12) - 9,
                         this.getHeightA() - 31,
                         114,
                         140,

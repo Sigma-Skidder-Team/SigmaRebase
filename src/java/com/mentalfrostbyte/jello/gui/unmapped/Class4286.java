@@ -10,7 +10,9 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -65,15 +67,15 @@ public class Class4286 extends AnimatedIconPanelWrap {
 
    @Override
    public void method13028(int var1, int var2) {
-      boolean var5 = this.method13298() && this.getIcoPanel().getIcoPanel().method13114(var1, var2);
+      boolean var5 = this.method13298() && this.getScreen().getScreen().method13114(var1, var2);
       this.field20777.changeDirection(!var5 ? Direction.BACKWARDS : Direction.FORWARDS);
 
       super.method13028(var1, var2);
    }
 
    public boolean method13157() {
-      if (this.getIcoPanel() != null && this.getIcoPanel().getIcoPanel() != null) {
-         CustomGuiScreen var3 = this.getIcoPanel().getIcoPanel();
+      if (this.getScreen() != null && this.getScreen().getScreen() != null) {
+         CustomGuiScreen var3 = this.getScreen().getScreen();
          if (var3 instanceof Class4339) {
             Class4339 var4 = (Class4339)var3;
             int var5 = var4.method13513() + var4.getHeightA() + this.getHeightA();
@@ -143,7 +145,7 @@ public class Class4286 extends AnimatedIconPanelWrap {
                      this.field20775.release();
                   }
 
-                  this.field20775 = TextureUtil.method32933("picture", this.field20773);
+                  this.field20775 = BufferedImageUtil.getTexture("picture", this.field20773);
                } catch (IOException var14) {
                   var14.printStackTrace();
                }
@@ -155,7 +157,7 @@ public class Class4286 extends AnimatedIconPanelWrap {
                      this.field20776.release();
                   }
 
-                  this.field20776 = TextureUtil.method32933("picture", ImageUtil.method35032(this.field20773, 14));
+                  this.field20776 = BufferedImageUtil.getTexture("picture", ImageUtil.method35032(this.field20773, 14));
                } catch (IOException var13) {
                   var13.printStackTrace();
                }
@@ -183,21 +185,21 @@ public class Class4286 extends AnimatedIconPanelWrap {
             Resources.playIconPNG,
                  ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var4 * var1)
          );
-         ClientResource var11 = ResourceRegistry.JelloLightFont12;
-         if (this.field20912 != null) {
+         TrueTypeFont var11 = ResourceRegistry.JelloLightFont12;
+         if (this.typedText != null) {
             RenderUtil.method11415(this);
             String[] var12 = this.getTypedText().replaceAll("\\(.*\\)", "").replaceAll("\\[.*\\]", "").split(" - ");
             if (var12.length > 1) {
                RenderUtil.drawString(
                   var11,
-                  (float)(this.getXA() + (this.getWidthA() - var11.getStringWidth(var12[1])) / 2),
+                  (float)(this.getXA() + (this.getWidthA() - var11.getWidth(var12[1])) / 2),
                   (float)(this.getYA() + this.getWidthA() - 2),
                   var12[1],
                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
                );
                RenderUtil.drawString(
                   var11,
-                  (float)(this.getXA() + (this.getWidthA() - var11.getStringWidth(var12[0])) / 2),
+                  (float)(this.getXA() + (this.getWidthA() - var11.getWidth(var12[0])) / 2),
                   (float)(this.getYA() + this.getWidthA() - 2 + 13),
                   var12[0],
                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
@@ -205,7 +207,7 @@ public class Class4286 extends AnimatedIconPanelWrap {
             } else {
                RenderUtil.drawString(
                   var11,
-                  (float)(this.getXA() + (this.getWidthA() - var11.getStringWidth(var12[0])) / 2),
+                  (float)(this.getXA() + (this.getWidthA() - var11.getWidth(var12[0])) / 2),
                   (float)(this.getYA() + this.getWidthA() - 2 + 6),
                   var12[0],
                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)

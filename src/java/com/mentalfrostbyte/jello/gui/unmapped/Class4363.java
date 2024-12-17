@@ -194,7 +194,7 @@ public class Class4363 extends UIBase {
          RenderUtil.drawString(
             this.getFont(),
             (float)(this.getXA() + 10),
-            (float)(this.getYA() + (this.getHeightA() - this.getFont().method23952()) / 2 + 1),
+            (float)(this.getYA() + (this.getHeightA() - this.getFont().getHeight()) / 2 + 1),
             this.getTypedText() + var4,
                  ColorUtils.applyAlpha(this.textColor.method19405(), var1 * 0.7F)
          );

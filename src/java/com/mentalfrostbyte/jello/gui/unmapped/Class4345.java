@@ -15,13 +15,13 @@ import com.mentalfrostbyte.jello.util.MathHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 
 import java.util.HashMap;
 
 public class Class4345 extends Class4339 {
    private Module field21229;
-   public ClientResource field21230 = Resources.regular20;
+   public TrueTypeFont field21230 = Resources.regular20;
    public Animation field21231 = new Animation(150, 150);
    public HashMap<Module, CustomGuiScreen> field21232 = new HashMap<Module, CustomGuiScreen>();
 
@@ -53,17 +53,17 @@ public class Class4345 extends Class4339 {
          case 2:
             NumberSetting var25 = (NumberSetting)var2;
             Class4370 var13 = new Class4370(var1, var2.getName() + "slider", var3, var4 + 31, 240, 4);
-            var13.method13304(Float.toString((Float)var2.getCurrentValue()));
-            var8.method13304(var2.getName() + ": " + (Float) var2.getCurrentValue());
+            var13.setTypedText(Float.toString((Float)var2.getCurrentValue()));
+            var8.setTypedText(var2.getName() + ": " + (Float) var2.getCurrentValue());
             var13.method13699(Class4277.method13134(var25.getMin(), var25.getMax(), (Float)var25.getCurrentValue()), false);
             int var14 = var25.getDecimalPlaces();
             var25.addObserver(
                var5x -> {
                   if (Class4370.method13694(var13.method13697(), var25.getMin(), var25.getMax(), var25.getStep(), var14)
                      != (Float)var5x.getCurrentValue()) {
-                     var13.method13304(Float.toString((Float)var5x.getCurrentValue()));
+                     var13.setTypedText(Float.toString((Float)var5x.getCurrentValue()));
                      var13.method13699(Class4370.method13693(var25.getMin(), var25.getMax(), (Float)var5x.getCurrentValue()), false);
-                     var8.method13304(var2.getName() + ": " + (Float) var2.getCurrentValue());
+                     var8.setTypedText(var2.getName() + ": " + (Float) var2.getCurrentValue());
                   }
                }
             );
@@ -71,11 +71,11 @@ public class Class4345 extends Class4339 {
                float var8x = ((Class4370)var5x).method13697();
                float var9x = Class4370.method13694(var8x, var25.getMin(), var25.getMax(), var25.getStep(), var14);
                if (var9x != (Float)var2.getCurrentValue()) {
-                  var13.method13304(Float.toString(var9x));
+                  var13.setTypedText(Float.toString(var9x));
                   var2.setCurrentValue(var9x);
                }
 
-               var8.method13304(var2.getName() + ": " + (Float) var2.getCurrentValue());
+               var8.setTypedText(var2.getName() + ": " + (Float) var2.getCurrentValue());
             });
             var1.addToList(var13);
             var4 += 54;
@@ -102,7 +102,7 @@ public class Class4345 extends Class4339 {
             var24.method13151(var1x -> var2.setCurrentValue(var1x.getTypedText()));
             var2.addObserver(var2x -> {
                if (var24.getTypedText() != ((InputSetting)var2).getCurrentValue()) {
-                  var24.method13304(((InputSetting)var2).getCurrentValue());
+                  var24.setTypedText(((InputSetting)var2).getCurrentValue());
                }
             });
             var4 += var20 + var5;
@@ -174,7 +174,7 @@ public class Class4345 extends Class4339 {
          var16.method16724();
       }
 
-      this.addToList(new UITextDisplay(this, "lbl", 5, 200, 0, 33, UITextDisplay.field20778, this.field20912));
+      this.addToList(new UITextDisplay(this, "lbl", 5, 200, 0, 33, UITextDisplay.field20778, this.typedText));
    }
 
    public void method13556() {

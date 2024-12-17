@@ -9,8 +9,8 @@ import com.mentalfrostbyte.jello.util.MathUtils;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -18,7 +18,7 @@ public class Class4236 extends PNGIconButton implements Class4238 {
    public boolean field20577 = false;
    public Animation field20578 = new Animation(160, 140, Direction.BACKWARDS);
 
-   public Class4236(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, Texture var7, ColorHelper var8, String var9, ClientResource var10) {
+   public Class4236(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, Texture var7, ColorHelper var8, String var9, TrueTypeFont var10) {
       super(var1, var2, var3, var4, var5, var6, var7, var8, var9, var10);
    }
 
@@ -103,30 +103,30 @@ public class Class4236 extends PNGIconButton implements Class4238 {
          );
       }
 
-      ClientResource font = this.getFont();
+      TrueTypeFont font = this.getFont();
       float var13 = 0.8F + var5 * 0.2F;
       if (var5 > 0.0F) {
          GL11.glPushMatrix();
          String var14 = this.getTypedText() != null ? this.getTypedText() : this.name;
          GL11.glTranslatef(
-            (float)(this.getXA() + this.getWidthA() / 2 - font.getStringWidth(var14) / 2), (float)(this.getYA() + this.getHeightA() - 40), 0.0F
+            (float)(this.getXA() + this.getWidthA() / 2 - font.getWidth(var14) / 2), (float)(this.getYA() + this.getHeightA() - 40), 0.0F
          );
          GL11.glScalef(var13, var13, var13);
          GL11.glAlphaFunc(519, 0.0F);
          RenderUtil.drawImage(
-            (1.0F - var13) * (float)font.getStringWidth(var14) / 2.0F + 1.0F - (float)font.getStringWidth(var14) / 2.0F,
-            (float)font.method23941(var14) / 3.0F,
-            (float)(font.getStringWidth(var14) * 2),
-            (float)font.method23941(var14) * 3.0F,
+            (1.0F - var13) * (float)font.getWidth(var14) / 2.0F + 1.0F - (float)font.getWidth(var14) / 2.0F,
+            (float)font.getHeight(var14) / 3.0F,
+            (float)(font.getWidth(var14) * 2),
+            (float)font.getHeight(var14) * 3.0F,
             Resources.shadowPNG,
             var5 * 0.6F * var1
          );
          RenderUtil.drawString(
             font,
-            (1.0F - var13) * (float)font.getStringWidth(var14) / 2.0F + 1.0F,
+            (1.0F - var13) * (float)font.getWidth(var14) / 2.0F + 1.0F,
             40.0F,
             var14,
-                 ColorUtils.applyAlpha(this.method13307().method19405(), var5 * 0.6F * var1)
+                 ColorUtils.applyAlpha(this.getTextColor().method19405(), var5 * 0.6F * var1)
          );
          GL11.glPopMatrix();
       }

@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.managers.impl.account;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.util.render.Texture;
-import com.mentalfrostbyte.jello.util.render.TextureUtil;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class Class9507 {
     public Texture method36701() {
         if (this.field44264 == null && this.field44263 != null) {
             try {
-                this.field44264 = TextureUtil.method32933("", this.field44263);
+                this.field44264 = BufferedImageUtil.getTexture("", this.field44263);
             } catch (IOException var4) {
                 var4.printStackTrace();
             }

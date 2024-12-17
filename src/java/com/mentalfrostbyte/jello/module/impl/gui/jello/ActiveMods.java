@@ -15,7 +15,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.scoreboard.Score;
@@ -32,7 +32,7 @@ public class ActiveMods extends Module {
     public int offsetY  = 0;
     public int totalHeight;
     public HashMap<Module, Animation> animations  = new HashMap<Module, Animation>();
-    public ClientResource font = ResourceRegistry.JelloLightFont20;
+    public TrueTypeFont font = ResourceRegistry.JelloLightFont20;
     private final List<Module> activeModules  = new ArrayList<Module>();
 
     public ActiveMods() {
@@ -106,7 +106,7 @@ public class ActiveMods extends Module {
                     }
                 }
 
-                int var15 = 23 + var9 * (this.font.method23952() + 1);
+                int var15 = 23 + var9 * (this.font.getHeight() + 1);
                 int var16 = var8.size();
                 int var12 = Minecraft.getInstance().getMainWindow().getHeight();
                 int var13 = var12 / 2 - (9 + 5) * (var16 - 3 + 2);
@@ -133,7 +133,7 @@ public class ActiveMods extends Module {
                 int var20 = 10;
                 float var21 = 1;
                 int var6 = Minecraft.getInstance().getMainWindow().getWidth();
-                ClientResource var8 = this.font;
+                TrueTypeFont var8 = this.font;
                 int var7 = var20 - 4;
                 if (this.font == ResourceRegistry.JelloLightFont14) {
                     var20 -= 3;
@@ -165,25 +165,25 @@ public class ActiveMods extends Module {
                     String var22 = var13.getSuffix();
                     GL11.glAlphaFunc(519, 0.0F);
                     GL11.glPushMatrix();
-                    int var17 = var6 - var20 - var8.getStringWidth(var22) / 2;
+                    int var17 = var6 - var20 - var8.getWidth(var22) / 2;
                     int var18 = var7 + 12;
                     GL11.glTranslatef((float) var17, (float) var18, 0.0F);
                     GL11.glScalef(var14, var14, 1.0F);
                     GL11.glTranslatef((float) (-var17), (float) (-var18), 0.0F);
-                    float var19 = (float) Math.sqrt(Math.min(1.2F, (float) var8.getStringWidth(var22) / 63.0F));
+                    float var19 = (float) Math.sqrt(Math.min(1.2F, (float) var8.getWidth(var22) / 63.0F));
                     RenderUtil.drawImage(
-                            (float) var6 - (float) var8.getStringWidth(var22) * 1.5F - (float) var20 - 20.0F,
+                            (float) var6 - (float) var8.getWidth(var22) * 1.5F - (float) var20 - 20.0F,
                             (float) (var7 - 20),
-                            (float) var8.getStringWidth(var22) * 3.0F,
-                            var8.method23952() + var21 + 40,
+                            (float) var8.getWidth(var22) * 3.0F,
+                            var8.getHeight() + var21 + 40,
                             Resources.shadowPNG,
                             ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.36F * var15 * var19)
                     );
                     RenderUtil.drawString(
-                            var8, (float) (var6 - var20 - var8.getStringWidth(var22)), (float) var7, var22, var15 != 1.0F ? ColorUtils.applyAlpha(-1, var15 * 0.95F) : var11
+                            var8, (float) (var6 - var20 - var8.getWidth(var22)), (float) var7, var22, var15 != 1.0F ? ColorUtils.applyAlpha(-1, var15 * 0.95F) : var11
                     );
                     GL11.glPopMatrix();
-                    var7 = (int) ((float) var7 + (float) (var8.method23952() + var21) * QuadraticEasing.easeInOutQuad(var15, 0.0F, 1.0F, 1.0F));
+                    var7 = (int) ((float) var7 + (float) (var8.getHeight() + var21) * QuadraticEasing.easeInOutQuad(var15, 0.0F, 1.0F, 1.0F));
                 }
 
                 this.offsetY = var7;
@@ -199,8 +199,8 @@ public class ActiveMods extends Module {
         }
 
         public int compare(Module var1, Module var2) {
-            int var5 = ResourceRegistry.JelloLightFont20.getStringWidth(var1.getName());
-            int var6 = ResourceRegistry.JelloLightFont20.getStringWidth(var2.getName());
+            int var5 = ResourceRegistry.JelloLightFont20.getWidth(var1.getName());
+            int var6 = ResourceRegistry.JelloLightFont20.getWidth(var2.getName());
             if (var5 <= var6) {
                 return var5 != var6 ? 1 : 0;
             } else {

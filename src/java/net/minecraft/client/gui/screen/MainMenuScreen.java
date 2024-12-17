@@ -75,7 +75,7 @@ public class MainMenuScreen extends Screen
     {
         super(new TranslationTextComponent("narrator.screen.title"));
         this.showFadeInAnimation = fadeIn;
-        this.showTitleWronglySpelled = (double)(new Random()).nextFloat() < 1.0E-4D;
+        this.showTitleWronglySpelled = true;
     }
 
     /**

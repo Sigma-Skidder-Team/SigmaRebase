@@ -11,8 +11,8 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.OptionsScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
@@ -35,7 +35,7 @@ public class MainmenuScreen2 extends CustomGuiScreen {
    public MainmenuScreen2(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6) {
       super(var1, var2, var3, var4, var5, var6);
       this.method13300(false);
-      ClientResource var15 = ResourceRegistry.JelloLightFont20;
+      TrueTypeFont var15 = ResourceRegistry.JelloLightFont20;
       int var17 = 0;
       int var18 = 80;
       int var19 = 10;
@@ -105,14 +105,14 @@ public class MainmenuScreen2 extends CustomGuiScreen {
       );
       this.addToList(
          this.field21130 = new UITextDisplay(
-            this, "Copyright", 10, this.getHeightA() - 31, var15.getStringWidth(var20), 128, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var20, var15
+            this, "Copyright", 10, this.getHeightA() - 31, var15.getWidth(var20), 128, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var20, var15
          )
       );
       this.addToList(
          this.field21129 = new UITextDisplay(
             this,
             "Version",
-            this.getWidthA() - var15.getStringWidth(var21) - 9,
+            this.getWidthA() - var15.getWidth(var21) - 9,
             this.getHeightA() - 31,
             128,
             128,
@@ -134,7 +134,7 @@ public class MainmenuScreen2 extends CustomGuiScreen {
          )
       );
       this.field21133.doThis((var1x, var2x) -> {
-         ((JelloMainMenuScreen)this.getIcoPanel()).method13341();
+         ((JelloMainMenuScreen)this.getScreen()).method13341();
          new Thread(() -> {
              try {
                  Thread.sleep(2000L);
@@ -148,12 +148,12 @@ public class MainmenuScreen2 extends CustomGuiScreen {
       this.addToList(this.field21128 = new Class4302(this, "pre", 0, 0, 240, 100));
       this.field21128.method13247((var1x, var2x) -> {
          if (Client.getInstance().networkManager.account != null) {
-            ((JelloMainMenuScreen)this.getIcoPanel()).method13343();
+            ((JelloMainMenuScreen)this.getScreen()).method13343();
          } else {
             this.displayScreen(new LoginAndOutScreen());
          }
       });
-      this.changelogButton.doThis((var1x, var2x) -> ((JelloMainMenuScreen)this.getIcoPanel()).animateIn());
+      this.changelogButton.doThis((var1x, var2x) -> ((JelloMainMenuScreen)this.getScreen()).animateIn());
       this.singleplayerButton.doThis((var1x, var2x) -> this.displayGUI(new WorldSelectionScreen(Minecraft.getInstance().currentScreen)));
       this.multiplayerButton.doThis((var1x, var2x) -> this.displayGUI(new JelloPortalScreen(Minecraft.getInstance().currentScreen)));
       this.optionsButton.doThis((var1x, var2x) -> this.displayGUI(new OptionsScreen(Minecraft.getInstance().currentScreen, Minecraft.getInstance().gameSettings)));
@@ -161,7 +161,7 @@ public class MainmenuScreen2 extends CustomGuiScreen {
       this.realmsButton.doThis((var1x, var2x) -> this.method13443());
       this.loginButton.doThis((var1x, var2x) -> {
          if (Client.getInstance().networkManager.account != null) {
-            ((JelloMainMenuScreen)this.getIcoPanel()).logout();
+            ((JelloMainMenuScreen)this.getScreen()).logout();
          } else {
             this.displayScreen(new LoginAndOutScreen());
          }

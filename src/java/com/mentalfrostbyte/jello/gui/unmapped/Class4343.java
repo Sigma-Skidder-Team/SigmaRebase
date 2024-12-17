@@ -58,7 +58,7 @@ public class Class4343 extends Class4339 implements Class4342 {
             NumberSetting numbaSetting = (NumberSetting)setting;
             Class4277 var47 = new Class4277(panel, setting.getName() + "slider", panel.getWidthA() - 126 - var5, var4 + 6, 126, 24);
             var47.method13137().setFont(ResourceRegistry.JelloLightFont14);
-            var47.method13304(Float.toString((Float)setting.getCurrentValue()));
+            var47.setTypedText(Float.toString((Float)setting.getCurrentValue()));
             var47.method13140(Class4277.method13134(numbaSetting.getMin(), numbaSetting.getMax(), (Float)numbaSetting.getCurrentValue()), false);
             var47.method13143(-1.0F);
             int var13 = numbaSetting.getDecimalPlaces();
@@ -66,7 +66,7 @@ public class Class4343 extends Class4339 implements Class4342 {
                var3x -> {
                   if (Class4277.method13135(var47.method13138(), numbaSetting.getMin(), numbaSetting.getMax(), numbaSetting.getStep(), var13)
                      != (Float)var3x.getCurrentValue()) {
-                     var47.method13304(Float.toString((Float)var3x.getCurrentValue()));
+                     var47.setTypedText(Float.toString((Float)var3x.getCurrentValue()));
                      var47.method13140(Class4277.method13134(numbaSetting.getMin(), numbaSetting.getMax(), (Float)var3x.getCurrentValue()), false);
                   }
                }
@@ -75,7 +75,7 @@ public class Class4343 extends Class4339 implements Class4342 {
                float var7 = ((Class4277)var4x).method13138();
                float var8x = Class4277.method13135(var7, numbaSetting.getMin(), numbaSetting.getMax(), numbaSetting.getStep(), var13);
                if (var8x != (Float)setting.getCurrentValue()) {
-                  var47.method13304(Float.toString(var8x));
+                  var47.setTypedText(Float.toString(var8x));
                   setting.setCurrentValue(var8x);
                }
             });
@@ -109,7 +109,7 @@ public class Class4343 extends Class4339 implements Class4342 {
             var35.method13151(var1x -> setting.setCurrentValue(var1x.getTypedText()));
             setting.addObserver(var2x -> {
                if (var35.getTypedText() != ((InputSetting)setting).getCurrentValue()) {
-                  var35.method13304(((InputSetting)setting).getCurrentValue());
+                  var35.setTypedText(((InputSetting)setting).getCurrentValue());
                }
             });
             var4 += var27 + var5;
@@ -325,7 +325,7 @@ public class Class4343 extends Class4339 implements Class4342 {
       );
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont14,
-         (float)(this.getXA() + 14 + ResourceRegistry.JelloLightFont14.getStringWidth(this.field21227) + 2),
+         (float)(this.getXA() + 14 + ResourceRegistry.JelloLightFont14.getWidth(this.field21227) + 2),
          (float)(this.getYA() + this.getHeightA() + 24),
          this.field21226,
               ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F * this.field21225.calcPercent())

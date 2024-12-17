@@ -132,7 +132,7 @@ public class Class4366 extends UIBase {
       }
 
       for (CustomGuiScreen var7 : this.method13241()) {
-         if (!var7.method13257().equals("dropdownButton")) {
+         if (!var7.getName().equals("dropdownButton")) {
             var7.setEnabled(this.field21345);
          }
       }
@@ -142,7 +142,7 @@ public class Class4366 extends UIBase {
          RenderUtil.drawString(
             this.getFont(),
             (float)(this.getXA() + 7),
-            (float)(this.getYA() + (this.getHeightA() - this.getFont().method23952()) / 2),
+            (float)(this.getYA() + (this.getHeightA() - this.getFont().getHeight()) / 2),
             this.getTypedText(),
             ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * 0.5F)
          );

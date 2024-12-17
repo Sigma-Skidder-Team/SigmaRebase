@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 import org.lwjgl.glfw.GLFW;
@@ -59,7 +59,7 @@ public class UIInput extends AnimatedIconPanelWrap {
       this.field20756.start();
    }
 
-   public UIInput(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, String var9, ClientResource var10) {
+   public UIInput(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, String var9, TrueTypeFont var10) {
       super(var1, var2, var3, var4, var5, var6, var7, var8, false);
       this.field20743 = var9;
       this.field20756.start();
@@ -68,9 +68,9 @@ public class UIInput extends AnimatedIconPanelWrap {
    @Override
    public void method13028(int var1, int var2) {
       super.method13028(var1, var2);
-      String var5 = this.field20912;
+      String var5 = this.typedText;
       if (this.field20754) {
-         var5 = this.field20912.replaceAll(".", this.field20755);
+         var5 = this.typedText.replaceAll(".", this.field20755);
       }
 
       this.field20744 = this.field20744 + ((!this.field20905 ? 0.0F : 1.0F) - this.field20744) / 2.0F;
@@ -99,9 +99,9 @@ public class UIInput extends AnimatedIconPanelWrap {
    @Override
    public boolean method13078(int var1, int var2, int var3) {
       if (!super.method13078(var1, var2, var3)) {
-         String var6 = this.field20912;
+         String var6 = this.typedText;
          if (this.field20754) {
-            var6 = this.field20912.replaceAll(".", this.field20755);
+            var6 = this.typedText.replaceAll(".", this.field20755);
          }
 
          this.field20752 = true;
@@ -119,7 +119,7 @@ public class UIInput extends AnimatedIconPanelWrap {
 
    public void method13148() {
       this.method13242();
-      this.field20749 = this.field20912.length();
+      this.field20749 = this.typedText.length();
       this.field20750 = 0;
       this.field20751 = this.field20749;
    }
@@ -137,7 +137,7 @@ public class UIInput extends AnimatedIconPanelWrap {
          switch (var1) {
             case 65:
                if (this.method13149()) {
-                  this.field20749 = this.field20912.length();
+                  this.field20749 = this.typedText.length();
                   this.field20750 = 0;
                   this.field20751 = this.field20749;
                }
@@ -146,7 +146,7 @@ public class UIInput extends AnimatedIconPanelWrap {
                if (this.method13149() && this.field20750 != this.field20751) {
                   GLFW.glfwSetClipboardString(
                      Minecraft.getInstance().getMainWindow().getHandle(),
-                     this.field20912.substring(Math.min(this.field20750, this.field20751), Math.max(this.field20750, this.field20751))
+                     this.typedText.substring(Math.min(this.field20750, this.field20751), Math.max(this.field20750, this.field20751))
                   );
                }
                break;
@@ -164,7 +164,7 @@ public class UIInput extends AnimatedIconPanelWrap {
 
                   if (var12 != "") {
                      if (this.field20750 != this.field20751) {
-                        this.field20912 = Class8906.method32493(this.field20912, var12, this.field20750, this.field20751);
+                        this.typedText = Class8906.method32493(this.typedText, var12, this.field20750, this.field20751);
                         if (this.field20749 > this.field20750) {
                            this.field20749 = this.field20749 - (Math.max(this.field20750, this.field20751) - Math.min(this.field20750, this.field20751));
                         }
@@ -172,7 +172,7 @@ public class UIInput extends AnimatedIconPanelWrap {
                         this.field20749 = this.field20749 + var12.length();
                         this.field20750 = this.field20749;
                      } else {
-                        this.field20912 = Class8906.method32492(this.field20912, var12, this.field20749);
+                        this.typedText = Class8906.method32492(this.typedText, var12, this.field20749);
                         this.field20749 = this.field20749 + var12.length();
                         this.field20750 = this.field20749;
                      }
@@ -185,9 +185,9 @@ public class UIInput extends AnimatedIconPanelWrap {
                if (this.method13149() && this.field20750 != this.field20751) {
                   GLFW.glfwSetClipboardString(
                      Minecraft.getInstance().getMainWindow().getHandle(),
-                     this.field20912.substring(Math.min(this.field20750, this.field20751), Math.max(this.field20750, this.field20751))
+                     this.typedText.substring(Math.min(this.field20750, this.field20751), Math.max(this.field20750, this.field20751))
                   );
-                  this.field20912 = Class8906.method32493(this.field20912, "", this.field20750, this.field20751);
+                  this.typedText = Class8906.method32493(this.typedText, "", this.field20750, this.field20751);
                   if (this.field20749 > this.field20750) {
                      this.field20749 = this.field20749 - (Math.max(this.field20750, this.field20751) - Math.min(this.field20750, this.field20751));
                   }
@@ -201,9 +201,9 @@ public class UIInput extends AnimatedIconPanelWrap {
                this.method13145(false);
                break;
             case 259:
-               if (this.field20912.length() > 0) {
+               if (this.typedText.length() > 0) {
                   if (this.field20750 != this.field20751) {
-                     this.field20912 = Class8906.method32493(this.field20912, "", this.field20750, this.field20751);
+                     this.typedText = Class8906.method32493(this.typedText, "", this.field20750, this.field20751);
                      if (this.field20749 > this.field20750) {
                         this.field20749 = this.field20749 - (Math.max(this.field20750, this.field20751) - Math.min(this.field20750, this.field20751));
                      }
@@ -211,18 +211,18 @@ public class UIInput extends AnimatedIconPanelWrap {
                      int var11 = -1;
 
                      for (int var14 = Math.max(this.field20749 - 1, 0); var14 >= 0; var14--) {
-                        if ((String.valueOf(this.field20912.charAt(var14)).equalsIgnoreCase(" ") || var14 == 0) && Math.abs(this.field20749 - var14) > 1) {
+                        if ((String.valueOf(this.typedText.charAt(var14)).equalsIgnoreCase(" ") || var14 == 0) && Math.abs(this.field20749 - var14) > 1) {
                            var11 = var14 + (var14 == 0 ? 0 : 1);
                            break;
                         }
                      }
 
                      if (var11 != -1) {
-                        this.field20912 = Class8906.method32493(this.field20912, "", var11, this.field20749);
+                        this.typedText = Class8906.method32493(this.typedText, "", var11, this.field20749);
                         this.field20749 = var11;
                      }
                   } else {
-                     this.field20912 = Class8906.method32493(this.field20912, "", this.field20749 - 1, this.field20749);
+                     this.typedText = Class8906.method32493(this.typedText, "", this.field20749 - 1, this.field20749);
                      this.field20749--;
                   }
 
@@ -237,10 +237,10 @@ public class UIInput extends AnimatedIconPanelWrap {
                } else {
                   int var10 = -1;
 
-                  for (int var13 = this.field20749; var13 < this.field20912.length(); var13++) {
+                  for (int var13 = this.field20749; var13 < this.typedText.length(); var13++) {
                      try {
-                        if ((String.valueOf(this.field20912.charAt(var13)).equalsIgnoreCase(" ") || var13 == this.field20912.length() - 1)
-                           && (Math.abs(this.field20749 - var13) > 1 || var13 == this.field20912.length() - 1)) {
+                        if ((String.valueOf(this.typedText.charAt(var13)).equalsIgnoreCase(" ") || var13 == this.typedText.length() - 1)
+                           && (Math.abs(this.field20749 - var13) > 1 || var13 == this.typedText.length() - 1)) {
                            var10 = var13 + 1;
                            break;
                         }
@@ -267,7 +267,7 @@ public class UIInput extends AnimatedIconPanelWrap {
 
                   for (int var5 = Math.max(this.field20749 - 1, 0); var5 >= 0; var5--) {
                      try {
-                        if ((String.valueOf(this.field20912.charAt(var5)).equalsIgnoreCase(" ") || var5 == 0) && Math.abs(this.field20749 - var5) > 1) {
+                        if ((String.valueOf(this.typedText.charAt(var5)).equalsIgnoreCase(" ") || var5 == 0) && Math.abs(this.field20749 - var5) > 1) {
                            var4 = var5;
                            break;
                         }
@@ -294,7 +294,7 @@ public class UIInput extends AnimatedIconPanelWrap {
                }
                break;
             case 269:
-               this.field20749 = this.field20912.length();
+               this.field20749 = this.typedText.length();
                if (!InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 340)
                   && !InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), 344)) {
                   this.field20750 = this.field20749;
@@ -314,9 +314,9 @@ public class UIInput extends AnimatedIconPanelWrap {
       super.charTyped(var1);
       if (this.method13297() && Class8906.method32486(var1)) {
          if (this.field20750 == this.field20751) {
-            this.field20912 = Class8906.method32492(this.field20912, Character.toString(var1), this.field20749);
+            this.typedText = Class8906.method32492(this.typedText, Character.toString(var1), this.field20749);
          } else {
-            this.field20912 = Class8906.method32493(this.field20912, Character.toString(var1), this.field20750, this.field20751);
+            this.typedText = Class8906.method32493(this.typedText, Character.toString(var1), this.field20750, this.field20751);
          }
 
          this.field20749++;
@@ -334,24 +334,24 @@ public class UIInput extends AnimatedIconPanelWrap {
          this.field20756.reset();
       }
 
-      String var6 = this.field20912;
+      String var6 = this.typedText;
       if (this.field20754) {
-         var6 = this.field20912.replaceAll(".", this.field20755);
+         var6 = this.typedText.replaceAll(".", this.field20755);
       }
 
       RenderUtil.method11421(this.getXA(), this.getYA(), this.getXA() + this.widthA, this.getYA() + this.heightA, true);
       int var7 = this.xA + 4;
       int var8 = this.widthA - 4;
-      float var9 = (float)var7 + this.field20746 + (float)this.font.getStringWidth(var6.substring(0, this.field20749));
+      float var9 = (float)var7 + this.field20746 + (float)this.font.getWidth(var6.substring(0, this.field20749));
       if (this.method13297()) {
          RenderUtil.drawRect(
             var9 + (float)(var6.isEmpty() ? 0 : -1),
-            (float)(this.yA + this.heightA / 2 - this.font.method23941(var6) / 2 + 2),
+            (float)(this.yA + this.heightA / 2 - this.font.getHeight(var6) / 2 + 2),
             var9 + (float)(var6.isEmpty() ? 1 : 0),
-            (float)(this.yA + this.heightA / 2 + this.font.method23941(var6) / 2 - 1),
+            (float)(this.yA + this.heightA / 2 + this.font.getHeight(var6) / 2 - 1),
             ColorUtils.applyAlpha(this.textColor.getTextColor(), !var5 ? 0.1F * var1 : 0.8F)
          );
-         float var10 = (float)(var7 + this.font.getStringWidth(var6.substring(0, this.field20749))) + this.field20747;
+         float var10 = (float)(var7 + this.font.getWidth(var6.substring(0, this.field20749))) + this.field20747;
          if (var10 < (float)var7) {
             this.field20747 += (float)var7 - var10;
             this.field20747 = this.field20747 - Math.min((float)var8, this.field20747);
@@ -365,13 +365,13 @@ public class UIInput extends AnimatedIconPanelWrap {
       this.field20746 = this.field20746 + (this.field20747 - this.field20746) / 2.0F;
       this.field20750 = Math.min(Math.max(0, this.field20750), var6.length());
       this.field20751 = Math.min(Math.max(0, this.field20751), var6.length());
-      float var14 = (float)var7 + this.field20746 + (float)this.font.getStringWidth(var6.substring(0, this.field20750));
-      float var11 = (float)var7 + this.field20746 + (float)this.font.getStringWidth(var6.substring(0, this.field20751));
+      float var14 = (float)var7 + this.field20746 + (float)this.font.getWidth(var6.substring(0, this.field20750));
+      float var11 = (float)var7 + this.field20746 + (float)this.font.getWidth(var6.substring(0, this.field20751));
       RenderUtil.drawRect(
          var14,
-         (float)(this.yA + this.heightA / 2 - this.font.method23941(var6) / 2),
+         (float)(this.yA + this.heightA / 2 - this.font.getHeight(var6) / 2),
          var11,
-         (float)(this.yA + this.heightA / 2 + this.font.method23941(var6) / 2),
+         (float)(this.yA + this.heightA / 2 + this.font.getHeight(var6) / 2),
          ColorUtils.applyAlpha(-5516546, var1)
       );
       Class2218 var12 = this.textColor.method19411();

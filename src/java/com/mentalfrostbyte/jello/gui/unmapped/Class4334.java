@@ -4,7 +4,7 @@ import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.impl.ClassicScreenk;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
+import org.newdawn.slick.opengl.Texture;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class Class4334 extends Class4333 {
       Class4361 var7;
       this.addToList(var7 = new Class4361(this, "exit", this.getWidthA() - 41, 9));
       var7.doThis((var0, var1x) -> Minecraft.getInstance().displayGuiScreen(null));
-      ClassicScreenk var8 = (ClassicScreenk)this.getIcoPanel();
+      ClassicScreenk var8 = (ClassicScreenk)this.getScreen();
       this.field21152.doThis((var1x, var2x) -> var8.method13418("Combat", ModuleCategory.COMBAT));
       this.field21153.doThis((var1x, var2x) -> var8.method13418("Movement", ModuleCategory.MOVEMENT));
       this.field21157.doThis((var1x, var2x) -> var8.method13418("World", ModuleCategory.WORLD));

@@ -12,7 +12,7 @@ import com.mentalfrostbyte.jello.util.MathUtils;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import totalcross.json.JSONArray;
 import totalcross.json.JSONException;
 
@@ -32,7 +32,7 @@ public class ChangelogScreen extends CustomGuiScreen {
 
    public void method13490(JSONArray var1) {
       if (var1 != null) {
-         this.getIcoPanel().method13222(new Class576(this, var1));
+         this.getScreen().method13222(new Class576(this, var1));
       }
    }
 
@@ -71,7 +71,7 @@ public class ChangelogScreen extends CustomGuiScreen {
       this.drawBackground((int)(150.0f * (1.0f - fadeFactor)));
       this.method13225();
       RenderUtil.drawString(ResourceRegistry.JelloLightFont36, 100.0F, 100.0F, "Changelog", ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), alpha));
-      ClientResource jelloLightFont25 = ResourceRegistry.JelloLightFont25;
+      TrueTypeFont jelloLightFont25 = ResourceRegistry.JelloLightFont25;
       String versionText = "You're currently using Sigma " + Client.VERSION;
       RenderUtil.drawString(
               jelloLightFont25,

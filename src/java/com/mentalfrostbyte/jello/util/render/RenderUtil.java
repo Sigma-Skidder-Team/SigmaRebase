@@ -7,10 +7,10 @@ import com.mentalfrostbyte.jello.managers.impl.music.Class2329;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.unmapped.Class7820;
-import com.mentalfrostbyte.jello.util.render.unmapped.TextureImpl;
+import org.newdawn.slick.opengl.TextureImpl;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
-import com.mentalfrostbyte.jello.util.unmapped.Color;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.Color;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -278,29 +279,29 @@ public class RenderUtil {
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
-    public static void drawString(ClientResource res, float var1, float var2, String string, int var4, Class2218 var5, Class2218 var6) {
+    public static void drawString(TrueTypeFont res, float var1, float var2, String string, int var4, Class2218 var5, Class2218 var6) {
         drawString(res, var1, var2, string, var4, var5, var6, false);
     }
 
-    public static void drawString(ClientResource font, float var1, float var2, String string, int color, Class2218 var5, Class2218 var6, boolean var7) {
+    public static void drawString(TrueTypeFont font, float var1, float var2, String string, int color, Class2218 var5, Class2218 var6, boolean var7) {
         RenderSystem.color4f(0.0F, 0.0F, 0.0F, 1.0F);
         GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.0F);
         int var10 = 0;
         int var11 = 0;
         switch (Class7820.field33554[var5.ordinal()]) {
             case 1:
-                var10 = -font.getStringWidth(string) / 2;
+                var10 = -font.getWidth(string) / 2;
                 break;
             case 2:
-                var10 = -font.getStringWidth(string);
+                var10 = -font.getWidth(string);
         }
 
         switch (Class7820.field33554[var6.ordinal()]) {
             case 1:
-                var11 = -font.method23941(string) / 2;
+                var11 = -font.getHeight(string) / 2;
                 break;
             case 3:
-                var11 = -font.method23941(string);
+                var11 = -font.getHeight(string);
         }
 
         float var12 = (float)(color >> 24 & 0xFF) / 255.0F;
@@ -345,11 +346,11 @@ public class RenderUtil {
         RenderSystem.enableBlend();
         GL11.glBlendFunc(770, 771);
         if (var7) {
-            font.method23937((float)Math.round(var1 + (float)var10), (float)(Math.round(var2 + (float)var11) + 2), string, new Color(0.0F, 0.0F, 0.0F, 0.35F));
+            font.drawString((float)Math.round(var1 + (float)var10), (float)(Math.round(var2 + (float)var11) + 2), string, new Color(0.0F, 0.0F, 0.0F, 0.35F));
         }
 
         if (string != null) {
-            font.method23937((float)Math.round(var1 + (float)var10), (float)Math.round(var2 + (float)var11), string, new Color(var13, var14, var15, var12));
+            font.drawString((float)Math.round(var1 + (float)var10), (float)Math.round(var2 + (float)var11), string, new Color(var13, var14, var15, var12));
         }
 
         RenderSystem.disableBlend();
@@ -372,7 +373,7 @@ public class RenderUtil {
         method11438(var0 - var4 + var2, var1 - var4 + var3, var4 * 2.0F * var9, var5);
     }
 
-    public static void drawString(ClientResource font, float var1, float var2, String string, int color) {
+    public static void drawString(TrueTypeFont font, float var1, float var2, String string, int color) {
         drawString(font, var1, var2, string, color, Class2218.field14488, Class2218.field14489, false);
     }
 
@@ -949,7 +950,7 @@ public class RenderUtil {
             GL11.glAlphaFunc(519, 0.0F);
             RenderSystem.glMultiTexCoord2f(33986, 240.0F, 240.0F);
             RenderSystem.disableDepthTest();
-            TextureImpl.method36180();
+            TextureImpl.unbind();
             mc.getTextureManager().bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
             RenderHelper.setupGui3DDiffuseLighting();
         }

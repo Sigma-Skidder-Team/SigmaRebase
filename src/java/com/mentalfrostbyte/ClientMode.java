@@ -1,7 +1,7 @@
 package com.mentalfrostbyte;
 
 public enum ClientMode {
-   PREMIUM,
+   INDETERMINATE,
    JELLO,
    CLASSIC,
    NOADDONS;

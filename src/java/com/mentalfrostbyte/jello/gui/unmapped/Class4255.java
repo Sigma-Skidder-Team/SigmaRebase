@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.render.Texture;
+import org.newdawn.slick.opengl.Texture;
 import org.lwjgl.opengl.GL11;
 
 public class Class4255 extends UIBase {
@@ -32,9 +32,9 @@ public class Class4255 extends UIBase {
 
       RenderUtil.drawString(
               Resources.regular25,
-         (float)(this.xA + (this.getWidthA() - Resources.regular25.getStringWidth(this.field20912)) / 2),
+         (float)(this.xA + (this.getWidthA() - Resources.regular25.getWidth(this.typedText)) / 2),
          (float)(this.yA + this.getHeightA() - 50),
-         this.field20912,
+         this.typedText,
          !this.method13298() ? -14869219 : -319475
       );
       super.draw(var1);

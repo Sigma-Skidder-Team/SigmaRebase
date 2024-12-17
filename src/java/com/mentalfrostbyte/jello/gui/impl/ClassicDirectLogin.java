@@ -66,8 +66,8 @@ public class ClassicDirectLogin extends Screen {
 
          if (var5x.contains(":")) {
             String[] var6x = var5x.split(":");
-            this.field20985.method13304(var6x[0]);
-            this.field20986.method13304(var6x[1]);
+            this.field20985.setTypedText(var6x[0]);
+            this.field20986.setTypedText(var6x[1]);
          } else this.field20991 = "§cPlease copy a valid username:password format to clipboard";
       });
    }

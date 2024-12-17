@@ -48,7 +48,7 @@ public class Class4375 extends UIBase {
             "addButton",
             this.widthA - 70,
             this.heightA - 70,
-            ResourceRegistry.JelloLightFont25.getStringWidth("Add"),
+            ResourceRegistry.JelloLightFont25.getWidth("Add"),
             70,
             ColorHelper.field27961,
             "Add",
@@ -64,7 +64,7 @@ public class Class4375 extends UIBase {
 
       for (CustomGuiScreen var6 : this.method13241()) {
          if (var6.getHeightA() != 0) {
-            var4.add(var6.method13257());
+            var4.add(var6.getName());
          }
       }
 
@@ -149,7 +149,7 @@ public class Class4375 extends UIBase {
          ResourceRegistry.JelloLightFont25,
          (float)(this.xA + 25),
          (float)(this.yA + 20),
-         this.field20912 + " Key",
+         this.typedText + " Key",
               ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.8F * var1)
       );
       RenderUtil.drawRect(

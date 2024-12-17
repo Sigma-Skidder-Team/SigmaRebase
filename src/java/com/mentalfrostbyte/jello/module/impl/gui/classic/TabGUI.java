@@ -218,54 +218,58 @@ public class TabGUI extends Module {
    }
 
    private void drawCategories(float partialTicks) {
-      int drawState = this.getCurrentCategoryState();
-      if (drawState == 2 || drawState == 3) {
-         CategoryDrawPart firstCategoryPart = categoryDrawParts.get(0);
-         CategoryDrawPart secondCategoryPart = categoryDrawParts.get(1);
-         CategoryDrawPart thirdCategoryPart = drawState != 3 ? null : categoryDrawParts.get(2);
-         CategoryDrawPart activeCategoryPart = secondCategoryPart;
-         if (thirdCategoryPart != null) {
-            activeCategoryPart = thirdCategoryPart;
-         }
-
-         if (activeCategoryPart.isAnimating() && animationProgress.getDirection() == Direction.FORWARDS) {
-            if (this.getCurrentCategoryState() == categoryDrawParts.size()) {
-               this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
-            } else if (categoryDrawParts.get(categoryDrawParts.size() - 1).method24724()) {
-               this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
+      try {
+         int drawState = this.getCurrentCategoryState();
+         if (drawState == 2 || drawState == 3) {
+            CategoryDrawPart firstCategoryPart = categoryDrawParts.get(0);
+            CategoryDrawPart secondCategoryPart = categoryDrawParts.get(1);
+            CategoryDrawPart thirdCategoryPart = drawState != 3 ? null : categoryDrawParts.get(2);
+            CategoryDrawPart activeCategoryPart = secondCategoryPart;
+            if (thirdCategoryPart != null) {
+               activeCategoryPart = thirdCategoryPart;
             }
-         }
 
-         ModuleCategory currentCategory = this.categories.get(firstCategoryPart.index);
-         Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory).get(secondCategoryPart.index);
-         String description = currentModule.getDescription();
-         if (drawState == 3) {
-            Setting<?> currentSetting = this.getModuleSettings(currentModule).get(thirdCategoryPart.index);
-            description = currentSetting.getDescription();
-         }
+            if (activeCategoryPart.isAnimating() && animationProgress.getDirection() == Direction.FORWARDS) {
+               if (this.getCurrentCategoryState() == categoryDrawParts.size()) {
+                  this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
+               } else if (categoryDrawParts.get(categoryDrawParts.size() - 1).method24724()) {
+                  this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
+               }
+            }
 
-         float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
-         if (this.firstAnimationProgress.getDirection() == Direction.BACKWARDS) {
-            animationProgressValue = MathHelper.calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
-         }
+            ModuleCategory currentCategory = this.categories.get(firstCategoryPart.index);
+            Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory).get(secondCategoryPart.index);
+            String description = currentModule.getDescription();
+            if (drawState == 3) {
+               Setting<?> currentSetting = this.getModuleSettings(currentModule).get(thirdCategoryPart.index);
+               description = currentSetting.getDescription();
+            }
 
-         RenderUtil.renderCategoryBox(
-            (float)activeCategoryPart.getStartX() + (float)activeCategoryPart.getWidth() + 14.0F * animationProgressValue,
-            (float)activeCategoryPart.getStartY() + 16.0F + (float)(25 * activeCategoryPart.index),
-            24.0F * animationProgressValue,
-            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F),
-                 ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
-         );
-         int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4 + Math.round(animationProgressValue * 28.0F);
-         int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.index + 4;
-         int descriptionWidth = activeCategoryPart.fontRenderer.getStringWidth(description) + 8;
-         float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
-         RenderUtil.renderBackgroundBox((float)descriptionX, (float)descriptionY, (float)descriptionWidth * secondAnimationValue, 25.0F, ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
-         RenderUtil.startScissor((float)descriptionX, (float)descriptionY, (float)descriptionWidth * secondAnimationValue, 25.0F);
-         RenderUtil.drawString(
-            activeCategoryPart.fontRenderer, (float)(descriptionX + 4), (float)(descriptionY + 2), description, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, partialTicks * 1.7F))
-         );
-         RenderUtil.endScissor();
+            float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
+            if (this.firstAnimationProgress.getDirection() == Direction.BACKWARDS) {
+               animationProgressValue = MathHelper.calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+            }
+
+            RenderUtil.renderCategoryBox(
+                    (float)activeCategoryPart.getStartX() + (float)activeCategoryPart.getWidth() + 14.0F * animationProgressValue,
+                    (float)activeCategoryPart.getStartY() + 16.0F + (float)(25 * activeCategoryPart.index),
+                    24.0F * animationProgressValue,
+                    ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F),
+                    ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
+            );
+            int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4 + Math.round(animationProgressValue * 28.0F);
+            int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.index + 4;
+            int descriptionWidth = activeCategoryPart.fontRenderer.getWidth(description) + 8;
+            float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+            RenderUtil.renderBackgroundBox((float)descriptionX, (float)descriptionY, (float)descriptionWidth * secondAnimationValue, 25.0F, ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
+            RenderUtil.startScissor((float)descriptionX, (float)descriptionY, (float)descriptionWidth * secondAnimationValue, 25.0F);
+            RenderUtil.drawString(
+                    activeCategoryPart.fontRenderer, (float)(descriptionX + 4), (float)(descriptionY + 2), description, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, partialTicks * 1.7F))
+            );
+            RenderUtil.endScissor();
+         }
+      } catch (IndexOutOfBoundsException e) {
+         Client.getInstance().getLogger().warn("bruh your modules aren't enough for this sexy ass tabgui");
       }
    }
 

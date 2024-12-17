@@ -1,20 +1,23 @@
 package com.mentalfrostbyte.jello.util.render.unmapped;
 
+import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.util.ResourceLocation;
+
 import java.io.InputStream;
 import java.net.URL;
 
-public class Class7903 implements Class7904 {
+public class Class7903 implements ResourceLocation {
    private static String[] field33859;
 
    @Override
-   public URL method26475(String var1) {
-      String var4 = var1.replace('\\', '/');
+   public URL getResource(String ref) {
+      String var4 = ref.replace('\\', '/');
       return ResourceLoader.class.getClassLoader().getResource(var4);
    }
 
    @Override
-   public InputStream method26476(String var1) {
-      String var4 = var1.replace('\\', '/');
+   public InputStream getResourceAsStream(String ref) {
+      String var4 = ref.replace('\\', '/');
       return ResourceLoader.class.getClassLoader().getResourceAsStream(var4);
    }
 }

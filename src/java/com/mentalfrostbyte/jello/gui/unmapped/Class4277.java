@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 
 public class Class4277 extends UIBase {
    private static String[] field20602;
@@ -42,7 +42,7 @@ public class Class4277 extends UIBase {
       this.method13136();
    }
 
-   public Class4277(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, ClientResource var9) {
+   public Class4277(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, TrueTypeFont var9) {
       super(var1, var2, var3, var4, var5, var6, var7, var8, var9, false);
       this.method13136();
    }
@@ -86,7 +86,7 @@ public class Class4277 extends UIBase {
          int var11 = Math.max(0, 9 - this.field20734.getXA());
          RenderUtil.drawString(
             ResourceRegistry.JelloLightFont14,
-            (float)(var8 - ResourceRegistry.JelloLightFont14.getStringWidth(this.getTypedText()) - 10 - var11),
+            (float)(var8 - ResourceRegistry.JelloLightFont14.getWidth(this.getTypedText()) - 10 - var11),
             (float)(var9 - 5),
             this.getTypedText(),
                  ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F * this.field20735.calcPercent() * var1)

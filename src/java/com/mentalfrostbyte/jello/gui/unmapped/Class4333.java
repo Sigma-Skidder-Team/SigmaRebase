@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.MathUtils;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import org.lwjgl.opengl.GL11;
 
 public class Class4333 extends CustomGuiScreen {
@@ -44,11 +44,11 @@ public class Class4333 extends CustomGuiScreen {
          );
       }
 
-      ClientResource var7 = !this.name.equals("Sigma") ? Resources.regular25 : Resources.regular28;
+      TrueTypeFont var7 = !this.name.equals("Sigma") ? Resources.regular25 : Resources.regular28;
       if (!this.name.equals("Sigma")) {
          RenderUtil.drawString(
             var7,
-            (float)this.xA + (float)(this.getWidthA() - var7.getStringWidth(this.name)) / 2.0F,
+            (float)this.xA + (float)(this.getWidthA() - var7.getWidth(this.name)) / 2.0F,
             (float)(this.yA + 18),
             this.name,
             -16777216
@@ -56,7 +56,7 @@ public class Class4333 extends CustomGuiScreen {
       } else {
          RenderUtil.drawString(
             var7,
-            (float)this.xA + (float)(this.getWidthA() - var7.getStringWidth(this.name)) / 2.0F,
+            (float)this.xA + (float)(this.getWidthA() - var7.getWidth(this.name)) / 2.0F,
             (float)(this.yA + 10),
             this.name,
             -13619152

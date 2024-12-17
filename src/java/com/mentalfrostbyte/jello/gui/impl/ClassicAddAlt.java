@@ -67,8 +67,8 @@ public class ClassicAddAlt extends Screen {
          if (var5x != "" && var5x.contains(":")) {
             String[] var6x = var5x.split(":");
             if (var6x.length == 2) {
-               this.field21116.method13304(var6x[0].replace("\n", ""));
-               this.field21117.method13304(var6x[1].replace("\n", ""));
+               this.field21116.setTypedText(var6x[0].replace("\n", ""));
+               this.field21117.setTypedText(var6x[1].replace("\n", ""));
             }
          }
       });

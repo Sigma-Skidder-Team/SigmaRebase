@@ -4,7 +4,6 @@ import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ColorHelper;
-import com.mentalfrostbyte.jello.util.render.TextureUtil;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -118,15 +117,6 @@ public class Class4298 extends AnimatedIconPanelWrap {
          RenderSystem.disableTexture();
          RenderSystem.activeTexture(33984);
          GL11.glDisable(2929);
-         if (this.account.method34228() != null) {
-            Object var17 = null;
-
-            try {
-               var17 = TextureUtil.method32933("sf", this.account.method34228());
-            } catch (IOException var19) {
-               var19.printStackTrace();
-            }
-         }
       }
    }
 

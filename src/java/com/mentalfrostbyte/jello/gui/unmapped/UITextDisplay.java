@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 import org.lwjgl.opengl.GL11;
 
 public class UITextDisplay extends AnimatedIconPanelWrap {
@@ -26,7 +26,7 @@ public class UITextDisplay extends AnimatedIconPanelWrap {
       super(var1, var2, var3, var4, var5, var6, var7, var8, false);
    }
 
-   public UITextDisplay(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, ClientResource var9) {
+   public UITextDisplay(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, TrueTypeFont var9) {
       super(var1, var2, var3, var4, var5, var6, var7, var8, var9, false);
    }
 
@@ -44,7 +44,7 @@ public class UITextDisplay extends AnimatedIconPanelWrap {
          GL11.glAlphaFunc(519, 0.0F);
       }
 
-      if (this.field20912 != null) {
+      if (this.typedText != null) {
          RenderUtil.drawString(
             this.getFont(),
             (float)this.getXA(),

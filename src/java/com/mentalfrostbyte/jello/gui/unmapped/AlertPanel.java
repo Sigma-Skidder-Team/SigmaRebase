@@ -7,6 +7,8 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
 import net.minecraft.client.Minecraft;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,9 +134,9 @@ public class AlertPanel extends UIBase {
                String[] var6 = var5x.split(":");
                if (var6.length <= 2) {
                   if (var6.length > 0) {
-                     var2x.method13304(var6[0].replace("\n", ""));
+                     var2x.setTypedText(var6[0].replace("\n", ""));
                      if (var6.length == 2) {
-                        var20.method13304(var6[1].replace("\n", ""));
+                        var20.setTypedText(var6[1].replace("\n", ""));
                      }
                   }
                } else {
@@ -150,7 +152,7 @@ public class AlertPanel extends UIBase {
       if (var1) {
          for (CustomGuiScreen var5 : this.field21279.method13241()) {
             if (var5 instanceof UIInput) {
-               ((UIInput)var5).method13304("");
+               ((UIInput)var5).setTypedText("");
                ((UIInput)var5).method13146();
             }
          }
@@ -263,7 +265,7 @@ public class AlertPanel extends UIBase {
                this.field21281.release();
             }
 
-            this.field21281 = TextureUtil.method32933(
+            this.field21281 = BufferedImageUtil.getTexture(
                "blur", ImageUtil.method35036(0, 0, this.getWidthA(), this.getHeightA(), 5, 10, ClientColors.LIGHT_GREYISH_BLUE.getColor(), true)
             );
          } catch (IOException var5) {

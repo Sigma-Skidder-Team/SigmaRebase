@@ -11,6 +11,8 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.codec.binary.Base64;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -66,8 +68,8 @@ public class Class4348 extends AnimatedIconPanelWrap {
             try {
                BufferedImage var6 = method13578(this.field21244.getBase64EncodedIconData());
                if (var6 != null) {
-                  this.field21245 = TextureUtil.method32933("servericon", var6);
-                  this.field21246 = TextureUtil.method32933(
+                  this.field21245 = BufferedImageUtil.getTexture("servericon", var6);
+                  this.field21246 = BufferedImageUtil.getTexture(
                      "servericon", ImageUtil.method35032(ImageUtil.method35042(method13579(var6, 2.5, 2.5), 0.0F, 1.1F, 0.0F), 25)
                   );
                }

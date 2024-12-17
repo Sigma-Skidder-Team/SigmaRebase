@@ -58,7 +58,7 @@ public class Coords extends Module {
                     float var6 = 85;
                     int var7 = eventRender.method13960();
                     float var8 = 150;
-                    float var9 = (float) ResourceRegistry.JelloLightFont18.getStringWidth(xyz);
+                    float var9 = (float) ResourceRegistry.JelloLightFont18.getWidth(xyz);
                     float var10 = Math.min(1.0F, (float) var8 / var9);
                     if (this.animation.getDirection() != Direction.FORWARDS) {
                         var10 *= 0.9F + QuadraticEasing.easeInQuad(Math.min(1.0F, this.animation.calcPercent() * 8.0F), 0.0F, 1.0F, 1.0F) * 0.1F;

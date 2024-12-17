@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 
 public class Class4268 extends UIBase {
    public final int field20690;
@@ -52,8 +52,8 @@ public class Class4268 extends UIBase {
       RenderUtil.method11474(
          (float)this.xA, (float)this.yA + 3.0F * this.field20691, (float)this.widthA, (float)this.heightA, 8.0F, -986896
       );
-      ClientResource var4 = ResourceRegistry.JelloLightFont20;
-      if (this.field20912.contains("Lock")) {
+      TrueTypeFont var4 = ResourceRegistry.JelloLightFont20;
+      if (this.typedText.contains("Lock")) {
          RenderUtil.method11438(
             (float)(this.xA + 14),
             (float)(this.yA + 11) + 3.0F * this.field20691,
@@ -62,20 +62,20 @@ public class Class4268 extends UIBase {
          );
       }
 
-      if (!this.field20912.equals("Return")) {
-         if (!this.field20912.equals("Back")) {
-            if (!this.field20912.equals("Meta")) {
-               if (!this.field20912.equals("Menu")) {
-                  if (!this.field20912.equals("Space")) {
+      if (!this.typedText.equals("Return")) {
+         if (!this.typedText.equals("Back")) {
+            if (!this.typedText.equals("Meta")) {
+               if (!this.typedText.equals("Menu")) {
+                  if (!this.typedText.equals("Space")) {
                      if (this.field20693) {
                         var4 = ResourceRegistry.RegularFont20;
                      }
 
                      RenderUtil.drawString(
                         var4,
-                        (float)(this.xA + (this.widthA - var4.getStringWidth(this.field20912)) / 2),
+                        (float)(this.xA + (this.widthA - var4.getWidth(this.typedText)) / 2),
                         (float)(this.yA + 19) + 3.0F * this.field20691,
-                        this.field20912,
+                        this.typedText,
                              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.4F + (!this.field20693 ? 0.0F : 0.2F))
                      );
                   }

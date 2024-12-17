@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
+import org.newdawn.slick.TrueTypeFont;
 
 public class ButtonPanel extends UIBase {
    private static String[] field20583;
@@ -25,7 +25,7 @@ public class ButtonPanel extends UIBase {
       super(var1, var2, var3, var4, var5, var6, var7, var8, false);
    }
 
-   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, ClientResource var9) {
+   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, TrueTypeFont var9) {
       super(var1, var2, var3, var4, var5, var6, var7, var8, var9, false);
    }
 
