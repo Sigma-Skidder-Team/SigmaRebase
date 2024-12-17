@@ -31,7 +31,8 @@ public class PathFinder extends Module {
         if (this.computationThread != null && this.pathfindingClass != null) {
             Client.getInstance()
                     .getNotificationManager()
-                    .send(new Notification("AutoMiner", "Computing... (" + this.pathfindingClass.field45900 + ")", ResourceList.directionIconPNG));
+                    .send(new Notification("AutoMiner", "Computing... (" + this.pathfindingClass.field45900 + ")",
+                            ResourceList.directionIconPNG));
         }
     }
 
@@ -39,7 +40,7 @@ public class PathFinder extends Module {
     public void onRender3D(Render3DEvent event) {
         if (this.isEnabled()) {
             if (this.rayTraceResult != null) {
-                int color = MultiUtilities.applyAlpha(ClientColors.PALE_YELLOW.getColor, 0.14F);
+                int color = MultiUtilities.applyAlpha(ClientColors.PALE_YELLOW.getColor(), 0.14F);
                 GL11.glPushMatrix();
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 BlockPos pos = this.rayTraceResult.getPos();

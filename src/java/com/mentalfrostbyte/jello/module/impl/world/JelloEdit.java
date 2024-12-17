@@ -12,7 +12,6 @@ import com.mentalfrostbyte.jello.util.world.schematics.SchematicFile;
 
 import com.mentalfrostbyte.jello.util.ClientColors;
 
-
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
@@ -61,8 +60,8 @@ public class JelloEdit extends Module {
         return new BlockPos(
                 this.pos.getX() + this.schematicFile.getDataPackets().get(packetIndex).getIntegerVector().getRoundedX(),
                 this.pos.getY() + this.schematicFile.getDataPackets().get(packetIndex).getIntegerVector().getRoundedY(),
-                this.pos.getZ() + this.schematicFile.getDataPackets().get(packetIndex).getIntegerVector().getRoundedZ()
-        );
+                this.pos.getZ()
+                        + this.schematicFile.getDataPackets().get(packetIndex).getIntegerVector().getRoundedZ());
     }
 
     private BlockPos updateAndGetNextPosition() {
@@ -85,12 +84,12 @@ public class JelloEdit extends Module {
         if (schematicFile.exists() && schematicFile.isFile()) {
             this.schematicFile = new SchematicFile(schematicFile);
             if (this.schematicFile.method31836() && !this.schematicFile.getDataPackets().isEmpty()) {
-                MultiUtilities.addChatMessage(this.schematicFile.getDataPackets().size() + " blocks loaded from schematic");
+                MultiUtilities
+                        .addChatMessage(this.schematicFile.getDataPackets().size() + " blocks loaded from schematic");
                 this.pos = new BlockPos(
                         mc.player.getPosX() + this.schematicFile.getVectorCore().getX() * 0.0,
                         mc.player.getPosY() + this.schematicFile.getVectorCore().getY() * 0.0,
-                        mc.player.getPosZ() + this.schematicFile.getVectorCore().getZ() * 0.0
-                );
+                        mc.player.getPosZ() + this.schematicFile.getVectorCore().getZ() * 0.0);
                 this.updateAndGetNextPosition();
             } else {
                 MultiUtilities.addChatMessage("Unable to load schematic or schematic data is empty.");
@@ -111,16 +110,17 @@ public class JelloEdit extends Module {
                 BlockPos block = new BlockPos(
                         this.pos.getX() + data.getIntegerVector().getX(),
                         this.pos.getY() + data.getIntegerVector().getY(),
-                        this.pos.getZ() + data.getIntegerVector().getZ()
-                );
+                        this.pos.getZ() + data.getIntegerVector().getZ());
                 if (BlockUtil.getBlockFromPosition(block) == Blocks.AIR) {
                     double x = block.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
                     double y = block.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY();
                     double z = block.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
                     Box3D box3D = new Box3D(x, y, z, x + 1.0, y + 1.0, z + 1.0);
-                    RenderUtil.render3DColoredBox(box3D, MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor, 0.02F));
+                    RenderUtil.render3DColoredBox(box3D,
+                            MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor(), 0.02F));
                     GL11.glEnable(GL11.GL_LINE_SMOOTH);
-                    RenderUtil.renderWireframeBox(box3D, MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor, 0.03F));
+                    RenderUtil.renderWireframeBox(box3D,
+                            MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor(), 0.03F));
                     GL11.glColor3f(1.0F, 1.0F, 1.0F);
                 }
             }
