@@ -14,7 +14,7 @@ public class SEntityPacket implements IPacket<IClientPlayNetHandler>
 {
     protected int entityId;
     protected short posX;
-    protected short posY;
+    public short posY;
     protected short posZ;
     protected byte yaw;
     protected byte pitch;

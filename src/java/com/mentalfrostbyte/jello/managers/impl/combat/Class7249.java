@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Class7249 implements Class7251 {
-   public static final Minecraft field31119 = Minecraft.getInstance();
+   public static final Minecraft mc = Minecraft.getInstance();
    private boolean field31120 = true;
    public String field31121;
    public String field31122;
@@ -49,16 +49,12 @@ public abstract class Class7249 implements Class7251 {
       return this.field31120;
    }
 
-   public List<AbstractClientPlayerEntity> method22765() {
-      return field31119.world.getPlayers();
-   }
-
-   public List<AbstractClientPlayerEntity> method22766() {
-      return field31119.world.getPlayers();
+   public List<AbstractClientPlayerEntity> getPlayers() {
+      return mc.world.getPlayers();
    }
 
    public PlayerEntity method22767(String var1) {
-      for (PlayerEntity var5 : this.method22766()) {
+      for (PlayerEntity var5 : this.getPlayers()) {
          if (var5.getName().equals(var1)) {
             return var5;
          }
@@ -68,7 +64,7 @@ public abstract class Class7249 implements Class7251 {
    }
 
    public PlayerEntity method22768(UUID var1) {
-      for (PlayerEntity var5 : this.method22766()) {
+      for (PlayerEntity var5 : this.getPlayers()) {
          if (var5.getUniqueID().equals(var1)) {
             return var5;
          }

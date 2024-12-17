@@ -41,11 +41,11 @@ public class Class4351 extends AnimatedIconPanelWrap {
       if (profileDirectory.listFiles() != null) {
          boolean profileExists = Files.exists(new File(profileDirectory, config.getName + ".profile").toPath());
 
-         if (Client.getInstance().getModuleManager().getConfigurationManager().checkConfig(config) && !profileExists) {
-            Client.getInstance().getModuleManager().getConfigurationManager().removeConfig(config);
+         if (Client.getInstance().moduleManager.getConfigurationManager().checkConfig(config) && !profileExists) {
+            Client.getInstance().moduleManager.getConfigurationManager().removeConfig(config);
             return;
-         } else if (Client.getInstance().getModuleManager().getConfigurationManager().checkConfig(config) && profileExists) {
-            Client.getInstance().getModuleManager().getConfigurationManager().listOnly(config);
+         } else if (Client.getInstance().moduleManager.getConfigurationManager().checkConfig(config) && profileExists) {
+            Client.getInstance().moduleManager.getConfigurationManager().listOnly(config);
          }
       }
 
