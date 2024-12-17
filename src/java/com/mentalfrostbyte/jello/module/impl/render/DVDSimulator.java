@@ -7,8 +7,8 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.unmapped.ResourceList;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.util.math.vector.Vector2f;
-import mapped.Class9108;
-import mapped.RenderUtil;
+
+
 
 import java.awt.Color;
 import java.io.IOException;

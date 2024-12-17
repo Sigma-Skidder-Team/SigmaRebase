@@ -8,8 +8,8 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import mapped.InvManagerUtils;
-import mapped.InventoryScreen;
+
+
 import net.minecraft.item.Item;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.item.ItemStack;

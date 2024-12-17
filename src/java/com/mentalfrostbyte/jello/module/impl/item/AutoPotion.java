@@ -11,9 +11,9 @@ import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
 import com.mentalfrostbyte.jello.notification.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import mapped.Class3323;
-import mapped.Effect;
-import mapped.InvManagerUtils;
+
+
+
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPlayerPacket;

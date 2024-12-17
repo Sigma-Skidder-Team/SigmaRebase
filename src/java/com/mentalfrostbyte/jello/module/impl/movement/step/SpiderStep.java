@@ -14,7 +14,7 @@ import com.mentalfrostbyte.jello.module.impl.movement.Step;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import mapped.*;
+
 import net.minecraft.util.math.MathHelper;
 
 public class SpiderStep extends Module {

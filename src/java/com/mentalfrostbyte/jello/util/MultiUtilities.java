@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.util;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.util.unmapped.ClientResource;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import mapped.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.play.NetworkPlayerInfo;

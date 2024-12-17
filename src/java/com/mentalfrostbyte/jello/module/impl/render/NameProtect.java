@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.event.impl.TextReplaceEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.InputSetting;
-import mapped.*;
+
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.*;
 import net.minecraft.util.text.StringTextComponent;

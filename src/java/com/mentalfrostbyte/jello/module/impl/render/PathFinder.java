@@ -10,8 +10,8 @@ import com.mentalfrostbyte.jello.notification.Notification;
 import com.mentalfrostbyte.jello.unmapped.ResourceList;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
-import lol.ClientColors;
-import mapped.*;
+import com.mentalfrostbyte.jello.util.ClientColors;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import org.lwjgl.opengl.GL11;

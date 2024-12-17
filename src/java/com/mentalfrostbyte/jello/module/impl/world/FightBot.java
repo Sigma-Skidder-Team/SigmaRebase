@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.module.impl.misc.JelloAIBot;
 import com.mentalfrostbyte.jello.util.timer.TimerUtil;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
-import mapped.Rotations;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;

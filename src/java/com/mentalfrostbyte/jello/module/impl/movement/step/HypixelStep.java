@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import mapped.Class8906;
+
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
 

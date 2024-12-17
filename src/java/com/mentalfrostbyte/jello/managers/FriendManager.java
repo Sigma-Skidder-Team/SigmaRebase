@@ -2,11 +2,11 @@ package com.mentalfrostbyte.jello.managers;
 
 import com.mentalfrostbyte.Client;
 //import com.mentalfrostbyte.jello.command.CommandManager;
+import com.mentalfrostbyte.jello.misc.Class8906;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventKeyPress;
 import totalcross.json.JSONArray;
 import net.minecraft.entity.Entity;
-import mapped.Class8906;
 import net.minecraft.client.Minecraft;
 import totalcross.json.JSONException;
 
@@ -33,16 +33,16 @@ public class FriendManager {
         if (var1.getKey() == this.field34179.gameSettings.keyBindPickBlock.keyCode.getKeyCode()
                 && this.field34179.pointedEntity != null) {
             this.field34179.pointedEntity.getName();
-//            CommandManager commandManager = Client.getInstance().commandManager;
-//            commandManager.method30236();
+            CommandManager commandManager = Client.getInstance().commandManager;
+            commandManager.method30236();
             if (this.method26997(this.field34179.pointedEntity)) {
                 this.method27005(this.field34179.pointedEntity.getName().getUnformattedComponentText());
-//                Class8906.method32487(
-//                        commandManager.getPrefix() + " " + this.field34179.pointedEntity.getName().getUnformattedComponentText() + " is no longer your friend."
-//                );
+                Class8906.method32487(
+                        commandManager.getPrefix() + " " + this.field34179.pointedEntity.getName().getUnformattedComponentText() + " is no longer your friend."
+                );
             } else {
                 this.method27001(this.field34179.pointedEntity.getName().getUnformattedComponentText());
-//                Class8906.method32487(commandManager.getPrefix() + " " + this.field34179.pointedEntity.getName().getUnformattedComponentText() + " is now your friend.");
+                Class8906.method32487(commandManager.getPrefix() + " " + this.field34179.pointedEntity.getName().getUnformattedComponentText() + " is now your friend.");
             }
 
             this.method27009();

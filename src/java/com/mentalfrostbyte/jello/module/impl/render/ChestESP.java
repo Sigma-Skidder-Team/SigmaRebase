@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.module.impl.render.chestesp.BoxChestESP;
 import com.mentalfrostbyte.jello.module.impl.render.chestesp.OutlineChestESP;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ColorSetting;
-import lol.ClientColors;
+import com.mentalfrostbyte.jello.util.ClientColors;
 
 public class ChestESP extends ModuleWithModuleSettings {
     public ChestESP() {

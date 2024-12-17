@@ -6,9 +6,9 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import mapped.Class832;
-import mapped.InvManagerUtils;
-import mapped.VanillaMainMenuScreen;
+
+
+
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.item.Items;
 import net.minecraft.util.text.StringTextComponent;

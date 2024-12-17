@@ -9,10 +9,10 @@ import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 import com.mentalfrostbyte.jello.util.world.schematics.SchematicFile;
-import mapped.Box3D;
-import lol.ClientColors;
-import mapped.DataPacket;
-import mapped.RenderUtil;
+
+import com.mentalfrostbyte.jello.util.ClientColors;
+
+
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;

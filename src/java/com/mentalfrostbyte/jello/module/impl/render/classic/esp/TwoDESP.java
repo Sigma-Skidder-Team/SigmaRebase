@@ -8,10 +8,10 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mapped.Class7211;
-import mapped.Class9784;
-import mapped.ClientPlayerEntity;
-import mapped.RenderUtil;
+
+
+
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
