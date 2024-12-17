@@ -7,9 +7,11 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.client.*;
@@ -574,16 +576,17 @@ public class MultiUtilities {
 
     public static void method17741(int var0) {
         if (mc.gameRenderer.shaderGroup != null) {
-            mc.gameRenderer.shaderGroup.elements.get(0).method7410().getFromName("Radius").setValue((float)var0);
-            mc.gameRenderer.shaderGroup.elements.get(1).method7410().getFromName("Radius").setValue((float)var0);
+            // TODO: fix this
+            // mc.gameRenderer.shaderGroup.elements.get(0).method7410().getFromName("Radius").setValue((float)var0);
+            // mc.gameRenderer.shaderGroup.elements.get(1).method7410().getFromName("Radius").setValue((float)var0);
         }
     }
 
     public static void method17742() {
-        if (mc.gameRenderer.shaderIndex == GameRenderer.field830) {
+        if (mc.gameRenderer.shaderIndex == GameRenderer.SHADER_COUNT) {
             mc.gameRenderer.shaderGroup = null;
         } else {
-            mc.gameRenderer.loadShader(GameRenderer.field829[mc.gameRenderer.shaderIndex]);
+            mc.gameRenderer.loadShader(GameRenderer.SHADERS_TEXTURES[mc.gameRenderer.shaderIndex]);
         }
     }
 

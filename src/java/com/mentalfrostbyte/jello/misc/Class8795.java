@@ -21,6 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import org.lwjgl.opengl.GL11;
 
+// brb
+
 public class Class8795 {
     private Minecraft mc = Minecraft.getInstance();
     private List<Class9510> field39613 = new ArrayList<Class9510>();
@@ -38,8 +40,8 @@ public class Class8795 {
         this.field39613.clear();
         this.field39614 = -999.0F;
         this.field39615 = -999.0F;
-        Client.getInstance().getModuleManager().getModuleByClass(BlockFly.class).setState(false);
-        Client.getInstance().getModuleManager().getModuleByClass(Fly.class).setState(false);
+        Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).setState(false);
+        Client.getInstance().moduleManager.getModuleByClass(Fly.class).setState(false);
     }
 
     public void method31739(List<Class9510> var1) {
@@ -223,16 +225,16 @@ public class Class8795 {
                 }
 
                 this.mc.player.rotationYaw = var37;
-                if (var36 && !this.mc.player.onGround && !Client.getInstance().getModuleManager().getModuleByClass(Fly.class).isEnabled()) {
+                if (var36 && !this.mc.player.onGround && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
                     MultiUtilities.setPlayerXMotion(0.0);
                     MultiUtilities.setPlayerZMotion(0.0);
                 } else {
-                    if (Client.getInstance().getModuleManager().getModuleByClass(Fly.class).isEnabled() && !MultiUtilities.isAboveBounds(this.mc.player, 5.0F)) {
+                    if (Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled() && !MultiUtilities.isAboveBounds(this.mc.player, 5.0F)) {
                         var36 = true;
                     }
 
-                    Client.getInstance().getModuleManager().getModuleByClass(BlockFly.class).setState(var35);
-                    Client.getInstance().getModuleManager().getModuleByClass(Fly.class).setState(var36);
+                    Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).setState(var35);
+                    Client.getInstance().moduleManager.getModuleByClass(Fly.class).setState(var36);
                     if (!var17 || !var16) {
                         if (var8.field44271.method33972().method11341(this.mc.player.getPositionVec()) > 10.0) {
                             this.method31738();
