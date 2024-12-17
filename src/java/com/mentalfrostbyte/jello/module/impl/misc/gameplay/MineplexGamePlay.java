@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.event.impl.WorldLoadEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.misc.GamePlay;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SChatPacket;
 
@@ -38,11 +38,12 @@ public class MineplexGamePlay extends Module {
                 SChatPacket var5 = (SChatPacket) var4;
                 String var6 = var5.getChatComponent().getString();
                 String var7 = mc.player.getName().getString().toLowerCase();
-                if (this.field23602.getBooleanValueFromSettingName("AutoL") && var6.toLowerCase().contains("killed by " + var7 + " ")) {
+                if (this.field23602.getBooleanValueFromSettingName("AutoL")
+                        && var6.toLowerCase().contains("killed by " + var7 + " ")) {
                     this.field23602.method16761(var6);
                 }
 
-                String[] var8 = new String[]{"Green", "Red", "Blue", "Yellow"};
+                String[] var8 = new String[] { "Green", "Red", "Blue", "Yellow" };
 
                 for (int var9 = 0; var9 < var8.length; var9++) {
                     if (var6.equals(var8[var9] + " won the game!")) {
@@ -64,7 +65,8 @@ public class MineplexGamePlay extends Module {
     @EventTarget
     private void method16342(TickEvent var1) {
         if (this.isEnabled()) {
-            if (this.getBooleanValueFromSettingName("AutoGG") && this.field23604.getElapsedTime() > 5000L && this.field23603) {
+            if (this.getBooleanValueFromSettingName("AutoGG") && this.field23604.getElapsedTime() > 5000L
+                    && this.field23603) {
                 this.field23603 = false;
                 this.field23604.reset();
                 this.field23602.method16760();

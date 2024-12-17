@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.item.InvManager;
 import com.mentalfrostbyte.jello.notification.Notification;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
 import net.minecraft.item.ItemStack;
@@ -85,7 +85,8 @@ public class BowFly extends Module {
                 if (mc.player.getHeldItem(Hand.MAIN_HAND).getItem() == Items.BOW) {
                     if (InvManager.method16437(Items.field37797) == 0) {
                         if (this.field23505.getElapsedTime() > 5000L) {
-                            Client.getInstance().getNotificationManager().send(new Notification("BowFly", "You have no arrows"));
+                            Client.getInstance().getNotificationManager()
+                                    .send(new Notification("BowFly", "You have no arrows"));
                             this.field23505.reset();
                         }
 
@@ -128,7 +129,8 @@ public class BowFly extends Module {
                             mc.getConnection().sendPacket(new CPlayerTryUseItemPacket(Hand.MAIN_HAND));
                         }
                     } else {
-                        mc.getConnection().sendPacket(new CPlayerDiggingPacket(CPlayerDiggingPacket.Action.RELEASE_USE_ITEM, BlockPos.ZERO, Direction.DOWN));
+                        mc.getConnection().sendPacket(new CPlayerDiggingPacket(
+                                CPlayerDiggingPacket.Action.RELEASE_USE_ITEM, BlockPos.ZERO, Direction.DOWN));
                         this.field23504 = 0;
                     }
                 }

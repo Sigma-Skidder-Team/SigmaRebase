@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.*;
 
@@ -20,8 +20,10 @@ public class FakeLag extends Module {
 
     public FakeLag() {
         super(ModuleCategory.WORLD, "FakeLag", "Other players will see you lagging !");
-        this.registerSetting(new NumberSetting<Float>("Lag duration", "The lags duration", 0.3F, Float.class, 0.1F, 2.0F, 0.01F));
-        this.registerSetting(new NumberSetting<Float>("Delay", "The lags cooldown", 0.4F, Float.class, 0.1F, 2.0F, 0.01F));
+        this.registerSetting(
+                new NumberSetting<Float>("Lag duration", "The lags duration", 0.3F, Float.class, 0.1F, 2.0F, 0.01F));
+        this.registerSetting(
+                new NumberSetting<Float>("Delay", "The lags cooldown", 0.4F, Float.class, 0.1F, 2.0F, 0.01F));
         this.registerSetting(new BooleanSetting("Combat", "Delay combat packets", true));
         this.registerSetting(new BooleanSetting("Blocks", "Delay blocks packets", true));
         this.registerSetting(new BooleanSetting("Ping", "Delay ping packets", true));
@@ -99,7 +101,8 @@ public class FakeLag extends Module {
             return this.getBooleanValueFromSettingName("Combat");
         }
 
-        if (packet instanceof CPlayerTryUseItemPacket || packet instanceof CPlayerDiggingPacket || packet instanceof CPlayerTryUseItemOnBlockPacket) {
+        if (packet instanceof CPlayerTryUseItemPacket || packet instanceof CPlayerDiggingPacket
+                || packet instanceof CPlayerTryUseItemOnBlockPacket) {
             return this.getBooleanValueFromSettingName("Blocks");
         }
 

@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.PremiumModule;
 import com.mentalfrostbyte.jello.notification.Notification;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -35,8 +35,12 @@ public class Cubecraft2Fly extends PremiumModule {
             this.field23699 = true;
         }
 
-        if (MultiUtilities.isCubecraft()/* && JelloPortal.getCurrentVersionApplied() == ViaVerList._1_8_x.getVersionNumber()*/) {
-            Client.getInstance().getNotificationManager().send(new Notification("Cubecraft2 fly", "This fly was made for 1.9+ only"));
+        if (MultiUtilities.isCubecraft()/*
+                                         * && JelloPortal.getCurrentVersionApplied() ==
+                                         * ViaVerList._1_8_x.getVersionNumber()
+                                         */) {
+            Client.getInstance().getNotificationManager()
+                    .send(new Notification("Cubecraft2 fly", "This fly was made for 1.9+ only"));
         }
 
         this.field23698.stop();
@@ -97,8 +101,10 @@ public class Cubecraft2Fly extends PremiumModule {
                     MovementUtil.setSpeed(var1, 0.28);
                 }
             } else {
-                var1.setY(!mc.gameSettings.keyBindJump.isKeyDown() ? (!this.field23699 ? 1.0E-4 : -0.99) : (!this.field23699 ? 0.99 : 1.0E-4));
-                MovementUtil.setSpeed(var1, !mc.gameSettings.keyBindJump.isKeyDown() ? (!this.field23699 ? 3.7 : 2.8) : (!this.field23699 ? 2.8 : 3.7));
+                var1.setY(!mc.gameSettings.keyBindJump.isKeyDown() ? (!this.field23699 ? 1.0E-4 : -0.99)
+                        : (!this.field23699 ? 0.99 : 1.0E-4));
+                MovementUtil.setSpeed(var1, !mc.gameSettings.keyBindJump.isKeyDown() ? (!this.field23699 ? 3.7 : 2.8)
+                        : (!this.field23699 ? 2.8 : 3.7));
             }
 
             MultiUtilities.setPlayerYMotion(var1.getY());

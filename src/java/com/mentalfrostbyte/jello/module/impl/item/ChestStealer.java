@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.movement.BlockFly;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 
 import net.minecraft.client.gui.screen.inventory.ChestScreen;
@@ -43,7 +43,8 @@ public class ChestStealer extends Module {
         this.registerSetting(new BooleanSetting("Fix ViaVersion", "Fixes ViaVersion delay.", true));
         this.registerSetting(new BooleanSetting("Close", "Automatically closes the chest when done", true));
         this.registerSetting(new NumberSetting<Float>("Delay", "Click delay", 0.2F, Float.class, 0.0F, 1.0F, 0.01F));
-        this.registerSetting(new NumberSetting<Float>("First Item", "Tick delay before grabbing first item", 0.2F, Float.class, 0.0F, 1.0F, 0.01F));
+        this.registerSetting(new NumberSetting<Float>("First Item", "Tick delay before grabbing first item", 0.2F,
+                Float.class, 0.0F, 1.0F, 0.01F));
         this.field23622 = new ConcurrentHashMap<ChestTileEntity, Boolean>();
     }
 
@@ -91,11 +92,9 @@ public class ChestStealer extends Module {
                     float var10 = (float) var7.getPos().getY() + 0.1F;
                     float var11 = (float) var7.getPos().getZ();
                     if (!this.field23621
-                            && (
-                            this.field23625 == null
-                                    || mc.player.getDistanceNearest(var9, var10, var11)
-                                    > mc.player.getDistanceNearest(var9, var10, var11)
-                    )
+                            && (this.field23625 == null
+                                    || mc.player.getDistanceNearest(var9, var10, var11) > mc.player
+                                            .getDistanceNearest(var9, var10, var11))
                             && !var8
                             && Math.sqrt(mc.player.getDistanceNearest(var9, var10, var11)) < 5.0
                             && this.field23624.getElapsedTime() > 1000L
@@ -105,7 +104,8 @@ public class ChestStealer extends Module {
                                 && var12.getPos().getY() == var7.getPos().getY()
                                 && var12.getPos().getZ() == var7.getPos().getZ()) {
                             this.field23625 = var7;
-                            float[] var13 = RotationHelper.method34144((double) var9 + 0.5, (double) var11 + 0.5, (double) var10 + 0.35);
+                            float[] var13 = RotationHelper.method34144((double) var9 + 0.5, (double) var11 + 0.5,
+                                    (double) var10 + 0.35);
                             var1.setYaw(var13[0]);
                             var1.setPitch(var13[1]);
                             var14 = true;
@@ -143,7 +143,8 @@ public class ChestStealer extends Module {
                     this.field23623.start();
                 }
 
-                if (!((float) Client.getInstance().getPlayerTracker().getMode() < this.getNumberValueBySettingName("Delay") * 20.0F)) {
+                if (!((float) Client.getInstance().getPlayerTracker().getMode() < this
+                        .getNumberValueBySettingName("Delay") * 20.0F)) {
                     if (InvManagerUtils.method25875()) {
                         if (this.getBooleanValueFromSettingName("Close")) {
                             mc.player.method2772();
@@ -162,7 +163,8 @@ public class ChestStealer extends Module {
                                     ItemStack var8 = var7.getStack();
                                     if (!this.method16369(var8)) {
                                         if (!this.field23621) {
-                                            if ((float) this.field23623.getElapsedTime() < this.getNumberValueBySettingName("First Item") * 1000.0F) {
+                                            if ((float) this.field23623.getElapsedTime() < this
+                                                    .getNumberValueBySettingName("First Item") * 1000.0F) {
                                                 return;
                                             }
 
@@ -170,9 +172,11 @@ public class ChestStealer extends Module {
                                         }
 
                                         if (!this.getBooleanValueFromSettingName("Fix ViaVersion")) {
-                                            InvManagerUtils.method25869(var4.field4727.windowId, var7.slotNumber, 0, ClickType.QUICK_MOVE, mc.player);
+                                            InvManagerUtils.method25869(var4.field4727.windowId, var7.slotNumber, 0,
+                                                    ClickType.QUICK_MOVE, mc.player);
                                         } else {
-                                            InvManagerUtils.fixedClick(var4.field4727.windowId, var7.slotNumber, 0, ClickType.QUICK_MOVE, mc.player, true);
+                                            InvManagerUtils.fixedClick(var4.field4727.windowId, var7.slotNumber, 0,
+                                                    ClickType.QUICK_MOVE, mc.player, true);
                                         }
 
                                         this.field23623.reset();
@@ -259,9 +263,7 @@ public class ChestStealer extends Module {
                         "potions",
                         "utility",
                         "choose",
-                        "modalidades"
-                )
-        );
+                        "modalidades"));
         List<BlockPos> var5 = BlockUtil.method34561(8.0F);
         String var6 = var1.getNarrationMessage().replaceAll("§.", "").toLowerCase();
 
@@ -273,7 +275,8 @@ public class ChestStealer extends Module {
         }
 
         for (BlockPos var11 : var5) {
-            if (BlockUtil.getBlockFromPosition(var11) instanceof ChestBlock || BlockUtil.getBlockFromPosition(var11) instanceof Class3467) {
+            if (BlockUtil.getBlockFromPosition(var11) instanceof ChestBlock
+                    || BlockUtil.getBlockFromPosition(var11) instanceof Class3467) {
                 return true;
             }
         }
@@ -295,8 +298,10 @@ public class ChestStealer extends Module {
                     if (var4 instanceof BlockItem) {
                         return !BlockFly.method16733(var4);
                     } else if (!(var4 instanceof Class3308)
-                            && (!(var4 instanceof BowItem) || !Client.getInstance().moduleManager.getModuleByClass(InvManager.class).getBooleanValueFromSettingName("Archery"))) {
-                        if (var4 == Items.WATER_BUCKET && Client.getInstance().moduleManager.getModuleByClass(AutoMLG.class).isEnabled()) {
+                            && (!(var4 instanceof BowItem) || !Client.getInstance().moduleManager
+                                    .getModuleByClass(InvManager.class).getBooleanValueFromSettingName("Archery"))) {
+                        if (var4 == Items.WATER_BUCKET
+                                && Client.getInstance().moduleManager.getModuleByClass(AutoMLG.class).isEnabled()) {
                             return false;
                         } else {
                             ArrayList var5 = new ArrayList<Item>(
@@ -325,10 +330,9 @@ public class ChestStealer extends Module {
                                             Items.field37972,
                                             Items.field37316,
                                             Items.SNOWBALL,
-                                            Items.field37906
-                                    )
-                            );
-                            return var1 == null || var5.contains(var4) || var4.method11717().getString().toLowerCase().contains("seed");
+                                            Items.field37906));
+                            return var1 == null || var5.contains(var4)
+                                    || var4.method11717().getString().toLowerCase().contains("seed");
                         }
                     } else {
                         return true;

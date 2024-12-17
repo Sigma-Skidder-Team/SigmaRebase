@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.ClickType;
@@ -29,8 +29,10 @@ public class AutoArmor extends Module {
     public AutoArmor() {
         super(ModuleCategory.ITEM, "AutoArmor", "Automaticly equips your armor");
         this.registerSetting(new BooleanSetting("Fake Items", "Bypass for fake items (AAC).", false));
-        this.registerSetting(new NumberSetting<Float>("Delay", "Inventory clicks delay", 0.3F, Float.class, 0.0F, 1.0F, 0.01F));
-        this.registerSetting(new ModeSetting("Mode", "The way it will move armor in your inventory", 0, "Basic", "OpenInv", "FakeInv"));
+        this.registerSetting(
+                new NumberSetting<Float>("Delay", "Inventory clicks delay", 0.3F, Float.class, 0.0F, 1.0F, 0.01F));
+        this.registerSetting(new ModeSetting("Mode", "The way it will move armor in your inventory", 0, "Basic",
+                "OpenInv", "FakeInv"));
         this.registerSetting(new ModeSetting("Elytra", "Elytra Equip Mode", 0, "Ignore", "Equip", "On Use"));
     }
 
@@ -57,7 +59,8 @@ public class AutoArmor extends Module {
                 this.timer.start();
             }
 
-            if (!this.getStringSettingValueByName("Mode").equals("OpenInv") || mc.currentScreen instanceof InventoryScreen) {
+            if (!this.getStringSettingValueByName("Mode").equals("OpenInv")
+                    || mc.currentScreen instanceof InventoryScreen) {
                 long var4 = (long) (this.getNumberValueBySettingName("Delay") * 1000.0F);
                 String var6 = this.getStringSettingValueByName("Elytra");
                 switch (var6) {
@@ -68,7 +71,8 @@ public class AutoArmor extends Module {
                         this.field23799 = true;
                         break;
                     case "On Use":
-                        if (!mc.player.onGround && mc.player.jumpTicks == 0 && mc.player.isJumping && !this.field23800) {
+                        if (!mc.player.onGround && mc.player.jumpTicks == 0 && mc.player.isJumping
+                                && !this.field23800) {
                             this.field23799 = true;
                         } else if (mc.player.onGround) {
                             this.field23799 = false;
@@ -80,7 +84,8 @@ public class AutoArmor extends Module {
                     this.isInventoryOpen = false;
                 }
 
-                if ((mc.currentScreen == null || mc.currentScreen instanceof InventoryScreen || mc.currentScreen instanceof ChatScreen)
+                if ((mc.currentScreen == null || mc.currentScreen instanceof InventoryScreen
+                        || mc.currentScreen instanceof ChatScreen)
                         && this.timer.getElapsedTime() > var4
                         && (float) Client.getInstance().getPlayerTracker().getMode() > (float) var4 / 50.0F) {
                     field23798 = false;
@@ -97,7 +102,8 @@ public class AutoArmor extends Module {
                     }
                 }
 
-                if (!this.isInventoryOpen && !(mc.currentScreen instanceof InventoryScreen) && this.timer.getElapsedTime() > 0L) {
+                if (!this.isInventoryOpen && !(mc.currentScreen instanceof InventoryScreen)
+                        && this.timer.getElapsedTime() > 0L) {
                     this.isInventoryOpen = true;
                     mc.getConnection().sendPacket(new CCloseWindowPacket(-1));
                 }
@@ -119,27 +125,31 @@ public class AutoArmor extends Module {
                     ItemStack var9 = mc.player.container.getSlot(var12).getStack();
                     if (var9.getItem() instanceof Class3256
                             && this.field23799
-                            && !(mc.player.inventory.getStackInSlot(36 + EquipmentSlotType.CHEST.getIndex()).getItem() instanceof Class3256)) {
+                            && !(mc.player.inventory.getStackInSlot(36 + EquipmentSlotType.CHEST.getIndex())
+                                    .getItem() instanceof Class3256)) {
                         Class3256 var13 = (Class3256) var9.getItem();
                         if (EquipmentSlotType.CHEST == var7
-                                && (
-                                !Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class).getBooleanValueFromSettingName("Fake Items")
-                                        || Client.getInstance().getSlotChangeTracker().method33238(var12) >= 1500L
-                        )) {
+                                && (!Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class)
+                                        .getBooleanValueFromSettingName("Fake Items")
+                                        || Client.getInstance().getSlotChangeTracker().method33238(var12) >= 1500L)) {
                             this.method16617(var1);
-                            if (!(mc.player.inventory.getStackInSlot(36 + var7.getIndex()).getItem() instanceof Class3280)) {
+                            if (!(mc.player.inventory.getStackInSlot(36 + var7.getIndex())
+                                    .getItem() instanceof Class3280)) {
                                 InvManagerUtils.click(8 - var7.getIndex(), 0, true);
                             }
 
-                            InvManagerUtils.fixedClick(mc.player.container.windowId, var12, 0, ClickType.QUICK_MOVE, mc.player, true);
+                            InvManagerUtils.fixedClick(mc.player.container.windowId, var12, 0, ClickType.QUICK_MOVE,
+                                    mc.player, true);
                             this.timer.reset();
                             field23798 = true;
                             if (this.getStringSettingValueByName("Elytra").equals("On Use")) {
-                                mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.START_FALL_FLYING));
+                                mc.getConnection().sendPacket(new CEntityActionPacket(mc.player,
+                                        CEntityActionPacket.Action.START_FALL_FLYING));
                                 mc.player.setFlag(7, true);
                             }
 
-                            if (Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class).getNumberValueBySettingName("Delay") > 0.0F) {
+                            if (Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class)
+                                    .getNumberValueBySettingName("Delay") > 0.0F) {
                                 return;
                             }
                         }
@@ -148,10 +158,9 @@ public class AutoArmor extends Module {
                         if (var10.getType() == var7
                                 && InvManagerUtils.isBestArmorPiece(var9)
                                 && InvManagerUtils.getArmorProtectionValue(var9) > 0
-                                && (
-                                !Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class).getBooleanValueFromSettingName("Fake Items")
-                                        || Client.getInstance().getSlotChangeTracker().method33238(var12) >= 1500L
-                        )) {
+                                && (!Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class)
+                                        .getBooleanValueFromSettingName("Fake Items")
+                                        || Client.getInstance().getSlotChangeTracker().method33238(var12) >= 1500L)) {
                             this.method16617(var1);
                             Item var11 = mc.player.inventory.getStackInSlot(36 + var10.getType().getIndex()).getItem();
                             if (!(var11 instanceof Class3256)) {
@@ -162,10 +171,12 @@ public class AutoArmor extends Module {
                                 InvManagerUtils.click(8 - var7.getIndex(), 0, true);
                             }
 
-                            InvManagerUtils.fixedClick(mc.player.container.windowId, var12, 0, ClickType.QUICK_MOVE, mc.player, true);
+                            InvManagerUtils.fixedClick(mc.player.container.windowId, var12, 0, ClickType.QUICK_MOVE,
+                                    mc.player, true);
                             this.timer.reset();
                             field23798 = true;
-                            if (Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class).getNumberValueBySettingName("Delay") > 0.0F) {
+                            if (Client.getInstance().moduleManager.getModuleByClass(AutoArmor.class)
+                                    .getNumberValueBySettingName("Delay") > 0.0F) {
                                 return;
                             }
                         }
@@ -176,7 +187,12 @@ public class AutoArmor extends Module {
     }
 
     private void method16617(boolean var1) {
-        if (var1 && this.isInventoryOpen && !(mc.currentScreen instanceof InventoryScreen)/* && JelloPortal.getCurrentVersionApplied() <= ViaVerList._1_11_1_or_2.getVersionNumber()*/) {
+        if (var1 && this.isInventoryOpen && !(mc.currentScreen instanceof InventoryScreen)/*
+                                                                                           * && JelloPortal.
+                                                                                           * getCurrentVersionApplied()
+                                                                                           * <= ViaVerList._1_11_1_or_2.
+                                                                                           * getVersionNumber()
+                                                                                           */) {
             mc.getConnection().sendPacket(new CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
             this.isInventoryOpen = false;
         }

@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.PremiumModule;
 import com.mentalfrostbyte.jello.module.impl.misc.JelloAIBot;
-import com.mentalfrostbyte.jello.util.timer.TimerUtil;
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 
@@ -44,7 +44,8 @@ public class FightBot extends PremiumModule {
                     float reachDistance = mc.playerController.getBlockReachDistance();
 
                     double distanceToTarget = mc.player.getDistance(this.targetEntity);
-                    if (distanceToTarget <= reachDistance && mc.player.getCooledAttackStrength(0.5F) >= 1.0 && timer.getElapsedTime() > 90L) {
+                    if (distanceToTarget <= reachDistance && mc.player.getCooledAttackStrength(0.5F) >= 1.0
+                            && timer.getElapsedTime() > 90L) {
                         mc.player.rotationYaw = rots.yaw;
                         mc.player.rotationPitch = rots.pitch;
                         mc.playerController.attackEntity(mc.player, targetEntity);
@@ -69,7 +70,8 @@ public class FightBot extends PremiumModule {
         List<Entity> entities = Lists.newArrayList(mc.world.getAllEntities());
         entities.remove(mc.player);
 
-        entities.removeIf(entity -> !(entity instanceof PlayerEntity) || !Client.getInstance().getCombatManager().isTargetABot(entity));
+        entities.removeIf(entity -> !(entity instanceof PlayerEntity)
+                || !Client.getInstance().getCombatManager().isTargetABot(entity));
 
         List<Entity> validTargets = BlockUtil.getVisibleEntities(entities);
         return validTargets.size() <= 1 ? validTargets : validTargets.subList(0, Math.min(3, validTargets.size() - 1));
