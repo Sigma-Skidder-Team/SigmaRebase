@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.world.disabler;
 
+import com.mentalfrostbyte.jello.misc.Class8897;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
@@ -55,7 +56,7 @@ public class ViperDisabler extends Module {
                     mc.getConnection().sendPacket(positionPacket);
                 }
 
-                mc.player.field6120 = 0.0;
+                mc.player.setPosition(mc.player.getPosX(), 0.0, mc.player.getPosZ());
                 if (mc.player.ticksExisted <= 1) {
                     this.pendingEvents.clear();
                 }

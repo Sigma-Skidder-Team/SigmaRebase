@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import com.mentalfrostbyte.jello.notification.Notification;
+import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.network.play.server.SPlayerListItemPacket;
 import net.minecraft.util.text.ITextComponent;

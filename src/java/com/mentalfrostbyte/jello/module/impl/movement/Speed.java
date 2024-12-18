@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
 import com.mentalfrostbyte.jello.module.impl.movement.speed.*;
-import com.mentalfrostbyte.jello.notification.Notification;
+import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 

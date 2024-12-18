@@ -7,7 +7,7 @@ import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.PremiumModule;
-import com.mentalfrostbyte.jello.notification.Notification;
+import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
