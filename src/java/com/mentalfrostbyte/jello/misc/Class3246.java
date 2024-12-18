@@ -9,10 +9,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.ComparatorMode;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -53,7 +50,7 @@ public class Class3246 extends Class3247 implements Class3245 {
     }
 
     private int method11660(World var1, BlockPos var2, BlockState var3) {
-        return var3.get(field18706) != ComparatorMode.field326
+        return var3.get(field18706) != ComparatorMode.SUBTRACT
                 ? this.method11662(var1, var2, var3)
                 : Math.max(this.method11662(var1, var2, var3) - this.method11668(var1, var2, var3), 0);
     }
@@ -63,7 +60,7 @@ public class Class3246 extends Class3247 implements Class3245 {
         int var6 = this.method11662(var1, var2, var3);
         if (var6 != 0) {
             int var7 = this.method11668(var1, var2, var3);
-            return var6 > var7 ? true : var6 == var7 && var3.<ComparatorMode>get(field18706) == ComparatorMode.field325;
+            return var6 > var7 ? true : var6 == var7 && var3.<ComparatorMode>get(field18706) == ComparatorMode.COMPARE;
         } else {
             return false;
         }
@@ -94,8 +91,8 @@ public class Class3246 extends Class3247 implements Class3245 {
 
     @Nullable
     private ItemFrameEntity method11663(World var1, Direction var2, BlockPos var3) {
-        List var6 = var1.<ItemFrameEntity>getEntitiesInAABBexcluding(
-                ItemFrameEntity.class,
+        List var6 = var1.getEntitiesInAABBexcluding(
+                null,
                 new AxisAlignedBB(
                         (double)var3.getX(),
                         (double)var3.getY(),
@@ -112,9 +109,9 @@ public class Class3246 extends Class3247 implements Class3245 {
     @Override
     public ActionResultType onBlockActivated(BlockState var1, World var2, BlockPos var3, PlayerEntity var4, Hand var5, BlockRayTraceResult var6) {
         if (var4.abilities.allowEdit) {
-            var1 = var1.method23459(field18706);
-            float var9 = var1.get(field18706) != ComparatorMode.field326 ? 0.5F : 0.55F;
-            var2.playSound(var4, var3, SoundEvents.field26462, SoundCategory.field14732, 0.3F, var9);
+            var1 = var1.func_235896_a_(field18706);
+            float var9 = var1.get(field18706) != ComparatorMode.SUBTRACT ? 0.5F : 0.55F;
+            var2.playSound(var4, var3, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, var9);
             var2.setBlockState(var3, var1, 2);
             this.method11665(var2, var3, var1);
             return ActionResultType.func_233537_a_(var2.isRemote);
