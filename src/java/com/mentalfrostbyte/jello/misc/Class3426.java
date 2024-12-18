@@ -47,6 +47,7 @@ public class Class3246 extends Class3247 implements Class3245 {
         return 2;
     }
 
+
     @Override
     public int method11659(IBlockReader var1, BlockPos var2, BlockState var3) {
         TileEntity var6 = var1.getTileEntity(var2);
