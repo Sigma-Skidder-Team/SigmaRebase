@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.module;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 
-public class PremiumModule extends Module{
+public class PremiumModule extends Module {
 
     public PremiumModule(ModuleCategory category, String name, String description) {
         super(category, name, description);
