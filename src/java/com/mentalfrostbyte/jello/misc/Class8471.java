@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Class8471 {
-    public static Class2403 method29869(File var0) {
+    public static Class2403 loadNoteBlockSongFromFile(File var0) {
         try {
             return method29871(new FileInputStream(var0), var0);
         } catch (FileNotFoundException var4) {

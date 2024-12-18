@@ -332,8 +332,8 @@ public class NoteblockPlayer extends Module {
                     return;
                 }
             } else {
-                File var3 = new File(Client.getInstance().file + "/nbs/" + this.getStringSettingValueByName("Song"));
-                this.noteBlockSong = Class8471.method29869(var3);
+                File songFile = new File(Client.getInstance().file + "/nbs/" + this.getStringSettingValueByName("Song"));
+                this.noteBlockSong = Class8471.loadNoteBlockSongFromFile(songFile);
                 if (this.noteBlockSong == null) {
                     MultiUtilities.addChatMessage("§cError loading song! Make sure song is saved as <= V3 format");
                     this.setEnabled(false);
