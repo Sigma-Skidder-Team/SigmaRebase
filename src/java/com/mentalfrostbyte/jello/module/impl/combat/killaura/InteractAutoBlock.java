@@ -1,7 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.combat.killaura;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class1018;
 import com.mentalfrostbyte.jello.misc.Class9629;
+import com.mentalfrostbyte.jello.misc.TimedEntity;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
 import com.mentalfrostbyte.jello.module.impl.combat.Teams;
@@ -11,6 +13,7 @@ import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.SwordItem;
@@ -101,9 +104,9 @@ public class InteractAutoBlock {
             var4++;
         }
 
-        if (this.mc.player.method2973() > 1.26F && this.parent.getBooleanValueFromSettingName("Cooldown")) {
+        if (this.mc.player.getCooldownPeriod() > 1.26F && this.parent.getBooleanValueFromSettingName("Cooldown")) {
             int var11 = !var5 ? 1 : 2;
-            float var12 = this.mc.player.method2973() - (float)this.mc.player.ticksSinceLastSwing - (float)var11;
+            float var12 = this.mc.player.getCooldownPeriod() - (float)this.mc.player.ticksSinceLastSwing - (float)var11;
             return var12 <= 0.0F && var12 > -1.0F;
         } else if (var4 != 2) {
             if (var4 < 2) {
@@ -157,7 +160,7 @@ public class InteractAutoBlock {
         }
 
         Iterator<TimedEntity> entities = timedEntityList.iterator();
-        ModuleWithModuleSettings disabler = (ModuleWithModuleSettings) Client.getInstance().getModuleManager().getModuleByClass(Disabler.class);
+        ModuleWithModuleSettings disabler = (ModuleWithModuleSettings) Client.getInstance().moduleManager.getModuleByClass(Disabler.class);
         float ping = 150.0F;
         if (disabler.isEnabled() && disabler.getStringSettingValueByName("Type").equalsIgnoreCase("PingSpoof")) {
             ping += disabler.method16726().getNumberValueBySettingName("Lag");
@@ -168,7 +171,7 @@ public class InteractAutoBlock {
             Entity ent = timedEntity.getEntity();
             if (ent == this.mc.player || ent == Blink.clientPlayerEntity) {
                 entities.remove();
-            } else if (Client.getInstance().getFriendManager().method26997(ent)) {
+            } else if (Client.getInstance().friendManager.method26997(ent)) {
                 entities.remove();
             } else if (!(ent instanceof LivingEntity)) {
                 entities.remove();
@@ -180,7 +183,7 @@ public class InteractAutoBlock {
                 entities.remove();
             } else if (!this.parent.getBooleanValueFromSettingName("Players") && ent instanceof PlayerEntity) {
                 entities.remove();
-            } else if (ent instanceof PlayerEntity && Client.getInstance().getCombatManager().isTargetABot(ent)) {
+            } else if (ent instanceof PlayerEntity && Client.getInstance().combatManager.isTargetABot(ent)) {
                 entities.remove();
             } else if (!this.parent.getBooleanValueFromSettingName("Invisible") && ent.isInvisible()) {
                 entities.remove();
