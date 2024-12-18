@@ -1,6 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class2403;
+import com.mentalfrostbyte.jello.misc.Class7303;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
@@ -39,7 +41,7 @@ public class NoteblockPlayer extends Module {
 
     public NoteblockPlayer() {
         super(ModuleCategory.MISC, "NoteblockPlayer", "Plays noteblocks! Needs NBS files in sigma5/nbs");
-        File var3 = new File(Client.getInstance().getFile() + "/nbs");
+        File var3 = new File(Client.getInstance().file + "/nbs");
         if (var3.exists()) {
             this.field23640 = new ArrayList<>(Arrays.asList(var3.list()));
 
@@ -193,7 +195,7 @@ public class NoteblockPlayer extends Module {
                 Rots.rotating = true;
                 Rots.prevYaw = var6[0];
                 Rots.prevPitch = var6[1];
-                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.onGround));
+                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
                 Rots.yaw = var6[0];
                 Rots.pitch = var6[1];
 
@@ -218,7 +220,7 @@ public class NoteblockPlayer extends Module {
                 Rots.rotating = true;
                 Rots.prevYaw = var6[0];
                 Rots.prevPitch = var6[1];
-                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.onGround));
+                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
                 Rots.yaw = var6[0];
                 Rots.pitch = var6[1];
 
