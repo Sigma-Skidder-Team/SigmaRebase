@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.spider;
 
+import com.mentalfrostbyte.jello.misc.Class9629;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventBlockCollision;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
@@ -100,8 +101,8 @@ public class MinemenSpider extends Module {
         if (this.isEnabled() && event.isPre()) {
             Class9629 var4 = MultiUtilities.method17760(1.0E-4);
             if (this.getBooleanValueFromSettingName("Ceiling")
-                    && !mc.player.onGround
-                    && mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.offset(0.0, 1.0E-6, 0.0)).count() > 0L) {
+                    && !mc.player.isOnGround()
+                    && mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(0.0, 1.0E-6, 0.0)).count() > 0L) {
                 event.setY(event.getY() + 4.9E-7);
             }
 

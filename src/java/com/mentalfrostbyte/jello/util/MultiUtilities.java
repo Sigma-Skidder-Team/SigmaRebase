@@ -2,6 +2,7 @@ package com.mentalfrostbyte.jello.util;
 
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.misc.Class2258;
+import com.mentalfrostbyte.jello.misc.Class9629;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
 import net.minecraft.client.Minecraft;
