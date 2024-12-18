@@ -73,8 +73,8 @@ public class NoteblockPlayer extends Module {
         GL11.glDepthMask(false);
         GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
         Vector3d var9 = new Vector3d(0.0, 0.0, 1.0)
-                .method11350(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
-                .method11351(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
+                .rotatePitch(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
+                .rotateYaw(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
         GL11.glBegin(1);
         GL11.glVertex3d(var9.x, var9.y, var9.z);
         GL11.glVertex3d(var3, var5, var7);
