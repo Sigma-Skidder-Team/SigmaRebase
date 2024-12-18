@@ -17,6 +17,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -116,21 +117,21 @@ public class Class3246 extends Class3247 implements Class3245 {
             var2.playSound(var4, var3, SoundEvents.field26462, SoundCategory.field14732, 0.3F, var9);
             var2.setBlockState(var3, var1, 2);
             this.method11665(var2, var3, var1);
-            return ActionResultType.method9002(var2.isRemote);
+            return ActionResultType.func_233537_a_(var2.isRemote);
         } else {
-            return ActionResultType.field14820;
+            return ActionResultType.FAIL;
         }
     }
 
     @Override
     public void method11664(World var1, BlockPos var2, BlockState var3) {
-        if (!var1.method6860().method20720(var2, this)) {
+        if (!var1.getPendingBlockTicks().isTickPending(var2, this)) {
             int var6 = this.method11660(var1, var2, var3);
             TileEntity var7 = var1.getTileEntity(var2);
             int var8 = !(var7 instanceof Class963) ? 0 : ((Class963)var7).method3930();
             if (var6 != var8 || var3.<Boolean>get(field18708) != this.method11661(var1, var2, var3)) {
-                Class2199 var9 = !this.method11673(var1, var2, var3) ? Class2199.field14370 : Class2199.field14369;
-                var1.method6860().method20719(var2, this, 2, var9);
+                TickPriority var9 = !this.method11673(var1, var2, var3) ? TickPriority.NORMAL : TickPriority.HIGH;
+                var1.getPendingBlockTicks().scheduleTick(var2, this, 2, var9);
             }
         }
     }
@@ -145,7 +146,7 @@ public class Class3246 extends Class3247 implements Class3245 {
             var9.method3931(var6);
         }
 
-        if (var8 != var6 || var3.<ComparatorMode>get(field18706) == ComparatorMode.field325) {
+        if (var8 != var6 || var3.<ComparatorMode>get(field18706) == ComparatorMode.COMPARE) {
             boolean var11 = this.method11661(var1, var2, var3);
             boolean var10 = var3.<Boolean>get(field18708);
             if (var10 && !var11) {
