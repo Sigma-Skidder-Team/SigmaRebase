@@ -145,7 +145,7 @@ public class Class9110 {
 
     public static boolean method33984(BlockPos var0) {
         for (Class9485 var6 : field41870) {
-            BlockState var7 = field41868.world.getBlockState(var0.method8335(var6.field44096, var6.field44097, var6.field44098));
+            BlockState var7 = field41868.world.getBlockState(var0.add(var6.field44096, var6.field44097, var6.field44098));
             if (var7.getBlock() == Blocks.WATER || var7.getBlock() == Blocks.LAVA) {
                 return true;
             }
@@ -156,7 +156,7 @@ public class Class9110 {
 
     public static boolean method33985(BlockPos var0) {
         for (Class9485 var6 : field41870) {
-            BlockState var7 = field41868.world.getBlockState(var0.method8335(var6.field44096, var6.field44097, var6.field44098));
+            BlockState var7 = field41868.world.getBlockState(var0.add(var6.field44096, var6.field44097, var6.field44098));
             if (var7.isAir()) {
                 return false;
             }
@@ -167,14 +167,14 @@ public class Class9110 {
 
     public boolean method33986() {
         for (Class9485 var6 : field41870) {
-            BlockState var7 = field41868.world.getBlockState(this.method33979().method8335(var6.field44096, var6.field44097, var6.field44098));
+            BlockState var7 = field41868.world.getBlockState(this.method33979().add(var6.field44096, var6.field44097, var6.field44098));
             if (var7.getBlock() == Blocks.WATER || var7.getBlock() == Blocks.LAVA) {
                 return true;
             }
         }
 
         for (Class9485 var11 : field41870) {
-            BlockState var12 = field41868.world.getBlockState(this.method33979().method8335(var11.field44096, var11.field44097 + 1.0, var11.field44098));
+            BlockState var12 = field41868.world.getBlockState(this.method33979().add(var11.field44096, var11.field44097 + 1.0, var11.field44098));
             if (var12.getBlock() == Blocks.WATER || var12.getBlock() == Blocks.LAVA) {
                 return true;
             }
@@ -192,7 +192,7 @@ public class Class9110 {
 
     public boolean method33988(BlockPos var1) {
         return !this.field41869.field44283.contains(var1.toLong())
-                ? Minecraft.getInstance().world.getBlockState(var1).method23414(field41868.world, var1).isEmpty()
+                ? Minecraft.getInstance().world.getBlockState(var1).getCollisionShape(field41868.world, var1).isEmpty()
                 : true;
     }
 
@@ -202,12 +202,12 @@ public class Class9110 {
 
     public boolean method33990(BlockPos var1) {
         if (!this.field41869.field44283.contains(this.method33979().toLong())) {
-            VoxelShape var4 = Minecraft.getInstance().world.getBlockState(var1).method23414(field41868.world, var1);
+            VoxelShape var4 = Minecraft.getInstance().world.getBlockState(var1).getCollisionShape(field41868.world, var1);
             if (var4.isEmpty()) {
                 return false;
             } else {
                 AxisAlignedBB var5 = var4.getBoundingBox();
-                return var5.method19677() >= 0.9 && var5.method19677() <= 1.0;
+                return var5.getYSize() >= 0.9 && var5.getYSize() <= 1.0;
             }
         } else {
             return false;
