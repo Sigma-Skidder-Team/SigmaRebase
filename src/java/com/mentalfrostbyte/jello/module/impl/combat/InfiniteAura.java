@@ -1,6 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.TimedEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.util.math.vector.Vector3d;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
@@ -132,9 +135,9 @@ public class InfiniteAura extends Module {
             if (var5 == null) {
                 mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var8.getX(), var8.getY(), var8.getZ(), true));
             } else {
-                var5.positionVec.x = var8.getX() + 0.5;
-                var5.positionVec.y = var8.getY();
-                var5.positionVec.z = var8.getZ() + 0.5;
+                var5.getPositionVec().x = var8.getX() + 0.5;
+                var5.getPositionVec().y = var8.getY();
+                var5.getPositionVec().z = var8.getZ() + 0.5;
                 mc.getConnection().sendPacket(new CSteerBoatPacket(false, false));
                 mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(mc.player.rotationYaw, mc.player.rotationPitch, false));
                 mc.getConnection().sendPacket(new CInputPacket(0.0F, 1.0F, false, false));
@@ -168,18 +171,18 @@ public class InfiniteAura extends Module {
 
                 for (Vector3d var7 : var5) {
                     GL11.glVertex3d(
-                            var7.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                            var7.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                            var7.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
+                            var7.getX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                            var7.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                            var7.getZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
                     );
                 }
 
                 GL11.glEnd();
                 GL11.glPushMatrix();
                 GL11.glTranslated(
-                        mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                        mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                        mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
+                        mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                        mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                        mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
                 );
                 GL11.glPopMatrix();
                 GL11.glDisable(3042);
@@ -204,7 +207,7 @@ public class InfiniteAura extends Module {
         while (var7.hasNext()) {
             Entity var8 = ((TimedEntity) var7.next()).getEntity();
             if (var8 != mc.player) {
-                if (!Client.getInstance().getFriendManager().method26997(var8)) {
+                if (!Client.getInstance().friendManager.method26997(var8)) {
                     if (var8 instanceof LivingEntity) {
                         if (((LivingEntity) var8).getHealth() != 0.0F) {
                             if (!(mc.player.getDistance(var8) > var1)) {
@@ -212,7 +215,7 @@ public class InfiniteAura extends Module {
                                     if (!(var8 instanceof ArmorStandEntity)) {
                                         if (!this.getBooleanValueFromSettingName("Players") && var8 instanceof PlayerEntity) {
                                             var7.remove();
-                                        } else if (var8 instanceof PlayerEntity && Client.getInstance().getCombatManager().isTargetABot(var8)) {
+                                        } else if (var8 instanceof PlayerEntity && Client.getInstance().combatManager.isTargetABot(var8)) {
                                             var7.remove();
                                         } else if (!this.getBooleanValueFromSettingName("Invisible") && var8.isInvisible()) {
                                             var7.remove();
