@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
@@ -8,7 +9,6 @@ import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
-import com.mentalfrostbyte.jello.unmapped.ResourceList;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.Rots;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
@@ -32,7 +32,7 @@ import java.util.*;
 
 public class NoteblockPlayer extends Module {
     public int field23638;
-    private Class2403 field23639;
+    private Class2403 noteBlockSong;
     private List<String> field23640 = new ArrayList<String>();
     private final List<Class6463> field23641 = new ArrayList<Class6463>();
     private final List<BlockPos> field23642 = new ArrayList<BlockPos>();
@@ -93,7 +93,7 @@ public class NoteblockPlayer extends Module {
     @EventTarget
     private void method16405(EventUpdate var1) {
         if (this.isEnabled()) {
-            if (this.field23639 != null) {
+            if (this.noteBlockSong != null) {
                 if (mc.playerController.isInCreativeMode()) {
                     MultiUtilities.addChatMessage("§cNoteBlockPlayer isn't available in creative mode!");
                     this.setEnabled(false);
@@ -103,8 +103,8 @@ public class NoteblockPlayer extends Module {
                     }
 
                     if (this.method16406(this.field23641)) {
-                        if (Math.floor((float) mc.player.ticksExisted % this.field23639.method9958()) / 20.0 == 0.0) {
-                            if (this.field23638 > this.field23639.method9952()) {
+                        if (Math.floor((float) mc.player.ticksExisted % this.noteBlockSong.method9958()) / 20.0 == 0.0) {
+                            if (this.field23638 > this.noteBlockSong.method9952()) {
                                 this.field23638 = 0;
                             }
 
@@ -112,7 +112,7 @@ public class NoteblockPlayer extends Module {
 
                             Rots.rotating = true;
 
-                            for (Class9616 var5 : this.field23639.method9950().values()) {
+                            for (Class9616 var5 : this.noteBlockSong.method9950().values()) {
                                 Class8255 var6 = var5.method37433(this.field23638);
                                 if (var6 != null) {
                                     for (Class6463 var8 : this.field23641) {
@@ -304,8 +304,8 @@ public class NoteblockPlayer extends Module {
 
                     for (int var8 = 0; var8 < this.field23641.size(); var8++) {
                         Class6463 var9 = this.field23641.get(var8);
-                        if (var9.field28401.equals(new BlockPos(var7.method17224(), var7.method17225(), var7.method17226()))) {
-                            var9.field28402 = var7.method17228();
+                        if (var9.field28401.equals(new BlockPos(var7.getX(), var7.getY(), var7.getZ()))) {
+                            var9.field28402 = var7.getPitch();
                             this.field23641.set(var8, var9);
                         }
                     }
@@ -320,26 +320,30 @@ public class NoteblockPlayer extends Module {
             if (this.field23640.isEmpty()) {
                 MultiUtilities.addChatMessage("§cNo Song available! Place NBS formated files in sigma5/nbs and restart the client to try again!");
                 MultiUtilities.addChatMessage("§cPlaying the only integrated demo song!");
-                this.field23639 = Class8471.method29870(ResourceList.readInputStream("com/mentalfrostbyte/gui/resources/music/rememberthis.nbs"));
-                if (this.field23639 == null) {
+                this.noteBlockSong = Class8471.method29870(
+                        Resources.readInputStream(
+                                "com/mentalfrostbyte/gui/resources/music/rememberthis.nbs"
+                        )
+                );
+                if (this.noteBlockSong == null) {
                     MultiUtilities.addChatMessage("§cError loading included song, wtf!");
                     this.setEnabled(false);
                     return;
                 }
             } else {
-                File var3 = new File(Client.getInstance().getFile() + "/nbs/" + this.getStringSettingValueByName("Song"));
-                this.field23639 = Class8471.method29869(var3);
-                if (this.field23639 == null) {
+                File var3 = new File(Client.getInstance().file + "/nbs/" + this.getStringSettingValueByName("Song"));
+                this.noteBlockSong = Class8471.method29869(var3);
+                if (this.noteBlockSong == null) {
                     MultiUtilities.addChatMessage("§cError loading song! Make sure song is saved as <= V3 format");
                     this.setEnabled(false);
                     return;
                 }
             }
 
-            System.out.println(this.field23639.method9953());
-            MultiUtilities.addChatMessage("Now Playing: " + this.field23639.method9953());
-            if (Math.floor(20.0F / this.field23639.method9958()) != (double) (20.0F / this.field23639.method9958())) {
-                MultiUtilities.addChatMessage("§cNBS Error! Invalid tempo! (" + this.field23639.method9958() + ") Unpredictable results!");
+            System.out.println(this.noteBlockSong.method9953());
+            MultiUtilities.addChatMessage("Now Playing: " + this.noteBlockSong.method9953());
+            if (Math.floor(20.0F / this.noteBlockSong.method9958()) != (double) (20.0F / this.noteBlockSong.method9958())) {
+                MultiUtilities.addChatMessage("§cNBS Error! Invalid tempo! (" + this.noteBlockSong.method9958() + ") Unpredictable results!");
             }
 
             this.field23638 = 0;
@@ -381,7 +385,7 @@ public class NoteblockPlayer extends Module {
 
         public Class6463(BlockPos var1) {
             this.field28401 = var1;
-            this.field28403 = NoteBlockInstrument.method300(mc.world.getBlockState(var1.down()));
+            this.field28403 = NoteBlockInstrument.byState(mc.world.getBlockState(var1.down()));
         }
 
         public int method19640() {
