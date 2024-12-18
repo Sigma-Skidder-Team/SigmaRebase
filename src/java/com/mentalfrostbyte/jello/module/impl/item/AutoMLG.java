@@ -69,8 +69,8 @@ public class AutoMLG extends PremiumModule {
             if (var1.isPre() && field23649 >= 0) {
                 field23649++;
                 float[] var4 = RotationHelper.method34144(
-                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5, (double) this.field23650.getY() + 0.5
-                );
+                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5,
+                        (double) this.field23650.getY() + 0.5);
                 var1.setYaw(var4[0]);
                 var1.setPitch(var4[1]);
             }
@@ -97,7 +97,8 @@ public class AutoMLG extends PremiumModule {
                 BlockPos var5 = this.method16425();
                 if (var5 != null) {
                     if (var1.isPre() && field23649 == -1) {
-                        float[] var6 = RotationHelper.method34144((double) var5.getX() + 0.5, (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
+                        float[] var6 = RotationHelper.method34144((double) var5.getX() + 0.5,
+                                (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
                         var1.setYaw(var6[0]);
                         var1.setPitch(var6[1]);
                         if (var7 != mc.player.inventory.currentItem) {
@@ -137,9 +138,11 @@ public class AutoMLG extends PremiumModule {
                     ItemStack var6 = mc.player.container.getSlot(var5).getStack();
                     if (var6.getItem() == Items.WATER_BUCKET) {
                         /*
-                        if (JelloPortal.getCurrentVersionApplied() <= ViaVerList._1_11_1_or_2.getVersionNumber()) {
-                            mc.getConnection().sendPacket(new CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
-                        }
+                         * if (JelloPortal.getCurrentVersionApplied() <=
+                         * ViaVerList._1_11_1_or_2.getVersionNumber()) {
+                         * mc.getConnection().sendPacket(new
+                         * CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
+                         * }
                          */
 
                         InvManagerUtils.moveItemToHotbar(var5, 6);
@@ -170,13 +173,12 @@ public class AutoMLG extends PremiumModule {
             BlockPos var15 = new BlockPos(var14.method19685());
             if (BlockUtil.method34578(var15)
                     && (double) (var15.getY() + 1) < mc.player.getPosY()
-                    && (
-                    var12 == null
+                    && (var12 == null
                             || mc.player
-                            .getDistanceNearest((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
-                            > mc.player
-                            .getDistanceNearest((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double) var15.getZ() + 0.5 - var7)
-            )) {
+                                    .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1,
+                                            (double) var12.getZ() + 0.5 - var7) > mc.player
+                                                    .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1,
+                                                            (double) var15.getZ() + 0.5 - var7))) {
                 var12 = var15;
             }
         }
@@ -195,13 +197,13 @@ public class AutoMLG extends PremiumModule {
                 BlockPos var22 = new BlockPos(var21.method19685());
                 if (BlockUtil.method34578(var22)
                         && (double) (var22.getY() + 1) < mc.player.getPosY()
-                        && (
-                        var12 == null
+                        && (var12 == null
                                 || mc.player
-                                .getDistanceNearest((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
-                                > mc.player
-                                .getDistanceNearest((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double) var22.getZ() + 0.5 - var7)
-                )) {
+                                        .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1,
+                                                (double) var12.getZ() + 0.5 - var7) > mc.player
+                                                        .getDistanceSq((double) var22.getX() + 0.5 - var3,
+                                                                var22.getY() + 1,
+                                                                (double) var22.getZ() + 0.5 - var7))) {
                     var12 = var22;
                 }
             }

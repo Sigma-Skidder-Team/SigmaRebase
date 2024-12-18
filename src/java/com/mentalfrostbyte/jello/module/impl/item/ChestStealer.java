@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.item;
 
 import com.mentalfrostbyte.Client;
+import net.minecraft.tileentity.ChestTileEntity;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRender;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
@@ -93,10 +94,10 @@ public class ChestStealer extends Module {
                     float var11 = (float) var7.getPos().getZ();
                     if (!this.field23621
                             && (this.field23625 == null
-                                    || mc.player.getDistanceNearest(var9, var10, var11) > mc.player
-                                            .getDistanceNearest(var9, var10, var11))
+                                    || mc.player.getDistanceSq(var9, var10, var11) > mc.player
+                                            .getDistanceSq(var9, var10, var11))
                             && !var8
-                            && Math.sqrt(mc.player.getDistanceNearest(var9, var10, var11)) < 5.0
+                            && Math.sqrt(mc.player.getDistanceSq(var9, var10, var11)) < 5.0
                             && this.field23624.getElapsedTime() > 1000L
                             && mc.currentScreen == null) {
                         BlockRayTraceResult var12 = (BlockRayTraceResult) BlockUtil.method34570(var7.getPos());

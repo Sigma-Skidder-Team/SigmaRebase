@@ -61,7 +61,7 @@ public class Nuker extends Module {
                     if (mc.world.getBlockState(this.field23566).isAir()
                             || Math.sqrt(
                                     mc.player
-                                            .getDistanceNearest(
+                                            .getDistanceSq(
                                                     (double) this.field23566.getX() + 0.5,
                                                     (double) this.field23566.getY() + 0.5,
                                                     (double) this.field23566.getZ() + 0.5)) > 6.0) {
@@ -153,7 +153,7 @@ public class Nuker extends Module {
                     if (!mc.world.getBlockState(var8).isAir()
                             && mc.world.getBlockState(var8).getFluidState().isEmpty()
                             && Math.sqrt(
-                                    mc.player.getDistanceNearest((double) var8.getX() + 0.5, (double) var8.getY() + 0.5,
+                                    mc.player.getDistanceSq((double) var8.getX() + 0.5, (double) var8.getY() + 0.5,
                                             (double) var8.getZ() + 0.5)) < (double) var1) {
                         String var9 = this.getStringSettingValueByName("Mode");
                         switch (var9) {
