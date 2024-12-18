@@ -1,5 +1,7 @@
 package com.mentalfrostbyte.jello.util.player;
 
+import com.mentalfrostbyte.jello.util.MultiUtilities;
+import com.mentalfrostbyte.jello.util.Rotations;
 import com.mentalfrostbyte.jello.util.player.unmapped.Class9047;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -8,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 
 import java.util.Date;
@@ -204,7 +207,7 @@ public class RotationHelper {
             for (int var5 = -1; var5 < 2; var5++) {
                 double var6 = (double)var5;
                 if (var5 != -1) {
-                    var6 *= targetIn.boundingBox.method19677();
+                    var6 *= targetIn.getBoundingBox().getYSize();
                 } else {
                     var6 = (double)(targetIn.getEyeHeight() - 0.02F);
                 }
@@ -227,8 +230,8 @@ public class RotationHelper {
                     xPos = targetIn.getPosX() + (targetIn.getPosX() - targetIn.lastTickPosX) * (double) mc.getRenderPartialTicks();
                     zPos = targetIn.getPosZ() + (targetIn.getPosZ() - targetIn.lastTickPosZ) * (double) mc.getRenderPartialTicks();
                     yPos = targetIn.getPosY() + 0.05 + (targetIn.getPosY() - targetIn.lastTickPosY) * (double) mc.getRenderPartialTicks() + var6;
-                    double var26 = targetIn.boundingBox.method19676() / 2.5 * (double)var25;
-                    double var28 = targetIn.boundingBox.method19678() / 2.5 * (double)var25;
+                    double var26 = targetIn.getBoundingBox().getXSize() / 2.5 * (double)var25;
+                    double var28 = targetIn.getBoundingBox().getYSize() / 2.5 * (double)var25;
                     if (!(mc.player.getPosX() < xPos + var26)) {
                         if (mc.player.getPosX() > xPos + var26) {
                             if (!(mc.player.getPosZ() < zPos - var28)) {
