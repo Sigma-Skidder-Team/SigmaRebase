@@ -1,12 +1,13 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
+import com.mentalfrostbyte.jello.util.ResourceRegistry;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import org.newdawn.slick.TrueTypeFont;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRender;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import com.mentalfrostbyte.jello.resource.ClientResource;
-import com.mentalfrostbyte.jello.resource.ResourceRegistry;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mojang.datafixers.util.Pair;
 
@@ -45,7 +46,7 @@ public class Murderer extends Module {
                         Entity var7 = mc.world.getEntityByID(var4.getEntityID());
                         if (!this.field23833.equalsIgnoreCase(var7.getName().getString())) {
                             if (this.getBooleanValueFromSettingName("Chat Message")) {
-                                mc.player.method5389("Murderer is " + var7.getName() + ", detected by Jello client");
+                                mc.player.sendChatMessage("Murderer is " + var7.getName() + ", detected by Jello client");
                             }
 
                             this.field23833 = var7.getName().getUnformattedComponentText();
@@ -69,20 +70,24 @@ public class Murderer extends Module {
         if (this.isEnabled()) {
             if (this.field23836) {
                 if (this.getBooleanValueFromSettingName("GUI")) {
-                    ClientResource var4 = ResourceRegistry.JelloLightFont20;
-                    int var6 = Minecraft.getInstance().mainWindow.getWidth();
-                    int var7 = Minecraft.getInstance().mainWindow.getHeight();
+                    TrueTypeFont var4 = ResourceRegistry.JelloLightFont20;
+                    int var6 = Minecraft.getInstance().getMainWindow().getWidth();
+                    int var7 = Minecraft.getInstance().getMainWindow().getHeight();
                     if (this.field23835 && this.field23834 != null) {
                         this.field23835 = false;
                     }
 
                     if (this.field23834 != null) {
                         RenderUtil.drawRect(
-                                (float) (var6 - var4.getStringWidth(this.field23833) - 90), (float) (var7 - 130), (float) (var6 - 10), (float) (var7 - 10), 1342177280
+                                (float) (var6 - var4.getWidth(this.field23833) - 90), (float) (var7 - 130), (float) (var6 - 10), (float) (var7 - 10), 1342177280
                         );
-                        RenderUtil.method11455((float) (var6 - var4.getStringWidth(this.field23833) - 80), (float) (var7 - 120), 50.0F, 100.0F, this.field23834);
+                        RenderUtil.method11455((float) (var6 - var4.getWidth(this.field23833) - 80), (float) (var7 - 120), 50.0F, 100.0F, this.field23834);
                         RenderUtil.drawString(
-                                var4, (float) (var6 - var4.getStringWidth(this.field23833) - 20), (float) (var7 - var4.method23941(this.field23833) - 60), this.field23833, -1
+                                var4,
+                                (float) (var6 - var4.getWidth(this.field23833) - 20),
+                                (float) (var7 - var4.method23941(this.field23833) - 60),
+                                this.field23833,
+                                -1
                         );
                     }
                 }
