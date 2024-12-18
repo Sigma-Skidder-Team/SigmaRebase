@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.event.impl.EventWriter;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventWritter;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.module.Module;
@@ -22,7 +22,7 @@ public class PacketDumper extends Module {
         super(ModuleCategory.MISC, "Packet dumper", "Dumps packets sent to and fro from the client and server");
 
         try {
-            File packetLog = new File(Client.getInstance().getFile() + "/latest_packets.txt");
+            File packetLog = new File(Client.getInstance().file + "/latest_packets.txt");
             if (!packetLog.exists()) {
                 packetLog.createNewFile();
             }
@@ -87,7 +87,7 @@ public class PacketDumper extends Module {
     }
 
     @EventTarget
-    private void onShutdown(EventWritter event) {
+    private void onShutdown(EventWriter event) {
         try {
             packetWriter.close();
         } catch (IOException e) {
