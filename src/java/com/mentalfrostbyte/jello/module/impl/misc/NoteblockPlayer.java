@@ -1,10 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class2403;
-import com.mentalfrostbyte.jello.misc.Class7303;
-import com.mentalfrostbyte.jello.misc.Class8255;
-import com.mentalfrostbyte.jello.misc.Class9616;
+import com.mentalfrostbyte.jello.misc.*;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
