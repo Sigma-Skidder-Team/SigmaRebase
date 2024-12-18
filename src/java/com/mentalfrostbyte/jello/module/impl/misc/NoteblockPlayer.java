@@ -63,9 +63,9 @@ public class NoteblockPlayer extends Module {
     }
 
     public static void method16410(BlockPos var0) {
-        double var3 = (double) ((float) var0.getX() + 0.5F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX();
-        double var5 = (double) ((float) var0.getY() + 1.0F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY();
-        double var7 = (double) ((float) var0.getZ() + 0.5F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ();
+        double var3 = (double) ((float) var0.getX() + 0.5F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+        double var5 = (double) ((float) var0.getY() + 1.0F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getY();
+        double var7 = (double) ((float) var0.getZ() + 0.5F) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(3042);
         GL11.glEnable(2848);
