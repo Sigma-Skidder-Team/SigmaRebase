@@ -22,10 +22,7 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
-
-import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
 
 public class Class3246 extends Class3247 implements Class3245 {
     private static String[] field18705;
