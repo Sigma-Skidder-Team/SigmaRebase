@@ -169,7 +169,7 @@ public class ColorUtils {
         }
     }
 
-    public static float[] method17709(int var0) {
+    public static float[] colorToFloatArray(int var0) {
         float var3 = (float)(var0 >> 24 & 0xFF) / 255.0F;
         float var4 = (float)(var0 >> 16 & 0xFF) / 255.0F;
         float var5 = (float)(var0 >> 8 & 0xFF) / 255.0F;

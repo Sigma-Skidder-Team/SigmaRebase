@@ -57,7 +57,7 @@ public class RenderUtil {
         method11421(var0, var1, var2, var3, false);
     }
 
-    public static float method11417() {
+    public static float getScaleFactor() {
         return (float) mc.getMainWindow().getGuiScaleFactor();
     }
 
@@ -69,7 +69,7 @@ public class RenderUtil {
         float var7 = var4.get(3) * (float)var0 + var4.get(7) * (float)var1 + var4.get(11) * 0.0F + var4.get(15);
         var5 /= var7;
         var6 /= var7;
-        return new float[]{(float)Math.round(var5 * method11417()), (float)Math.round(var6 * method11417())};
+        return new float[]{(float)Math.round(var5 * getScaleFactor()), (float)Math.round(var6 * getScaleFactor())};
     }
 
     public static void method11421(int var0, int var1, int var2, int var3, boolean var4) {
@@ -803,7 +803,7 @@ public class RenderUtil {
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-        GL11.glColor4fv(ColorUtils.method17709(var3));
+        GL11.glColor4fv(ColorUtils.colorToFloatArray(var3));
         GL11.glEnable(2881);
         GL11.glBegin(4);
         GL11.glVertex2f(var0 + var2 / 2.0F, var1 + var2 / 2.0F);
@@ -811,7 +811,7 @@ public class RenderUtil {
         GL11.glVertex2f(var0 - var2 / 2.0F, var1);
         GL11.glEnd();
         GL11.glLineWidth(2.0F);
-        GL11.glColor4fv(ColorUtils.method17709(var4));
+        GL11.glColor4fv(ColorUtils.colorToFloatArray(var4));
         GL11.glBegin(3);
         GL11.glVertex2f(var0 + var2 / 2.0F, var1 + var2 / 2.0F);
         GL11.glVertex2f(var0 + var2 / 2.0F, var1 - var2 / 2.0F);
@@ -878,6 +878,8 @@ public class RenderUtil {
         GL11.glStencilFunc(var0 != Class2329.field15940 ? 517 : 514, 1, 1);
     }
 
+    // https://github.com/Sigma-Skidder-Team/SigmaRemap/blob/effb1a4ec577486be5b2451d7da72c7d8311d4de/src/java/mapped/RenderUtil.java#L821-L911
+    // TODO: render3DColoredBox?
     public static void method11453(float var0, float var1, float var2, float var3, ByteBuffer var4, int var5, float var6, float var7, float var8, float var9, boolean var10, boolean var11) {
         if (var4 != null) {
             RenderSystem.color4f(0.0F, 0.0F, 0.0F, 1.0F);
@@ -886,14 +888,14 @@ public class RenderUtil {
             var2 = (float)Math.round(var2);
             var1 = (float)Math.round(var1);
             var3 = (float)Math.round(var3);
-            float var14 = (float)(var5 >> 24 & 0xFF) / 255.0F;
-            float var15 = (float)(var5 >> 16 & 0xFF) / 255.0F;
-            float var16 = (float)(var5 >> 8 & 0xFF) / 255.0F;
-            float var17 = (float)(var5 & 0xFF) / 255.0F;
+            float a = (float)(var5 >> 24 & 0xFF) / 255.0F;
+            float r = (float)(var5 >> 16 & 0xFF) / 255.0F;
+            float g = (float)(var5 >> 8 & 0xFF) / 255.0F;
+            float b = (float)(var5 & 0xFF) / 255.0F;
             RenderSystem.enableBlend();
             RenderSystem.disableTexture();
             RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-            RenderSystem.color4f(var15, var16, var17, var14);
+            RenderSystem.color4f(r, g, b, a);
             GL11.glEnable(3042);
             GL11.glEnable(3553);
             GL11.glPixelStorei(3312, 0);
@@ -905,10 +907,10 @@ public class RenderUtil {
             GL11.glTexParameteri(3553, 10240, 9728);
             int var18 = GL11.glGenTextures();
             GL11.glTexImage2D(3553, 0, 6407, (int)var8, (int)var9, 0, 6407, 5121, var4);
-            float var19 = var8 / var8 * 1.0F;
-            float var20 = var9 / var9 * 1.0F;
-            float var21 = var6 / var8 * 1.0F;
-            float var22 = var7 / var9 * 1.0F;
+            float var19 = var8 / var8;
+            float var20 = var9 / var9;
+            float var21 = var6 / var8;
+            float var22 = var7 / var9;
             GL11.glBegin(7);
             GL11.glTexCoord2f(var21 + (!var10 ? 0.0F : var19), var22 + (!var11 ? 0.0F : var20));
             GL11.glVertex2f(var0, var1);

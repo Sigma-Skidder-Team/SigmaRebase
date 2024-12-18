@@ -175,7 +175,7 @@ public abstract class Entity implements INameable, ICommandSource
     public int chunkCoordY;
     public int chunkCoordZ;
     private boolean isLoaded;
-    private Vector3d field_242272_av;
+    public Vector3d field_242272_av;
     public boolean ignoreFrustumCheck;
     public boolean isAirBorne;
     private int field_242273_aw;

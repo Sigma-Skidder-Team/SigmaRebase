@@ -6,6 +6,9 @@ public class Timer
     public float elapsedPartialTicks;
     private long lastSyncSysClock;
     private final float tickLength;
+    // MODIFICATION START: Allows modifying how fast timer goes
+    public float timerSpeed;
+    // MODIFICATION END
 
     public Timer(float ticks, long lastSyncSysClock)
     {
@@ -15,7 +18,10 @@ public class Timer
 
     public int getPartialTicks(long gameTime)
     {
-        this.elapsedPartialTicks = (float)(gameTime - this.lastSyncSysClock) / this.tickLength;
+        // MODIFICATION START: Part of the timerSpeed modification,
+        // >>>>        >         multiplies the original elapsed partial ticks by `timerSpeed`
+        this.elapsedPartialTicks = (float)(gameTime - this.lastSyncSysClock) / this.tickLength * timerSpeed;
+        // MODIFICATION END
         this.lastSyncSysClock = gameTime;
         this.renderPartialTicks += this.elapsedPartialTicks;
         int i = (int)this.renderPartialTicks;
