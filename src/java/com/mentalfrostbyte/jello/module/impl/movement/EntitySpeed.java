@@ -2,6 +2,7 @@ package com.mentalfrostbyte.jello.module.impl.movement;
 
 import com.mentalfrostbyte.jello.event.impl.EventMoveRideable;
 //import com.mentalfrostbyte.jello.event.impl.EventUseLess;
+import com.mentalfrostbyte.jello.event.impl.EventUseLess;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.misc.Class1074;
@@ -65,13 +66,13 @@ public class EntitySpeed extends Module {
                 if (mc.player.getRidingEntity() instanceof Class1074) {
                     Class1074 var15 = (Class1074) mc.player.getRidingEntity();
                     if (var15.isOnGround() && mc.gameSettings.keyBindJump.isKeyDown()) {
-                        mc.player.field6140 = 1.0F;
+                        mc.player.field6140 = 1.0F; // i dunno why
                     }
                 }
 
                 var1.setX(var8 * (double) var12);
                 var1.setZ(var10 * (double) var12);
-                if (this.field23547 < 2 || !mc.player.getRidingEntity().onGround) {
+                if (this.field23547 < 2 || !mc.player.getRidingEntity().isOnGround()) {
                     mc.player.getRidingEntity().stepHeight = 0.0F;
                 }
             }
@@ -91,7 +92,7 @@ public class EntitySpeed extends Module {
         if (var1.getPacket() instanceof CMoveVehiclePacket
                 && mc.player.getRidingEntity() != null
                 && this.field23547++ > 2
-                && mc.player.getRidingEntity().onGround) {
+                && mc.player.getRidingEntity().isOnGround()) {
             mc.player.getRidingEntity().stepHeight = 1.0F;
         }
     }
