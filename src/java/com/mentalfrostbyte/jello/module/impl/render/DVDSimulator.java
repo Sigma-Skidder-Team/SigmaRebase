@@ -1,10 +1,14 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
+import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRender;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import com.mentalfrostbyte.jello.unmapped.ResourceList;
+//import com.mentalfrostbyte.jello.unmapped.ResourceList;
+import com.mentalfrostbyte.jello.gui.unmapped.Class9108;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.util.math.vector.Vector2f;
 
@@ -29,16 +33,16 @@ public class DVDSimulator extends Module {
 
     @Override
     public void onEnable() {
-        this.dvdX = (float) ((double) (mc.mainWindow.getWidth() - this.dvdDimensions.field41839) * Math.random());
-        this.dvdY = (float) ((double) (mc.mainWindow.getHeight() - this.dvdDimensions.field41840) * Math.random());
+        this.dvdX = (float) ((double) (mc.getMainWindow().getWidth() - this.dvdDimensions.field41839) * Math.random());
+        this.dvdY = (float) ((double) (mc.getMainWindow().getHeight() - this.dvdDimensions.field41840) * Math.random());
         this.changeColor();
     }
 
     @EventTarget
     private void onRender(EventRender event) throws IOException {
         if (this.isEnabled() && mc.player != null && mc.world != null) {
-            int windowHeight = mc.mainWindow.getHeight();
-            int windowWidth = mc.mainWindow.getWidth();
+            int windowHeight = mc.getMainWindow().getHeight();
+            int windowWidth = mc.getMainWindow().getWidth();
             float speed = 2;
 
             if (!(this.dvdY <= speed)) {
@@ -69,7 +73,7 @@ public class DVDSimulator extends Module {
                     this.dvdY,
                     (float) this.dvdDimensions.field41839,
                     (float) this.dvdDimensions.field41840,
-                    ResourceList.dvdPNG,
+                    Resources.dvdPNG,
                     MultiUtilities.applyAlpha(this.dvdColor, 0.8F)
             );
         }

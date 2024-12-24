@@ -23,7 +23,7 @@ public class Breadcrumbs extends Module {
     public Breadcrumbs() {
         super(ModuleCategory.RENDER, "Breadcrumbs", "Shows your taken path");
         this.registerSetting(new BooleanSetting("Fade Out", "Makes distant breadcrumbs fade out", true));
-        this.registerSetting(new ColorSetting("Color", "The crumbs color", ClientColors.LIGHT_GREYISH_BLUE.getColor));
+        this.registerSetting(new ColorSetting("Color", "The crumbs color", ClientColors.LIGHT_GREYISH_BLUE.getColor()));
     }
 
     @EventTarget
@@ -50,9 +50,9 @@ public class Breadcrumbs extends Module {
     public Vector3d adjustForRendering(Vector3d position) {
         return position.add(
                 new Vector3d(
-                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
-                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
-                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ()
+                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                        -Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
                 )
         );
     }
@@ -78,7 +78,7 @@ public class Breadcrumbs extends Module {
 
             for (Vector3d breadcrumb : this.breadcrumbsPath) {
                 Vector3d adjustedBreadcrumb = this.adjustForRendering(breadcrumb);
-                double distance = breadcrumb.method11341(interpolatedPlayerPosition);
+                double distance = breadcrumb.squareDistanceTo(interpolatedPlayerPosition);
                 double fadeFactor = !this.getBooleanValueFromSettingName("Fade Out") ? 0.6F : 1.0 - Math.min(1.0, distance / 14.0);
                 if (!(distance > 24.0)) {
                     GL11.glColor4fv(MultiUtilities.method17709(MultiUtilities.applyAlpha(this.parseSettingValueToIntBySettingName("Color"), (float) fadeFactor)));

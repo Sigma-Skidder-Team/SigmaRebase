@@ -4,7 +4,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.Render2DEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-
+import net.minecraft.potion.Effects;
 
 public class AntiBlind extends Module {
     public AntiBlind() {
@@ -13,9 +13,9 @@ public class AntiBlind extends Module {
 
     @EventTarget
     private void Render2DEvent(Render2DEvent event) {
-        if (this.isEnabled()) {
-            mc.player.removeEffects(Effects.NAUSEA);
-            mc.player.removeEffects(Effects.BLINDNESS);
+        if (this.isEnabled() && mc.player != null) {
+            mc.player.removeActivePotionEffect(Effects.NAUSEA);
+            mc.player.removeActivePotionEffect(Effects.BLINDNESS);
         }
     }
 }

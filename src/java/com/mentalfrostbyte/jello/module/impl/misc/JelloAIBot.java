@@ -59,7 +59,7 @@ public class JelloAIBot extends Module {
     }
 
     public boolean method16194() {
-        return this.targetEntity == null || this.targetEntity.positionVec.method11341(this.field23514) > 6.0;
+        return this.targetEntity == null || this.targetEntity.positionVec.squareDistanceTo(this.field23514) > 6.0;
     }
 
     @EventTarget

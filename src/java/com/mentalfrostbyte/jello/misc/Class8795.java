@@ -237,7 +237,7 @@ public class Class8795 {
                     Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).setState(var35);
                     Client.getInstance().moduleManager.getModuleByClass(Fly.class).setState(var36);
                     if (!var17 || !var16) {
-                        if (var8.field44271.method33972().method11341(this.mc.player.getPositionVec()) > 10.0) {
+                        if (var8.field44271.method33972().squareDistanceTo(this.mc.player.getPositionVec()) > 10.0) {
                             this.method31738();
                         }
                     }
