@@ -1,18 +1,19 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
-import team.sdhq.eventBus.annotations.EventTarget;
+import com.mentalfrostbyte.jello.event.impl.EventMoveRideable;
+//import com.mentalfrostbyte.jello.event.impl.EventUseLess;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
-import com.mentalfrostbyte.jello.event.impl.EventUseLess;
-import com.mentalfrostbyte.jello.event.impl.EventMoveRideable;
+import com.mentalfrostbyte.jello.misc.Class1074;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-
 import net.minecraft.block.Blocks;
 import net.minecraft.network.play.client.CMoveVehiclePacket;
 import net.minecraft.network.play.server.SMoveVehiclePacket;
+import net.minecraft.util.MovementInput;
+import team.sdhq.eventBus.annotations.EventTarget;
 
 public class EntitySpeed extends Module {
     public float field23546 = 3.0F;
@@ -29,14 +30,14 @@ public class EntitySpeed extends Module {
     @EventTarget
     public void method16240(EventMoveRideable var1) {
         if (this.isEnabled()) {
-            if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.getRidingEntity().onGround) {
+            if (mc.gameSettings.keyBindJump.isKeyDown() && !mc.player.getRidingEntity().isOnGround()) {
             }
 
             MovementInput var4 = mc.player.movementInput;
-            float var5 = var4.field43908;
-            float var6 = var4.field43907;
+            float var5 = var4.moveStrafe;
+            float var6 = var4.moveForward;
             if (!mc.player.getRidingEntity().collidedHorizontally
-                    && !mc.player.getRidingEntity().onGround
+                    && !mc.player.getRidingEntity().isOnGround()
                     && MultiUtilities.isAboveBounds(mc.player.getRidingEntity(), 5.0F)
                     && !mc.player.getRidingEntity().isInWater()
                     && mc.world.getBlockState(mc.player.getRidingEntity().getPosition()).getBlock() != Blocks.WATER) {
@@ -63,7 +64,7 @@ public class EntitySpeed extends Module {
                 float var12 = this.field23546;
                 if (mc.player.getRidingEntity() instanceof Class1074) {
                     Class1074 var15 = (Class1074) mc.player.getRidingEntity();
-                    if (var15.onGround && mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (var15.isOnGround() && mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.player.field6140 = 1.0F;
                     }
                 }
