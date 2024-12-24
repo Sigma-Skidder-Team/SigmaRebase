@@ -12,6 +12,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+import com.mentalfrostbyte.jello.module.PremiumModule;
 
 public class AACSpeed extends Module {
    private int field23398;
@@ -24,7 +25,7 @@ public class AACSpeed extends Module {
 
    public AACSpeed() {
       super(ModuleCategory.MOVEMENT, "AAC", "Speed for AAC");
-      this.registerSetting(new ModeSetting("Mode", "Mode", 0, "Basic", "Fast1", "Fast2").setPremiumModes("Fast2"));
+      this.registerSetting(new ModeSetting("Mode", "Mode", 0, "Basic", "Fast1", "Fast2"));
       this.registerSetting(new BooleanSetting("Fluid Fix", "Makes your jump fluid.", true));
       this.registerSetting(new BooleanSetting("Auto Jump", "Automatically jumps for you.", true));
    }
@@ -126,13 +127,14 @@ public class AACSpeed extends Module {
                   var5 = 11.0F;
                }
 
+
                if (!((float)this.field23398 > var5) && this.field23398 >= 0) {
                   double var6 = Math.cos(Math.toRadians((double)((float)this.field23398 / var5 * 180.0F - 90.0F)));
-                  mc.player.positionVec.y = this.field23403 + var6;
+                  mc.player.getPositionVec().y = this.field23403 + var6;
                   mc.player.cameraYaw = 0.0F;
                }
             } else {
-               mc.player.positionVec.y = mc.player.getBoundingBox().minY;
+               mc.player.getPositionVec().y = mc.player.getBoundingBox().minY;
                this.field23403 = mc.player.getPosY();
                this.field23398 = -1;
             }
@@ -315,9 +317,7 @@ public class AACSpeed extends Module {
             var2.run();
          }
 
-         return var5;
-      } else {
-         return var5;
       }
+       return var5;
    }
 }

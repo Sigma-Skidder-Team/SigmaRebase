@@ -195,6 +195,7 @@ public class MovementUtil {
         return new float[]{var4, var0, var1};
     }
 
+
     public static float method37086() {
         float var2 = mc.player.moveForward;
         float var3 = mc.player.moveStrafing;
@@ -231,6 +232,8 @@ public class MovementUtil {
         } else {
             tween += !(MathHelper.wrapDegrees(be - tween) > 0.0F) ? -var5 : var5;
         }
+
+
 
         float var9 = (tween - 90.0F) * (float) (Math.PI / 180.0);
         event.setX((double)(-MathHelper.sin(var9)) * var1);

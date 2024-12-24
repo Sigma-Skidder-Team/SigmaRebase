@@ -25,7 +25,7 @@ public class LegitSpeed extends Module {
     @EventTarget
     public void method16943(EventMove var1) {
         if (this.isEnabled()) {
-            if (mc.player.onGround
+            if (mc.player.isOnGround()
                     && mc.player.collidedVertically
                     && (mc.player.moveForward != 0.0F || mc.player.moveStrafing != 0.0F)
                     && this.getBooleanValueFromSettingName("AutoJump")) {
@@ -59,7 +59,7 @@ public class LegitSpeed extends Module {
                 this.field24014 = Math.min(1.0F, this.field24014 + 0.1F);
             }
 
-            if (mc.player.onGround && !this.field24013) {
+            if (mc.player.isOnGround() && !this.field24013) {
                 this.field24011 = 0.0F;
                 this.field24012 = 0.0F;
                 this.field24014 = Math.min(1.0F, this.field24014 + 0.33F);
@@ -75,8 +75,8 @@ public class LegitSpeed extends Module {
             if (mc.player != null && var1.getPacket() instanceof SEntityVelocityPacket) {
                 SEntityVelocityPacket var4 = (SEntityVelocityPacket) var1.getPacket();
                 if (var4.getEntityID() == mc.player.getEntityId()) {
-                    this.field24011 = this.field24011 + (float) var4.motionX / 8000.0F;
-                    this.field24012 = this.field24012 + (float) var4.motionZ / 8000.0F;
+                    this.field24011 = this.field24011 + (float) var4.getMotionX() / 8000.0F;
+                    this.field24012 = this.field24012 + (float) var4.getMotionZ() / 8000.0F;
                     this.field24013 = true;
                     this.field24014 = 0.0F;
                 }

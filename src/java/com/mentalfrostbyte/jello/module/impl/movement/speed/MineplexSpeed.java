@@ -14,6 +14,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.network.play.client.CHeldItemChangePacket;
@@ -62,7 +63,7 @@ public class MineplexSpeed extends Module {
                 && !Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).isEnabled()
                 && !MultiUtilities.method17684(mc.player)) {
             double var4 = this.getNumberValueBySettingName("OnGround Speed");
-            if (!mc.player.onGround) {
+            if (!mc.player.isOnGround()) {
                 if (mc.player.collidedHorizontally) {
                     this.field23555 = 0.35;
                     this.field23553 = 1;
