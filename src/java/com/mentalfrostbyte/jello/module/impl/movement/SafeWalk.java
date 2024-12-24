@@ -13,7 +13,7 @@ public class SafeWalk extends Module {
 
     @EventTarget
     public void SafeWalkEvent(SafeWalkEvent event) {
-        if (this.isEnabled() && mc.player.onGround) {
+        if (this.isEnabled() && mc.player.isOnGround()) {
             Module BlockFly = Client.getInstance().moduleManager.getModuleByClass(BlockFly.class);
             if (!BlockFly.isEnabled()) {
                 event.setSafe(true);
