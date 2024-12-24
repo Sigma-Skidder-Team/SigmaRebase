@@ -12,6 +12,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.AxisAlignedBB;
+import com.mentalfrostbyte.jello.misc.MovementInput;
 
 public class MineplexHighJump extends Module {
    private boolean field24023;
@@ -33,7 +34,7 @@ public class MineplexHighJump extends Module {
 
    @EventTarget
    public void method16970(SafeWalkEvent var1) {
-      if (this.isEnabled() && mc.player.onGround) {
+      if (this.isEnabled() && mc.player.isOnGround()) {
          var1.setSafe(true);
       }
    }
@@ -45,7 +46,7 @@ public class MineplexHighJump extends Module {
             this.access().toggle();
          }
 
-         if (!mc.player.onGround && this.field24023) {
+         if (!mc.player.isOnGround() && this.field24023) {
             this.field24024 = Math.max(this.field24024, 0.499);
             MovementUtil.setSpeed(var1, this.field24024);
             this.field24024 -= 0.007;
@@ -68,7 +69,7 @@ public class MineplexHighJump extends Module {
    @EventTarget
    public void method16972(EventWalkingUpdate var1) {
       if (this.isEnabled()) {
-         if (mc.player.onGround) {
+         if (mc.player.isOnGround()) {
             if (this.field24023) {
                this.field24023 = !this.field24023;
                MovementUtil.strafe(0.0);
@@ -82,8 +83,8 @@ public class MineplexHighJump extends Module {
             double var4 = mc.player.getPosX();
             double var6 = mc.player.getPosZ();
             double var8 = mc.player.getPosY();
-            double var10 = (double) mc.player.movementInput.field43908;
-            double var12 = (double) mc.player.movementInput.field43907;
+            double var10 = (double) mc.player.movementInput.moveForward;
+            double var12 = (double) mc.player.movementInput.moveStrafe;
             float var14 = mc.player.rotationYaw;
             double var15 = 0.1;
             double var17 = var4
@@ -123,9 +124,9 @@ public class MineplexHighJump extends Module {
    @EventTarget
    public void method16974(Render2DEvent var1) {
       if (this.isEnabled() && this.field24023 && !(mc.player.getPosY() < this.field24026) && this.getBooleanValueFromSettingName("Fake fly")) {
-         mc.player.positionVec.y = this.field24026;
+         mc.player.getPositionVec().y = this.field24026;
          mc.player.lastTickPosY = this.field24026;
-         mc.player.field4915 = this.field24026;
+         mc.player.chasingPosY = this.field24026;
          mc.player.prevPosY = this.field24026;
          if (MovementUtil.isMoving()) {
             mc.player.cameraYaw = 0.099999994F;
