@@ -61,7 +61,7 @@ public class NCPSpeed extends Module {
                     this.field23608++;
                 }
 
-                if (!mc.player.onGround) {
+                if (!mc.player.isOnGround()) {
                     if (this.field23607 >= 0) {
                         this.field23607++;
                         double var4 = this.field23609;
