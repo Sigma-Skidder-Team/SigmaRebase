@@ -38,7 +38,10 @@ public class KeyBinding implements Comparable<KeyBinding>
     private boolean pressed;
     private int pressTime;
 
-    public KeyBinding(String var1, InputMappingsType inputMappingsType, int var2, String var3) {
+    public KeyBinding(String var1, InputMappingsType inputMappingsType, int var2, String var3, String keyDescription, InputMappings.Input keyCodeDefault, String keyCategory) {
+        this.keyDescription = keyDescription;
+        this.keyCodeDefault = keyCodeDefault;
+        this.keyCategory = keyCategory;
     }
 
     public static void onTick(InputMappings.Input key)
@@ -122,10 +125,10 @@ public class KeyBinding implements Comparable<KeyBinding>
         return this.keyCategory;
     }
 
-    /**
-     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
-     * event.
-     */
+//    /**
+//     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
+//     * event.
+//     **/
     public boolean isPressed()
     {
         if (this.pressTime == 0)

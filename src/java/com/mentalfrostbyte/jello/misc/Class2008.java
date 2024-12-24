@@ -9,7 +9,7 @@ public class Class2008 extends KeyBinding {
     private final BooleanSupplier field13074;
 
     public Class2008(String var1, int var2, String var3, BooleanSupplier var4) {
-        super(var1, InputMappingsType.KEYSYM, var2, var3);
+        super(var1, InputMappingsType.KEYSYM, var2, var3, keyDescription, keyCodeDefault, keyCategory);
         this.field13074 = var4;
     }
 
