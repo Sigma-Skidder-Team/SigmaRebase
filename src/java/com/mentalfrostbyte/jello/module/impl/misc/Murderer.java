@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
+import com.mentalfrostbyte.jello.misc.Texture;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import org.newdawn.slick.TrueTypeFont;
@@ -10,6 +11,8 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mojang.datafixers.util.Pair;
+import com.mentalfrostbyte.jello.misc.Color;
+import com.mentalfrostbyte.jello.misc.Class7427;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -81,7 +84,7 @@ public class Murderer extends Module {
                         RenderUtil.drawRect(
                                 (float) (var6 - var4.getWidth(this.field23833) - 90), (float) (var7 - 130), (float) (var6 - 10), (float) (var7 - 10), 1342177280
                         );
-                        RenderUtil.method11455((float) (var6 - var4.getWidth(this.field23833) - 80), (float) (var7 - 120), 50.0F, 100.0F, this.field23834);
+                        RenderUtil.method11455((float) (var6 - var4.getWidth(this.field23833) - 80), (float) (var7 - 120), 50.0F, 100.0F, this.field23834); /idk why
                         RenderUtil.drawString(
                                 var4,
                                 (float) (var6 - var4.getWidth(this.field23833) - 20),

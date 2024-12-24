@@ -34,7 +34,7 @@ public class Jargon extends Module {
             var3 = this.method16129();
         }
 
-        mc.player.method5389(var3);
+        mc.player.sendChatMessage(var3);
         this.setState(false);
     }
 

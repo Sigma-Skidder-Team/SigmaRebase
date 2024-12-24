@@ -179,7 +179,7 @@ public abstract class Entity implements INameable, ICommandSource
     public boolean ignoreFrustumCheck;
     public boolean isAirBorne;
     private int field_242273_aw;
-    protected boolean inPortal;
+    public boolean inPortal;
     protected int portalCounter;
     protected BlockPos field_242271_ac;
     private boolean invulnerable;

@@ -3,6 +3,7 @@ package com.mentalfrostbyte;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import com.mentalfrostbyte.jello.command.CommandManager;
 import com.mentalfrostbyte.jello.event.EventManager;
 import com.mentalfrostbyte.jello.event.impl.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.EventWriter;
@@ -53,6 +54,8 @@ public class Client {
     public NetworkManager networkManager;
     public CombatManager combatManager;
     public SoundManager soundManager;
+    private CommandManager commandManager;
+
     public AccountManager accountManager;
     public FriendManager friendManager;
     public WaypointsManager waypointsManager;
@@ -79,7 +82,8 @@ public class Client {
         } catch (IOException var8) {
             var8.printStackTrace();
         }
-
+        this.commandManager = new CommandManager();
+        this.commandManager.init();
         this.networkManager = new NetworkManager();
         this.networkManager.init();
         this.guiManager = new GuiManager();
@@ -104,6 +108,10 @@ public class Client {
     public PlayerStateTracker getPlayerTracker() {
         return this.playerStateTracker;
     }
+    public CommandManager getCommandManager() {
+        return this.commandManager;
+    }
+
 
     public EventManager getEventManager() {
         return this.eventManager;
@@ -116,6 +124,7 @@ public class Client {
             if (this.guiManager != null) {
                 this.guiManager.getUIConfig(this.config);
             }
+
 
             if (this.moduleManager != null) {
                 this.moduleManager.method14660(this.config);

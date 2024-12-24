@@ -49,7 +49,7 @@ public class Unstuck extends Module {
     @EventTarget
     public void method16287(EventUpdate var1) {
         if (this.isEnabled() && var1.isPre()) {
-            if (!mc.player.onGround && !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+            if (!mc.player.isOnGround() && !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                 if ((float) this.field23574 >= this.getNumberValueBySettingName("Flags") && this.field23575 == 0) {
                     this.field23575 = 60;
                     Client.getInstance().getNotificationManager().send(new Notification("Unstuck", "Trying to unstuck you.."));

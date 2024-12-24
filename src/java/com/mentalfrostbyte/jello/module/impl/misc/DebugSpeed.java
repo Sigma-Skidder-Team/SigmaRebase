@@ -25,7 +25,7 @@ public class DebugSpeed extends Module {
     public void method16256(TickEvent var1) {
         if (this.isEnabled()) {
             Vector3d var4 = new Vector3d(mc.player.getPosX(), 0.0, mc.player.getPosZ());
-            if (mc.player.onGround && this.field23558 != null) {
+            if (mc.player.isOnGround() && this.field23558 != null) {
                 double var5 = var4.squareDistanceTo(this.field23558) / (double) this.field23557;
                 var5 *= mc.timer.timerSpeed;
                 boolean var7 = Client.getInstance().getPlayerTracker().getgroundTicks() > 1 && mc.player.jumpTicks == 0;
@@ -53,7 +53,7 @@ public class DebugSpeed extends Module {
                 );
             }
 
-            this.field23557 = !mc.player.onGround ? this.field23557++ : 1;
+            this.field23557 = !mc.player.isOnGround() ? this.field23557++ : 1;
             this.field23558 = var4;
         }
     }

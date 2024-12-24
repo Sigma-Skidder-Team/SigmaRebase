@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.misc;
 
 import lol.Renderer;
-import lol.SGL;
+import com.mentalfrostbyte.jello.misc.SGL;
 
 import java.io.Serializable;
 import java.nio.FloatBuffer;
