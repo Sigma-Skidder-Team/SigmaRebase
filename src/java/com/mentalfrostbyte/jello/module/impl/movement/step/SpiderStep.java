@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.step;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class2131;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.SafeWalkEvent;
