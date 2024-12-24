@@ -12,7 +12,7 @@ public class CPlayerPacket implements IPacket<IServerPlayNetHandler>
     protected double z;
     protected float yaw;
     protected float pitch;
-    protected boolean onGround;
+    public boolean onGround;
     protected boolean moving;
     protected boolean rotating;
 

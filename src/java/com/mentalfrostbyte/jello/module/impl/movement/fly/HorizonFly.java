@@ -87,7 +87,7 @@ public class HorizonFly extends Module {
                     this.field23497 = -1;
                 }
 
-                this.field23498 = var5.y;
+                this.field23498 = var5.getY();
                 var5.yaw = mc.player.rotationYaw;
                 var5.pitch = mc.player.rotationPitch;
             }
@@ -111,9 +111,9 @@ public class HorizonFly extends Module {
     public void method16162(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23498;
-            mc.player.positionVec.y = var4;
+            mc.player.getPositionVec().y = var4;
             mc.player.lastTickPosY = var4;
-            mc.player.field4915 = var4;
+            mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;
         }
     }

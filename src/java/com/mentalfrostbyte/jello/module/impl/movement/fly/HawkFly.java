@@ -82,9 +82,9 @@ public class HawkFly extends Module {
                     this.field23424 = -1;
                 }
 
-                this.field23425 = var5.x;
-                this.field23426 = var5.y;
-                this.field23427 = var5.z;
+                this.field23425 = var5.getX();
+                this.field23426 = var5.getY();
+                this.field23427 = var5.getZ();
                 var5.yaw = mc.player.rotationYaw;
                 var5.pitch = mc.player.rotationPitch;
             }
@@ -97,17 +97,17 @@ public class HawkFly extends Module {
             double var4 = this.field23426;
             double var6 = this.field23425;
             double var8 = this.field23427;
-            mc.player.positionVec.y = var4;
+            mc.player.getPositionVec().y = var4;
             mc.player.lastTickPosY = var4;
-            mc.player.field4915 = var4;
+            mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;
-            mc.player.positionVec.x = var6;
+            mc.player.getPositionVec().x = var6;
             mc.player.lastTickPosX = var6;
-            mc.player.field4914 = var6;
+            mc.player.chasingPosX = var6;
             mc.player.prevPosX = var6;
-            mc.player.positionVec.z = var8;
+            mc.player.getPositionVec().z = var8;
             mc.player.lastTickPosZ = var8;
-            mc.player.field4916 = var8;
+            mc.player.chasingPosZ = var8;
             mc.player.prevPosZ = var8;
         }
     }

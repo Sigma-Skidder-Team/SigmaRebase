@@ -34,7 +34,7 @@ public class ACRFly extends Module {
                 this.field23988 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23988 = true;
         }
     }
@@ -127,7 +127,7 @@ public class ACRFly extends Module {
                     this.field23986 = -1;
                 }
 
-                this.field23987 = var5.y;
+                this.field23987 = var5.getY();
                 var5.yaw = mc.player.rotationYaw;
                 var5.pitch = mc.player.rotationPitch;
             }
@@ -151,9 +151,9 @@ public class ACRFly extends Module {
     public void method16908(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23987;
-            mc.player.positionVec.y = var4;
+            mc.player.getPositionVec().y = var4;
             mc.player.lastTickPosY = var4;
-            mc.player.field4915 = var4;
+            mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;
         }
     }

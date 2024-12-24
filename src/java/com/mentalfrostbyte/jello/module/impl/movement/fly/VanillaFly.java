@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
@@ -37,7 +38,7 @@ public class VanillaFly extends Module {
                 this.sneakCancelled = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.sneakCancelled = true;
         }
     }
@@ -48,7 +49,7 @@ public class VanillaFly extends Module {
         double plrSpeed = MovementUtil.getSpeed();
         MovementUtil.strafe(plrSpeed);
         if (this.sneakCancelled) {
-            mc.gameSettings.keyBindSneak.pressed = true;
+            mc.gameSettings.keyBindSneak.setPressed(true);
         }
     }
 
@@ -75,7 +76,7 @@ public class VanillaFly extends Module {
     @EventTarget
     public void onUpdate(EventUpdate event) {
         if (this.isEnabled()) {
-            if (!mc.player.onGround && this.getBooleanValueFromSettingName("Kick bypass")) {
+            if (!mc.player.isOnGround() && this.getBooleanValueFromSettingName("Kick bypass")) {
                 if (this.ticksInAir > 0 && this.ticksInAir % 30 == 0 && !MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                     /*
                     if (JelloPortal.getCurrentVersionApplied() != ViaVerList._1_8_x.getVersionNumber()) {
@@ -130,11 +131,11 @@ public class VanillaFly extends Module {
             }
 
             double speed = this.getNumberValueBySettingName("Speed");
-            double verticalSpeed = !mc.gameSettings.keyBindJump.pressed ? 0.0 : speed / 2.0;
-            if (mc.gameSettings.keyBindJump.pressed && mc.gameSettings.keyBindSneak.pressed) {
+            double verticalSpeed = !mc.gameSettings.keyBindJump.isPressed() ? 0.0 : speed / 2.0;
+            if (mc.gameSettings.keyBindJump.isPressed() && mc.gameSettings.keyBindSneak.isPressed()) {
                 verticalSpeed = 0.0;
             } else if (!this.sneakCancelled) {
-                if (mc.gameSettings.keyBindJump.pressed) {
+                if (mc.gameSettings.keyBindJump.isPressed()) {
                     verticalSpeed = speed / 2.0;
                 }
             } else {
@@ -149,8 +150,8 @@ public class VanillaFly extends Module {
 
     private double getGroundCollisionHeight() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
-            if (!mc.player.onGround) {
-                AxisAlignedBB alignedBB = mc.player.boundingBox.expand(0.0, -mc.player.getPositionVec().y, 0.0);
+            if (!mc.player.isOnGround()) {
+                AxisAlignedBB alignedBB = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 Iterator<VoxelShape> shapeIterator = mc.world.getCollisionShapes(mc.player, alignedBB).iterator();
                 double maxCollisionHeight = -1.0;
 

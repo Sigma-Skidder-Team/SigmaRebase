@@ -34,7 +34,7 @@ public class ViperMCFly extends Module {
                 this.field23598 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23598 = true;
         }
     }
@@ -148,7 +148,7 @@ public class ViperMCFly extends Module {
                 }
 
                 this.field23597 = this.field23596;
-                this.field23596 = var7.y;
+                this.field23596 = var7.getY();
                 var7.yaw = mc.player.rotationYaw;
                 var7.pitch = mc.player.rotationPitch;
             }
@@ -173,9 +173,9 @@ public class ViperMCFly extends Module {
         if (this.isEnabled()) {
             double var4 = this.field23596 - this.field23597;
             double var6 = this.field23596;
-            mc.player.positionVec.y = var6;
+            mc.player.getPositionVec().y = var6;
             mc.player.lastTickPosY = var6;
-            mc.player.field4915 = var6;
+            mc.player.chasingPosY = var6;
             mc.player.prevPosY = var6;
         }
     }

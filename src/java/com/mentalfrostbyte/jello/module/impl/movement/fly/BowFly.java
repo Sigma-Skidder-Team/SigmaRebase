@@ -11,6 +11,7 @@ import com.mentalfrostbyte.jello.module.impl.item.InvManager;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -83,7 +84,7 @@ public class BowFly extends Module {
             int var4 = this.method16181();
             if (var4 >= 0 || var4 <= 8) {
                 if (mc.player.getHeldItem(Hand.MAIN_HAND).getItem() == Items.BOW) {
-                    if (InvManager.method16437(Items.field37797) == 0) {
+                    if (InvManager.method16437(Items.ARROW) == 0) {
                         if (this.field23505.getElapsedTime() > 5000L) {
                             Client.getInstance().getNotificationManager()
                                     .send(new Notification("BowFly", "You have no arrows"));
@@ -113,7 +114,7 @@ public class BowFly extends Module {
 
                     var1.setPitch(var6);
                     var1.setYaw(var5);
-                    if (mc.player.onGround && mc.player.collidedVertically) {
+                    if (mc.player.isOnGround() && mc.player.collidedVertically) {
                         mc.player.jump();
                     } else if (!(mc.player.getMotion().y < 0.0)) {
                         if (mc.timer.timerSpeed == 0.1F) {

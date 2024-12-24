@@ -1,5 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.misc.Class3410;
+import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
@@ -31,7 +33,7 @@ public class AGCFly extends Module {
         if (!mc.gameSettings.keyBindSneak.isKeyDown()) {
             this.field23904 = false;
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23904 = true;
         }
 
@@ -131,8 +133,8 @@ public class AGCFly extends Module {
 
     private double method16785() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
-            if (!mc.player.onGround) {
-                AxisAlignedBB var3 = mc.player.boundingBox.expand(0.0, -mc.player.getPositionVec().y, 0.0);
+            if (!mc.player.isOnGround()) {
+                AxisAlignedBB var3 = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 Iterator var4 = mc.world.getCollisionShapes(mc.player, var3).iterator();
                 double var5 = -1.0;
                 BlockPos var7 = null;
