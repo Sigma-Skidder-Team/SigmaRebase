@@ -8,6 +8,7 @@ import com.mentalfrostbyte.jello.event.impl.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.EventWriter;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.managers.*;
+import com.mentalfrostbyte.jello.misc.Class8795;
 import com.mentalfrostbyte.jello.trackers.PlayerStateTracker;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;
@@ -63,6 +64,7 @@ public class Client {
     public static boolean dontRenderHand = false;
     private boolean field28968 = true;
     private PlayerStateTracker playerStateTracker;
+    private Class8795 field28989;
 
     public void start() {
         this.logger = new ClientLogger(System.out, System.out, System.err);
@@ -271,6 +273,10 @@ public class Client {
 
     public Logger getLogger() {
         return this.logger;
+    }
+
+    public Class8795 method19950() {
+        return this.field28989;
     }
 
 
