@@ -3,10 +3,12 @@ package com.mentalfrostbyte;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import com.mentalfrostbyte.jello.event.EventManager;
 import com.mentalfrostbyte.jello.event.impl.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.EventWriter;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.managers.*;
+import com.mentalfrostbyte.jello.trackers.PlayerStateTracker;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;
 import com.mentalfrostbyte.jello.util.FileUtil;
@@ -55,10 +57,12 @@ public class Client {
     public WaypointsManager waypointsManager;
     public NotificationManager notificationManager;
     public MusicManager musicManager;
+    public EventManager eventManager;
     private Logger logger;
 
     public static boolean dontRenderHand = false;
     private boolean field28968 = true;
+    private PlayerStateTracker playerStateTracker;
 
     public void start() {
         this.logger = new ClientLogger(System.out, System.out, System.err);
@@ -93,6 +97,14 @@ public class Client {
         this.friendManager.init();
         GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Sigma 5.0");
         this.logger.info("Initialized.");
+    }
+
+    public PlayerStateTracker getPlayerTracker() {
+        return this.playerStateTracker;
+    }
+
+    public EventManager getEventManager() {
+        return this.eventManager;
     }
 
     public void shutdown() {
