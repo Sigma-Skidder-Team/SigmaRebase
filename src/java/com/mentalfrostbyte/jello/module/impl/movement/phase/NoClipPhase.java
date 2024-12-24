@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.phase;
 
+import net.minecraft.util.math.shapes.VoxelShapes;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventBlockCollision;
 import com.mentalfrostbyte.jello.event.impl.EventPushBlock;
@@ -34,7 +35,7 @@ public class NoClipPhase extends Module {
         if (this.isEnabled()) {
             mc.player.jumpTicks = 3;
             if (mc.player.ticksExisted % 2 == 0) {
-                if (mc.player.onGround) {
+                if (mc.player.isOnGround()) {
                     if (!mc.player.isJumping) {
                         if (mc.player.isSneaking()) {
                             mc.player

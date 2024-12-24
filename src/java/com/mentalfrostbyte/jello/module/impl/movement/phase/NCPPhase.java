@@ -32,7 +32,7 @@ public class NCPPhase extends PremiumModule {
             this.field23652 = -1;
         } else {
             this.field23652 = 0;
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 double var3 = mc.player.getPosX();
                 double var5 = mc.player.getPosY();
                 double var7 = mc.player.getPosZ();
@@ -80,7 +80,7 @@ public class NCPPhase extends PremiumModule {
         if (this.isEnabled()) {
             if (mc.player.collidedHorizontally && this.field23652 != 0) {
                 this.field23652 = 0;
-                if (mc.player.onGround) {
+                if (mc.player.isOnGround()) {
                     double var4 = mc.player.getPosX();
                     double var6 = mc.player.getPosY();
                     double var8 = mc.player.getPosZ();
