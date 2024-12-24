@@ -33,7 +33,7 @@ public class JumpSpider extends Module {
     private void EventMove(EventMove event) {
         if (!mc.player.collidedHorizontally) {
             this.isJumping = false;
-        } else if (!mc.player.onGround) {
+        } else if (!mc.player.isOnGround()) {
             if (mc.player.getPositionVec().y != (double) ((int) mc.player.getPositionVec().y)) {
                 if (event.getY() < 0.0
                         && mc.player.getPositionVec().y + event.getY() < (double) ((int) mc.player.getPositionVec().y)) {
@@ -114,7 +114,7 @@ public class JumpSpider extends Module {
         if (this.isEnabled() && mc.player != null) {
             if (event.getVoxelShape() != null
                     && !event.getVoxelShape().isEmpty()
-                    && event.getVoxelShape().getBoundingBox().minY > mc.player.boundingBox.minY + 1.0) {
+                    && event.getVoxelShape().getBoundingBox().minY > mc.player.getBoundingBox().minY + 1.0) {
                 event.cancelled = true;
             }
         }
