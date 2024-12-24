@@ -47,9 +47,11 @@ public class CClientStatusPacket implements IPacket<IServerPlayNetHandler>
         return this.status;
     }
 
-    public static enum State
-    {
-        PERFORM_RESPAWN,
-        REQUEST_STATS;
+    public enum State {
+        field14277,
+        field14278,
+        OPEN_INVENTORY;
+
+        private static final State[] field14280 = new State[]{field14277, field14278, OPEN_INVENTORY};
     }
 }

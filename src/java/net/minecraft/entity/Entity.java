@@ -2634,7 +2634,7 @@ public abstract class Entity implements INameable, ICommandSource
     /**
      * Enable or disable a entity flag, see getEntityFlag to read the know flags.
      */
-    protected void setFlag(int flag, boolean set)
+    public void setFlag(int flag, boolean set)
     {
         byte b0 = this.dataManager.get(FLAGS);
 

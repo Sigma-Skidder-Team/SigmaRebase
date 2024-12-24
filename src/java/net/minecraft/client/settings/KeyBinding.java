@@ -5,6 +5,9 @@ import com.google.common.collect.Sets;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import com.mentalfrostbyte.jello.misc.InputMappingsInput;
+import com.mentalfrostbyte.jello.misc.InputMappingsType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.InputMappings;
@@ -31,8 +34,12 @@ public class KeyBinding implements Comparable<KeyBinding>
     private final InputMappings.Input keyCodeDefault;
     private final String keyCategory;
     public InputMappings.Input keyCode;
+    public InputMappingsInput inputMappingsInput;
     private boolean pressed;
     private int pressTime;
+
+    public KeyBinding(String var1, InputMappingsType inputMappingsType, int var2, String var3) {
+    }
 
     public static void onTick(InputMappings.Input key)
     {

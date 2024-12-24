@@ -7,6 +7,7 @@ import com.mentalfrostbyte.Client;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 
 public class MovementUtil {
@@ -223,5 +224,8 @@ public class MovementUtil {
         MultiUtilities.setPlayerXMotion(event.getX());
         MultiUtilities.setPlayerZMotion(event.getZ());
         return tween;
+    }
+
+    public static void strafe(double v) {
     }
 }

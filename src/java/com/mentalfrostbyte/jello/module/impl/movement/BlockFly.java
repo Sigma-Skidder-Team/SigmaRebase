@@ -3,9 +3,11 @@ package com.mentalfrostbyte.jello.module.impl.movement;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.gui.base.Direction;
-import com.mentalfrostbyte.jello.misc.Class3206;
-import com.mentalfrostbyte.jello.misc.Class3420;
+import com.mentalfrostbyte.jello.misc.*;
+import com.mentalfrostbyte.jello.util.*;
 import com.mentalfrostbyte.jello.util.render.Animation;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRender;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
@@ -13,13 +15,8 @@ import com.mentalfrostbyte.jello.event.impl.EventMove;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
 import com.mentalfrostbyte.jello.module.impl.movement.blockfly.*;
-import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
-import com.mentalfrostbyte.jello.util.render.Resources;
-import com.mentalfrostbyte.jello.util.MultiUtilities;
-import com.mentalfrostbyte.jello.util.Rots;
-import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
 import net.minecraft.block.*;
@@ -104,7 +101,7 @@ public class BlockFly extends ModuleWithModuleSettings {
         if (!(var0 instanceof BlockItem)) {
             return false;
         } else {
-            Block var3 = ((BlockItem) var0).method11845();
+            Block var3 = ((BlockItem) var0).getBlock();
             return !blocksToNotPlace.contains(var3)
                     && !(var3 instanceof AbstractButtonBlock)
                     && !(var3 instanceof BushBlock)
@@ -130,7 +127,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                 int var4 = var3 - 36;
                 if (mc.player.container.getSlot(var3).getHasStack()
                         && method16733(mc.player.container.getSlot(var3).getStack().getItem())
-                        && mc.player.container.getSlot(var3).getStack().count != 0) {
+                        && mc.player.container.getSlot(var3).getStack().getCount() != 0) {
                     if (mc.player.inventory.currentItem == var4) {
                         return;
                     }
@@ -156,7 +153,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                 ItemStack var5 = mc.player.container.getSlot(var4).getStack();
                 Item var6 = var5.getItem();
                 if (method16733(var6)) {
-                    var3 += var5.count;
+                    var3 += var5.getCount();
                 }
             }
         }
@@ -216,8 +213,8 @@ public class BlockFly extends ModuleWithModuleSettings {
                             Item var12 = mc.player.container.getSlot(var10).getStack().getItem();
                             if (method16733(var12)) {
                                 var4 = var10;
-                                if (mc.player.container.getSlot(var10).getStack().count == mc.player.container
-                                        .getSlot(var8).getStack().count) {
+                                if (mc.player.container.getSlot(var10).getStack().getCount() == mc.player.container
+                                        .getSlot(var8).getStack().getCount()) {
                                     var4 = -1;
                                 }
                                 break;
@@ -255,8 +252,8 @@ public class BlockFly extends ModuleWithModuleSettings {
                 if (mc.player.container.getSlot(var5).getHasStack()) {
                     Item var6 = mc.player.container.getSlot(var5).getStack().getItem();
                     ItemStack var7 = mc.player.container.getSlot(var5).getStack();
-                    if (method16733(var6) && var7.count > var4) {
-                        var4 = var7.count;
+                    if (method16733(var6) && var7.getCount() > var4) {
+                        var4 = var7.getCount();
                         var3 = var5;
                     }
                 }
@@ -320,7 +317,7 @@ public class BlockFly extends ModuleWithModuleSettings {
 
                         if (mc.player.getPosY() == (double) ((int) mc.player.getPosY())
                                 && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
-                            if (mc.gameSettings.keyBindJump.pressed) {
+                            if (mc.gameSettings.keyBindJump.isPressed()) {
                                 if (!MultiUtilities.method17686()) {
                                     MovementUtil.strafe(0.0);
                                     MovementUtil.setSpeed(var1, 0.0);
@@ -335,7 +332,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                     case "AAC":
                         if (var1.getY() > 0.247 && var1.getY() < 0.249) {
                             var1.setY((double) ((int) (mc.player.getPosY() + var1.getY())) - mc.player.getPosY());
-                            if (mc.gameSettings.keyBindJump.pressed && !MultiUtilities.method17686()) {
+                            if (mc.gameSettings.keyBindJump.isPressed() && !MultiUtilities.method17686()) {
                                 MovementUtil.strafe(0.0);
                                 MovementUtil.setSpeed(var1, 0.0);
                             }
@@ -345,9 +342,9 @@ public class BlockFly extends ModuleWithModuleSettings {
                         }
                         break;
                     case "Vanilla":
-                        if (mc.gameSettings.keyBindJump.pressed
+                        if (mc.gameSettings.keyBindJump.isPressed()
                                 && MultiUtilities.isAboveBounds(mc.player, 0.001F)
-                                && mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.offset(0.0, 1.0, 0.0))
+                                && mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(0.0, 1.0, 0.0))
                                         .count() == 0L) {
                             mc.player
                                     .setPosition(mc.player.getPosX(), mc.player.getPosY() + 1.0, mc.player.getPosZ());
@@ -359,11 +356,11 @@ public class BlockFly extends ModuleWithModuleSettings {
             }
         } else if (!this.getStringSettingValueByName("Tower Mode").equals("AAC")
                 || !MultiUtilities.isAboveBounds(mc.player, 0.001F)
-                || !mc.gameSettings.keyBindJump.pressed) {
+                || !mc.gameSettings.keyBindJump.isPressed()) {
             if (!this.getStringSettingValueByName("Tower Mode").equals("NCP")
                     && !this.getStringSettingValueByName("Tower Mode").equals("Vanilla")
                     && MultiUtilities.isAboveBounds(mc.player, 0.001F)
-                    && mc.gameSettings.keyBindJump.pressed) {
+                    && mc.gameSettings.keyBindJump.isPressed()) {
                 mc.player.jumpTicks = 20;
                 var1.setY(MovementUtil.method37080());
             }
@@ -407,13 +404,13 @@ public class BlockFly extends ModuleWithModuleSettings {
             if (this.getBooleanValueFromSettingName("Show Block Amount")) {
                 if (Client.getInstance().getClientMode() != ClientMode.JELLO) {
                     this.method16744(
-                            mc.mainWindow.getWidth() / 2,
-                            mc.mainWindow.getHeight() / 2 + 15 - (int) (10.0F * this.field23885.calcPercent()),
+                            mc.getMainWindow().getWidth() / 2,
+                            mc.getMainWindow().getHeight() / 2 + 15 - (int) (10.0F * this.field23885.calcPercent()),
                             this.field23885.calcPercent());
                 } else {
                     this.method16745(
-                            mc.mainWindow.getWidth() / 2,
-                            mc.mainWindow.getHeight() - 138
+                            mc.getMainWindow().getWidth() / 2,
+                            mc.getMainWindow().getHeight() - 138
                                     - (int) (25.0F * MathHelper.calculateTransition(this.field23885.calcPercent(), 0.0F,
                                             1.0F, 1.0F)),
                             this.field23885.calcPercent());
@@ -426,13 +423,13 @@ public class BlockFly extends ModuleWithModuleSettings {
         var3 = (float) (0.5 + 0.5 * (double) var3);
         GL11.glAlphaFunc(518, 0.1F);
         RenderUtil.drawString(
-                ResourceList.medium17,
+                Resources.medium17,
                 (float) (var1 + 10),
                 (float) (var2 + 5),
                 this.field23886 + " Blocks",
                 MultiUtilities.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var3 * 0.3F));
         RenderUtil.drawString(
-                ResourceList.medium17,
+                Resources.medium17,
                 (float) (var1 + 10),
                 (float) (var2 + 4),
                 this.field23886 + " Blocks",
@@ -462,7 +459,7 @@ public class BlockFly extends ModuleWithModuleSettings {
         GL11.glTranslatef((float) var1, (float) var2, 0.0F);
         GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
         GL11.glTranslatef((float) (-var1), (float) (-var2), 0.0F);
-        RenderUtil.drawImage((float) var1, (float) var2, 9.0F, 23.0F, ResourceList.selectPNG,
+        RenderUtil.drawImage((float) var1, (float) var2, 9.0F, 23.0F, Resources.selectPNG,
                 MultiUtilities.applyAlpha(-15461356, 0.8F * var3));
         GL11.glPopMatrix();
         GL11.glPopMatrix();

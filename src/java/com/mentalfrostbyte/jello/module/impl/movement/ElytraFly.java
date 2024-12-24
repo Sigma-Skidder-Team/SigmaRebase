@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
 import com.mentalfrostbyte.jello.misc.Class888;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;
@@ -35,7 +36,7 @@ public class ElytraFly extends Module {
     @EventTarget
     public void method16220(TickEvent var1) {
         if (this.isEnabled()) {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             if (!(mc.player.getMotion().y < 0.08) || mc.player.isOnGround()) {
                 mc.player.setFlag(7, false);
                 if (mc.player.isSneaking()) {
@@ -121,7 +122,7 @@ public class ElytraFly extends Module {
                     this.field23533 = var4;
                 }
             } else {
-                int var5 = InvManagerUtils.method25843(Items.field38068);
+                int var5 = InvManagerUtils.method25843(Items.FIREWORK_ROCKET);
                 if (var5 >= 0) {
                     if (var5 != mc.player.inventory.currentItem) {
                         mc.getConnection().sendPacket(new CHeldItemChangePacket(var5));
@@ -161,7 +162,7 @@ public class ElytraFly extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             MultiUtilities.setPlayerYMotion(0.3994F);
         }
     }
