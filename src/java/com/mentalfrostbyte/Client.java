@@ -253,6 +253,7 @@ public class Client {
         return this.logger;
     }
 
+
     public boolean method19930() {
         return this.field28968;
     }

@@ -34,9 +34,9 @@ public class ClickTP extends ModuleWithModuleSettings {
 
             this.method16754(
                     this.method16753(),
-                    (double) var5.getX() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
-                    (double) (var5.getY() + 1) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
-                    (double) var5.getZ() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ()
+                    (double) var5.getX() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                    (double) (var5.getY() + 1) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                    (double) var5.getZ() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getBlockPos().getZ()
             );
         }
     }
