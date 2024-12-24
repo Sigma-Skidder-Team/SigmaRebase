@@ -3,6 +3,7 @@ package com.mentalfrostbyte.jello.module.impl.movement;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.gui.base.Direction;
+import com.mentalfrostbyte.jello.misc.*;
 import com.mentalfrostbyte.jello.util.render.Animation;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRender;
@@ -102,7 +103,7 @@ public class BlockFly extends ModuleWithModuleSettings {
         if (!(var0 instanceof BlockItem)) {
             return false;
         } else {
-            Block var3 = ((BlockItem) var0).method11845();
+            Block var3 = ((BlockItem) var0).getBlock();
             return !blocksToNotPlace.contains(var3)
                     && !(var3 instanceof AbstractButtonBlock)
                     && !(var3 instanceof BushBlock)
@@ -128,7 +129,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                 int var4 = var3 - 36;
                 if (mc.player.container.getSlot(var3).getHasStack()
                         && method16733(mc.player.container.getSlot(var3).getStack().getItem())
-                        && mc.player.container.getSlot(var3).getStack().count != 0) {
+                        && mc.player.container.getSlot(var3).getStack().getCount() != 0) {
                     if (mc.player.inventory.currentItem == var4) {
                         return;
                     }
@@ -154,7 +155,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                 ItemStack var5 = mc.player.container.getSlot(var4).getStack();
                 Item var6 = var5.getItem();
                 if (method16733(var6)) {
-                    var3 += var5.count;
+                    var3 += var5.getCount();
                 }
             }
         }
