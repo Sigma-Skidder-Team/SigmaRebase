@@ -1,6 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.movement.blockfly;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class7843;
+import net.minecraft.util.math.RayTraceResult;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;
@@ -89,7 +91,7 @@ public class BlockFlyHypixelMode extends Module {
         this.yaw = this.pitch = 999.0F;
         ((BlockFly) this.access()).field23884 = -1;
         if (mc.gameSettings.keyBindSneak.isKeyDown() && this.getBooleanValueFromSettingName("Downwards")) {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23474 = true;
         }
 
@@ -99,7 +101,7 @@ public class BlockFlyHypixelMode extends Module {
 
         this.field23476 = -1.0;
         this.field23475 = false;
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             this.field23476 = mc.player.getPosY();
         }
 
@@ -132,14 +134,14 @@ public class BlockFlyHypixelMode extends Module {
                 if (mc.world
                         .getCollisionShapes(
                                 mc.player,
-                                mc.player.boundingBox.expand(0.0, -1.5, 0.0).method19660(0.05, 0.0, 0.05).method19660(-0.05, 0.0, -0.05)
+                                mc.player.getBoundingBox().expand(0.0, -1.5, 0.0).contract(0.05, 0.0, 0.05).contract(-0.05, 0.0, -0.05)
                         )
                         .count()
                         == 0L
                         && mc.player.fallDistance < 1.0F) {
                     var1.setSafe(true);
                 }
-            } else if (mc.player.onGround
+            } else if (mc.player.isOnGround()
                     && Client.getInstance().moduleManager.getModuleByClass(SafeWalk.class).isEnabled()
                     && (!this.field23474 || !this.getBooleanValueFromSettingName("Downwards"))) {
                 var1.setSafe(true);
@@ -234,15 +236,15 @@ public class BlockFlyHypixelMode extends Module {
 
                     BlockPos var11 = new BlockPos(var5, var9 - 1.0, var7);
                     if (!BlockUtil.method34578(var11) && this.field23473.method16739(this.field23472)) {
-                        Class7843 var12 = BlockUtil.method34575(var11, !this.field23474 && this.getBooleanValueFromSettingName("Downwards"));
+                        Class7843 var12 = BlockUtil.method34575(var11, !this.field23474 && this.getBooleanValueFromSettingName("Downwards")); //fix dis shit
                         this.field23468 = var12;
                         if (var12 != null) {
                             float[] var13 = BlockUtil.method34542(this.field23468.field33646, this.field23468.field33647);
-                            if ((double) var12.field33646.field13028 - mc.player.getPosY() < 0.0) {
+                            if ((double) var12.field33646.getY() - mc.player.getPosY() < 0.0) {
                                 double var14 = mc.player.getPosX()
-                                        - ((double) var12.field33646.field13027 + 0.5 + (double) var12.field33647.getXOffset() / 2.0);
+                                        - ((double) var12.field33646.getX() + 0.5 + (double) var12.field33647.getXOffset() / 2.0);
                                 double var16 = mc.player.getPosZ()
-                                        - ((double) var12.field33646.field13029 + 0.5 + (double) var12.field33647.getZOffset() / 2.0);
+                                        - ((double) var12.field33646.getZ() + 0.5 + (double) var12.field33647.getZOffset() / 2.0);
                                 double var18 = Math.sqrt(var14 * var14 + var16 * var16);
                                 if (var18 < 2.0) {
                                     var13[0] = mc.player.rotationYaw + 1.0F;
@@ -292,7 +294,7 @@ public class BlockFlyHypixelMode extends Module {
     @HigherPriority
     public void method16112(EventMove var1) {
         if (this.isEnabled() && this.field23473.method16735() != 0) {
-            if (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
+            if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                 this.field23476 = mc.player.getPosY();
             }
 
@@ -300,7 +302,7 @@ public class BlockFlyHypixelMode extends Module {
                 mc.player.setSprinting(false);
             }
 
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23471 = 0;
             } else if (this.field23471 >= 0) {
                 this.field23471++;
@@ -313,7 +315,7 @@ public class BlockFlyHypixelMode extends Module {
             String var4 = this.getStringSettingValueByName("Speed Mode");
             switch (var4) {
                 case "Jump":
-                    if (mc.player.onGround && MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23474) {
+                    if (mc.player.isOnGround() && MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23474) {
                         this.field23475 = false;
                         mc.player.jump();
                         ((Speed) Client.getInstance().moduleManager.getModuleByClass(Speed.class)).method16764();
@@ -324,7 +326,7 @@ public class BlockFlyHypixelMode extends Module {
                     }
                     break;
                 case "AAC":
-                    if (this.field23470 == 0 && mc.player.onGround) {
+                    if (this.field23470 == 0 && mc.player.isOnGround()) {
                         MovementUtil.setSpeed(var1, MovementUtil.getSpeed() * 0.82);
                     }
                     break;
@@ -333,7 +335,7 @@ public class BlockFlyHypixelMode extends Module {
                     float var8 = this.method16118(MathHelper.wrapDegrees(mc.player.rotationYaw));
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.timer.timerSpeed = 1.0F;
-                    } else if (mc.player.onGround) {
+                    } else if (mc.player.isOnGround()) {
                         if (MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23474) {
                             var1.setY(1.00000000000001);
                         }
@@ -373,7 +375,7 @@ public class BlockFlyHypixelMode extends Module {
                     MultiUtilities.setPlayerYMotion(var1.getY());
                     break;
                 case "Slow":
-                    if (mc.player.onGround) {
+                    if (mc.player.isOnGround()) {
                         var1.setX(var1.getX() * 0.75);
                         var1.setZ(var1.getZ() * 0.75);
                     } else {
@@ -382,7 +384,7 @@ public class BlockFlyHypixelMode extends Module {
                     }
                     break;
                 case "Sneak":
-                    if (mc.player.onGround) {
+                    if (mc.player.isOnGround()) {
                         var1.setX(var1.getX() * 0.65);
                         var1.setZ(var1.getZ() * 0.65);
                     } else {
@@ -419,11 +421,11 @@ public class BlockFlyHypixelMode extends Module {
     public void method16115(Render2DEvent var1) {
         if (this.isEnabled() && this.getStringSettingValueByName("Speed Mode").equals("Cubecraft") && this.field23471 >= 0) {
             if (!(mc.player.fallDistance > 1.2F)) {
-                if (!(mc.player.field4915 < this.field23476)) {
+                if (!(mc.player.chasingPosY < this.field23476)) {
                     if (!mc.player.isJumping) {
-                        mc.player.positionVec.y = this.field23476;
+                        mc.player.getPositionVec().y = this.field23476;
                         mc.player.lastTickPosY = this.field23476;
-                        mc.player.field4915 = this.field23476;
+                        mc.player.chasingPosY = this.field23476;
                         mc.player.prevPosY = this.field23476;
                         if (MovementUtil.isMoving()) {
                             mc.player.cameraYaw = 0.099999994F;
