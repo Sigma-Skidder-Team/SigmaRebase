@@ -868,7 +868,7 @@ public abstract class Entity implements INameable, ICommandSource
      * Given a motion vector, return an updated vector that takes into account restrictions such as collisions (from all
      * directions) and step-up from stepHeight
      */
-    private Vector3d getAllowedMovement(Vector3d vec)
+    public Vector3d getAllowedMovement(Vector3d vec)
     {
         AxisAlignedBB axisalignedbb = this.getBoundingBox();
         ISelectionContext iselectioncontext = ISelectionContext.forEntity(this);
