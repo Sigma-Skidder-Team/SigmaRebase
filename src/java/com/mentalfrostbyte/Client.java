@@ -198,6 +198,9 @@ public class Client {
 
     private Client() {
     }
+    public ClientMode getClientMode() {
+        return this.clientMode;
+    }
 
     public static Client getInstance() {
         return instance != null ? instance : (instance = new Client());
@@ -244,6 +247,8 @@ public class Client {
             logger.error(e.getMessage());
         }
     }
+
+
 
     public JSONObject getConfig() {
         return this.config;

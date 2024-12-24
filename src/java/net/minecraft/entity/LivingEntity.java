@@ -190,7 +190,7 @@ public abstract class LivingEntity extends Entity
     /** Holds the value of ticksExisted when setLastAttacker was last called. */
     private int lastAttackedEntityTime;
     private float landMovementFactor;
-    private int jumpTicks;
+    public int jumpTicks;
     private float absorptionAmount;
     protected ItemStack activeItemStack = ItemStack.EMPTY;
     protected int activeItemStackUseCount;
