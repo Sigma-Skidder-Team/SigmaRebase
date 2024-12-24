@@ -50,7 +50,7 @@ public class CClientStatusPacket implements IPacket<IServerPlayNetHandler>
     public enum State {
         field14277,
         field14278,
-        OPEN_INVENTORY;
+        OPEN_INVENTORY, PERFORM_RESPAWN;
 
         private static final State[] field14280 = new State[]{field14277, field14278, OPEN_INVENTORY};
     }
