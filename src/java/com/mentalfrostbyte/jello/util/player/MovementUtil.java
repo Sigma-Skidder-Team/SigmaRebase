@@ -108,6 +108,20 @@ public class MovementUtil {
         return method37084(var3, var4);
     }
 
+    public static float method37093(double var0, float var2, float var3, float var4) {
+        float var7 = RotationHelper.angleDiff(var3, var2);
+        if (!(var7 > var4)) {
+            var3 = var2;
+        } else {
+            var3 += !(MathHelper.wrapDegrees(var2 - var3) > 0.0F) ? -var4 : var4;
+        }
+
+        float var8 = (var3 - 90.0F) * (float) (Math.PI / 180.0);
+        MultiUtilities.setPlayerXMotion((double)(-MathHelper.sin(var8)) * var0);
+        MultiUtilities.setPlayerZMotion((double) MathHelper.cos(var8) * var0);
+        return var3;
+    }
+
     public static float[] method37083() {
         MovementInput var2 = mc.player.movementInput;
         float var3 = var2.field43908;

@@ -36,7 +36,7 @@ public class SlowHopSpeed extends Module {
             boolean var4 = this.getBooleanValueFromSettingName("AutoJump");
             double var5 = MovementUtil.getSpeed();
             boolean var7 = MultiUtilities.method17686();
-            if (!mc.player.onGround) {
+            if (!mc.player.isOnGround()) {
                 this.field23599++;
                 this.field23600 = 0.36 - (double) this.field23599 / 250.0;
                 if (this.field23600 < var5) {

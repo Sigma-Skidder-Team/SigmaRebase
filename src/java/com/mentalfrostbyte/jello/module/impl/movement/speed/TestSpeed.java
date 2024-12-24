@@ -64,7 +64,7 @@ public class TestSpeed extends Module {
                 this.field23917 = Math.min(1.0F, this.field23917 + 0.1F);
             }
 
-            if (mc.player.onGround && !this.field23915) {
+            if (mc.player.isOnGround() && !this.field23915) {
                 this.field23913 = 0.0F;
                 this.field23914 = 0.0F;
                 this.field23917 = Math.min(1.0F, this.field23917 + 0.33F);
