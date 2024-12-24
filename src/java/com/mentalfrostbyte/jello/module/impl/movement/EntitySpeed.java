@@ -66,7 +66,7 @@ public class EntitySpeed extends Module {
                 if (mc.player.getRidingEntity() instanceof Class1074) {
                     Class1074 var15 = (Class1074) mc.player.getRidingEntity();
                     if (var15.isOnGround() && mc.gameSettings.keyBindJump.isKeyDown()) {
-                        mc.player.field6140 = 1.0F; // i dunno why
+                        mc.player.horseJumpPower = 1.0F; // i dunno why // mee needa
                     }
                 }
 
