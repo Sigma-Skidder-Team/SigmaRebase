@@ -120,7 +120,7 @@ public class OmegaCraftFly extends Module {
             SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
             double var5 = this.field23703[0];
             int var7 = this.field23703.length;
-            double var8 = var4.y - (double) ((int) var4.y);
+            double var8 = var4.getY() - (double) ((int) var4.getY());
 
             for (int var10 = 1; var10 < var7; var10++) {
                 double var11 = this.field23703[var10] - var8;
@@ -129,7 +129,7 @@ public class OmegaCraftFly extends Module {
                 }
             }
 
-            this.field23702 = (double) ((int) var4.y) + var5;
+            this.field23702 = (double) ((int) var4.getY()) + var5;
         }
     }
 }

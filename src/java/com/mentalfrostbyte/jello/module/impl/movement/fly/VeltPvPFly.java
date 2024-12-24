@@ -34,7 +34,7 @@ public class VeltPvPFly extends Module {
                 this.field23423 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23423 = true;
         }
     }
@@ -147,7 +147,7 @@ public class VeltPvPFly extends Module {
                 }
 
                 this.field23422 = this.field23421;
-                this.field23421 = var7.y;
+                this.field23421 = var7.getY();
             }
         }
     }
@@ -169,9 +169,9 @@ public class VeltPvPFly extends Module {
     public void method16051(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23421;
-            mc.player.positionVec.y = var4;
+            mc.player.getPositionVec().y = var4;
             mc.player.lastTickPosY = var4;
-            mc.player.field4915 = var4;
+            mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;
         }
     }

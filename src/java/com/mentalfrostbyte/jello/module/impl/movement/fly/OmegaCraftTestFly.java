@@ -105,9 +105,9 @@ public class OmegaCraftTestFly extends Module {
 
                 this.field23860 = this.field23857;
                 this.field23861 = this.field23858;
-                this.field23856 = var5.x;
-                this.field23857 = var5.y;
-                this.field23858 = var5.z;
+                this.field23856 = var5.getX();
+                this.field23857 = var5.getY();
+                this.field23858 = var5.getZ();
                 var5.yaw = mc.player.rotationYaw;
                 var5.pitch = mc.player.rotationPitch;
             }

@@ -36,7 +36,7 @@ public class SpartanFly extends Module {
         if (!mc.gameSettings.keyBindSneak.isKeyDown()) {
             this.field23571 = false;
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23571 = true;
         }
     }
@@ -74,7 +74,7 @@ public class SpartanFly extends Module {
     @EventTarget
     public void method16271(EventMove var1) {
         if (this.isEnabled()) {
-            boolean var4 = mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F);
+            boolean var4 = mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F);
             if (!var4) {
                 if (var1.getY() < 0.0) {
                     if (this.field23569 != mc.player.getPositionVec().y) {
