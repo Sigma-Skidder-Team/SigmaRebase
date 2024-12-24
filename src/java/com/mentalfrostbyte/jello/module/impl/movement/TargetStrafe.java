@@ -154,6 +154,6 @@ public class TargetStrafe extends Module {
     }
 
     private boolean method16154(double var1, double var3, double var5) {
-        return mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.offset(var1, var3, var5)).count() == 0L;
+        return mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(var1, var3, var5)).count() == 0L;
     }
 }

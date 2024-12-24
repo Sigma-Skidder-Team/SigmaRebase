@@ -119,6 +119,9 @@ public class Client {
         this.logger.info("Done.");
     }
 
+    public NotificationManager getNotificationManager() {
+        return this.notificationManager;
+    }
     public void endTick() {
         this.guiManager.endTick();
     }
