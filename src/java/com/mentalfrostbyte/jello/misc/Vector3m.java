@@ -388,9 +388,9 @@ public class Vector3m implements Comparable<Vector3m> {
    @Override
    public int hashCode() {
       int var3 = 7;
-      var3 = 79 * var3 + (int)(Double.doubleToLongBits(this.x) ^ Double.doubleToLongBits(this.x) >>> 32);
-      var3 = 79 * var3 + (int)(Double.doubleToLongBits(this.y) ^ Double.doubleToLongBits(this.y) >>> 32);
-      return 79 * var3 + (int)(Double.doubleToLongBits(this.z) ^ Double.doubleToLongBits(this.z) >>> 32);
+      var3 = 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.x));
+      var3 = 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.y));
+      return 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.z));
    }
 
    @Override
