@@ -1,34 +1,35 @@
 package com.mentalfrostbyte.jello.util.world.schematics;
 
+import com.mentalfrostbyte.jello.misc.DataPacket;
 import com.mentalfrostbyte.jello.misc.Vector3m;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchematicFile {
-    private File schematicFile;
+    private final File schematicFile;
     public Vector3m vCoreVector = null;
     private short width;
     private short height;
     private short length;
     private String materials;
-    private List<DataPacket> dataPacketList = new ArrayList<DataPacket>();
+    private final List<DataPacket> dataPacketList = new ArrayList<>();
 
     public SchematicFile(File fileInput) {
         this.schematicFile = fileInput;
     }
 
-    public boolean method31836() {
+    public boolean loadSchema() {
         CompoundNBT schematicData;
 
         try {
-            schematicData = CompressedStreamTools.readCompressed(new FileInputStream(this.schematicFile));
+            schematicData = CompressedStreamTools.readCompressed(Files.newInputStream(this.schematicFile.toPath()));
         } catch (IOException var16) {
             var16.printStackTrace();
             return false;

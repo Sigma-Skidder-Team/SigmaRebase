@@ -85,7 +85,7 @@ public class JelloEdit extends Module {
         File schematicFile = new File(Client.getInstance().getFile() + "/shematics/" + schematicSetting);
         if (schematicFile.exists() && schematicFile.isFile()) {
             this.schematicFile = new SchematicFile(schematicFile);
-            if (this.schematicFile.method31836() && !this.schematicFile.getDataPackets().isEmpty()) {
+            if (this.schematicFile.loadSchema() && !this.schematicFile.getDataPackets().isEmpty()) {
                 MultiUtilities
                         .addChatMessage(this.schematicFile.getDataPackets().size() + " blocks loaded from schematic");
                 this.pos = new BlockPos(
