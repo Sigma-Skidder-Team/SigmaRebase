@@ -38,7 +38,7 @@ public class OldAACSpeed extends Module {
     @EventTarget
     public void method16226(EventMove var1) {
         if (this.isEnabled()) {
-            if (!mc.player.onGround) {
+            if (!mc.player.isOnGround()) {
                 if (MultiUtilities.method17686() && AACAntiKB.ticks >= 7) {
                     this.field23536++;
                     if (this.field23536 == 1) {

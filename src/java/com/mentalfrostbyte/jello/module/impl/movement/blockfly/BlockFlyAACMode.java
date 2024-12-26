@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.blockfly;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class9291;
 import com.mentalfrostbyte.jello.misc.PositionFacing;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
@@ -160,7 +161,7 @@ public class BlockFlyAACMode extends Module {
                 }
             }
 
-            if (this.getBooleanValueFromSettingName("Haphe (AACAP)") && !mc.player.isJumping && !mc.player.onGround) {
+            if (this.getBooleanValueFromSettingName("Haphe (AACAP)") && !mc.player.isJumping && !mc.player.isOnGround()) {
                 if (var3.getFace() == Direction.UP) {
                     return false;
                 }

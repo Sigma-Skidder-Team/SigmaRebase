@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.module.impl.render;
 import com.mentalfrostbyte.Client;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
-import com.mentalfrostbyte.jello.gui.GuiManager;
+import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.ColorSetting;
@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 public class Tracers extends Module {
     public Tracers() {
         super(ModuleCategory.RENDER, "Tracers", "Shows players");
-        this.registerSetting(new ColorSetting("Color", "The tracers color", ClientColors.LIGHT_GREYISH_BLUE.getColor));
+        this.registerSetting(new ColorSetting("Color", "The tracers color", ClientColors.LIGHT_GREYISH_BLUE.getColor()));
     }
 
     @EventTarget
@@ -30,13 +30,13 @@ public class Tracers extends Module {
             GL11.glEnable(2848);
             GL11.glDisable(3553);
             GL11.glDisable(2929);
-            GL11.glLineWidth(2.0F * GuiManager.portalScaleFactor);
+            GL11.glLineWidth(2.0F * GuiManager.scaleFactor);
             GL11.glDepthMask(false);
             GL11.glShadeModel(7425);
 
             for (Entity entity : MultiUtilities.method17680()) {
-                if (entity != mc.player && entity.isAlive() && entity.boundingBox.getAverageEdgeLength() > 0.8
-                        && entity.ticksExisted > 30 && !Client.getInstance().getCombatManager().isTargetABot(entity)) {
+                if (entity != mc.player && entity.isAlive() && entity.getBoundingBox().getAverageEdgeLength() > 0.8
+                        && entity.ticksExisted > 30 && !Client.getInstance().combatManager.isTargetABot(entity)) {
                     this.method16522(entity);
                 }
             }
@@ -54,8 +54,8 @@ public class Tracers extends Module {
         double y = PositionUtils.getRelativePosition(entity).y + (double) (entity.getHeight() / 2.0F);
         double z = PositionUtils.getRelativePosition(entity).z;
         Vector3d offset = new Vector3d(0.0, 0.0, 10.0)
-                .method11350(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
-                .method11351(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
+                .rotatePitch(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
+                .rotateYaw(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
         int color = this.parseSettingValueToIntBySettingName("Color");
         GL11.glBegin(1);
         GL11.glColor4fv(MultiUtilities.method17709(MultiUtilities.applyAlpha(color, 0.45F)));

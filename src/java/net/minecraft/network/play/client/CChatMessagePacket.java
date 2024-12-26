@@ -7,7 +7,7 @@ import net.minecraft.network.play.IServerPlayNetHandler;
 
 public class CChatMessagePacket implements IPacket<IServerPlayNetHandler>
 {
-    private String message;
+    public String message;
 
     public CChatMessagePacket()
     {

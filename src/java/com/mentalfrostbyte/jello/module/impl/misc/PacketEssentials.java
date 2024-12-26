@@ -37,17 +37,17 @@ public class PacketEssentials extends Module {
                     }
                 } else {
                     SSpawnMobPacket var5 = (SSpawnMobPacket) var1.getPacket();
-                    if (var5.method17537() == 1) {
+                    if (var5.getEntityType() == 1) {
                         var1.cancelled = true;
                     }
                 }
             } else {
                 SSpawnObjectPacket var6 = (SSpawnObjectPacket) var1.getPacket();
-                if (var6.method17266() == EntityType.ARMOR_STAND) {
+                if (var6.getType() == EntityType.ARMOR_STAND) {
                     var1.cancelled = true;
                 }
 
-                if (var6.method17266() == EntityType.GIANT) {
+                if (var6.getType() == EntityType.GIANT) {
                     var1.cancelled = true;
                 }
             }

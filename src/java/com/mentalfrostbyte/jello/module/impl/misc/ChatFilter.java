@@ -16,8 +16,8 @@ public class ChatFilter extends Module {
         if (this.isEnabled()) {
             if (var1.getPacket() instanceof CChatMessagePacket) {
                 CChatMessagePacket var4 = (CChatMessagePacket) var1.getPacket();
-                String[] var5 = var4.message.split(" ");
-                if (var4.message.length() + var5.length <= 100) {
+                String[] var5 = var4.getMessage().split(" ");
+                if (var4.getMessage().length() + var5.length <= 100) {
                     StringBuilder var6 = new StringBuilder();
                     boolean var7 = false;
 

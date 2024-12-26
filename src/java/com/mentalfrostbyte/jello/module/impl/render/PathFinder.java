@@ -1,6 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Box3D;
+import com.mentalfrostbyte.jello.misc.Class9823;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;

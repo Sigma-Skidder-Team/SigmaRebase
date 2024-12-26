@@ -1,5 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.movement.clicktp;
 
+import com.mentalfrostbyte.jello.misc.Box3D;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import net.minecraft.util.math.vector.Vector3d;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.event.impl.ClickEvent;
@@ -118,22 +121,22 @@ public class BasicClickTP extends Module {
 
             for (Vector3d var5 : this.field23589) {
                 GL11.glVertex3d(
-                        var5.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                        var5.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                        var5.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ());
+                        var5.getX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                        var5.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                        var5.getZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ());
             }
 
             GL11.glEnd();
 
             for (Vector3d var12 : this.field23589) {
-                double var6 = var12.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
-                double var8 = var12.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+                double var6 = var12.getX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+                double var8 = var12.getZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
                 Box3D var10 = new Box3D(
                         var6 - 0.3F,
-                        var12.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
+                        var12.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
                         var8 - 0.3F,
                         var6 + 0.3F,
-                        var12.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY() + 1.6F,
+                        var12.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY() + 1.6F,
                         var8 + 0.3F);
                 RenderUtil.render3DColoredBox(var10,
                         MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor(), 0.2F));
@@ -141,9 +144,9 @@ public class BasicClickTP extends Module {
 
             GL11.glPushMatrix();
             GL11.glTranslated(
-                    mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                    mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                    mc.gameRenderer.getActiveRenderInfo().getPos().getZ());
+                    mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX(),
+                    mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY(),
+                    mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ());
             GL11.glPopMatrix();
             GL11.glDisable(3042);
             GL11.glEnable(3553);

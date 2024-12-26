@@ -144,7 +144,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity
     public float prevRenderArmYaw;
     public float prevRenderArmPitch;
     private int horseJumpPowerCounter;
-    private float horseJumpPower;
+    public float horseJumpPower;
     public float timeInPortal;
     public float prevTimeInPortal;
     private boolean handActive;

@@ -10,6 +10,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.network.play.client.CHeldItemChangePacket;
@@ -81,14 +82,14 @@ public class MineplexFly extends Module {
         return this.isEnabled()
                 && this.field23670 != -1
                 && this.field23671 < (double) this.getNumberValueBySettingName("Boost")
-                && (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F))
+                && (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F))
                 && !this.field23675;
     }
 
     @EventTarget
     public void method16457(SafeWalkEvent var1) {
         if (this.isEnabled() && this.field23675 && mc.player != null) {
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 var1.setSafe(true);
             }
         }
@@ -101,7 +102,7 @@ public class MineplexFly extends Module {
                 MovementUtil.setSpeed(var1, 0.01);
             } else {
                 float var4 = mc.player.rotationYaw + 90.0F;
-                if (!mc.player.onGround && !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+                if (!mc.player.isOnGround() && !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                     if (this.field23668 != -1) {
                         if (this.field23674 && !MultiUtilities.method17686()) {
                             this.field23674 = !this.field23674;
@@ -199,7 +200,7 @@ public class MineplexFly extends Module {
             if (var1.getPacket() instanceof CHeldItemChangePacket
                     && this.field23670 != -1
                     && this.field23671 < (double) this.getNumberValueBySettingName("Boost")
-                    && (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F))
+                    && (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F))
                     && !this.field23675) {
                 var1.cancelled = true;
             }
@@ -239,9 +240,9 @@ public class MineplexFly extends Module {
     @EventTarget
     public void method16462(Render2DEvent var1) {
         if (this.isEnabled() && this.getBooleanValueFromSettingName("Fake") && !(this.field23673 < 0.0) && !(mc.player.getPosY() < this.field23673)) {
-            mc.player.positionVec.y = this.field23673;
+            mc.player.getPositionVec().y = this.field23673;
             mc.player.lastTickPosY = this.field23673;
-            mc.player.field4915 = this.field23673;
+            mc.player.chasingPosY = this.field23673;
             mc.player.prevPosY = this.field23673;
             if (MovementUtil.isMoving()) {
                 mc.player.cameraYaw = 0.099999994F;

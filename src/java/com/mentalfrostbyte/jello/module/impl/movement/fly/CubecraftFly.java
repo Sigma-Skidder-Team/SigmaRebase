@@ -9,6 +9,7 @@ import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+import com.mentalfrostbyte.jello.misc.Class5631;
 
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -35,11 +36,11 @@ public class CubecraftFly extends Module {
                 this.field23846 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23846 = true;
         }
 
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             this.field23847 = this.field23848 = false;
         }
 
@@ -54,7 +55,7 @@ public class CubecraftFly extends Module {
         MovementUtil.strafe(0.2);
         mc.timer.timerSpeed = 1.0F;
         if (this.field23846) {
-            mc.gameSettings.keyBindSneak.pressed = true;
+            mc.gameSettings.keyBindSneak.setPressed(true);
         }
     }
 
@@ -82,7 +83,7 @@ public class CubecraftFly extends Module {
     @Class5631
     public void method16688(EventMove var1) {
         if (!this.isEnabled()) {
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23847 = this.field23848 = false;
             }
         } else if (MultiUtilities.isCubecraft()) {

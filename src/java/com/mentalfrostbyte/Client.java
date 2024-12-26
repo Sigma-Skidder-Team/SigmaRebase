@@ -3,10 +3,14 @@ package com.mentalfrostbyte;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import com.mentalfrostbyte.jello.command.CommandManager;
+import com.mentalfrostbyte.jello.event.EventManager;
 import com.mentalfrostbyte.jello.event.impl.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.EventWriter;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.managers.*;
+import com.mentalfrostbyte.jello.misc.Class8795;
+import com.mentalfrostbyte.jello.trackers.PlayerStateTracker;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;
 import com.mentalfrostbyte.jello.util.FileUtil;
@@ -50,15 +54,20 @@ public class Client {
     public NetworkManager networkManager;
     public CombatManager combatManager;
     public SoundManager soundManager;
+    private CommandManager commandManager;
+
     public AccountManager accountManager;
     public FriendManager friendManager;
     public WaypointsManager waypointsManager;
     public NotificationManager notificationManager;
     public MusicManager musicManager;
+    public EventManager eventManager;
     private Logger logger;
 
     public static boolean dontRenderHand = false;
     private boolean field28968 = true;
+    private PlayerStateTracker playerStateTracker;
+    private Class8795 field28989;
 
     public void start() {
         this.logger = new ClientLogger(System.out, System.out, System.err);
@@ -73,7 +82,8 @@ public class Client {
         } catch (IOException var8) {
             var8.printStackTrace();
         }
-
+        this.commandManager = new CommandManager();
+        this.commandManager.init();
         this.networkManager = new NetworkManager();
         this.networkManager.init();
         this.guiManager = new GuiManager();
@@ -95,6 +105,18 @@ public class Client {
         this.logger.info("Initialized.");
     }
 
+    public PlayerStateTracker getPlayerTracker() {
+        return this.playerStateTracker;
+    }
+    public CommandManager getCommandManager() {
+        return this.commandManager;
+    }
+
+
+    public EventManager getEventManager() {
+        return this.eventManager;
+    }
+
     public void shutdown() {
         this.logger.info("Shutting down...");
 
@@ -102,6 +124,7 @@ public class Client {
             if (this.guiManager != null) {
                 this.guiManager.getUIConfig(this.config);
             }
+
 
             if (this.moduleManager != null) {
                 this.moduleManager.method14660(this.config);
@@ -119,6 +142,9 @@ public class Client {
         this.logger.info("Done.");
     }
 
+    public NotificationManager getNotificationManager() {
+        return this.notificationManager;
+    }
     public void endTick() {
         this.guiManager.endTick();
     }
@@ -198,6 +224,9 @@ public class Client {
 
     private Client() {
     }
+    public ClientMode getClientMode() {
+        return this.clientMode;
+    }
 
     public static Client getInstance() {
         return instance != null ? instance : (instance = new Client());
@@ -245,6 +274,8 @@ public class Client {
         }
     }
 
+
+
     public JSONObject getConfig() {
         return this.config;
     }
@@ -252,6 +283,11 @@ public class Client {
     public Logger getLogger() {
         return this.logger;
     }
+
+    public Class8795 method19950() {
+        return this.field28989;
+    }
+
 
     public boolean method19930() {
         return this.field28968;

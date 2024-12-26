@@ -15,17 +15,17 @@ public class GameIdler extends Module {
     @EventTarget
     private void method16941(EventRender var1) {
         if (this.isEnabled()) {
-            boolean var4 = GLFW.glfwGetWindowAttrib(mc.mainWindow.getHandle(), 131073) == 1;
+            boolean var4 = GLFW.glfwGetWindowAttrib(mc.getMainWindow().getHandle(), 131073) == 1;
             if (var4) {
-                Minecraft.getInstance().mainWindow.setFramerateLimit(mc.gameSettings.framerateLimit);
+                Minecraft.getInstance().getMainWindow().setFramerateLimit(mc.gameSettings.framerateLimit);
             } else {
-                Minecraft.getInstance().mainWindow.setFramerateLimit(5);
+                Minecraft.getInstance().getMainWindow().setFramerateLimit(5);
             }
         }
     }
 
     @Override
     public void onDisable() {
-        Minecraft.getInstance().mainWindow.setFramerateLimit(mc.gameSettings.framerateLimit);
+        Minecraft.getInstance().getMainWindow().setFramerateLimit(mc.gameSettings.framerateLimit);
     }
 }

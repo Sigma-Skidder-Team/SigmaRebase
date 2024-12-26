@@ -4,6 +4,7 @@ import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.unmapped.Class2287;
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.managers.impl.music.Class2329;
+import com.mentalfrostbyte.jello.misc.Box3D;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.unmapped.Class7820;
@@ -196,7 +197,143 @@ public class RenderUtil {
             RenderSystem.disableBlend();
         }
     }
+    public static void render3DColoredBox(Box3D boxIn, int color) {
+        if (boxIn != null) {
+            float var4 = (float)(color >> 24 & 0xFF) / 255.0F;
+            float var5 = (float)(color >> 16 & 0xFF) / 255.0F;
+            float var6 = (float)(color >> 8 & 0xFF) / 255.0F;
+            float var7 = (float)(color & 0xFF) / 255.0F;
+            GL11.glColor4f(var5, var6, var7, var4);
+            GL11.glEnable(3042);
+            GL11.glDisable(3553);
+            GL11.glDisable(2896);
+            GL11.glLineWidth(1.8F * GuiManager.scaleFactor);
+            GL11.glBlendFunc(770, 771);
+            GL11.glEnable(2848);
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glBegin(7);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glEnable(3553);
+            GL11.glEnable(2896);
+            GL11.glDisable(2848);
+            GL11.glDisable(3042);
+        }
+    }
+    public static void renderWireframeBox(Box3D boxIn, int color) {
+        renderWireframeBox(boxIn, 2.8F, color);
+    }
 
+    public static void renderWireframeBox(Box3D boxIn, float width, int color) {
+        if (boxIn != null) {
+            float var5 = (float)(color >> 24 & 0xFF) / 255.0F;
+            float var6 = (float)(color >> 16 & 0xFF) / 255.0F;
+            float var7 = (float)(color >> 8 & 0xFF) / 255.0F;
+            float var8 = (float)(color & 0xFF) / 255.0F;
+            GL11.glColor4f(var6, var7, var8, var5);
+            GL11.glDisable(3553);
+            GL11.glDisable(2896);
+            GL11.glLineWidth(width);
+            GL11.glEnable(2848);
+            GL11.glEnable(3042);
+            GL11.glBegin(3);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(3);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glEnd();
+            GL11.glBegin(1);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.minZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.maxX, boxIn.maxY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.minY, boxIn.maxZ);
+            GL11.glVertex3d(boxIn.minX, boxIn.maxY, boxIn.maxZ);
+            GL11.glEnd();
+            GL11.glEnable(3553);
+            GL11.glEnable(2896);
+            GL11.glDisable(2848);
+            GL11.glDisable(3042);
+        }
+    }
     public static void renderBackgroundBox(float var0, float var1, float var2, float var3, int var4) {
         drawRect(var0, var1, var0 + var2, var1 + var3, var4);
     }

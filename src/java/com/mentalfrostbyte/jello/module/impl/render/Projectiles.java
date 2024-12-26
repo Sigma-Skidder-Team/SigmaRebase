@@ -1,8 +1,14 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
+import com.mentalfrostbyte.jello.misc.Box3D;
+import com.mentalfrostbyte.jello.misc.Class9110;
+import com.mentalfrostbyte.jello.misc.FloatVector4;
+import com.mentalfrostbyte.jello.misc.ProjectileThingy;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
-import com.mentalfrostbyte.jello.gui.GuiManager;
+import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
@@ -41,7 +47,7 @@ public class Projectiles extends Module {
                     float rotYawRadians = (float) Math.toRadians(mc.player.rotationYaw - 25.0F);
                     float rotPitchRadians = (float) Math.toRadians(mc.player.rotationPitch);
                     double var7 = 0.2F;
-                    double averageEdgeLengthDiv2 = mc.player.boundingBox.getAverageEdgeLength() / 2.0;
+                    double averageEdgeLengthDiv2 = mc.player.getBoundingBox().getAverageEdgeLength() / 2.0;
                     double var11 = (double) MathHelper.cos(rotYawRadians) * averageEdgeLengthDiv2;
                     double var13 = (double) MathHelper.sin(rotYawRadians) * averageEdgeLengthDiv2;
                     double var15 = mc.player.lastTickPosX
@@ -74,13 +80,13 @@ public class Projectiles extends Module {
                         float var30 = (float) Math.min(1, var22);
                         GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.05F * var30);
                         GL11.glVertex3d(
-                                var23.method33969() - mc.gameRenderer.getActiveRenderInfo().getPos().getX() - var24,
-                                var23.method33970() - mc.gameRenderer.getActiveRenderInfo().getPos().getY() - var28,
-                                var23.method33971() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ() - var26);
+                                var23.method33969() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX() - var24,
+                                var23.method33970() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY() - var28,
+                                var23.method33971() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ() - var26);
                     }
 
                     GL11.glEnd();
-                    GL11.glLineWidth(2.0F * GuiManager.portalScaleFactor);
+                    GL11.glLineWidth(2.0F * GuiManager.scaleFactor);
                     GL11.glColor4d(1.0, 1.0, 1.0, 0.75);
                     GL11.glBegin(3);
 
@@ -92,9 +98,9 @@ public class Projectiles extends Module {
                         float var48 = (float) Math.min(1, var38);
                         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F * var48);
                         GL11.glVertex3d(
-                                var39.method33969() - mc.gameRenderer.getActiveRenderInfo().getPos().getX() - var40,
-                                var39.method33970() - mc.gameRenderer.getActiveRenderInfo().getPos().getY() - var46,
-                                var39.method33971() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ() - var43);
+                                var39.method33969() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX() - var40,
+                                var39.method33970() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY() - var46,
+                                var39.method33971() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ() - var43);
                     }
 
                     GL11.glEnd();
@@ -104,15 +110,15 @@ public class Projectiles extends Module {
                             double var31 = var4.field15832.lastTickPosX
                                     + (var4.field15832.getPosX() - var4.field15832.lastTickPosX)
                                             * (double) mc.timer.renderPartialTicks
-                                    - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
+                                    - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
                             double var41 = var4.field15832.lastTickPosY
                                     + (var4.field15832.getPosY() - var4.field15832.lastTickPosY)
                                             * (double) mc.timer.renderPartialTicks
-                                    - mc.gameRenderer.getActiveRenderInfo().getPos().getY();
+                                    - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY();
                             double var44 = var4.field15832.lastTickPosZ
                                     + (var4.field15832.getPosZ() - var4.field15832.lastTickPosZ)
                                             * (double) mc.timer.renderPartialTicks
-                                    - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+                                    - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
                             double var47 = var4.field15832.getWidth() / 2.0F + 0.2F;
                             double var35 = var4.field15832.getHeight() + 0.1F;
                             Box3D var37 = new Box3D(var31 - var47, var41, var44 - var47, var31 + var47, var41 + var35,
@@ -123,9 +129,9 @@ public class Projectiles extends Module {
                                     MultiUtilities.applyAlpha(ClientColors.DARK_BLUE_GREY.getColor(), 0.1F));
                         }
                     } else {
-                        double var49 = var4.traceX - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
-                        double var42 = var4.traceY - mc.gameRenderer.getActiveRenderInfo().getPos().getY();
-                        double var45 = var4.traceZ - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+                        double var49 = var4.traceX - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+                        double var42 = var4.traceY - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY();
+                        double var45 = var4.traceZ - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
                         GL11.glPushMatrix();
                         GL11.glTranslated(var49, var42, var45);
                         BlockPos blockPos = new BlockPos(0, 0, 0)

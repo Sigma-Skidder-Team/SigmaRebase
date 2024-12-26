@@ -34,7 +34,7 @@ public class ViperMCSpeed extends Module {
                 speed = 1.15F + (float) MovementUtil.method37078() * 0.04F;
             }
 
-            if (mc.gameSettings.keyBindBack.pressed) {
+            if (mc.gameSettings.keyBindBack.isPressed()) {
                 speed /= 1.3F;
             }
 

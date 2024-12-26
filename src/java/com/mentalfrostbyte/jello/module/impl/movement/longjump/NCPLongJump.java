@@ -48,7 +48,7 @@ public class NCPLongJump extends Module {
     @EventTarget
     public void method16122(EventMove var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23478 = 0;
                 this.field23477++;
                 if (this.field23479 && var1.getY() != 0.599 && this.access().getBooleanValueFromSettingName("Auto Disable")) {

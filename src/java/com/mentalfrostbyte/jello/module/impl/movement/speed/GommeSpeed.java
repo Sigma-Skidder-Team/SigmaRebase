@@ -47,7 +47,7 @@ public class GommeSpeed extends Module {
     @EventTarget
     public void method16302(EventMove var1) {
         if (this.isEnabled()) {
-            if (!mc.player.onGround) {
+            if (!mc.player.isOnGround()) {
                 if (this.field23583 > 0.0 && this.field23582 > 0) {
                     this.field23581++;
                     if (this.field23581 != 1) {

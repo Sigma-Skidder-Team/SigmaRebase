@@ -31,7 +31,7 @@ public class Cubecraft2Fly extends PremiumModule {
         if (!mc.gameSettings.keyBindSneak.isKeyDown()) {
             this.field23699 = false;
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23699 = true;
         }
 

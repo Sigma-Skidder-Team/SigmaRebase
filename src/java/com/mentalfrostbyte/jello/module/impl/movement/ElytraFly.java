@@ -1,5 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
+import com.mentalfrostbyte.jello.misc.Class888;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;
@@ -34,8 +36,8 @@ public class ElytraFly extends Module {
     @EventTarget
     public void method16220(TickEvent var1) {
         if (this.isEnabled()) {
-            mc.gameSettings.keyBindSneak.pressed = false;
-            if (!(mc.player.getMotion().y < 0.08) || mc.player.onGround) {
+            mc.gameSettings.keyBindSneak.setPressed(false);
+            if (!(mc.player.getMotion().y < 0.08) || mc.player.isOnGround()) {
                 mc.player.setFlag(7, false);
                 if (mc.player.isSneaking()) {
                     this.setEnabled(false);
@@ -77,7 +79,7 @@ public class ElytraFly extends Module {
                 var1.setY(this.field23530);
             }
 
-            int var7 = GLFW.glfwGetKey(mc.mainWindow.getHandle(), mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode);
+            int var7 = GLFW.glfwGetKey(mc.getMainWindow().getHandle(), mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode);
             if (var7 == 1 && this.getBooleanValueFromSettingName("NCP")) {
                 var1.setY(-0.9F);
             } else if (!mc.player.isSneaking()) {
@@ -101,9 +103,9 @@ public class ElytraFly extends Module {
                 if (var5 instanceof Class888) {
                     Class888 var6 = (Class888) var5;
                     if (var6.field5125 != null && var6.field5125.getEntityId() == mc.player.getEntityId()) {
-                        this.field23529 = this.field23529 + (float) var4.motionX / 8000.0F;
-                        this.field23531 = this.field23531 + (float) var4.motionZ / 8000.0F;
-                        this.field23530 = this.field23530 + (float) var4.motionY / 8000.0F;
+                        this.field23529 = this.field23529 + (float) var4.getMotionX() / 8000.0F;
+                        this.field23531 = this.field23531 + (float) var4.getMotionZ() / 8000.0F;
+                        this.field23530 = this.field23530 + (float) var4.getMotionY() / 8000.0F;
                         this.field23532 = true;
                     }
                 }
@@ -120,7 +122,7 @@ public class ElytraFly extends Module {
                     this.field23533 = var4;
                 }
             } else {
-                int var5 = InvManagerUtils.method25843(Items.field38068);
+                int var5 = InvManagerUtils.method25843(Items.FIREWORK_ROCKET);
                 if (var5 >= 0) {
                     if (var5 != mc.player.inventory.currentItem) {
                         mc.getConnection().sendPacket(new CHeldItemChangePacket(var5));
@@ -160,7 +162,7 @@ public class ElytraFly extends Module {
 
     @Override
     public void onEnable() {
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             MultiUtilities.setPlayerYMotion(0.3994F);
         }
     }

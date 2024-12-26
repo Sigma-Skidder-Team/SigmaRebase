@@ -43,7 +43,7 @@ public class BoatFly extends PremiumModule {
     private void method16417(EventKeyPress var1) {
         if (this.isEnabled()) {
             if (mc.player.getRidingEntity() != null) {
-                if (!mc.player.getRidingEntity().onGround) {
+                if (!mc.player.getRidingEntity().isOnGround()) {
                     if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
                         var1.cancelled = true;
                         this.field23643 = true;
@@ -61,7 +61,7 @@ public class BoatFly extends PremiumModule {
             }
 
             if (mc.player.getRidingEntity() != null) {
-                if (!mc.player.getRidingEntity().onGround) {
+                if (!mc.player.getRidingEntity().isOnGround()) {
                     if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
                         var1.cancelled = true;
                         this.field23643 = false;
@@ -78,13 +78,13 @@ public class BoatFly extends PremiumModule {
                 this.field23643 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23643 = true;
         }
     }
 
     @Override
     public void onDisable() {
-        mc.gameSettings.keyBindSneak.pressed = this.field23643;
+        mc.gameSettings.keyBindSneak.setPressed(this.field23643);
     }
 }

@@ -1,7 +1,9 @@
 package org.newdawn.slick;
 
 public interface Font {
-   int getWidth(String var1);
+    int getStringWidth(String var1);
+
+    int getWidth(String var1);
 
    int getHeight(String var1);
 

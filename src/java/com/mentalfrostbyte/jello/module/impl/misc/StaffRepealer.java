@@ -23,7 +23,7 @@ public class StaffRepealer extends Module {
     private void method16183(TickEvent var1) {
         if (this.isEnabled()) {
             if (MultiUtilities.isHypixel()) {
-                mc.gameSettings.method37149();
+                mc.gameSettings.sendSettingsToServer();
             }
         }
     }

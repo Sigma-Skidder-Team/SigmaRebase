@@ -1,6 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.movement.speed;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class2094;
+import com.mentalfrostbyte.jello.misc.Class5631;
+import com.mentalfrostbyte.jello.misc.Class7845;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;
@@ -60,7 +63,7 @@ public class HypixelSpeed extends Module {
     @EventTarget
     @LowerPriority
     public void method16037(EventUpdate var1) {
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             if (!Client.getInstance().moduleManager.getModuleByClass(Criticals.class).isEnabled2()
                     || KillAura.target == null && KillAura.timedEntityIdk == null
                     || this.field23418 != Class2094.field13641) {
@@ -81,12 +84,12 @@ public class HypixelSpeed extends Module {
     @HigherPriority
     public void method16038(EventMove var1) {
         if (!this.isEnabled()) {
-            if (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F) || mc.player.getPosY() < this.field23416) {
+            if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F) || mc.player.getPosY() < this.field23416) {
                 this.field23416 = -1.0;
             }
         } else {
             mc.player.jumpTicks = 0;
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23416 = mc.player.getPosY();
                 if (!Client.getInstance().moduleManager.getModuleByClass(Timer.class).isEnabled()) {
                     mc.timer.timerSpeed = 1.0F;
@@ -151,7 +154,7 @@ public class HypixelSpeed extends Module {
                         if (this.field23414 == 0) {
                             double var6 = 0.399 + (double) MovementUtil.method37079() * 0.1 + 1.0E-5;
                             if (this.getBooleanValueFromSettingName("BorderJump")
-                                    && mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.expand(0.0, -var6 - 0.0625, 0.0)).count()
+                                    && mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().expand(0.0, -var6 - 0.0625, 0.0)).count()
                                     == 0L) {
                                 this.field23415 = 0.4103345672948576 + Math.random() * 1.0E-6 + (double) MovementUtil.method37078() * 0.085;
                                 this.field23416 = -1.0;
@@ -206,16 +209,16 @@ public class HypixelSpeed extends Module {
     @EventTarget
     @Class5631
     public void method16042(Render2DEvent var1) {
-        if (!mc.player.onGround
+        if (!mc.player.isOnGround()
                 && !MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)
                 && MultiUtilities.isAboveBounds(mc.player, (float) (MovementUtil.method37080() + 1.0E-5 + 0.0625))
                 && Step.field23887 >= 2
                 && !(this.field23416 < 0.0)
                 && this.field23418 == Class2094.field13641
                 && !(mc.player.getPosY() < this.field23416)) {
-            mc.player.positionVec.y = this.field23416;
+            mc.player.getPositionVec().y = this.field23416;
             mc.player.lastTickPosY = this.field23416;
-            mc.player.field4915 = this.field23416;
+            mc.player.chasingPosY = this.field23416;
             mc.player.prevPosY = this.field23416;
             if (MovementUtil.isMoving()) {
                 mc.player.cameraYaw = 0.099999994F;
@@ -226,7 +229,7 @@ public class HypixelSpeed extends Module {
     @Override
     public boolean isEnabled2() {
         return this.isEnabled()
-                && (!mc.player.onGround || mc.player.isJumping || this.getBooleanValueFromSettingName("AutoJump") || this.field23418 == Class2094.field13641);
+                && (!mc.player.isOnGround() || mc.player.isJumping || this.getBooleanValueFromSettingName("AutoJump") || this.field23418 == Class2094.field13641);
     }
 
     private void method16043(EventMove var1, int var2) {

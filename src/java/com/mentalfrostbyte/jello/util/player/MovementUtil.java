@@ -7,6 +7,7 @@ import com.mentalfrostbyte.Client;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 
 public class MovementUtil {
@@ -29,7 +30,7 @@ public class MovementUtil {
         }
 
         if (mc.player.isPotionActive(Effects.SPEED) && mc.player.isSprinting()) {
-            var4 = (float)((double)var4 - 0.03000002 * (double)(mc.player.getActivePotionEffect(Effects.SPEED).method8629() + 1));
+            var4 = (float)((double)var4 - 0.03000002 * (double)(mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1));
         }
 
         if (mc.player.isSneaking()) {
@@ -85,11 +86,11 @@ public class MovementUtil {
     }
 
     public static int method37078() {
-        return ! mc.player.isPotionActive(Effects.SPEED) ? 0 : mc.player.getActivePotionEffect(Effects.SPEED).method8629() + 1;
+        return ! mc.player.isPotionActive(Effects.SPEED) ? 0 : mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1;
     }
 
     public static int method37079() {
-        return ! mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0 : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).method8629() + 1;
+        return ! mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0 : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1;
     }
 
     public static double method37080() {
@@ -102,15 +103,29 @@ public class MovementUtil {
 
     public static float[] lenientStrafe() {
         MovementInput var2 = mc.player.movementInput;
-        float var3 = var2.field43908;
-        float var4 = var2.field43907;
+        float var3 = var2.moveForward;
+        float var4 = var2.moveStrafe;
         return method37084(var3, var4);
+    }
+
+    public static float method37093(double var0, float var2, float var3, float var4) {
+        float var7 = RotationHelper.angleDiff(var3, var2);
+        if (!(var7 > var4)) {
+            var3 = var2;
+        } else {
+            var3 += !(MathHelper.wrapDegrees(var2 - var3) > 0.0F) ? -var4 : var4;
+        }
+
+        float var8 = (var3 - 90.0F) * (float) (Math.PI / 180.0);
+        MultiUtilities.setPlayerXMotion((double)(-MathHelper.sin(var8)) * var0);
+        MultiUtilities.setPlayerZMotion((double) MathHelper.cos(var8) * var0);
+        return var3;
     }
 
     public static float[] method37083() {
         MovementInput var2 = mc.player.movementInput;
-        float var3 = var2.field43908;
-        float var4 = var2.field43907;
+        float var3 = var2.moveForward;
+        float var4 = var2.moveStrafe;
         return method37085(var3, var4);
     }
 
@@ -180,6 +195,7 @@ public class MovementUtil {
         return new float[]{var4, var0, var1};
     }
 
+
     public static float method37086() {
         float var2 = mc.player.moveForward;
         float var3 = mc.player.moveStrafing;
@@ -217,11 +233,47 @@ public class MovementUtil {
             tween += !(MathHelper.wrapDegrees(be - tween) > 0.0F) ? -var5 : var5;
         }
 
+
+
         float var9 = (tween - 90.0F) * (float) (Math.PI / 180.0);
         event.setX((double)(-MathHelper.sin(var9)) * var1);
         event.setZ((double) MathHelper.cos(var9) * var1);
         MultiUtilities.setPlayerXMotion(event.getX());
         MultiUtilities.setPlayerZMotion(event.getZ());
         return tween;
+    }
+
+    public static void strafe(double v) {
+    }
+
+    public static void method37095(double var0) {
+        double var4 = (double) mc.player.movementInput.moveForward;
+        double var6 = (double) mc.player.movementInput.moveStrafe;
+        float var8 = mc.player.rotationYaw;
+        if (var4 != 0.0) {
+            if (!(var6 > 0.0)) {
+                if (var6 < 0.0) {
+                    var8 += (float)(!(var4 > 0.0) ? -45 : 45);
+                }
+            } else {
+                var8 += (float)(!(var4 > 0.0) ? 45 : -45);
+            }
+
+            var6 = 0.0;
+            if (!(var4 > 0.0)) {
+                if (var4 < 0.0) {
+                    var4 = -1.0;
+                }
+            } else {
+                var4 = 1.0;
+            }
+        }
+
+        double var9 = mc.player.getPosX();
+        double var11 = mc.player.getPosY();
+        double var13 = mc.player.getPosZ();
+        double var15 = var4 * var0 * Math.cos(Math.toRadians((double)(var8 + 90.0F))) + var6 * var0 * Math.sin(Math.toRadians((double)(var8 + 90.0F)));
+        double var17 = var4 * var0 * Math.sin(Math.toRadians((double)(var8 + 90.0F))) - var6 * var0 * Math.cos(Math.toRadians((double)(var8 + 90.0F)));
+        mc.player.setPosition(var9 + var15, var11, var13 + var17);
     }
 }

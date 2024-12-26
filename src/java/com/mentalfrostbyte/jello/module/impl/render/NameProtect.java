@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
+import com.mentalfrostbyte.jello.misc.Class2073;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.TextReplaceEvent;

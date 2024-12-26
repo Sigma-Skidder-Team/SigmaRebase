@@ -94,7 +94,7 @@ public class CubecraftSpeed extends Module {
                         }
 
                         this.field23619 -= 0.015;
-                        if (mc.gameSettings.keyBindBack.pressed) {
+                        if (mc.gameSettings.keyBindBack.isPressed()) {
                             this.field23619 -= 0.07;
                         }
 
@@ -107,7 +107,7 @@ public class CubecraftSpeed extends Module {
                     }
                     break;
                 case "YPort":
-                    if (mc.player.onGround) {
+                    if (mc.player.isOnGround()) {
                         if (MultiUtilities.method17686()) {
                             var1.setY(0.53000000000001);
                             MovementUtil.setSpeed(var1, 3.67 * (double) this.getNumberValueBySettingName("Speed"));
@@ -137,13 +137,13 @@ public class CubecraftSpeed extends Module {
     @EventTarget
     public void method16362(Render2DEvent var1) {
         if (this.isEnabled() && !(this.field23620 < 0.0) && this.getStringSettingValueByName("Mode").equals("YPort")) {
-            if (mc.player.onGround && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+            if (mc.player.isOnGround() && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                 this.field23620 = mc.player.getPosY();
             }
 
-            mc.player.positionVec.y = this.field23620;
+            mc.player.getPositionVec().y = this.field23620;
             mc.player.lastTickPosY = this.field23620;
-            mc.player.field4915 = this.field23620;
+            mc.player.chasingPosY = this.field23620;
             mc.player.prevPosY = this.field23620;
             if (MovementUtil.isMoving()) {
                 mc.player.cameraYaw = 0.099999994F;

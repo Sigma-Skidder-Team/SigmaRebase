@@ -1,9 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class5631;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
-import team.sdhq.eventBus.annotations.priority.HigestPriority;
+import team.sdhq.eventBus.annotations.priority.HighestPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.world.Timer;
@@ -41,11 +42,11 @@ public class HypixelFly extends Module {
         String var3 = this.getStringSettingValueByName("Mode");
         this.duration = 1.0F;
         this.field23563 = -1;
-        if (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+        if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
             this.duration = this.getNumberValueBySettingName("Timer Boost");
         }
 
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             switch (var3) {
                 case "Basic":
                     this.flySpeed = 0.0;
@@ -80,7 +81,7 @@ public class HypixelFly extends Module {
 
     @EventTarget
     @Class5631
-    @HigestPriority
+    @HighestPriority
     public void onReceive(ReceivePacketEvent event) {
         if (mc.getConnection() != null && MultiUtilities.isHypixel()) {
             IPacket pack = event.getPacket();
@@ -166,7 +167,7 @@ public class HypixelFly extends Module {
             }
 
             MovementUtil.setSpeed(event, this.flySpeed);
-            if (!mc.player.onGround || !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+            if (!mc.player.isOnGround() || !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                 this.field23563++;
                 event.setY(0.0);
                 MultiUtilities.setPlayerYMotion(0.0);
@@ -221,7 +222,7 @@ public class HypixelFly extends Module {
                 }
             }
 
-            if (mc.gameSettings.keyBindJump.pressed) {
+            if (mc.gameSettings.keyBindJump.isPressed()) {
                 event.setY(0.25);
             }
         }

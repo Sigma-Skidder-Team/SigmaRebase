@@ -28,7 +28,7 @@ public class YPortSpeed extends Module {
     @EventTarget
     public void method16235(EventUpdate var1) {
         if (this.isEnabled() && mc.player != null && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
-            if (mc.player.onGround && var1.isPre() && MultiUtilities.isHypixel()) {
+            if (mc.player.isOnGround() && var1.isPre() && MultiUtilities.isHypixel()) {
                 var1.setY(var1.getY() + 1.0E-14);
             }
         }
@@ -58,7 +58,7 @@ public class YPortSpeed extends Module {
                 String var4 = this.getStringSettingValueByName("Mode");
                 switch (var4) {
                     case "NCP":
-                        if (MovementUtil.isMoving() && mc.player.onGround) {
+                        if (MovementUtil.isMoving() && mc.player.isOnGround()) {
                             mc.player.jump();
                             var1.setY(mc.player.getMotion().y);
                             MovementUtil.setSpeed(var1, 0.461);
@@ -77,7 +77,7 @@ public class YPortSpeed extends Module {
                         }
                         break;
                     case "OldNCP":
-                        if (mc.player.onGround && MultiUtilities.method17686()) {
+                        if (mc.player.isOnGround() && MultiUtilities.method17686()) {
                             this.field23545 = 2;
                         }
 
@@ -97,7 +97,7 @@ public class YPortSpeed extends Module {
                         } else {
                             if (mc.world
                                     .getCollisionShapes(
-                                            mc.player, mc.player.boundingBox.offset(0.0, mc.player.getMotion().y, 0.0)
+                                            mc.player, mc.player.getBoundingBox().offset(0.0, mc.player.getMotion().y, 0.0)
                                     )
                                     .count()
                                     > 0L
@@ -123,12 +123,12 @@ public class YPortSpeed extends Module {
                 && !this.getStringSettingValueByName("Mode").equalsIgnoreCase("NCP")
                 && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
             if (!mc.player.isInWater() && !mc.player.isInLava() && !mc.player.isOnLadder()) {
-                if (!mc.gameSettings.keyBindJump.pressed
+                if (!mc.gameSettings.keyBindJump.isPressed()
                         && !mc.player.isOnLadder()
                         && !MovementUtil.isInWater()
                         && !mc.player.isInWater()
                         && MultiUtilities.isAboveBounds(mc.player, 1.0F)
-                        && !mc.player.onGround
+                        && !mc.player.isOnGround()
                         && this.field23545 == 3) {
                     MultiUtilities.setPlayerYMotion(-0.3994);
                 }
@@ -146,15 +146,15 @@ public class YPortSpeed extends Module {
                 && MultiUtilities.isAboveBounds(mc.player, 0.43F)
                 && !((double) mc.player.fallDistance > 0.09)
                 && this.getBooleanValueFromSettingName("OnGround")
-                && !mc.gameSettings.keyBindJump.pressed
+                && !mc.gameSettings.keyBindJump.isPressed()
                 && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
-            if (mc.player.onGround && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
+            if (mc.player.isOnGround() && MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                 this.field23542 = mc.player.getPosY();
             }
 
-            mc.player.positionVec.y = this.field23542;
+            mc.player.getPositionVec().y = this.field23542;
             mc.player.lastTickPosY = this.field23542;
-            mc.player.field4915 = this.field23542;
+            mc.player.chasingPosY = this.field23542;
             mc.player.prevPosY = this.field23542;
             if (MovementUtil.isMoving()) {
                 mc.player.cameraYaw = 0.099999994F;

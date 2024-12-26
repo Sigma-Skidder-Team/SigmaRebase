@@ -44,7 +44,7 @@ public class Freecam extends Module {
     @EventTarget
     public void method16639(EventRenderEntity var1) {
         if (this.isEnabled()) {
-            if (var1.method13953() instanceof ClientPlayerEntity && var1.method13953() != field23814) {
+            if (var1.method13953() instanceof PlayerEntity && var1.method13953() != field23814) {
                 var1.cancelled = true;
             }
         }
@@ -57,23 +57,23 @@ public class Freecam extends Module {
                 this.onEnable();
             }
 
-            mc.player.rotPitch = mc.player.rotationPitch;
-            AxisAlignedBB var4 = mc.player.boundingBox;
+            mc.player.rotationPitch = mc.player.rotationPitch;
+            AxisAlignedBB var4 = mc.player.getBoundingBox();
             field23814.setPosition((var4.minX + var4.maxX) / 2.0, var4.minY, (var4.minZ + var4.maxZ) / 2.0);
             double var5 = this.field23818 + (this.field23815 - this.field23818) * (double) var1.partialTicks;
             double var7 = this.field23819 + (this.field23816 - this.field23819) * (double) var1.partialTicks;
             double var9 = this.field23820 + (this.field23817 - this.field23820) * (double) var1.partialTicks;
-            mc.player.positionVec.x = var5;
+            mc.player.getPositionVec().x = var5;
             mc.player.lastTickPosX = var5;
-            mc.player.field4914 = var5;
+            mc.player.chasingPosX = var5;
             mc.player.prevPosX = var5;
-            mc.player.positionVec.y = var7;
+            mc.player.getPositionVec().y = var7;
             mc.player.lastTickPosY = var7;
-            mc.player.field4915 = var7;
+            mc.player.chasingPosX = var7;
             mc.player.prevPosY = var7;
-            mc.player.positionVec.z = var9;
+            mc.player.getPositionVec().z = var9;
             mc.player.lastTickPosZ = var9;
-            mc.player.field4916 = var9;
+            mc.player.chasingPosZ = var9;
             mc.player.prevPosZ = var9;
             if (MovementUtil.isMoving()) {
                 mc.player.cameraYaw = 0.099999994F;
@@ -85,7 +85,7 @@ public class Freecam extends Module {
     public void method16641(Render3DEvent var1) {
         if (this.isEnabled()) {
             field23814.resetPositionToBB();
-            field23814.boundingBox = new AxisAlignedBB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+            field23814.setBoundingBox(new AxisAlignedBB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         }
     }
 
@@ -116,22 +116,22 @@ public class Freecam extends Module {
         this.field23824 = this.field23828 != this.field23829 ? (float) (!this.field23828 ? -1 : 1) : 0.0F;
         this.field23830 = mc.gameSettings.keyBindJump.isKeyDown();
         this.field23831 = mc.gameSettings.keyBindSneak.isKeyDown();
-        mc.gameSettings.keyBindForward.pressed = false;
-        mc.gameSettings.keyBindBack.pressed = false;
-        mc.gameSettings.keyBindLeft.pressed = false;
-        mc.gameSettings.keyBindRight.pressed = false;
-        mc.gameSettings.keyBindJump.pressed = false;
-        mc.gameSettings.keyBindSneak.pressed = false;
+        mc.gameSettings.keyBindForward.setPressed(false);
+        mc.gameSettings.keyBindBack.setPressed(false);
+        mc.gameSettings.keyBindLeft.setPressed(false);
+        mc.gameSettings.keyBindRight.setPressed(false);
+        mc.gameSettings.keyBindJump.setPressed(false);
+        mc.gameSettings.keyBindSneak.setPressed(false);
     }
 
     @Override
     public void onDisable() {
-        mc.gameSettings.keyBindForward.pressed = this.field23826;
-        mc.gameSettings.keyBindBack.pressed = this.field23827;
-        mc.gameSettings.keyBindLeft.pressed = this.field23828;
-        mc.gameSettings.keyBindRight.pressed = this.field23829;
-        mc.gameSettings.keyBindJump.pressed = this.field23830;
-        mc.gameSettings.keyBindSneak.pressed = this.field23831;
+        mc.gameSettings.keyBindForward.setPressed(this.field23826);
+        mc.gameSettings.keyBindBack.setPressed(this.field23827);
+        mc.gameSettings.keyBindLeft.setPressed(this.field23828);
+        mc.gameSettings.keyBindRight.setPressed(this.field23829);
+        mc.gameSettings.keyBindJump.setPressed(this.field23830);
+        mc.gameSettings.keyBindSneak.setPressed(this.field23831);
         mc.world.removeEntityFromWorld(this.field23823);
         mc.player.resetPositionToBB();
         if (field23814 != null) {
@@ -236,8 +236,8 @@ public class Freecam extends Module {
         if (this.isEnabled() && var1.isPre()) {
             var1.setYaw(this.field23821 % 360.0F);
             var1.setPitch(this.field23822);
-            mc.player.rotYaw = this.field23821;
-            mc.player.rotPitch = this.field23822;
+            mc.player.rotationYaw= this.field23821;
+            mc.player.rotationPitch = this.field23822;
             float[] var4 = MovementUtil.method37084(this.field23825, this.field23824);
             float var5 = var4[1];
             float var6 = var4[2];
@@ -266,15 +266,15 @@ public class Freecam extends Module {
             if (mc.player != null) {
                 if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
                     SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
-                    this.field23821 = var4.yaw;
-                    this.field23822 = var4.pitch;
+                    this.field23821 = var4.getYaw();
+                    this.field23822 = var4.getPitch();
                     var4.yaw = mc.player.rotationYaw;
                     var4.pitch = mc.player.rotationPitch;
-                    double var5 = var4.x;
-                    double var7 = var4.y;
-                    double var9 = var4.z;
-                    float var11 = PlayerEntity.field4893.field39968;
-                    float var12 = PlayerEntity.field4893.field39969;
+                    double var5 = var4.getX();
+                    double var7 = var4.getY();
+                    double var9 = var4.getZ();
+                    float var11 = PlayerEntity.STANDING_SIZE.width;
+                    float var12 = PlayerEntity.STANDING_SIZE.height;
                     mc.player
                             .setBoundingBox(new AxisAlignedBB(var5 - (double) var11, var7, var9 - (double) var11, var5 + (double) var11, var7 + (double) var12, var9 + (double) var11));
                     var1.cancelled = true;

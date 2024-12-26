@@ -179,7 +179,7 @@ public abstract class Entity implements INameable, ICommandSource
     public boolean ignoreFrustumCheck;
     public boolean isAirBorne;
     private int field_242273_aw;
-    protected boolean inPortal;
+    public boolean inPortal;
     protected int portalCounter;
     protected BlockPos field_242271_ac;
     private boolean invulnerable;
@@ -868,7 +868,7 @@ public abstract class Entity implements INameable, ICommandSource
      * Given a motion vector, return an updated vector that takes into account restrictions such as collisions (from all
      * directions) and step-up from stepHeight
      */
-    private Vector3d getAllowedMovement(Vector3d vec)
+    public Vector3d getAllowedMovement(Vector3d vec)
     {
         AxisAlignedBB axisalignedbb = this.getBoundingBox();
         ISelectionContext iselectioncontext = ISelectionContext.forEntity(this);
@@ -2634,7 +2634,7 @@ public abstract class Entity implements INameable, ICommandSource
     /**
      * Enable or disable a entity flag, see getEntityFlag to read the know flags.
      */
-    protected void setFlag(int flag, boolean set)
+    public void setFlag(int flag, boolean set)
     {
         byte b0 = this.dataManager.get(FLAGS);
 

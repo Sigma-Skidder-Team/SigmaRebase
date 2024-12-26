@@ -34,12 +34,12 @@ public class MinemenSpider extends Module {
     private void EventMove(EventMove event) {
         double var4 = 1.0E-5;
         boolean world = mc.world
-                .getCollisionShapes(mc.player, mc.player.boundingBox.expand(var4, 0.0, var4).expand(-var4, 0.0, -var4))
+                .getCollisionShapes(mc.player, mc.player.getBoundingBox().expand(var4, 0.0, var4).expand(-var4, 0.0, -var4))
                 .count()
                 > 0L;
         if (world) {
             if (!mc.player.collidedHorizontally) {
-                if (!mc.player.onGround) {
+                if (!mc.player.isOnGround()) {
                     event.setY(!mc.gameSettings.keyBindSneak.isKeyDown() ? 0.0 : event.getY());
                 }
             } else if (!this.getBooleanValueFromSettingName("AutoClimb") && !mc.gameSettings.keyBindJump.isKeyDown()) {
@@ -54,7 +54,7 @@ public class MinemenSpider extends Module {
         if (MultiUtilities.isAboveBounds(mc.player, 0.001F) && this.getBooleanValueFromSettingName("SneakVClip")) {
             if (mc.gameSettings.keyBindSneak.isKeyDown()
                     && !this.field23813
-                    && mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.offset(0.0, -2.8, 0.0)).count() == 0L) {
+                    && mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(0.0, -2.8, 0.0)).count() == 0L) {
                 mc.getConnection()
                         .sendPacket(
                                 new CPlayerPacket.PositionPacket(
@@ -70,8 +70,8 @@ public class MinemenSpider extends Module {
                                 mc.player.getPositionVec().y - 2.8,
                                 mc.player.getPositionVec().z
                         );
-                mc.gameSettings.keyBindSneak.pressed = false;
-                mc.player.onGround = false;
+                mc.gameSettings.keyBindSneak.setPressed(false);
+                mc.player.setOnGround(false);
                 mc.timer.timerSpeed = 0.08F;
                 event.cancelled = true;
                 this.field23813 = true;
@@ -80,7 +80,7 @@ public class MinemenSpider extends Module {
         } else {
             if (this.getBooleanValueFromSettingName("Ceiling")
                     && !mc.gameSettings.keyBindSneak.isKeyDown()
-                    && mc.world.getCollisionShapes(mc.player, mc.player.boundingBox.offset(0.0, 0.01, 0.0)).count() > 0L) {
+                    && mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(0.0, 0.01, 0.0)).count() > 0L) {
                 event.setY(1.0E-14);
                 MovementUtil.setSpeed(event, 0.689 + (double) MovementUtil.method37078() * 0.06);
             }
@@ -109,7 +109,7 @@ public class MinemenSpider extends Module {
             double var5 = 1.0E-5;
             if (var4 != null
                     && mc.world
-                    .getCollisionShapes(mc.player, mc.player.boundingBox.expand(var5, 0.0, var5).expand(-var5, 0.0, -var5))
+                    .getCollisionShapes(mc.player, mc.player.getBoundingBox().expand(var5, 0.0, var5).expand(-var5, 0.0, -var5))
                     .count()
                     > 0L) {
                 if (!MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
@@ -137,7 +137,7 @@ public class MinemenSpider extends Module {
         if (this.isEnabled() && mc.player != null) {
             if (event.getVoxelShape() != null
                     && !event.getVoxelShape().isEmpty()
-                    && event.getVoxelShape().getBoundingBox().minY > mc.player.boundingBox.minY + 1.0) {
+                    && event.getVoxelShape().getBoundingBox().minY > mc.player.getBoundingBox().minY + 1.0) {
                 event.cancelled = true;
             }
         }

@@ -48,7 +48,7 @@ public class MineplexLongJump extends Module {
     @EventTarget
     public void method16622(EventMove var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (!mc.player.onGround) {
+            if (!mc.player.isOnGround()) {
                 if (this.field23804 >= 0) {
                     if (this.field23807 && !MultiUtilities.method17686()) {
                         this.field23807 = !this.field23807;

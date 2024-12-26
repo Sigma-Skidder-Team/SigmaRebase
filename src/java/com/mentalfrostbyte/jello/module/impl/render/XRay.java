@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class3420;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRenderBlocks;
 import com.mentalfrostbyte.jello.module.Module;
@@ -35,7 +36,7 @@ public class XRay extends Module {
     public void onRenderBlocks(EventRenderBlocks event) {
         if (this.isEnabled()) {
             AbstractBlock.AbstractBlockState blockState = event.method13970();
-            if (!(blockState.getBlock() instanceof Class3420) && blockState.getBlock() != Blocks.field37121) {
+            if (!(blockState.getBlock() instanceof Class3420) && blockState.getBlock() != Blocks.NETHERITE_BLOCK) {
                 event.cancelled = true;
             } else {
                 event.method13972(true);

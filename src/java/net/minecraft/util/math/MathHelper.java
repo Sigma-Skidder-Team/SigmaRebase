@@ -75,6 +75,9 @@ public class MathHelper
         int i = (int)value;
         return value < (float)i ? i - 1 : i;
     }
+    public static int method37782(Random var0, int var1, int var2) {
+        return var1 < var2 ? var0.nextInt(var2 - var1 + 1) + var1 : var1;
+    }
 
     /**
      * returns par0 cast as an int, and no greater than Integer.MAX_VALUE-1024

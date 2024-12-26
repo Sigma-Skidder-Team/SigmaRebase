@@ -1,18 +1,20 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.event.impl.ClickEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
-import com.mentalfrostbyte.jello.unmapped.ResourceList;
 import net.minecraft.network.play.client.CChatMessagePacket;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Resource;
 
 public class VClip extends Module {
     public ModuleCategory field23576;
@@ -109,7 +111,7 @@ public class VClip extends Module {
                     );
             mc.player
                     .setPosition(mc.player.getPosX(), mc.player.getPosY() + (double) var1, mc.player.getPosZ());
-            Client.getInstance().getNotificationManager().send(new Notification("Successfuly VCliped", var1 + " Blocks", 2000, ResourceList.directionIconPNG));
+            Client.getInstance().getNotificationManager().send(new Notification("Successfuly VCliped", var1 + " Blocks", 2000, Resources.directionIconPNG));
         }
     }
 }

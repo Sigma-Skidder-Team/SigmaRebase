@@ -36,7 +36,7 @@ public class RedeskyLongJump extends Module {
     @EventTarget
     public void method16895(EventMove var1) {
         double var4 = Math.sqrt(var1.getX() * var1.getX() + var1.getZ() * var1.getZ());
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             if (this.field23981 > 0) {
                 this.field23981 = 0;
                 if (this.access().getBooleanValueFromSettingName("Auto Disable")) {

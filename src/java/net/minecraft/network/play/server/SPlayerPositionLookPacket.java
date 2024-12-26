@@ -12,8 +12,8 @@ public class SPlayerPositionLookPacket implements IPacket<IClientPlayNetHandler>
     private double x;
     private double y;
     private double z;
-    private float yaw;
-    private float pitch;
+    public float yaw;
+    public float pitch;
     private Set<SPlayerPositionLookPacket.Flags> flags;
     private int teleportId;
 

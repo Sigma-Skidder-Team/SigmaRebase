@@ -1,6 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.movement.blockfly;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Class7843;
+import net.minecraft.util.math.RayTraceResult;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;
@@ -90,7 +92,7 @@ public class BlockFlyNCPMode extends Module {
         this.yaw = this.pitch = 999.0F;
         ((BlockFly) this.access()).field23884 = -1;
         if (mc.gameSettings.keyBindSneak.isKeyDown() && this.getBooleanValueFromSettingName("Downwards")) {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23929 = true;
         }
 
@@ -100,7 +102,7 @@ public class BlockFlyNCPMode extends Module {
 
         this.field23931 = -1.0;
         this.field23930 = false;
-        if (mc.player.onGround) {
+        if (mc.player.isOnGround()) {
             this.field23931 = mc.player.getPosY();
         }
 
@@ -133,14 +135,14 @@ public class BlockFlyNCPMode extends Module {
                 if (mc.world
                         .getCollisionShapes(
                                 mc.player,
-                                mc.player.boundingBox.expand(0.0, -1.5, 0.0).method19660(0.05, 0.0, 0.05).method19660(-0.05, 0.0, -0.05)
+                                mc.player.getBoundingBox().expand(0.0, -1.5, 0.0).method19660(0.05, 0.0, 0.05).method19660(-0.05, 0.0, -0.05)
                         )
                         .count()
                         == 0L
                         && mc.player.fallDistance < 1.0F) {
                     var1.setSafe(true);
                 }
-            } else if (mc.player.onGround
+            } else if (mc.player.isOnGround()
                     && Client.getInstance().moduleManager.getModuleByClass(SafeWalk.class).isEnabled()
                     && (!this.field23929 || !this.getBooleanValueFromSettingName("Downwards"))) {
                 var1.setSafe(true);
@@ -209,7 +211,7 @@ public class BlockFlyNCPMode extends Module {
                 double var4 = event.getX();
                 double var6 = event.getZ();
                 double var8 = event.getY();
-                if (!mc.player.collidedHorizontally && !mc.gameSettings.keyBindJump.pressed) {
+                if (!mc.player.collidedHorizontally && !mc.gameSettings.keyBindJump.isPressed()) {
                     double[] var10 = this.method16813();
                     var4 = var10[0];
                     var6 = var10[1];
@@ -239,7 +241,7 @@ public class BlockFlyNCPMode extends Module {
 
                 BlockPos var15 = new BlockPos(var4, var8 - 1.0, var6);
                 if (!BlockUtil.method34578(var15) && this.field23928.method16739(this.field23927)) {
-                    Class7843 var11 = BlockUtil.method34575(var15, !this.field23929 && this.getBooleanValueFromSettingName("Downwards"));
+                    Class7843 var11 = BlockUtil.method34575(var15, !this.field23929 && this.getBooleanValueFromSettingName("Downwards")); //fix dis also
                     this.field23923 = var11;
                     if (var11 != null) {
                         float[] var12 = BlockUtil.method34542(this.field23923.field33646, this.field23923.field33647);
@@ -285,7 +287,7 @@ public class BlockFlyNCPMode extends Module {
     @HigherPriority
     public void method16809(EventMove var1) {
         if (this.isEnabled() && this.field23928.method16735() != 0) {
-            if (mc.player.onGround || MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
+            if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                 this.field23931 = mc.player.getPosY();
             }
 
@@ -293,7 +295,7 @@ public class BlockFlyNCPMode extends Module {
                 mc.player.setSprinting(false);
             }
 
-            if (mc.player.onGround) {
+            if (mc.player.isOnGround()) {
                 this.field23926 = 0;
             } else if (this.field23926 >= 0) {
                 this.field23926++;
@@ -306,7 +308,7 @@ public class BlockFlyNCPMode extends Module {
             String var4 = this.getStringSettingValueByName("Speed Mode");
             switch (var4) {
                 case "Jump":
-                    if (mc.player.onGround && MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23929) {
+                    if (mc.player.isOnGround() && MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23929) {
                         this.field23930 = false;
                         mc.player.jump();
                         ((Speed) Client.getInstance().moduleManager.getModuleByClass(Speed.class)).method16764();
@@ -317,7 +319,7 @@ public class BlockFlyNCPMode extends Module {
                     }
                     break;
                 case "AAC":
-                    if (this.field23925 == 0 && mc.player.onGround) {
+                    if (this.field23925 == 0 && mc.player.isOnGround()) {
                         MovementUtil.setSpeed(var1, MovementUtil.getSpeed() * 0.82);
                     }
                     break;
@@ -326,7 +328,7 @@ public class BlockFlyNCPMode extends Module {
                     float var8 = this.method16816(MathHelper.wrapDegrees(mc.player.rotationYaw));
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.timer.timerSpeed = 1.0F;
-                    } else if (mc.player.onGround) {
+                    } else if (mc.player.isOnGround()) {
                         if (MultiUtilities.method17686() && !mc.player.isSneaking() && !this.field23929) {
                             var1.setY(1.01);
                         }
@@ -366,7 +368,7 @@ public class BlockFlyNCPMode extends Module {
                     MultiUtilities.setPlayerYMotion(var1.getY());
                     break;
                 case "Slow":
-                    if (mc.player.onGround) {
+                    if (mc.player.isOnGround()) {
                         var1.setX(var1.getX() * 0.75);
                         var1.setZ(var1.getZ() * 0.75);
                     } else {
@@ -375,7 +377,7 @@ public class BlockFlyNCPMode extends Module {
                     }
                     break;
                 case "Sneak":
-                    if (mc.player.onGround) {
+                    if (mc.player.isOnGround()) {
                         var1.setX(var1.getX() * 0.65);
                         var1.setZ(var1.getZ() * 0.65);
                     } else {
@@ -412,11 +414,11 @@ public class BlockFlyNCPMode extends Module {
     public void method16812(Render2DEvent var1) {
         if (this.isEnabled() && this.getStringSettingValueByName("Speed Mode").equals("Cubecraft") && this.field23926 >= 0) {
             if (!(mc.player.fallDistance > 1.2F)) {
-                if (!(mc.player.field4915 < this.field23931)) {
+                if (!(mc.player.chasingPosY < this.field23931)) {
                     if (!mc.player.isJumping) {
-                        mc.player.positionVec.y = this.field23931;
+                        mc.player.getPositionVec().y = this.field23931;
                         mc.player.lastTickPosY = this.field23931;
-                        mc.player.field4915 = this.field23931;
+                        mc.player.chasingPosY = this.field23931;
                         mc.player.prevPosY = this.field23931;
                         if (MovementUtil.isMoving()) {
                             mc.player.cameraYaw = 0.099999994F;
@@ -430,8 +432,8 @@ public class BlockFlyNCPMode extends Module {
     public double[] method16813() {
         double var3 = mc.player.getPosX();
         double var5 = mc.player.getPosZ();
-        double var7 = mc.player.movementInput.field43908;
-        double var9 = mc.player.movementInput.field43907;
+        double var7 = mc.player.movementInput.moveForward;
+        double var9 = mc.player.movementInput.moveStrafe;
         float var11 = mc.player.rotationYaw;
         BlockPos var12 = new BlockPos(var3, mc.player.getPosY() - 1.0, var5);
         double var13 = var3;
