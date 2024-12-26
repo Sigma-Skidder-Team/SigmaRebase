@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.misc;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class3323;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;

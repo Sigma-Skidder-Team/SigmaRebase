@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.step;
 
-import com.mentalfrostbyte.jello.misc.Class8906;
+import com.mentalfrostbyte.jello.misc.unmapped.Class8906;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.event.impl.SafeWalkEvent;

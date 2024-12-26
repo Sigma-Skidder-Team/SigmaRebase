@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
-import com.mentalfrostbyte.jello.misc.Class2131;
-import com.mentalfrostbyte.jello.misc.Class5631;
+import com.mentalfrostbyte.jello.misc.unmapped.Class2131;
+import com.mentalfrostbyte.jello.misc.unmapped.Class5631;
 import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;

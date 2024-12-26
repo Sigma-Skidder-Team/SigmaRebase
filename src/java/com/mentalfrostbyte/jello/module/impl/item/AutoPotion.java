@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.item;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class3323;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3323;
 import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 import net.minecraft.potion.Effect;
 import team.sdhq.eventBus.annotations.EventTarget;
@@ -11,7 +11,6 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.combat.Criticals;
 import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
-import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 

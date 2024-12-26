@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import com.mentalfrostbyte.jello.misc.Class5631;
+import com.mentalfrostbyte.jello.misc.unmapped.Class5631;
 
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;

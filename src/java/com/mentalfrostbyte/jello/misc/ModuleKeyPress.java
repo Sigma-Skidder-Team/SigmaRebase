@@ -7,6 +7,7 @@ import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
 import com.mentalfrostbyte.jello.gui.unmapped.Class7957;
 import com.mentalfrostbyte.jello.managers.GuiManager;
+import com.mentalfrostbyte.jello.misc.unmapped.Class8614;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;

@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
 import com.mentalfrostbyte.jello.misc.Box3D;
-import com.mentalfrostbyte.jello.misc.Class9110;
+import com.mentalfrostbyte.jello.misc.unmapped.Class9110;
 import com.mentalfrostbyte.jello.misc.FloatVector4;
 import com.mentalfrostbyte.jello.misc.ProjectileThingy;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;

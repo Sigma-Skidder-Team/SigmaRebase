@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3250;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventKeyPress;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;

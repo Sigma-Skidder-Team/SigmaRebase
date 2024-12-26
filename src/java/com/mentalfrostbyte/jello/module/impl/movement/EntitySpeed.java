@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.EventMoveRideable;
 import com.mentalfrostbyte.jello.event.impl.EventUseLess;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
-import com.mentalfrostbyte.jello.misc.Class1074;
+import com.mentalfrostbyte.jello.misc.unmapped.Class1074;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.MultiUtilities;

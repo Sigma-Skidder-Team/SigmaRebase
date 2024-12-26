@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class6874;
-import com.mentalfrostbyte.jello.misc.Class7200;
+import com.mentalfrostbyte.jello.misc.unmapped.Class6874;
+import com.mentalfrostbyte.jello.misc.unmapped.Class7200;
 import net.minecraft.client.gui.screen.ChatScreen;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.phase;
 
-import com.mentalfrostbyte.jello.misc.Class9629;
+import com.mentalfrostbyte.jello.misc.unmapped.Class9629;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.EventPushBlock;

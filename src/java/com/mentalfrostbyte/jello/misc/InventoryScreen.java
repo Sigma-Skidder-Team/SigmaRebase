@@ -1,7 +1,8 @@
 package com.mentalfrostbyte.jello.misc;
 
-import com.mentalfrostbyte.jello.misc.Class854;
-import com.mentalfrostbyte.jello.misc.Class860;
+import com.mentalfrostbyte.jello.misc.unmapped.Class1254;
+import com.mentalfrostbyte.jello.misc.unmapped.Class854;
+import com.mentalfrostbyte.jello.misc.unmapped.Class860;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

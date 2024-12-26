@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.misc;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class9110;
 import com.mentalfrostbyte.jello.module.impl.render.Projectiles;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;

@@ -3,6 +3,7 @@ package com.mentalfrostbyte.jello.misc;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mentalfrostbyte.jello.misc.unmapped.Class2141;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;

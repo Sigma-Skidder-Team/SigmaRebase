@@ -1,5 +1,7 @@
 package com.mentalfrostbyte.jello.misc;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class8828;
+
 public class Vector3m implements Comparable<Vector3m> {
    public final double x;
    public final double y;

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
-import com.mentalfrostbyte.jello.misc.Class888;
+import com.mentalfrostbyte.jello.misc.unmapped.Class888;
 import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;

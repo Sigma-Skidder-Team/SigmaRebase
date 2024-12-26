@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
-import com.mentalfrostbyte.jello.misc.Class3410;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3410;
 import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;

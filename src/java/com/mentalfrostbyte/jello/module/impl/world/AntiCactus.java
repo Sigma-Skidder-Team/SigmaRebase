@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
-import com.mentalfrostbyte.jello.misc.Class3220;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3220;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventBlockCollision;

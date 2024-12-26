@@ -2,8 +2,8 @@ package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.google.common.collect.Lists;
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class9510;
-import com.mentalfrostbyte.jello.misc.Class9823;
+import com.mentalfrostbyte.jello.misc.unmapped.Class9510;
+import com.mentalfrostbyte.jello.misc.unmapped.Class9823;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.Module;

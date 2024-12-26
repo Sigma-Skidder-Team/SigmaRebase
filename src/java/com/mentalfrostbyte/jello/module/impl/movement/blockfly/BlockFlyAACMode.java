@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.blockfly;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class9291;
+import com.mentalfrostbyte.jello.misc.unmapped.Class9291;
 import com.mentalfrostbyte.jello.misc.PositionFacing;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;

@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.misc;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.*;
+import com.mentalfrostbyte.jello.misc.unmapped.*;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;

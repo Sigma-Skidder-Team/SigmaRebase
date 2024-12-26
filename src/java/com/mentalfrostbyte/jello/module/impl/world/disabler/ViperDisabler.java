@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.world.disabler;
 
-import com.mentalfrostbyte.jello.misc.Class8897;
+import com.mentalfrostbyte.jello.misc.unmapped.Class8897;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;

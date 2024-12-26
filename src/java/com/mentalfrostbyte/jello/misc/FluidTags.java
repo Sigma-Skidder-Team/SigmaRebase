@@ -1,6 +1,9 @@
 package com.mentalfrostbyte.jello.misc;
 
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class7610;
+import com.mentalfrostbyte.jello.misc.unmapped.Class7656;
+import com.mentalfrostbyte.jello.misc.unmapped.Class8933;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tags.TagRegistryManager;
 import net.minecraft.util.ResourceLocation;

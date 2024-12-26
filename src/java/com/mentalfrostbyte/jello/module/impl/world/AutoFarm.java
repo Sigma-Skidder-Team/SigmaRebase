@@ -1,5 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class3321;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3480;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3481;
+import com.mentalfrostbyte.jello.misc.unmapped.Class532;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.module.Module;

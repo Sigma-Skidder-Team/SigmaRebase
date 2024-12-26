@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.render;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class3420;
+import com.mentalfrostbyte.jello.misc.unmapped.Class3420;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventRenderBlocks;
 import com.mentalfrostbyte.jello.module.Module;

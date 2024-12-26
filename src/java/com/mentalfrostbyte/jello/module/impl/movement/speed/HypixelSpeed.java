@@ -1,9 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.movement.speed;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class2094;
-import com.mentalfrostbyte.jello.misc.Class5631;
-import com.mentalfrostbyte.jello.misc.Class7845;
+import com.mentalfrostbyte.jello.misc.unmapped.Class2094;
+import com.mentalfrostbyte.jello.misc.unmapped.Class5631;
+import com.mentalfrostbyte.jello.misc.unmapped.Class7845;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;

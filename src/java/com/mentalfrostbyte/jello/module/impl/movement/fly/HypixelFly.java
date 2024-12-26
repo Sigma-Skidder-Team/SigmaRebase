@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.misc.Class5631;
+import com.mentalfrostbyte.jello.misc.unmapped.Class5631;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.HighestPriority;

@@ -1,12 +1,11 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Class8906;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
-import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.PremiumModule;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
-import com.mentalfrostbyte.jello.misc.*;
 
 
 import net.minecraft.nbt.ListNBT;

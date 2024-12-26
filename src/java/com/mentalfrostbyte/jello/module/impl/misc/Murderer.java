@@ -11,8 +11,6 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mojang.datafixers.util.Pair;
-import com.mentalfrostbyte.jello.misc.Color;
-import com.mentalfrostbyte.jello.misc.Class7427;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.event.impl.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.EventWriter;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
 import com.mentalfrostbyte.jello.managers.*;
-import com.mentalfrostbyte.jello.misc.Class8795;
+import com.mentalfrostbyte.jello.misc.unmapped.Class8795;
 import com.mentalfrostbyte.jello.trackers.PlayerStateTracker;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;

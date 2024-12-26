@@ -4,6 +4,7 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.gui.base.Direction;
 import com.mentalfrostbyte.jello.misc.*;
+import com.mentalfrostbyte.jello.misc.unmapped.*;
 import com.mentalfrostbyte.jello.util.*;
 import com.mentalfrostbyte.jello.util.render.Animation;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
