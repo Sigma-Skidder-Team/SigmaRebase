@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.TagRegistryManager;
 import net.minecraft.util.registry.Registry;
 
 public interface Class8933 {
@@ -22,7 +23,7 @@ public interface Class8933 {
     Class7984<EntityType<?>> method32660();
 
     default void cacheBlockStatesOrSomethingIdk() {
-        Class8384.method29378(this);
+        TagRegistryManager.method29378(this);
         Blocks.cacheBlockStates();
     }
 
