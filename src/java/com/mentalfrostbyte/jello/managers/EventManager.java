@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.event;
 
-import com.mentalfrostbyte.jello.Client;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.*;
 import com.mentalfrostbyte.jello.module.Module;
 
@@ -46,8 +46,10 @@ public class EventManager {
 
     public boolean shouldRegisterHandler(MethodWrapper[] handlers, Class<?> declaringClass, MethodWrapper handler) {
         try {
-            Method method = handler.getParent().getClass().getMethod(handler.getMethod().getName(), handler.getMethod().getParameterTypes());
-            return !this.containsHandler(handlers, handler) && (method.getDeclaringClass() == declaringClass || !this.isEventMethod(method));
+            Method method = handler.getParent().getClass().getMethod(handler.getMethod().getName(),
+                    handler.getMethod().getParameterTypes());
+            return !this.containsHandler(handlers, handler)
+                    && (method.getDeclaringClass() == declaringClass || !this.isEventMethod(method));
         } catch (NoSuchMethodException e) {
             return true;
         } catch (SecurityException e) {
@@ -68,7 +70,8 @@ public class EventManager {
     }
 
     public void subscribe(Module module) {
-        Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers.get(module.getClass());
+        Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers
+                .get(module.getClass());
         if (moduleHandlers != null) {
             for (Entry<Class<? extends Event>, List<MethodWrapper>> entry : moduleHandlers.entrySet()) {
                 Class<? extends Event> eventType = entry.getKey();
@@ -81,12 +84,14 @@ public class EventManager {
     }
 
     public void unsubscribe(Module module) {
-        Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers.get(module.getClass());
+        Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers
+                .get(module.getClass());
         if (moduleHandlers != null) {
             for (Entry<Class<? extends Event>, List<MethodWrapper>> entry : moduleHandlers.entrySet()) {
                 Class<? extends Event> eventType = entry.getKey();
                 List<MethodWrapper> handlersToRemove = entry.getValue();
-                Set<MethodWrapper> existingHandlers = new LinkedHashSet<>(Arrays.asList(this.eventHandlers.getOrDefault(eventType, new MethodWrapper[0])));
+                Set<MethodWrapper> existingHandlers = new LinkedHashSet<>(
+                        Arrays.asList(this.eventHandlers.getOrDefault(eventType, new MethodWrapper[0])));
                 existingHandlers.removeAll(handlersToRemove);
                 this.eventHandlers.put(eventType, existingHandlers.toArray(new MethodWrapper[0]));
             }
@@ -97,24 +102,30 @@ public class EventManager {
 
     public void register(Object listener) {
         if (listener != null) {
-            for (Class<?> moduleClass = listener.getClass(); moduleClass != null; moduleClass = moduleClass.getSuperclass()) {
+            for (Class<?> moduleClass = listener.getClass(); moduleClass != null; moduleClass = moduleClass
+                    .getSuperclass()) {
                 for (Method method : moduleClass.getDeclaredMethods()) {
                     if (this.isEventMethod(method)) {
                         method.setAccessible(true);
                         Priority priority = this.getMethodPriority(method);
                         Class<? extends Event> eventType = (Class<? extends Event>) method.getParameterTypes()[0];
-                        MethodWrapper[] handlers = this.eventHandlers.computeIfAbsent(eventType, k -> new MethodWrapper[0]);
+                        MethodWrapper[] handlers = this.eventHandlers.computeIfAbsent(eventType,
+                                k -> new MethodWrapper[0]);
 
                         MethodWrapper handler = new MethodWrapper(listener, method, priority);
                         if (this.shouldRegisterHandler(handlers, moduleClass, handler)) {
-                            boolean shouldExcludeMethod = Module.class.isAssignableFrom(moduleClass) && !method.isAnnotationPresent(Class5631.class);
+                            boolean shouldExcludeMethod = Module.class.isAssignableFrom(moduleClass)
+                                    && !method.isAnnotationPresent(Class5631.class);
                             if (!shouldExcludeMethod) {
                                 handlers = Arrays.copyOf(handlers, handlers.length + 1);
                                 handlers[handlers.length - 1] = handler;
                                 this.eventHandlers.put(eventType, this.sortHandlersByPriority(handlers));
-                            } else if (handler.getTrue()) { //IF THIS IS SET TO FALSE MODULES WONT FUNCTION!!!
-                                Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers.getOrDefault(moduleClass, new HashMap<Class<? extends Event>, List<MethodWrapper>>());
-                                List<MethodWrapper> handlerList = moduleHandlers.computeIfAbsent(eventType, k -> new ArrayList<>());
+                            } else if (handler.getTrue()) { // IF THIS IS SET TO FALSE MODULES WONT FUNCTION!!!
+                                Map<Class<? extends Event>, List<MethodWrapper>> moduleHandlers = this.moduleEventHandlers
+                                        .getOrDefault(moduleClass,
+                                                new HashMap<Class<? extends Event>, List<MethodWrapper>>());
+                                List<MethodWrapper> handlerList = moduleHandlers.computeIfAbsent(eventType,
+                                        k -> new ArrayList<>());
 
                                 handlerList.add(handler);
                                 moduleHandlers.put(eventType, handlerList);
@@ -148,7 +159,8 @@ public class EventManager {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Client.getInstance().getLogger().error("An unhandled exception occured in an event handler's function");
+                    Client.getInstance().getLogger()
+                            .error("An unhandled exception occured in an event handler's function");
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }

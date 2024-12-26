@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.command.impl;
 
-import com.mentalfrostbyte.jello.Client;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.command.ChatCommandExecutor;
 import com.mentalfrostbyte.jello.command.Command;
 import com.mentalfrostbyte.jello.command.CommandException;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Enemy extends Command {
    public Enemy() {
       super("enemy", "Manage enemies", "enemies", "target");
-      this.registerSubCommands(new String[]{"add/remove/list/clear"});
+      this.registerSubCommands(new String[] { "add/remove/list/clear" });
    }
 
    @Override

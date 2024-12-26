@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.command;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.ClientMode;
+import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.command.impl.*;
 import com.mentalfrostbyte.jello.event.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
@@ -136,13 +136,17 @@ public class CommandManager {
                     MultiUtilities.addChatMessage(" ");
 
                     try {
-                        var7.run(var5, (ChatCommandArguments[]) var8.<ChatCommandArguments>toArray(new ChatCommandArguments[0]), var1x -> MultiUtilities.addChatMessage(this.getPrefix() + " " + var1x));
+                        var7.run(var5,
+                                (ChatCommandArguments[]) var8
+                                        .<ChatCommandArguments>toArray(new ChatCommandArguments[0]),
+                                var1x -> MultiUtilities.addChatMessage(this.getPrefix() + " " + var1x));
                     } catch (CommandException var10) {
                         if (var10.field16621.length() > 0) {
                             MultiUtilities.addChatMessage(this.getPrefix() + " Error: " + var10.field16621);
                         }
 
-                        MultiUtilities.addChatMessage(this.getPrefix() + " Usage: " + "." + var7.getName() + " " + var7.method18326());
+                        MultiUtilities.addChatMessage(
+                                this.getPrefix() + " Usage: " + "." + var7.getName() + " " + var7.method18326());
                     }
 
                     MultiUtilities.addChatMessage(" ");

@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.command.impl;
 
-import com.mentalfrostbyte.jello.Client;
-import com.mentalfrostbyte.jello.ClientMode;
+import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.command.ChatCommandExecutor;
 import com.mentalfrostbyte.jello.command.Command;
 import com.mentalfrostbyte.jello.command.CommandException;
@@ -23,7 +23,8 @@ public class Config extends Command {
    private static final String configFileExtension = ".profile";
 
    private final ArrayList<String> saveCommands = new ArrayList<String>(Arrays.asList("add", "create", "new", "save"));
-   private final ArrayList<String> deleteCommands = new ArrayList<String>(Arrays.asList("remove", "delete", "del", "rem"));
+   private final ArrayList<String> deleteCommands = new ArrayList<String>(
+         Arrays.asList("remove", "delete", "del", "rem"));
 
    public Config() {
       super("config", "Manage configs", "configs", "profiles", "profile");
@@ -47,10 +48,14 @@ public class Config extends Command {
                         throw new CommandException();
                      }
 
-                     user.send("§l" + Client.getInstance().getModuleManager().getConfigurationManager().getAllConfigs().size() + " " + this.getConfigOrProfileName() + " :");
+                     user.send("§l"
+                           + Client.getInstance().getModuleManager().getConfigurationManager().getAllConfigs().size()
+                           + " " + this.getConfigOrProfileName() + " :");
 
-                     for (Configuration config : Client.getInstance().getModuleManager().getConfigurationManager().getAllConfigs()) {
-                        boolean isCurrentConfig = Client.getInstance().getModuleManager().getConfigurationManager().getCurrentConfig() == config;
+                     for (Configuration config : Client.getInstance().getModuleManager().getConfigurationManager()
+                           .getAllConfigs()) {
+                        boolean isCurrentConfig = Client.getInstance().getModuleManager().getConfigurationManager()
+                              .getCurrentConfig() == config;
                         if (Client.getInstance().getClientMode() != ClientMode.CLASSIC || !isCurrentConfig) {
                            user.send((!isCurrentConfig ? "" : "§n") + config.getName);
                         }
@@ -68,17 +73,21 @@ public class Config extends Command {
                } else if (args.length != 1) {
                   String name = args[1].getArguments().toLowerCase();
                   String ogName = args[1].getArguments();
-                  Configuration currentConfig = Client.getInstance().getModuleManager().getConfigurationManager().getCurrentConfig();
-                  currentConfig.serializedConfigData = Client.getInstance().getModuleManager().saveCurrentConfigToJSON(new JSONObject());
+                  Configuration currentConfig = Client.getInstance().getModuleManager().getConfigurationManager()
+                        .getCurrentConfig();
+                  currentConfig.serializedConfigData = Client.getInstance().getModuleManager()
+                        .saveCurrentConfigToJSON(new JSONObject());
                   Client.getInstance().getModuleManager().getConfigurationManager().removeConfig(name);
-                  Client.getInstance().getModuleManager().getConfigurationManager().saveConfig(new Configuration(name, currentConfig.serializedConfigData));
+                  Client.getInstance().getModuleManager().getConfigurationManager()
+                        .saveConfig(new Configuration(name, currentConfig.serializedConfigData));
                   user.send("Saved " + this.getConfigOrProfileName());
                } else {
                   user.send("Usage : .config save <name>");
                }
             } else if (args.length != 1) {
                String name = args[1].getArguments().toLowerCase();
-               Configuration config = Client.getInstance().getModuleManager().getConfigurationManager().getConfigByName(name);
+               Configuration config = Client.getInstance().getModuleManager().getConfigurationManager()
+                     .getConfigByName(name);
                if (config == null) {
                   user.send(this.getConfigOrProfileName() + " not found!");
                } else {
@@ -99,13 +108,14 @@ public class Config extends Command {
    }
 
    public void saveConfigToFile(String configName) {
-      JSONObject jsonConfig  = Client.getInstance().getModuleManager().saveCurrentConfigToJSON(new JSONObject());
+      JSONObject jsonConfig = Client.getInstance().getModuleManager().saveCurrentConfigToJSON(new JSONObject());
       File configFolder = new File(Client.getInstance().getFile() + this.configFolder);
       if (!configFolder.exists()) {
          configFolder.mkdirs();
       }
 
-      File configFile = new File(Client.getInstance().getFile() + this.configFolder + configName + this.configFileExtension);
+      File configFile = new File(
+            Client.getInstance().getFile() + this.configFolder + configName + this.configFileExtension);
       if (!configFile.exists()) {
          try {
             configFile.createNewFile();

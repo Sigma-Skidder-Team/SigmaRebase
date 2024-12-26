@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.command.impl;
 
-import com.mentalfrostbyte.jello.Client;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.command.CommandManager;
 import com.mentalfrostbyte.jello.module.Module;
 import mapped.*;
@@ -11,8 +11,8 @@ import java.util.Map.Entry;
 public class Bind extends Command {
    public Bind() {
       super("bind", "Bind a module to a key");
-      this.registerSubCommands(new String[]{"module"});
-      this.registerSubCommands(new String[]{"key/none"});
+      this.registerSubCommands(new String[] { "module" });
+      this.registerSubCommands(new String[] { "key/none" });
    }
 
    @Override
@@ -42,11 +42,11 @@ public class Bind extends Command {
                }
 
                if (var14 != -1) {
-                  Client.getInstance().getModuleManager().getMacOSTouchBar().method13725(var14, (Module)var6);
-                  var3.send("Key " + var2[1].getArguments() + " was set for module " + ((Module)var6).getSuffix());
+                  Client.getInstance().getModuleManager().getMacOSTouchBar().method13725(var14, (Module) var6);
+                  var3.send("Key " + var2[1].getArguments() + " was set for module " + ((Module) var6).getSuffix());
                } else {
                   Client.getInstance().getModuleManager().getMacOSTouchBar().method13727(var6);
-                  var3.send("Keybind was reset for module " + ((Module)var6).getSuffix());
+                  var3.send("Keybind was reset for module " + ((Module) var6).getSuffix());
                }
             }
          } else {
@@ -56,19 +56,20 @@ public class Bind extends Command {
             }
 
             String var7 = "key.keyboard.";
-            int var8 = Client.getInstance().getModuleManager().getMacOSTouchBar().method13729((Module)var6);
+            int var8 = Client.getInstance().getModuleManager().getMacOSTouchBar().method13729((Module) var6);
             String var9 = null;
 
             for (Entry var11 : InputMappingsInput.REGISTRY.entrySet()) {
-               if (((String)var11.getKey()).startsWith(var7) && ((InputMappingsInput)var11.getValue()).keyCode == var8) {
-                  var9 = ((String)var11.getKey()).substring(var7.length());
+               if (((String) var11.getKey()).startsWith(var7)
+                     && ((InputMappingsInput) var11.getValue()).keyCode == var8) {
+                  var9 = ((String) var11.getKey()).substring(var7.length());
                }
             }
 
             if (var9 != null) {
-               var3.send(((Module)var6).getSuffix() + " is bound to : " + var9);
+               var3.send(((Module) var6).getSuffix() + " is bound to : " + var9);
             } else {
-               var3.send("§c[Error] " + ((Module)var6).getSuffix() + " is bound to an unknown key");
+               var3.send("§c[Error] " + ((Module) var6).getSuffix() + " is bound to an unknown key");
             }
          }
       }
@@ -79,12 +80,12 @@ public class Bind extends Command {
          String var4 = "key.keyboard.";
 
          for (Entry var6 : InputMappingsInput.REGISTRY.entrySet()) {
-            if (((String)var6.getKey()).startsWith(var4)) {
-               String var7 = ((String)var6.getKey()).substring(var4.length());
+            if (((String) var6.getKey()).startsWith(var4)) {
+               String var7 = ((String) var6.getKey()).substring(var4.length());
                var7 = var7.replace("keypad.", "");
                var7 = var7.replace(".", "_");
                if (var1.equals(var7)) {
-                  return ((InputMappingsInput)var6.getValue()).keyCode;
+                  return ((InputMappingsInput) var6.getValue()).keyCode;
                }
             }
          }
