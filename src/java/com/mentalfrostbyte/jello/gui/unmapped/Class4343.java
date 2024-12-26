@@ -278,8 +278,8 @@ public class Class4343 extends Class4339 implements Class4342 {
             this.field21224.put(var10, var12);
          }
 
-         var18.method16727((var1, var2, var3x) -> this.field21224.get(var2).setEnabled(var3x));
-         var18.method16724();
+         var18.addClass6547((var1, var2, var3x) -> this.field21224.get(var2).setEnabled(var3x));
+         var18.calledOnEnable();
       }
 
       this.addToList(new CustomGuiScreen(this, "extentionhack", 0, var4, 0, 20));

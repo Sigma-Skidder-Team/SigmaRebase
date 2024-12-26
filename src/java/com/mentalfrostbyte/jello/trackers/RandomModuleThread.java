@@ -44,11 +44,11 @@ public class RandomModuleThread implements Runnable {
                     for (Module var10 : var5) {
                         if (var10.getClass().getSuperclass() != Module.class && var10.getClass().getSuperclass() != ModuleWithModuleSettings.class) {
                             var3 = true;
-                            if (field8343.containsKey(var10) && field8343.get(var10) != var10.method15994()) {
+                            if (field8343.containsKey(var10) && field8343.get(var10) != var10.getRandomAssOffset()) {
                                 var4 = true;
                             }
 
-                            field8343.put(var10, var10.method15994());
+                            field8343.put(var10, var10.getRandomAssOffset());
                         }
                     }
 

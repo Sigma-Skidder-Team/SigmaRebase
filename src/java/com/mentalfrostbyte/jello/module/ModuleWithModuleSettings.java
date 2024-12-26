@@ -2,7 +2,6 @@ package com.mentalfrostbyte.jello.module;
 
 import com.mentalfrostbyte.jello.module.settings.Setting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
-import team.sdhq.eventBus.Event;
 import team.sdhq.eventBus.EventBus;
 import totalcross.json.*;
 
@@ -24,52 +23,52 @@ public class ModuleWithModuleSettings extends Module {
         for (Module moduleFromArray : moduleArray) {
             EventBus.register(moduleFromArray);
             stringList.add(moduleFromArray.getName());
-            moduleFromArray.method16003(this);
+            moduleFromArray.setSomeMod(this);
         }
 
         this.registerSetting(modeSetting = new ModeSetting("Type", type + " mode", 0, stringList.toArray(new String[0])));
-        this.modeSetting.addObserver(var1x -> method16724());
-        this.method16724();
+        this.modeSetting.addObserver(var1x -> calledOnEnable());
+        this.calledOnEnable();
     }
 
-    public void method16724() {
-        this.method16725();
+    public void calledOnEnable() {
+        this.isTypeSetToThisModName();
 
         for (Module module : this.moduleArray) {
-            boolean var7 = this.getStringSettingValueByName("Type").equals(module.name);
+            boolean isParent = this.getStringSettingValueByName("Type").equals(module.name);
             if (this.isEnabled() && mc.player != null) {
-                module.setState(var7);
-                if (var7) {
+                module.setState(isParent);
+                if (isParent) {
                     this.parentModule = module;
                 }
             } else if (this.isEnabled()) {
-                module.setEnabledBasic(var7);
+                module.setEnabledBasic(isParent);
             }
 
-            this.method16728(module, var7);
+            this.setModuleEnabled(module, isParent);
         }
     }
 
-    private void method16725() {
-        boolean var3 = false;
+    private void isTypeSetToThisModName() {
+        boolean isOurName = false;
 
-        for (Module var7 : this.moduleArray) {
-            if (this.getStringSettingValueByName("Type").equals(var7.name)) {
-                var3 = true;
+        for (Module module : this.moduleArray) {
+            if (this.getStringSettingValueByName("Type").equals(module.name)) {
+                isOurName = true;
             }
         }
 
-        if (!var3) {
+        if (!isOurName) {
             this.method15984("Type", this.moduleArray[0].name);
         }
     }
 
-    public Module method16726() {
-        this.method16725();
+    public Module getModWithTypeSetToName() {
+        this.isTypeSetToThisModName();
 
-        for (Module var6 : this.moduleArray) {
-            if (this.getStringSettingValueByName("Type").equals(var6.name)) {
-                return var6;
+        for (Module mod : this.moduleArray) {
+            if (this.getStringSettingValueByName("Type").equals(mod.name)) {
+                return mod;
             }
         }
 
@@ -79,15 +78,15 @@ public class ModuleWithModuleSettings extends Module {
     @Override
     public boolean isEnabled2() {
         if (this.parentModule == null) {
-            this.method16724();
+            this.calledOnEnable();
         }
 
         return this.parentModule != null ? this.parentModule.isEnabled2() : this.isEnabled();
     }
 
     @Override
-    public JSONObject initialize(JSONObject var1) throws JSONException {
-        JSONObject var4 = CJsonUtils.getJSONObjectOrNull(var1, "sub-options");
+    public JSONObject initialize(JSONObject config) throws JSONException {
+        JSONObject var4 = CJsonUtils.getJSONObjectOrNull(config, "sub-options");
         if (var4 != null) {
             for (Module var8 : this.moduleArray) {
                 JSONArray var9 = CJsonUtils.getJSONArrayOrNull(var4, var8.getName());
@@ -113,9 +112,9 @@ public class ModuleWithModuleSettings extends Module {
             }
         }
 
-        JSONObject var18 = super.initialize(var1);
+        JSONObject var18 = super.initialize(config);
         if (this.enabled) {
-            this.method16724();
+            this.calledOnEnable();
         }
 
         return var18;
@@ -124,19 +123,19 @@ public class ModuleWithModuleSettings extends Module {
     @Override
     public JSONObject buildUpModuleData(JSONObject obj) {
         try {
-            JSONObject var4 = new JSONObject();
+            JSONObject subOptionsObj = new JSONObject();
 
-            for (Module var8 : this.moduleArray) {
-                JSONArray var9 = new JSONArray();
+            for (Module mod : this.moduleArray) {
+                JSONArray arr = new JSONArray();
 
-                for (Setting<?> var11 : var8.settingMap.values()) {
-                    var9.put(var11.buildUpSettingData(new JSONObject()));
+                for (Setting<?> setting : mod.settingMap.values()) {
+                    arr.put(setting.buildUpSettingData(new JSONObject()));
                 }
 
-                var4.put(var8.getName(), var9);
+                subOptionsObj.put(mod.getName(), arr);
             }
 
-            obj.put("sub-options", var4);
+            obj.put("sub-options", subOptionsObj);
             return super.buildUpModuleData(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -145,7 +144,7 @@ public class ModuleWithModuleSettings extends Module {
 
     @Override
     public void onEnable() {
-        this.method16724();
+        this.calledOnEnable();
     }
 
     @Override
@@ -164,14 +163,14 @@ public class ModuleWithModuleSettings extends Module {
         super.resetModuleState();
     }
 
-    public final ModuleWithModuleSettings method16727(Class6547 var1) {
+    public final ModuleWithModuleSettings addClass6547(Class6547 var1) {
         this.field23882.add(var1);
         return this;
     }
 
-    public final void method16728(Module var1, boolean var2) {
+    public final void setModuleEnabled(Module module, boolean enabled) {
         for (Class6547 var6 : this.field23882) {
-            var6.method19891(this, var1, var2);
+            var6.method19891(this, module, enabled);
         }
     }
 
@@ -179,8 +178,8 @@ public class ModuleWithModuleSettings extends Module {
     public void initialize() {
         super.initialize();
 
-        for (Module var6 : this.moduleArray) {
-            var6.initialize();
+        for (Module mod : this.moduleArray) {
+            mod.initialize();
         }
     }
 

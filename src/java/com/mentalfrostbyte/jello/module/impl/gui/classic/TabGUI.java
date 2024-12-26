@@ -359,9 +359,9 @@ public class TabGUI extends Module {
       ArrayList var4 = new ArrayList<Setting>(var1.getSettingMap().values());
       if (var1 instanceof ModuleWithModuleSettings) {
          ModuleWithModuleSettings var5 = (ModuleWithModuleSettings)var1;
-         var5.method16724();
-         if (var5.method16726() != null) {
-            var4.addAll(var5.method16726().getSettingMap().values());
+         var5.calledOnEnable();
+         if (var5.getModWithTypeSetToName() != null) {
+            var4.addAll(var5.getModWithTypeSetToName().getSettingMap().values());
          }
       }
 

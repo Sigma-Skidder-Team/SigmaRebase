@@ -16,7 +16,7 @@ public class Class4335 extends Class4333 {
       super(var1, var2, var3 - 296, var4 - 346, 592, 692);
 
       for (Module var9 : Client.getInstance().moduleManager.getModuleMap().values()) {
-         if (var9.method16006()) {
+         if (var9.isAvailableOnClassic()) {
             for (ModuleCategory var13 : var5) {
                if (var9.getAdjustedCategoryBasedOnClientMode().equals(var13)) {
                   this.method13485(var9);

@@ -181,7 +181,7 @@ public class MacOSTouchBar {
       }
    }
 
-   public void method13737(Module var1) {
+   public void onModuleToggled(Module var1) {
       if (this.touchBar != null) {
          for (TouchBarItem var5 : this.touchBar.getItems()) {
             if (var5.getView() instanceof TouchBarButton && var1.getName().equals(var5.getIdentifier())) {
