@@ -125,7 +125,7 @@ public class InvManagerUtils {
             if (itemStack != null) {
                 for (Item item : items) {
                     if (itemStack.getItem() == item) {
-                        int amount = itemStack.count;
+                        int amount = itemStack.getCount();
                         if (amount > size) {
                             slot = hotbarSlot;
                             size = amount;

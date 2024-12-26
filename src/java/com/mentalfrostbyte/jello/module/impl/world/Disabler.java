@@ -3,6 +3,8 @@ package com.mentalfrostbyte.jello.module.impl.world;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
 import com.mentalfrostbyte.jello.module.impl.world.disabler.*;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 public class Disabler extends ModuleWithModuleSettings {
     public Disabler() {

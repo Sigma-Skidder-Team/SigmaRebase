@@ -12,6 +12,8 @@ import com.mentalfrostbyte.jello.module.impl.movement.Fly;
 import com.mentalfrostbyte.jello.module.impl.movement.fly.MineplexFly;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.Rots;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import net.minecraft.client.Minecraft;

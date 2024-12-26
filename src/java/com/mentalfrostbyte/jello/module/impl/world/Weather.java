@@ -9,6 +9,8 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.network.play.server.SUpdateTimePacket;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 public class Weather extends Module {
     private float field23538;

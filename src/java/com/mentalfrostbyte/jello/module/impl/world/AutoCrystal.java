@@ -1,6 +1,13 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.misc.Explosion;
+import com.mentalfrostbyte.jello.util.Rotations;
+import com.mentalfrostbyte.jello.util.player.RotationHelper;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.entity.item.EnderCrystalEntity;
+import net.minecraft.potion.Effect;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
@@ -12,6 +19,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.Rots;
+import com.mentalfrostbyte.jello.misc.*;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -74,20 +82,20 @@ public class AutoCrystal extends Module {
     }
 
     private static float method16381(float var0) {
-        int var3 = mc.world.method6997().getId();
+        int var3 = mc.world.getDifficulty().getId();
         return var0 * (var3 != 0 ? (var3 != 2 ? (var3 != 1 ? 1.5F : 0.5F) : 1.0F) : 0.0F);
     }
 
     public static float method16382(LivingEntity var0, float var1, Explosion var2) {
         if (!(var0 instanceof PlayerEntity)) {
-            return Class8913.method32581(var1, (float) var0.method3070(),
+            return Class8913.method32581(var1, (float) var0.getTotalArmorValue(),
                     (float) var0.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         } else {
             PlayerEntity var5 = (PlayerEntity) var0;
-            DamageSource var6 = DamageSource.method31126(var2);
-            var1 = Class8913.method32581(var1, (float) var5.method3070(),
+            DamageSource var6 = DamageSource.causeExplosionDamage(var2.method25789());
+            var1 = Class8913.method32581(var1, (float) var5.getTotalArmorValue(),
                     (float) var5.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-            int var7 = EnchantmentHelper.method26317(var5.getArmorInventoryList(), var6);
+            int var7 = EnchantmentHelper.getEnchantmentModifierDamage(var5.getArmorInventoryList(), var6);
             float var8 = MathHelper.clamp((float) var7, 0.0F, 20.0F);
             var1 *= 1.0F - var8 / 25.0F;
             if (var0.isPotionActive(Effect.get(11))) {
@@ -184,7 +192,7 @@ public class AutoCrystal extends Module {
                 EnderCrystalEntity var5 = mc.world
                         .getEntitiesInAABBexcluding(
                                 Entity.class,
-                                this.field23633.boundingBox.expand(2.0, 4.0, 2.0).expand(-2.0, -3.0, -2.0),
+                                this.field23633.getBoundingBox().expand(2.0, 4.0, 2.0).expand(-2.0, -3.0, -2.0),
                                 var0 -> var0 instanceof EnderCrystalEntity)
                         .stream()
                         .map(var0 -> (EnderCrystalEntity) var0)
@@ -194,7 +202,7 @@ public class AutoCrystal extends Module {
                                 var1x.getPosZ(), this.field23633)))
                         .orElse(null);
                 if (var5 != null) {
-                    Rotations rots = RotationHelper.getRotationsToVector(var5.positionVec);
+                    Rotations rots = RotationHelper.getRotationsToVector(var5.getPositionVec());
                     Rots.rotating = true;
                     Rots.prevYaw = rots.yaw;
                     Rots.prevPitch = rots.pitch;
@@ -220,8 +228,8 @@ public class AutoCrystal extends Module {
 
             this.field23637 = this.method16377();
             this.field23637
-                    .sort(Comparator.comparing(var1x -> this.field23633.getDistanceSq(var1x.field13027,
-                            var1x.field13028, var1x.field13029)));
+                    .sort(Comparator.comparing(var1x -> this.field23633.getDistanceSq(var1x.getX(),
+                            var1x.getY(), var1x.getX())));
             if (this.field23637 != null && !this.field23637.isEmpty()) {
                 BlockPos var6 = this.field23637
                         .stream()
@@ -231,8 +239,8 @@ public class AutoCrystal extends Module {
                                                 this.field23633)))
                         .orElse(null);
                 if (var6 != null) {
-                    Rotations rots = RotationHelper.getRotationsToVector(new Vector3d((double) var6.field13027 + 0.5,
-                            (double) var6.field13028 + 0.5, (double) var6.field13029 + 0.5));
+                    Rotations rots = RotationHelper.getRotationsToVector(new Vector3d((double) var6.getX() + 0.5,
+                            (double) var6.getY() + 0.5, (double) var6.getZ() + 0.5));
                     Rots.rotating = true;
                     Rots.prevYaw = rots.yaw;
                     Rots.prevPitch = rots.pitch;
@@ -258,18 +266,18 @@ public class AutoCrystal extends Module {
         GL11.glDisable(2929);
 
         for (BlockPos var6 : this.field23637) {
-            double var7 = (double) var6.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
-            double var9 = (double) var6.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY();
-            double var11 = (double) var6.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+            double var7 = (double) var6.getX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+            double var9 = (double) var6.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY();
+            double var11 = (double) var6.getZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
             Box3D var13 = new Box3D(var7, var9 + 1.0, var11, var7 + 1.0, var9 + 1.0, var11 + 1.0);
             RenderUtil.render3DColoredBox(var13, var4);
         }
 
         var4 = MultiUtilities.applyAlpha(9000000, 1.0F);
         if (this.field23633 != null) {
-            double var14 = this.field23633.getPosX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
-            double var19 = this.field23633.getPosY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY() + 0.5;
-            double var20 = this.field23633.getPosZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+            double var14 = this.field23633.getPosX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+            double var19 = this.field23633.getPosY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY() + 0.5;
+            double var20 = this.field23633.getPosZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
             float var16 = 0.3F;
             Box3D var17 = new Box3D(var14 - (double) var16, var19 + 0.9, var20 - (double) var16, var14 + (double) var16,
                     var19 + 1.0, var20 + (double) var16);
@@ -291,7 +299,7 @@ public class AutoCrystal extends Module {
         BlockPos var4 = var1.add(0, 1, 0);
         BlockPos var5 = var1.add(0, 2, 0);
         return (mc.world.getBlockState(var1).getBlock() == Blocks.BEDROCK
-                || mc.world.getBlockState(var1).getBlock() == Blocks.field36527)
+                || mc.world.getBlockState(var1).getBlock() == Blocks.OBSIDIAN)
                 && mc.world.getBlockState(var4).getBlock() == Blocks.AIR
                 && mc.world.getBlockState(var5).getBlock() == Blocks.AIR
                 && mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(var4)).isEmpty();
@@ -349,7 +357,7 @@ public class AutoCrystal extends Module {
                                         } else if (mc.player.getRidingEntity() != null
                                                 && mc.player.getRidingEntity().equals(var6)) {
                                             var5.remove();
-                                        } else if (!var6.method3362()) {
+                                        } else if (!var6.isInvulnerable()) {
                                             if (var6 instanceof PlayerEntity
                                                     && Class8781.method31662((PlayerEntity) var6)
                                                     && Client.getInstance().moduleManager.getModuleByClass(Teams.class)

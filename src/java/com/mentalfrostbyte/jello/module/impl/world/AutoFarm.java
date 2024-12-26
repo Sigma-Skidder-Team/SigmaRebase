@@ -5,6 +5,8 @@ import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -30,14 +32,14 @@ public class AutoFarm extends Module {
                         if (var6.getBlock() instanceof Class3480 || var6.getBlock() instanceof Class3481 || var6.getBlock() instanceof Class3483) {
                             ItemStack var14 = mc.player.getHeldItem(Hand.MAIN_HAND);
                             if (var14 != null && var14.getItem() instanceof Class3321) {
-                                if (var6.<Integer>get(BlockStateProperties.field39742) != 7) {
+                                if (var6.<Integer>get(BlockStateProperties.AGE_0_7) != 7) {
                                     float[] var18 = BlockUtil.method34542(var5, Direction.DOWN);
                                     var1.setYaw(var18[0]);
                                     var1.setPitch(var18[1]);
                                     var1.attackPost(new Class1358(this, var18));
                                     return;
                                 }
-                            } else if (var6.<Integer>get(BlockStateProperties.field39742) == 7) {
+                            } else if (var6.<Integer>get(BlockStateProperties.AGE_0_7) == 7) {
                                 float[] var17 = BlockUtil.method34542(var5, Direction.DOWN);
                                 var1.setYaw(var17[0]);
                                 var1.setPitch(var17[1]);

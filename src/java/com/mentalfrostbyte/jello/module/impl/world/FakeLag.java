@@ -10,6 +10,8 @@ import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.TimerUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.*;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 import java.util.ArrayList;
 

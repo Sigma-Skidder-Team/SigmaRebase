@@ -1,5 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
+import com.mentalfrostbyte.jello.misc.Box3D;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
@@ -11,6 +14,8 @@ import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.Rots;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 import com.mentalfrostbyte.jello.util.ClientColors;
+import com.mentalfrostbyte.jello.misc.MovementInput;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.container.ClickType;
@@ -60,26 +65,26 @@ public class Auto32k extends Module {
         }
 
         this.field23872 = InvManagerUtils.method25843(
-                Items.field37669,
-                Items.field37665,
-                Items.field37666,
-                Items.field37663,
-                Items.field37661,
-                Items.field37667,
-                Items.field37657,
-                Items.field37662,
-                Items.field37659,
-                Items.field37656,
-                Items.field37655,
-                Items.field37660,
-                Items.field37664,
-                Items.field37668,
-                Items.field37653,
-                Items.field37654,
-                Items.field37658);
-        this.field23871 = InvManagerUtils.method25843(Items.field37545);
+                Items.BLACK_SHULKER_BOX,
+                Items.SHULKER_BOX,
+                Items.WHITE_SHULKER_BOX,
+                Items.ORANGE_SHULKER_BOX,
+                Items.MAGENTA_SHULKER_BOX,
+                Items.LIGHT_BLUE_SHULKER_BOX,
+                Items.YELLOW_SHULKER_BOX,
+                Items.LIME_SHULKER_BOX,
+                Items.PINK_SHULKER_BOX,
+                Items.GRAY_SHULKER_BOX,
+                Items.LIGHT_GRAY_SHULKER_BOX,
+                Items.CYAN_SHULKER_BOX,
+                Items.PURPLE_SHULKER_BOX,
+                Items.BLUE_SHULKER_BOX,
+                Items.BROWN_SHULKER_BOX,
+                Items.GREEN_SHULKER_BOX,
+                Items.RED_SHULKER_BOX);
+        this.field23871 = InvManagerUtils.method25843(Items.HOPPER);
         if (this.field23871 == -1) {
-            this.field23871 = InvManagerUtils.findItemSlot(Items.field37545);
+            this.field23871 = InvManagerUtils.findItemSlot(Items.HOPPER);
             if (this.field23871 != -1) {
                 if (this.field23871 >= 36 && this.field23871 <= 44) {
                     this.field23871 %= 9;
@@ -91,23 +96,23 @@ public class Auto32k extends Module {
 
         if (this.field23872 == -1) {
             this.field23872 = InvManagerUtils.method25823(
-                    Items.field37669,
-                    Items.field37665,
-                    Items.field37666,
-                    Items.field37663,
-                    Items.field37661,
-                    Items.field37667,
-                    Items.field37657,
-                    Items.field37662,
-                    Items.field37659,
-                    Items.field37656,
-                    Items.field37655,
-                    Items.field37660,
-                    Items.field37664,
-                    Items.field37668,
-                    Items.field37653,
-                    Items.field37654,
-                    Items.field37658);
+                    Items.BLACK_SHULKER_BOX,
+                    Items.SHULKER_BOX,
+                    Items.WHITE_SHULKER_BOX,
+                    Items.ORANGE_SHULKER_BOX,
+                    Items.MAGENTA_SHULKER_BOX,
+                    Items.LIGHT_BLUE_SHULKER_BOX,
+                    Items.YELLOW_SHULKER_BOX,
+                    Items.LIME_SHULKER_BOX,
+                    Items.PINK_SHULKER_BOX,
+                    Items.GRAY_SHULKER_BOX,
+                    Items.LIGHT_GRAY_SHULKER_BOX,
+                    Items.CYAN_SHULKER_BOX,
+                    Items.PURPLE_SHULKER_BOX,
+                    Items.BLUE_SHULKER_BOX,
+                    Items.BROWN_SHULKER_BOX,
+                    Items.GREEN_SHULKER_BOX,
+                    Items.RED_SHULKER_BOX);
             if (this.field23872 != -1) {
                 if (this.field23872 >= 36 && this.field23872 <= 44) {
                     this.field23872 %= 9;
@@ -139,9 +144,9 @@ public class Auto32k extends Module {
             if (this.field23870 != null) {
                 GL11.glAlphaFunc(516, 0.0F);
                 BlockPos var4 = this.field23870;
-                double var5 = (double) var4.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX();
-                double var7 = (double) var4.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY();
-                double var9 = (double) var4.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ();
+                double var5 = (double) var4.getX() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getX();
+                double var7 = (double) var4.getY() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getY();
+                double var9 = (double) var4.getZ() - mc.gameRenderer.getActiveRenderInfo().getBlockPos().getZ();
                 RenderUtil.render3DColoredBox(
                         new Box3D(var5, var7 + 1.625, var9, var5 + 1.0, var7 + 3.0, var9 + 1.0),
                         MultiUtilities.applyAlpha(ClientColors.PALE_ORANGE.getColor(), 0.3F));
@@ -253,14 +258,14 @@ public class Auto32k extends Module {
                                     this.field23873++;
                                     mc.getConnection().sendPacket(new CEntityActionPacket(mc.player,
                                             CEntityActionPacket.Action.PRESS_SHIFT_KEY));
-                                    mc.player.movementInput.field43914 = true;
+                                    mc.player.movementInput.sneaking = true;
                                     mc.player.inventory.currentItem = this.field23872;
                                     Vector3d var10 = BlockUtil.method34572(Direction.UP, this.field23870.up());
                                     BlockRayTraceResult var11 = new BlockRayTraceResult(var10, Direction.UP,
                                             this.field23870.up(), false);
                                     mc.playerController.func_217292_a(mc.player, mc.world, Hand.MAIN_HAND, var11);
                                     mc.player.swingArm(Hand.MAIN_HAND);
-                                    mc.player.movementInput.field43914 = false;
+                                    mc.player.movementInput.sneaking = false;
                                     mc.getConnection().sendPacket(new CEntityActionPacket(mc.player,
                                             CEntityActionPacket.Action.RELEASE_SHIFT_KEY));
                                     mc.playerController.func_217292_a(mc.player, mc.world, Hand.MAIN_HAND, var11);
@@ -294,19 +299,19 @@ public class Auto32k extends Module {
         if (this.isEnabled()) {
             if (var1.getPacket() instanceof SOpenWindowPacket) {
                 this.field23876 = (SOpenWindowPacket) var1.getPacket();
-                if (this.isEnabled() && this.field23876.method17285() == ContainerType.HOPPER) {
+                if (this.isEnabled() && this.field23876.getContainerType() == ContainerType.HOPPER) {
                     var1.cancelled = true;
                 }
 
-                this.field23874 = this.field23876.method17284();
+                this.field23874 = this.field23876.getWindowId();
                 this.field23877 = false;
             }
 
             if (var1.getPacket() instanceof SSetSlotPacket) {
                 SSetSlotPacket var4 = (SSetSlotPacket) var1.getPacket();
-                int var5 = var4.method17304();
-                ItemStack var6 = var4.method17305();
-                int var7 = var4.method17303();
+                int var5 = var4.getWindowId();
+                ItemStack var6 = var4.getStack();
+                int var7 = var4.getWindowId();
                 if (this.field23874 == var7 && var5 == 0 && var6.getItem() != Items.AIR && !this.field23877) {
                     var1.cancelled = true;
                     mc.getConnection().sendPacket(

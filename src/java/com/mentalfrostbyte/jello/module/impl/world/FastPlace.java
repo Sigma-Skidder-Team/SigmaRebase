@@ -7,6 +7,8 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockRayTraceResult;
+import com.mentalfrostbyte.jello.misc.*;
+
 
 public class FastPlace extends Module {
     public FastPlace() {

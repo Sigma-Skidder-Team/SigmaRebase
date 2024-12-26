@@ -40,19 +40,19 @@ public class AntiVanish extends Module {
                 if (this.field23967 != null) {
                     try {
                         for (UUID var5 : this.field23967) {
-                            NetworkPlayerInfo var6 = mc.getConnection().method15792(var5);
-                            ITextComponent var7 = var6 == null ? null : var6.method19979();
+                            NetworkPlayerInfo var6 = mc.getConnection().getPlayerInfo(var5);
+                            ITextComponent var7 = var6 == null ? null : var6.getDisplayName();
                             if (var6 != null && this.field23967.contains(var5)) {
                                 if (var7 == null) {
                                     Client.getInstance()
                                             .getNotificationManager()
                                             .send(
-                                                    new Notification("Vanished Warning", "A player is vanished !!" + var6.method19979().getUnformattedComponentText(), 5500)
+                                                    new Notification("Vanished Warning", "A player is vanished !!" + var6.getDisplayName().getUnformattedComponentText(), 5500)
                                             );
                                 } else {
                                     Client.getInstance()
                                             .getNotificationManager()
-                                            .send(new Notification("Vanish Warning", var6.method19979().getString() + " is no longer Vanished.", 5500));
+                                            .send(new Notification("Vanish Warning", var6.getDisplayName().getString() + " is no longer Vanished.", 5500));
                                 }
                             }
 
@@ -73,7 +73,7 @@ public class AntiVanish extends Module {
                 SPlayerListItemPacket var4 = (SPlayerListItemPacket) var1.getPacket();
                 if (var4.getAction() == SPlayerListItemPacket.Action.UPDATE_LATENCY) {
                     for (SPlayerListItemPacket.AddPlayerData var6 : var4.getEntries()) {
-                        NetworkPlayerInfo var7 = mc.getConnection().method15792(var6.getProfile().getId());
+                        NetworkPlayerInfo var7 = mc.getConnection().getPlayerInfo(var6.getProfile().getId());
                         if (var7 == null && !this.method16864(var6.getProfile().getId())) {
                             System.out.println(var6.getProfile().getId());
                             Client.getInstance().getNotificationManager().send(new Notification("Vanished Warning", "A player is vanished ! ", 5500));
