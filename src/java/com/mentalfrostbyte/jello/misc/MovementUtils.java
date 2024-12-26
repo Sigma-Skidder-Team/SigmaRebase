@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.EventMove;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.entity.ai.attributes.Attributes;
 import mapped.Effects;
-import com.mentalfrostbyte.jello.util.player.RotationHelper''
+import com.mentalfrostbyte.jello.util.player.RotationHelper
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.network.play.client.CPlayerPacket;
