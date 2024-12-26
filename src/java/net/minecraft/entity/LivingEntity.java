@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mentalfrostbyte.jello.event.impl.JumpEvent;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
@@ -27,6 +28,7 @@ import net.minecraft.block.HoneyBlock;
 import net.minecraft.block.LadderBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -111,6 +113,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraft.world.server.ServerWorld;
+import team.sdhq.eventBus.EventBus;
 
 public abstract class LivingEntity extends Entity
 {
@@ -2485,6 +2488,11 @@ public abstract class LivingEntity extends Entity
 
         Vector3d vector3d = this.getMotion();
         this.setMotion(vector3d.x, (double)f, vector3d.z);
+        // MODIFICATION START: Emit `JumpEvent`s
+        if (this instanceof ClientPlayerEntity) {
+            EventBus.call(new JumpEvent(new Vector3d(vector3d.x, (double)f, vector3d.z)));
+        }
+        // MODIFICATION END
 
         if (this.isSprinting())
         {
