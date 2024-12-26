@@ -1,10 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.EventTarget;
+import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventMove;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.priority.LowerPriority;
+import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.settings.ModeSetting;
@@ -22,9 +22,9 @@ public class NoFall extends Module {
     public NoFall() {
         super(ModuleCategory.PLAYER, "NoFall", "Avoid you from getting fall damages");
         this.registerSetting(
-                new ModeSetting("Mode", "Nofall mode", 0, "Vanilla", "Hypixel", "Hypixel2", "AAC", "NCPSpigot", "OldHypixel", "Vanilla Legit")
-                        .setPremiumModes("Hypixel", "Hypixel2")
-        );
+                new ModeSetting("Mode", "Nofall mode", 0, "Vanilla", "Hypixel", "Hypixel2", "AAC", "NCPSpigot",
+                        "OldHypixel", "Vanilla Legit")
+                        .setPremiumModes("Hypixel", "Hypixel2"));
     }
 
     @Override
@@ -56,7 +56,8 @@ public class NoFall extends Module {
                     }
 
                     if (var13 > var17 && var13 < var15) {
-                        AxisAlignedBB var19 = mc.player.boundingBox.offset(var1.getX(), var1.getY() + var13 + var17, var1.getZ());
+                        AxisAlignedBB var19 = mc.player.boundingBox.offset(var1.getX(), var1.getY() + var13 + var17,
+                                var1.getZ());
                         if (mc.world.getCollisionShapes(mc.player, var19).count() != 0L) {
                             var13 -= 1.0E-5;
                             var1.setY(var1.getY() + var13);
@@ -107,7 +108,8 @@ public class NoFall extends Module {
                         }
                         break;
                     case "Hypixel":
-                        if (var1.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.onGround && MultiUtilities.isHypixel()) {
+                        if (var1.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.onGround
+                                && MultiUtilities.isHypixel()) {
                             for (double var10 : MultiUtilities.method17747()) {
                                 if ((double) ((int) var1.getY()) - var1.getY() + var10 == 0.0) {
                                     var1.setGround(true);
@@ -139,9 +141,11 @@ public class NoFall extends Module {
                                 this.field23507 = false;
                             }
 
-                            if (!this.field23507 && mc.player.fallDistance > 3.0F && this.getStringSettingValueByName("Mode").equals("AAC")) {
+                            if (!this.field23507 && mc.player.fallDistance > 3.0F
+                                    && this.getStringSettingValueByName("Mode").equals("AAC")) {
                                 this.field23507 = !this.field23507;
-                                CPlayerPacket.PositionPacket var7 = new CPlayerPacket.PositionPacket(mc.player.getPosX(), Double.NaN, mc.player.getPosZ(), true);
+                                CPlayerPacket.PositionPacket var7 = new CPlayerPacket.PositionPacket(
+                                        mc.player.getPosX(), Double.NaN, mc.player.getPosZ(), true);
                                 mc.getConnection().sendPacket(var7);
                             }
                         }
@@ -164,7 +168,8 @@ public class NoFall extends Module {
                             double var12 = mc.player.getPosX();
                             double var14 = mc.player.getPosY();
                             double var16 = mc.player.getPosZ();
-                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14 + 3.01, var16, false));
+                            mc.getConnection()
+                                    .sendPacket(new CPlayerPacket.PositionPacket(var12, var14 + 3.01, var16, false));
                             mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, false));
                             mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, true));
                             System.out.println("sent");
@@ -177,7 +182,8 @@ public class NoFall extends Module {
                                 this.field23508 = true;
                             }
 
-                            if (this.field23508 && Client.getInstance().getPlayerTracker().getgroundTicks() == 0 && mc.player.onGround) {
+                            if (this.field23508 && Client.getInstance().getPlayerTracker().getgroundTicks() == 0
+                                    && mc.player.onGround) {
                                 var1.setY(var1.getY() - 11.0);
                                 this.field23508 = false;
                             }

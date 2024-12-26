@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.command;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.command.impl.*;
-import com.mentalfrostbyte.jello.event.EventTarget;
+import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
