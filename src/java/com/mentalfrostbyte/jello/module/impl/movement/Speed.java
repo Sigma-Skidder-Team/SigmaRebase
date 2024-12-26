@@ -10,6 +10,7 @@ import com.mentalfrostbyte.jello.module.impl.movement.speed.*;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+import team.sdhq.eventBus.annotations.EventTarget;
 
 public class Speed extends ModuleWithModuleSettings {
     public static int tickCounter;
@@ -49,7 +50,7 @@ public class Speed extends ModuleWithModuleSettings {
         if (event.getPacket() instanceof SPlayerPositionLookPacket && mc.player != null) {
             tickCounter = 0;
             if (this.getBooleanValueFromSettingName("Lag back checker") && this.isEnabled() && mc.player.ticksExisted > 2) {
-                Client.getInstance().getNotificationManager().send(new Notification("Speed", "Disabled speed due to lagback."));
+                Client.getInstance().notificationManager.send(new Notification("Speed", "Disabled speed due to lagback."));
                 this.toggle();
             }
         }

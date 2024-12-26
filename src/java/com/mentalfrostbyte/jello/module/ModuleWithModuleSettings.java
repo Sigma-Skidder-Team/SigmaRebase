@@ -20,7 +20,7 @@ public class ModuleWithModuleSettings extends Module {
         super(category, type, description);
         this.moduleArray = modules;
 
-        for (Module moduleFromArray : moduleArray) {
+            for (Module moduleFromArray : moduleArray) {
             EventBus.register(moduleFromArray);
             stringList.add(moduleFromArray.getName());
             moduleFromArray.setSomeMod(this);
@@ -170,7 +170,7 @@ public class ModuleWithModuleSettings extends Module {
 
     public final void setModuleEnabled(Module module, boolean enabled) {
         for (Class6547 var6 : this.field23882) {
-            var6.method19891(this, module, enabled);
+            var6.onModuleEnabled(this, module, enabled);
         }
     }
 

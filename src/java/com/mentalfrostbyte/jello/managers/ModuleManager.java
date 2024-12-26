@@ -7,6 +7,7 @@ import com.mentalfrostbyte.jello.managers.impl.profile.Class6814;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
+import com.mentalfrostbyte.jello.module.impl.movement.Speed;
 import com.mentalfrostbyte.jello.module.impl.player.AutoSprint;
 import com.mentalfrostbyte.jello.module.impl.player.Cape;
 import team.sdhq.eventBus.EventBus;
@@ -69,6 +70,7 @@ public class ModuleManager {
         // ITEM
 
         // MOVEMENT
+        this.register(new Speed());
 
         this.sortBySuffixAndRegisterEvents();
     }
@@ -197,7 +199,7 @@ public class ModuleManager {
 
         try {
             this.profile.saveAndReplaceConfigs();
-            this.macOSTouchBar.method13731(var1);
+            this.macOSTouchBar.getKeybindsJSONObject(var1);
         } catch (IOException var5) {
             var5.printStackTrace();
             Client.getInstance().getLogger().warn("Unable to save mod profiles...");

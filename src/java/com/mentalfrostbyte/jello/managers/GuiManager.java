@@ -364,7 +364,7 @@ public class GuiManager {
         return null;
     }
 
-    public String method33478(Class<? extends net.minecraft.client.gui.screen.Screen> screen) {
+    public String getNameForTarget(Class<? extends net.minecraft.client.gui.screen.Screen> screen) {
         if (screen == null) {
             return "";
         } else {

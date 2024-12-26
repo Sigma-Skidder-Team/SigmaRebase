@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.speed;
 
+import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventMove;
 import team.sdhq.eventBus.annotations.priority.HigherPriority;

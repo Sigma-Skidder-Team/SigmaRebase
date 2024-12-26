@@ -808,7 +808,7 @@ public class RenderUtil {
         RenderSystem.disableBlend();
     }
 
-    public static String method17736(int var0) {
+    public static String getKeyName(int var0) {
         for (Class2287 var6 : Class2287.values()) {
             if (var6.field15204 == var0) {
                 return var6.field15201;

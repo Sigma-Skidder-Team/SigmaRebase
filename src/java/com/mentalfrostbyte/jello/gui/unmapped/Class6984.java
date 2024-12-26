@@ -35,7 +35,7 @@ public class Class6984 {
 
    public int method21599() {
       return this.field30212 == null
-         ? Client.getInstance().moduleManager.getMacOSTouchBar().method13728(this.field30213)
+         ? Client.getInstance().moduleManager.getMacOSTouchBar().getKeybindFor(this.field30213)
          : Client.getInstance().moduleManager.getMacOSTouchBar().method13729(this.field30212);
    }
 }

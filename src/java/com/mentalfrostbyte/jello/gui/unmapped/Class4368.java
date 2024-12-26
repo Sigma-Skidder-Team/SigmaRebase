@@ -44,7 +44,7 @@ public class Class4368 extends UIBase {
               Resources.regular15,
          (float)(this.xA + 15),
          (float)(this.yA + 52),
-              RenderUtil.method17736(this.field21351.parseSettingValueToIntBySettingName("Keybind")),
+              RenderUtil.getKeyName(this.field21351.parseSettingValueToIntBySettingName("Keybind")),
               ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.7F)
       );
       if (this.field21351.getSettingMap().size() > 1) {

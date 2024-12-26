@@ -49,7 +49,7 @@ public class JelloOptionsMainMenu extends CustomGuiScreen {
          ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.4F * var1)
       );
       String var5 = "Click GUI is currently bound to: "
-         + RenderUtil.method17736(Client.getInstance().moduleManager.getMacOSTouchBar().method13728(ClickGui.class))
+         + RenderUtil.getKeyName(Client.getInstance().moduleManager.getMacOSTouchBar().getKeybindFor(ClickGui.class))
          + " Key";
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont20,

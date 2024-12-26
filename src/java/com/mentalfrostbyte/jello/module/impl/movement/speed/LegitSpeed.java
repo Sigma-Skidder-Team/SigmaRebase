@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.speed;
 
+import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.EventMove;
@@ -7,7 +8,6 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import net.minecraft.network.play.server.SEntityVelocityPacket;
-import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
 public class LegitSpeed extends Module {
     private double field24010;
@@ -49,8 +49,10 @@ public class LegitSpeed extends Module {
             double var11 = Math.cos(Math.toRadians((double) var10));
             double var13 = Math.sin(Math.toRadians((double) var10));
             this.field24010 = this.field24010 * (double) this.field24014;
-            var1.setX((double) var8 * this.field24010 * var11 + (double) var9 * this.field24010 * var13 + (double) this.field24011);
-            var1.setZ((double) var8 * this.field24010 * var13 - (double) var9 * this.field24010 * var11 + (double) this.field24012);
+            var1.setX((double) var8 * this.field24010 * var11 + (double) var9 * this.field24010 * var13
+                    + (double) this.field24011);
+            var1.setZ((double) var8 * this.field24010 * var13 - (double) var9 * this.field24010 * var11
+                    + (double) this.field24012);
             mc.player.getMotion().x = var1.getX();
             mc.player.getMotion().y = var1.getY();
             if (this.field24011 != 0.0F || this.field24012 != 0.0F) {

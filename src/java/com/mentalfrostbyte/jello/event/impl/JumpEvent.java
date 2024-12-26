@@ -6,14 +6,14 @@ import net.minecraft.util.math.vector.Vector3d;
 
 public class JumpEvent extends CancellableEvent {
     public Vector3d vector;
-    public boolean field21588;
+    public boolean modified;
 
     public JumpEvent(Vector3d var1) {
         this.vector = var1;
     }
 
     public boolean method14000() {
-        return this.field21588;
+        return this.modified;
     }
 
     public Vector3d getVector() {
@@ -40,11 +40,11 @@ public class JumpEvent extends CancellableEvent {
         double var15 = ((double) var6 * var11 - (double) var7 * var9) * var1;
         this.vector.x = var13;
         this.vector.z = var15;
-        this.field21588 = true;
+        this.modified = true;
     }
 
-    public void method14004(Vector3d var1) {
+    public void setVector(Vector3d var1) {
         this.vector = var1;
-        this.field21588 = true;
+        this.modified = true;
     }
 }

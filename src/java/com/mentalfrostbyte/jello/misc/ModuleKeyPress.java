@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
-import com.mentalfrostbyte.jello.gui.unmapped.Class7957;
+import com.mentalfrostbyte.jello.gui.unmapped.Bound;
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.misc.unmapped.Class8614;
 import net.minecraft.client.Minecraft;
@@ -20,17 +20,17 @@ public class ModuleKeyPress {
    public static void press(int key) {
       if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
          if (key != -1) {
-            for (Class7957 var5 : Client.getInstance().moduleManager.getMacOSTouchBar().method13733(key)) {
-               if (var5 != null && var5.method27052()) {
-                  switch (Class8614.field38740[var5.method27055().ordinal()]) {
+            for (Bound var5 : Client.getInstance().moduleManager.getMacOSTouchBar().method13733(key)) {
+               if (var5 != null && var5.hasTarget()) {
+                  switch (Class8614.field38740[var5.getKeybindTypes().ordinal()]) {
                      case 1:
-                        var5.method27058().toggle();
+                        var5.getModuleTarget().toggle();
                         break;
                      case 2:
                         try {
-                           Screen var6 = var5.method27057()
+                           Screen var6 = var5.getScreenTarget()
                               .getDeclaredConstructor(ITextComponent.class)
-                              .newInstance(new StringTextComponent(GuiManager.screenToScreenName.get(var5.method27057())));
+                              .newInstance(new StringTextComponent(GuiManager.screenToScreenName.get(var5.getScreenTarget())));
                            if (Client.getInstance().guiManager.method33484(var6)) {
                               mc.displayGuiScreen(var6);
                            }
