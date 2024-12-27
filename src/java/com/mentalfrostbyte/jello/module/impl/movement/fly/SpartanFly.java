@@ -44,7 +44,7 @@ public class SpartanFly extends Module {
     @EventTarget
     private void method16268(EventKeyPress var1) {
         if (this.isEnabled()) {
-            if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23571 = true;
             }
@@ -54,7 +54,7 @@ public class SpartanFly extends Module {
     @EventTarget
     private void method16269(MouseHoverEvent var1) {
         if (this.isEnabled()) {
-            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23571 = false;
             }
@@ -98,7 +98,8 @@ public class SpartanFly extends Module {
                             }
 
                             if (var5 >= 0 && var6) {
-                                mc.getConnection().sendPacket(new CHeldItemChangePacket(mc.player.inventory.currentItem));
+                                mc.getConnection()
+                                        .sendPacket(new CHeldItemChangePacket(mc.player.inventory.currentItem));
                             }
 
                             var1.setY(this.field23569 - mc.player.getPositionVec().y);
@@ -108,7 +109,8 @@ public class SpartanFly extends Module {
                         var1.setY(mc.player.getMotion().y);
                         this.field23569 = !mc.gameSettings.keyBindJump.isKeyDown()
                                 ? (!this.field23571 ? mc.player.getPositionVec().y : mc.player.getPositionVec().y - 1.0)
-                                : (!this.field23571 ? mc.player.getPositionVec().y + 1.0 : mc.player.getPositionVec().y);
+                                : (!this.field23571 ? mc.player.getPositionVec().y + 1.0
+                                        : mc.player.getPositionVec().y);
                         MovementUtil.setSpeed(var1, 0.35);
                     }
                 }
@@ -121,9 +123,9 @@ public class SpartanFly extends Module {
                         : (!this.field23571 ? mc.player.getPositionVec().y + 1.0 : mc.player.getPositionVec().y);
             }
 
-            MultiUtilities.setPlayerXMotion(var1.getX());
-            MultiUtilities.setPlayerYMotion(var1.getY());
-            MultiUtilities.setPlayerZMotion(var1.getZ());
+            MovementUtil.setPlayerXMotion(var1.getX());
+            MovementUtil.setPlayerYMotion(var1.getY());
+            MovementUtil.setPlayerZMotion(var1.getZ());
         }
     }
 

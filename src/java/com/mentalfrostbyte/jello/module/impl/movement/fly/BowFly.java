@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.Client;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
@@ -9,7 +10,6 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.item.InvManager;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
-import com.mentalfrostbyte.jello.util.TimerUtil;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import com.mentalfrostbyte.jello.misc.InvManagerUtils;
 
@@ -23,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class BowFly extends Module {
     private int field23504;
-    private final TimerUtil field23505 = new TimerUtil();
+    private final TimerUtil timerUtil = new TimerUtil();
 
     public BowFly() {
         super(ModuleCategory.MOVEMENT, "Bow", "Fly for Bow");
@@ -77,18 +77,18 @@ public class BowFly extends Module {
     @EventTarget
     public void method16180(EventUpdate var1) {
         if (this.isEnabled() && var1.isPre()) {
-            if (!this.field23505.isEnabled()) {
-                this.field23505.start();
+            if (!this.timerUtil.isEnabled()) {
+                this.timerUtil.start();
             }
 
             int var4 = this.method16181();
             if (var4 >= 0 || var4 <= 8) {
                 if (mc.player.getHeldItem(Hand.MAIN_HAND).getItem() == Items.BOW) {
                     if (InvManager.method16437(Items.ARROW) == 0) {
-                        if (this.field23505.getElapsedTime() > 5000L) {
+                        if (this.timerUtil.getElapsedTime() > 5000L) {
                             Client.getInstance().getNotificationManager()
                                     .send(new Notification("BowFly", "You have no arrows"));
-                            this.field23505.reset();
+                            this.timerUtil.reset();
                         }
 
                         if (mc.timer.timerSpeed == 0.1F) {

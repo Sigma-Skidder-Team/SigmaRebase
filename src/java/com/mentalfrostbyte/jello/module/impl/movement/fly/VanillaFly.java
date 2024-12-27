@@ -45,7 +45,7 @@ public class VanillaFly extends Module {
 
     @Override
     public void onDisable() {
-        MultiUtilities.setPlayerYMotion(-0.08);
+        MovementUtil.setPlayerYMotion(-0.08);
         double plrSpeed = MovementUtil.getSpeed();
         MovementUtil.strafe(plrSpeed);
         if (this.sneakCancelled) {
@@ -54,9 +54,9 @@ public class VanillaFly extends Module {
     }
 
     @EventTarget
-    private void onKeyPress(EventKeyPress event) {
+    public void onKeyPress(EventKeyPress event) {
         if (this.isEnabled()) {
-            if (event.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (event.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 event.cancelled = true;
                 this.sneakCancelled = true;
             }
@@ -64,9 +64,9 @@ public class VanillaFly extends Module {
     }
 
     @EventTarget
-    private void onMouseHover(MouseHoverEvent event) {
+    public void onMouseHover(MouseHoverEvent event) {
         if (this.isEnabled()) {
-            if (event.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (event.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 event.cancelled = true;
                 this.sneakCancelled = false;
             }
@@ -84,10 +84,10 @@ public class VanillaFly extends Module {
                     } else {
 
                      */
-                        double collisionHeight = this.getGroundCollisionHeight();
-                        if (collisionHeight < 0.0) {
-                            return;
-                        }
+                    double collisionHeight = this.getGroundCollisionHeight();
+                    if (collisionHeight < 0.0) {
+                        return;
+                    }
 
                         double yPosition = event.getY();
                        List<Double> yPositions = new ArrayList<>();
@@ -114,8 +114,8 @@ public class VanillaFly extends Module {
                             mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), event.getY(), event.getZ(), true));
                         }
 
-                        this.ticksInAir = 0;
-                    //}
+                    this.ticksInAir = 0;
+                    // }
                 }
             }
         }

@@ -29,7 +29,7 @@ public class NCPFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
@@ -43,16 +43,16 @@ public class NCPFly extends Module {
                         if (this.field23919 == 1) {
                             var1.setY(-1.0E-7);
                             MovementUtil.setSpeed(var1, MovementUtil.getSpeed());
-                            MultiUtilities.setPlayerYMotion(var1.getY());
+                            MovementUtil.setPlayerYMotion(var1.getY());
                         }
                     } else {
                         var1.setY(-1.0E-7);
                         MovementUtil.setSpeed(var1, MovementUtil.getSpeed());
-                        MultiUtilities.setPlayerYMotion(var1.getY());
+                        MovementUtil.setPlayerYMotion(var1.getY());
                     }
                 } else {
                     var1.setY(0.0);
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, MovementUtil.getSpeed());
                 }
             } else {
@@ -78,11 +78,11 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16802(ReceivePacketEvent var1) {
+    public void method16802(ReceivePacketEvent event) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
-            if (var4 instanceof SPlayerPositionLookPacket) {
-                SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
+            IPacket packet = event.getPacket();
+            if (packet instanceof SPlayerPositionLookPacket) {
+                SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) packet;
                 if (this.field23919 >= 1) {
                     this.field23919 = -1;
                 }
@@ -95,23 +95,23 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16803(SendPacketEvent var1) {
+    public void onSendPacket(SendPacketEvent event) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
-            if (var4 instanceof CPlayerPacket) {
-                CPlayerPacket var5 = (CPlayerPacket) var4;
+            IPacket packet = event.getPacket();
+            if (packet instanceof CPlayerPacket) {
+                CPlayerPacket playerPacket = (CPlayerPacket) packet;
                 if (this.field23919 == -1) {
-                    var5.onGround = true;
+                    playerPacket.onGround = true;
                 }
             }
         }
     }
 
     @EventTarget
-    public void method16804(Render2DEvent var1) {
+    public void onRender2D(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23920;
-            mc.player.getPositionVec().y = var4;
+            mc.player.setPosition(mc.player.getPosX(), var4, mc.player.getPosZ());
             mc.player.lastTickPosY = var4;
             mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;

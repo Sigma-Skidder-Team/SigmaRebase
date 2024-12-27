@@ -83,16 +83,27 @@ public class MovementUtil {
 //        }
 
         if (forward != 0.0F) {
-            if (strafe < 1.0F && strafe > -1.0F) {
-                yaw += (forward > 0.0F ? (strafe > 0.0F ? -45 : 45) : (strafe > 0.0F ? 45 : -45));
+            if (!(strafe >= 1.0F)) {
+                if (strafe <= -1.0F) {
+                    yaw += (float)(!(forward > 0.0F) ? -45 : 45);
+                    strafe = 0.0F;
+                }
+            } else {
+                yaw += (float)(!(forward > 0.0F) ? 45 : -45);
                 strafe = 0.0F;
             }
 
-            forward = forward > 0.0F ? 1.0F : -1.0F;
+            if (!(forward > 0.0F)) {
+                if (forward < 0.0F) {
+                    forward = -1.0F;
+                }
+            } else {
+                forward = 1.0F;
+            }
         }
 
-        if (/*Client.getInstance().getOrientation().isMoving()
-                && !Client.getInstance().getOrientation().isStopped()
+        if (/*Client.getInstance().method19950().method31742()
+                && !Client.getInstance().method19950().method31741()
                 &&*/ (mc.player.moveForward != 0.0F || mc.player.moveStrafing != 0.0F)) {
             forward = 1.0F;
         }

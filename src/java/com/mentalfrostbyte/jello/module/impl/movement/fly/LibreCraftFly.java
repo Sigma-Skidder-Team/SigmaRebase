@@ -28,7 +28,7 @@ public class LibreCraftFly extends Module {
                 this.field23911 = false;
             }
         } else {
-            mc.gameSettings.keyBindSneak.pressed = false;
+            mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23911 = true;
         }
     }
@@ -37,14 +37,14 @@ public class LibreCraftFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
     @EventTarget
     private void method16791(EventKeyPress var1) {
         if (this.isEnabled()) {
-            if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23911 = true;
             }
@@ -54,7 +54,7 @@ public class LibreCraftFly extends Module {
     @EventTarget
     private void method16792(MouseHoverEvent var1) {
         if (this.isEnabled()) {
-            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23911 = false;
             }
@@ -69,12 +69,12 @@ public class LibreCraftFly extends Module {
                 if (this.field23910 != -1) {
                     if (this.field23910 == 0) {
                         var1.setY(0.0);
-                        MultiUtilities.setPlayerYMotion(var1.getY());
+                        MovementUtil.setPlayerYMotion(var1.getY());
                         MovementUtil.setSpeed(var1, 0.35);
                     }
                 } else {
                     var1.setY(0.299);
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, this.getNumberValueBySettingName("Speed"));
                 }
             } else {

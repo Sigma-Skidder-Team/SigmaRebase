@@ -30,7 +30,7 @@ public class HorizonFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
 
         mc.timer.timerSpeed = 1.0F;
@@ -110,11 +110,11 @@ public class HorizonFly extends Module {
     @EventTarget
     public void method16162(Render2DEvent var1) {
         if (this.isEnabled()) {
-            double var4 = this.field23498;
-            mc.player.getPositionVec().y = var4;
-            mc.player.lastTickPosY = var4;
-            mc.player.chasingPosY = var4;
-            mc.player.prevPosY = var4;
+            double y = this.field23498;
+            mc.player.setPosition(mc.player.getPosX(), y, mc.player.getPosZ());
+            mc.player.lastTickPosY = y;
+            mc.player.chasingPosY = y;
+            mc.player.prevPosY = y;
         }
     }
 }

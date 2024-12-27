@@ -14,12 +14,12 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 public class OmegaCraftTestFly extends Module {
     private int field23854;
     private int field23855;
-    private double field23856;
-    private double field23857;
-    private double field23858;
+    private double posX;
+    private double posY;
+    private double posZ;
     private double field23859;
-    private double field23860;
-    private double field23861;
+    private double posYClone;
+    private double posZClone;
 
     public OmegaCraftTestFly() {
         super(ModuleCategory.MOVEMENT, "Test", "A fly for OmegaCraft");
@@ -27,9 +27,9 @@ public class OmegaCraftTestFly extends Module {
 
     @Override
     public void onEnable() {
-        this.field23856 = mc.player.getPosX();
-        this.field23857 = mc.player.getPosY();
-        this.field23858 = mc.player.getPosZ();
+        this.posX = mc.player.getPosX();
+        this.posY = mc.player.getPosY();
+        this.posZ = mc.player.getPosZ();
         this.field23859 = 0.0;
         this.field23854 = 2;
         this.field23855 = 0;
@@ -39,7 +39,7 @@ public class OmegaCraftTestFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
 
         mc.timer.timerSpeed = 1.0F;
@@ -63,7 +63,7 @@ public class OmegaCraftTestFly extends Module {
                     if (this.field23855 != 1 && this.field23855 % 3 != 0 && this.field23855 % 3 != 1) {
                     }
 
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, 1.0);
                 }
             } else {
@@ -103,11 +103,11 @@ public class OmegaCraftTestFly extends Module {
                     this.field23854 = -1;
                 }
 
-                this.field23860 = this.field23857;
-                this.field23861 = this.field23858;
-                this.field23856 = var5.getX();
-                this.field23857 = var5.getY();
-                this.field23858 = var5.getZ();
+                this.posYClone = this.posY;
+                this.posZClone = this.posZ;
+                this.posX = var5.getX();
+                this.posY = var5.getY();
+                this.posZ = var5.getZ();
                 var5.yaw = mc.player.rotationYaw;
                 var5.pitch = mc.player.rotationPitch;
             }
@@ -119,17 +119,18 @@ public class OmegaCraftTestFly extends Module {
         if (this.isEnabled()) {
             IPacket<?> packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {
-                CPlayerPacket var5 = (CPlayerPacket) packet;
+                CPlayerPacket playerPacket = (CPlayerPacket) packet;
                 if (this.field23854 == -1) {
-                    var5.onGround = true;
+                    playerPacket.onGround = true;
                 }
             }
         }
     }
 
-    @EventTarget
-    public void method16704(Render2DEvent var1) {
-        if (!this.isEnabled()) {
-        }
-    }
+//    empty
+//    @EventTarget
+//    public void onRender(Render2DEvent event) {
+//        if (!this.isEnabled()) {
+//        }
+//    }
 }

@@ -1,15 +1,13 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
-import com.mentalfrostbyte.jello.misc.unmapped.Class3410;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-
 import net.minecraft.block.Block;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
@@ -43,7 +41,7 @@ public class AGCFly extends Module {
     @EventTarget
     private void method16780(EventKeyPress var1) {
         if (this.isEnabled()) {
-            if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23904 = true;
             }
@@ -53,7 +51,7 @@ public class AGCFly extends Module {
     @EventTarget
     private void method16781(MouseHoverEvent var1) {
         if (this.isEnabled()) {
-            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23904 = false;
             }
@@ -64,7 +62,7 @@ public class AGCFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
@@ -79,7 +77,7 @@ public class AGCFly extends Module {
                         MovementUtil.setSpeed(var1, 0.32);
                     }
 
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                 }
             } else {
                 var1.setY(0.0);
@@ -143,13 +141,14 @@ public class AGCFly extends Module {
                     VoxelShape var8 = (VoxelShape) var4.next();
                     if (var8.getBoundingBox().maxY > var5) {
                         var5 = var8.getBoundingBox().maxY;
-                        var7 = new BlockPos(var8.getBoundingBox().minX, var8.getBoundingBox().minY, var8.getBoundingBox().minZ);
+                        var7 = new BlockPos(var8.getBoundingBox().minX, var8.getBoundingBox().minY,
+                                var8.getBoundingBox().minZ);
                     }
                 }
 
                 if (var7 != null) {
                     Block var9 = mc.world.getBlockState(var7).getBlock();
-                    if (var9 instanceof Class3410) {
+                    if (var9 instanceof SnowBlock) {
                         var5 = (double) ((int) var5) - 1.0E-4;
                     }
                 }

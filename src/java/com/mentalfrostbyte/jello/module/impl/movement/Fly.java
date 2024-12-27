@@ -11,7 +11,7 @@ public class Fly extends ModuleWithModuleSettings {
         super(
                 ModuleCategory.MOVEMENT,
                 "Fly",
-                "Allows you to fly like a bird", // Fly wie ein Pelikan
+                "Allows you to fly like a bird",
                 new VanillaFly(),
                 new HypixelFly(),
                 new MineplexFly(),

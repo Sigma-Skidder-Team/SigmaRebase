@@ -15,7 +15,7 @@ public class OmegaCraftFly extends Module {
     private int field23700;
     private int field23701;
     private double field23702;
-    private final double[] field23703 = new double[]{0.0, 0.25, 0.5, 0.75, 1.0};
+    private final double[] field23703 = new double[] { 0.0, 0.25, 0.5, 0.75, 1.0 };
 
     public OmegaCraftFly() {
         super(ModuleCategory.MOVEMENT, "OmegaCraft", "A fly for OmegaCraft anticheat");
@@ -44,7 +44,7 @@ public class OmegaCraftFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.2);
         if (mc.player.getMotion().y > 0.03) {
-            MultiUtilities.setPlayerYMotion(-0.0784);
+            MovementUtil.setPlayerYMotion(-0.0784);
         }
     }
 
@@ -83,35 +83,35 @@ public class OmegaCraftFly extends Module {
     }
 
     @EventTarget
-    public void method16496(EventMove var1) {
+    public void method16496(EventMove event) {
         this.field23700++;
         if (this.field23701 > 0) {
             this.field23701--;
         }
 
-        var1.setY(0.0);
+        event.setY(0.0);
         if (this.field23700 != 1) {
             if (this.field23700 > 1) {
                 mc.player.setPosition(mc.player.getPositionVec().x, this.field23702, mc.player.getPositionVec().z);
-                double var4 = !mc.gameSettings.keyBindSneak.isKeyDown() ? 0.405 + (double) MovementUtil.method37078() * 0.02 : 0.25;
-                MovementUtil.setSpeed(var1, var4);
+                double speed = !mc.gameSettings.keyBindSneak.isKeyDown() ? 0.405 + (double) MovementUtil.method37078() * 0.02 : 0.25;
+                MovementUtil.setSpeed(event, speed);
                 this.field23700 = 0;
             }
         } else {
             if (mc.gameSettings.keyBindJump.isKeyDown() && this.field23701 == 0) {
-                var1.setY(0.5);
-                this.field23702 = this.field23702 + var1.getY();
+                event.setY(0.5);
+                this.field23702 = this.field23702 + event.getY();
                 this.field23701 = 3;
                 this.field23700 = 0;
             }
 
             double var6 = !mc.gameSettings.keyBindSneak.isKeyDown() ? 0.6 : 0.25;
-            MovementUtil.setSpeed(var1, var6);
+            MovementUtil.setSpeed(event, var6);
         }
 
-        MultiUtilities.setPlayerXMotion(var1.getX());
-        MultiUtilities.setPlayerYMotion(var1.getY());
-        MultiUtilities.setPlayerZMotion(var1.getZ());
+        MovementUtil.setPlayerXMotion(event.getX());
+        MovementUtil.setPlayerYMotion(event.getY());
+        MovementUtil.setPlayerZMotion(event.getZ());
     }
 
     @EventTarget

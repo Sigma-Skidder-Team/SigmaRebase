@@ -6,7 +6,6 @@ import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -43,14 +42,14 @@ public class VeltPvPFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
     @EventTarget
     private void method16045(EventKeyPress var1) {
         if (this.isEnabled()) {
-            if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23423 = true;
             }
@@ -60,7 +59,7 @@ public class VeltPvPFly extends Module {
     @EventTarget
     private void method16046(MouseHoverEvent var1) {
         if (this.isEnabled()) {
-            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23423 = false;
             }
@@ -79,7 +78,7 @@ public class VeltPvPFly extends Module {
                             var1.setY(-MovementUtil.method37080());
                         }
 
-                        MultiUtilities.setPlayerYMotion(var1.getY());
+                        MovementUtil.setPlayerYMotion(var1.getY());
                         MovementUtil.setSpeed(var1, var4 - 0.1);
                     }
                 } else {
@@ -91,7 +90,7 @@ public class VeltPvPFly extends Module {
                         this.field23421 = !this.field23423 ? mc.player.getPosY() + var1.getY() : this.field23421;
                     }
 
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, var4);
                 }
             } else {
@@ -169,7 +168,7 @@ public class VeltPvPFly extends Module {
     public void method16051(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23421;
-            mc.player.getPositionVec().y = var4;
+            mc.player.setPosition(mc.player.getPosX(), var4, mc.player.getPosZ());
             mc.player.lastTickPosY = var4;
             mc.player.chasingPosY = var4;
             mc.player.prevPosY = var4;

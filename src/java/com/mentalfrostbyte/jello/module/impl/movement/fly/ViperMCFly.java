@@ -43,14 +43,14 @@ public class ViperMCFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
     @EventTarget
     private void method16329(EventKeyPress var1) {
         if (this.isEnabled()) {
-            if (var1.getKey() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getKey() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23598 = true;
             }
@@ -60,7 +60,7 @@ public class ViperMCFly extends Module {
     @EventTarget
     private void method16330(MouseHoverEvent var1) {
         if (this.isEnabled()) {
-            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.inputMappingsInput.keyCode) {
+            if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
                 this.field23598 = false;
             }
@@ -79,7 +79,7 @@ public class ViperMCFly extends Module {
                             var1.setY(-MovementUtil.method37080());
                         }
 
-                        MultiUtilities.setPlayerYMotion(var1.getY());
+                        MovementUtil.setPlayerYMotion(var1.getY());
                         MovementUtil.setSpeed(var1, MovementUtil.getSpeed());
                     }
                 } else {
@@ -95,7 +95,7 @@ public class ViperMCFly extends Module {
                                 : this.field23596;
                     }
 
-                    MultiUtilities.setPlayerYMotion(var1.getY());
+                    MovementUtil.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, var4);
                 }
             } else {
@@ -173,7 +173,7 @@ public class ViperMCFly extends Module {
         if (this.isEnabled()) {
             double var4 = this.field23596 - this.field23597;
             double var6 = this.field23596;
-            mc.player.getPositionVec().y = var6;
+            mc.player.setPosition(mc.player.getPosX(), var6, mc.player.getPosZ());
             mc.player.lastTickPosY = var6;
             mc.player.chasingPosY = var6;
             mc.player.prevPosY = var6;

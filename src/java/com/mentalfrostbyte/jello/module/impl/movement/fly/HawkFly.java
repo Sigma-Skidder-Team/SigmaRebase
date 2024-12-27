@@ -35,7 +35,7 @@ public class HawkFly extends Module {
     public void onDisable() {
         MovementUtil.strafe(0.0);
         if (mc.player.getMotion().y > 0.0) {
-            MultiUtilities.setPlayerYMotion(-0.0789);
+            MovementUtil.setPlayerYMotion(-0.0789);
         }
     }
 
@@ -53,9 +53,9 @@ public class HawkFly extends Module {
                 MovementUtil.setSpeed(var1, var4);
             }
 
-            MultiUtilities.setPlayerYMotion(var1.getY());
-            MultiUtilities.setPlayerXMotion(var1.getX());
-            MultiUtilities.setPlayerZMotion(var1.getZ());
+            MovementUtil.setPlayerYMotion(var1.getY());
+            MovementUtil.setPlayerXMotion(var1.getX());
+            MovementUtil.setPlayerZMotion(var1.getZ());
         }
     }
 
@@ -94,21 +94,21 @@ public class HawkFly extends Module {
     @EventTarget
     public void method16055(Render2DEvent var1) {
         if (this.isEnabled()) {
-            double var4 = this.field23426;
-            double var6 = this.field23425;
-            double var8 = this.field23427;
-            mc.player.getPositionVec().y = var4;
-            mc.player.lastTickPosY = var4;
-            mc.player.chasingPosY = var4;
-            mc.player.prevPosY = var4;
-            mc.player.getPositionVec().x = var6;
-            mc.player.lastTickPosX = var6;
-            mc.player.chasingPosX = var6;
-            mc.player.prevPosX = var6;
-            mc.player.getPositionVec().z = var8;
-            mc.player.lastTickPosZ = var8;
-            mc.player.chasingPosZ = var8;
-            mc.player.prevPosZ = var8;
+            double y = this.field23426;
+            double x = this.field23425;
+            double z = this.field23427;
+            mc.player.setPosition(mc.player.getPosX(), y, mc.player.getPosZ());
+            mc.player.lastTickPosY = y;
+            mc.player.chasingPosY = y;
+            mc.player.prevPosY = y;
+            mc.player.setPosition(x, mc.player.getPosY(), mc.player.getPosZ());
+            mc.player.lastTickPosX = x;
+            mc.player.chasingPosX = x;
+            mc.player.prevPosX = x;
+            mc.player.setPosition(mc.player.getPosY(), mc.player.getPosY(), z);
+            mc.player.lastTickPosZ = z;
+            mc.player.chasingPosZ = z;
+            mc.player.prevPosZ = z;
         }
     }
 }

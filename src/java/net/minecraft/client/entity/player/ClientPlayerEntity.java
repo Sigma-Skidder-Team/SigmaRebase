@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-import com.mentalfrostbyte.jello.event.impl.EventEntityActionState;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventPushBlock;
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.BiomeSoundHandler;
@@ -294,75 +291,109 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity
      */
     protected void onUpdateWalkingPlayer()
     {
-        boolean flag = this.isSprinting();
+        // MODIFICATION START: Sends out `EventUpdate`s
+        AxisAlignedBB bounds = this.getBoundingBox();
+        EventUpdate eventItself = new EventUpdate(this.getPosX(), bounds.minY, this.getPosZ(), this.rotationPitch, this.rotationYaw, this.onGround);
+        EventBus.call(eventItself);
+        // MODIFICATION END
+        // MODIFICATION START: Make the event cancellable by wrapping the related code in an if statement checking
+        if (!eventItself.cancelled) {
+            boolean flag = this.isSprinting();
 
-        if (flag != this.serverSprintState)
-        {
-            CEntityActionPacket.Action centityactionpacket$action = flag ? CEntityActionPacket.Action.START_SPRINTING : CEntityActionPacket.Action.STOP_SPRINTING;
-            this.connection.sendPacket(new CEntityActionPacket(this, centityactionpacket$action));
-            this.serverSprintState = flag;
+            if (flag != this.serverSprintState)
+            {
+                CEntityActionPacket.Action centityactionpacket$action = flag ? CEntityActionPacket.Action.START_SPRINTING : CEntityActionPacket.Action.STOP_SPRINTING;
+                this.connection.sendPacket(new CEntityActionPacket(this, centityactionpacket$action));
+                this.serverSprintState = flag;
+            }
+
+            boolean flag3 = this.isSneaking();
+
+            if (flag3 != this.clientSneakState)
+            {
+                CEntityActionPacket.Action centityactionpacket$action1 = flag3 ? CEntityActionPacket.Action.PRESS_SHIFT_KEY : CEntityActionPacket.Action.RELEASE_SHIFT_KEY;
+                this.connection.sendPacket(new CEntityActionPacket(this, centityactionpacket$action1));
+                this.clientSneakState = flag3;
+            }
+
+            if (this.isCurrentViewEntity()) {
+                // MODIFICATION BEGIN: spoof some values sent to the server
+                double eventItselfX = eventItself.getX();
+                double eventItselfY = eventItself.getY();
+                double eventItselfZ = eventItself.getZ();
+                float eventItselfPitch = eventItself.getPitch();
+                float eventItselfYaw = eventItself.getYaw() % 360.0F;
+                boolean eventItselfOnGround = eventItself.onGround();
+                double fixatedYaw = (eventItselfYaw - this.rotationYaw % 360.0F);
+                double fixatedPitch = (eventItselfPitch - this.rotationPitch);
+                // MODIFICATION START 2: useless renaming
+                double dX = this.getPosX() - this.lastReportedPosX;
+                double dY = this.getPosY() - this.lastReportedPosY;
+                double dZ = this.getPosZ() - this.lastReportedPosZ;
+                // MODIFICATION END 2
+                // MODIFICATION END
+                // MODIFICATION BEGIN: start of commented out code (unused)
+//                double d2 = (double) (this.rotationYaw - this.lastReportedYaw);
+//                double d3 = (double) (this.rotationPitch - this.lastReportedPitch);
+                // MODIFICATION END
+                ++this.positionUpdateTicks;
+                // MODIFICATION START: using the spoofed values
+                boolean isMoving = eventItself.isMoving() || dX * dX + dY * dY + dZ * dZ > 9.0E-4D || this.positionUpdateTicks >= 20;
+                boolean isLooking = fixatedYaw != 0.0D || fixatedPitch != 0.0D;
+                // MODIFICATION END
+
+                if (this.isPassenger()) {
+                    // MODIFICATION START: comment out unused motion variable
+//                    Vector3d vector3d = this.getMotion();
+                    // MODIFICATION END
+                    // MODIFICATION START: using the spoofed values instead of the motion
+                    this.connection.sendPacket(new CPlayerPacket.PositionRotationPacket(eventItselfX, eventItselfY, eventItselfZ, eventItselfYaw, eventItselfPitch, eventItselfOnGround));
+                    // MODIFICATION END
+                    isMoving = false;
+                } else if (isMoving && isLooking) {
+                    // MODIFICATION START: spoofing ground values
+                    if (prevOnGround != this.onGround) {
+                        this.connection.sendPacket(new CPlayerPacket(eventItselfOnGround));
+                        // MODIFICATION END: spoofing ground values
+                    } else {
+                        // MODIFICATION START: using spoofed values, again
+                        this.connection.sendPacket(new CPlayerPacket.PositionRotationPacket(eventItselfX, eventItselfY, eventItselfZ, eventItselfYaw, eventItselfPitch, eventItselfOnGround));
+                        // MODIFICATION END
+                    }
+                } else if (isMoving) {
+                    // MODIFICATION START: using spoofed values, again
+                    this.connection.sendPacket(new CPlayerPacket.PositionPacket(eventItselfX, eventItselfY, eventItselfZ, eventItselfOnGround));
+                    // MODIFICATION END
+                } else if (isLooking) {
+                    // MODIFICATION START: using spoofed values, again
+                    this.connection.sendPacket(new CPlayerPacket.RotationPacket(eventItselfYaw, eventItselfPitch, eventItselfOnGround));
+                    // MODIFICATION END
+                } else if (this.prevOnGround != this.onGround) { // TODO: remove this?
+                    this.connection.sendPacket(new CPlayerPacket(this.onGround));
+                }
+
+                if (isMoving) {
+                    this.lastReportedPosX = this.getPosX();
+                    this.lastReportedPosY = this.getPosY();
+                    this.lastReportedPosZ = this.getPosZ();
+                    this.positionUpdateTicks = 0;
+                }
+
+                if (isLooking) {
+                    this.lastReportedYaw = this.rotationYaw;
+                    this.lastReportedPitch = this.rotationPitch;
+                }
+
+                this.prevOnGround = this.onGround;
+                this.autoJumpEnabled = this.mc.gameSettings.autoJump;
+            }
         }
 
-        boolean flag3 = this.isSneaking();
-
-        if (flag3 != this.clientSneakState)
-        {
-            CEntityActionPacket.Action centityactionpacket$action1 = flag3 ? CEntityActionPacket.Action.PRESS_SHIFT_KEY : CEntityActionPacket.Action.RELEASE_SHIFT_KEY;
-            this.connection.sendPacket(new CEntityActionPacket(this, centityactionpacket$action1));
-            this.clientSneakState = flag3;
+        for (Runnable runnable : eventItself.getRunnableList()) {
+            runnable.run();
         }
-
-        if (this.isCurrentViewEntity())
-        {
-            double d4 = this.getPosX() - this.lastReportedPosX;
-            double d0 = this.getPosY() - this.lastReportedPosY;
-            double d1 = this.getPosZ() - this.lastReportedPosZ;
-            double d2 = (double)(this.rotationYaw - this.lastReportedYaw);
-            double d3 = (double)(this.rotationPitch - this.lastReportedPitch);
-            ++this.positionUpdateTicks;
-            boolean flag1 = d4 * d4 + d0 * d0 + d1 * d1 > 9.0E-4D || this.positionUpdateTicks >= 20;
-            boolean flag2 = d2 != 0.0D || d3 != 0.0D;
-
-            if (this.isPassenger())
-            {
-                Vector3d vector3d = this.getMotion();
-                this.connection.sendPacket(new CPlayerPacket.PositionRotationPacket(vector3d.x, -999.0D, vector3d.z, this.rotationYaw, this.rotationPitch, this.onGround));
-                flag1 = false;
-            }
-            else if (flag1 && flag2)
-            {
-                this.connection.sendPacket(new CPlayerPacket.PositionRotationPacket(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch, this.onGround));
-            }
-            else if (flag1)
-            {
-                this.connection.sendPacket(new CPlayerPacket.PositionPacket(this.getPosX(), this.getPosY(), this.getPosZ(), this.onGround));
-            }
-            else if (flag2)
-            {
-                this.connection.sendPacket(new CPlayerPacket.RotationPacket(this.rotationYaw, this.rotationPitch, this.onGround));
-            }
-            else if (this.prevOnGround != this.onGround)
-            {
-                this.connection.sendPacket(new CPlayerPacket(this.onGround));
-            }
-
-            if (flag1)
-            {
-                this.lastReportedPosX = this.getPosX();
-                this.lastReportedPosY = this.getPosY();
-                this.lastReportedPosZ = this.getPosZ();
-                this.positionUpdateTicks = 0;
-            }
-
-            if (flag2)
-            {
-                this.lastReportedYaw = this.rotationYaw;
-                this.lastReportedPitch = this.rotationPitch;
-            }
-
-            this.prevOnGround = this.onGround;
-            this.autoJumpEnabled = this.mc.gameSettings.autoJump;
-        }
+        eventItself.postUpdate();
+        EventBus.call(eventItself);
     }
 
     public boolean drop(boolean p_225609_1_)
