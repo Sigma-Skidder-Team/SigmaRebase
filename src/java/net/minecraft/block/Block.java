@@ -52,7 +52,7 @@ import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Block extends AbstractBlock implements IItemProvider
+public abstract class Block extends AbstractBlock implements IItemProvider
 {
     protected static final Logger LOGGER = LogManager.getLogger();
     public static final ObjectIntIdentityMap<BlockState> BLOCK_STATE_IDS = new ObjectIntIdentityMap<>();
@@ -581,6 +581,8 @@ public class Block extends AbstractBlock implements IItemProvider
     {
         return this;
     }
+
+    public abstract void method11965(BlockState var1, ServerWorld var2, BlockPos var3, ItemStack var4);
 
     public static final class RenderSideCacheKey
     {

@@ -10,7 +10,9 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.util.math.AxisAlignedBB;
 
@@ -75,50 +77,42 @@ public class VanillaFly extends Module {
     public void onUpdate(EventUpdate event) {
         if (this.isEnabled()) {
             if (!mc.player.isOnGround() && this.getBooleanValueFromSettingName("Kick bypass")) {
-                if (this.ticksInAir > 0 && this.ticksInAir % 30 == 0
-                        /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/) {
+                if (this.ticksInAir > 0 && this.ticksInAir % 30 == 0 && !MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                     /*
-                     * if (JelloPortal.getCurrentVersionApplied() !=
-                     * ViaVerList._1_8_x.getVersionNumber()) {
-                     * event.setY(event.getY() - 0.04);
-                     * } else {
-                     * 
+                    if (JelloPortal.getCurrentVersionApplied() != ViaVerList._1_8_x.getVersionNumber()) {
+                        event.setY(event.getY() - 0.04);
+                    } else {
+
                      */
                     double collisionHeight = this.getGroundCollisionHeight();
                     if (collisionHeight < 0.0) {
                         return;
                     }
 
-                    double yPosition = event.getY();
-                    List<Double> yPositions = new ArrayList<>();
-                    if (!(yPosition - collisionHeight > 9.0)) {
-                        mc.getConnection().sendPacket(
-                                new CPlayerPacket.PositionPacket(event.getX(), collisionHeight, event.getZ(), true));
-                    } else {
-                        while (yPosition > collisionHeight + 9.0) {
-                            yPosition -= 9.0;
-                            yPositions.add(yPosition);
-                            mc.getConnection().sendPacket(
-                                    new CPlayerPacket.PositionPacket(event.getX(), yPosition, event.getZ(), true));
+                        double yPosition = event.getY();
+                       List<Double> yPositions = new ArrayList<>();
+                        if (!(yPosition - collisionHeight > 9.0)) {
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), collisionHeight, event.getZ(), true));
+                        } else {
+                            while (yPosition > collisionHeight + 9.0) {
+                                yPosition -= 9.0;
+                                yPositions.add(yPosition);
+                                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), yPosition, event.getZ(), true));
+                            }
+
+                            for (Double intermediateY : yPositions) {
+                                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), intermediateY, event.getZ(), true));
+                            }
+
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), collisionHeight, event.getZ(), true));
+                            Collections.reverse(yPositions);
+
+                            for (Double intermediateYReversed : yPositions) {
+                                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), intermediateYReversed, event.getZ(), true));
+                            }
+
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(), event.getY(), event.getZ(), true));
                         }
-
-                        for (Double intermediateY : yPositions) {
-                            mc.getConnection().sendPacket(
-                                    new CPlayerPacket.PositionPacket(event.getX(), intermediateY, event.getZ(), true));
-                        }
-
-                        mc.getConnection().sendPacket(
-                                new CPlayerPacket.PositionPacket(event.getX(), collisionHeight, event.getZ(), true));
-                        Collections.reverse(yPositions);
-
-                        for (Double intermediateYReversed : yPositions) {
-                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(event.getX(),
-                                    intermediateYReversed, event.getZ(), true));
-                        }
-
-                        mc.getConnection().sendPacket(
-                                new CPlayerPacket.PositionPacket(event.getX(), event.getY(), event.getZ(), true));
-                    }
 
                     this.ticksInAir = 0;
                     // }
@@ -130,7 +124,7 @@ public class VanillaFly extends Module {
     @EventTarget
     public void onMove(EventMove event) {
         if (this.isEnabled()) {
-            if (!/*MultiUtilities.isAboveBounds(mc.player, 0.01F)*/mc.player.isOnGround()) {
+            if (!MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                 this.ticksInAir++;
             } else {
                 this.ticksInAir = 0;
@@ -150,7 +144,7 @@ public class VanillaFly extends Module {
 
             MovementUtil.setSpeed(event, speed);
             event.setY(verticalSpeed);
-            MovementUtil.setPlayerYMotion(event.getY());
+            MultiUtilities.setPlayerYMotion(event.getY());
         }
     }
 

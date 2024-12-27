@@ -93,19 +93,19 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity
      * The last X position which was transmitted to the server, used to determine when the X position changes and needs
      * to be re-trasmitted
      */
-    private double lastReportedPosX;
+    public double lastReportedPosX;
 
     /**
      * The last Y position which was transmitted to the server, used to determine when the Y position changes and needs
      * to be re-transmitted
      */
-    private double lastReportedPosY;
+    public double lastReportedPosY;
 
     /**
      * The last Z position which was transmitted to the server, used to determine when the Z position changes and needs
      * to be re-transmitted
      */
-    private double lastReportedPosZ;
+    public double lastReportedPosZ;
 
     /**
      * The last yaw value which was transmitted to the server, used to determine when the yaw changes and needs to be
@@ -141,7 +141,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity
     public float prevRenderArmYaw;
     public float prevRenderArmPitch;
     private int horseJumpPowerCounter;
-    private float horseJumpPower;
+    public float horseJumpPower;
     public float timeInPortal;
     public float prevTimeInPortal;
     private boolean handActive;

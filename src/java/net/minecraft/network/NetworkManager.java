@@ -193,6 +193,15 @@ public class NetworkManager extends SimpleChannelInboundHandler < IPacket<? >>
         }
     }
 
+    public void sendNoEventPacket(IPacket<?> packet) {
+        if (!this.isChannelOpen()) {
+            this.outboundPacketsQueue.add(new QueuedPacket(packet, null));
+        } else {
+            this.flushOutboundQueue();
+            this.dispatchPacket(packet, null);
+        }
+    }
+
     private static <T extends INetHandler> void processPacket(IPacket<T> p_197664_0_, INetHandler p_197664_1_)
     {
         p_197664_0_.processPacket((T)p_197664_1_);

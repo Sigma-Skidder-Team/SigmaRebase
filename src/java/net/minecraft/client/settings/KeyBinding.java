@@ -5,6 +5,9 @@ import com.google.common.collect.Sets;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import com.mentalfrostbyte.jello.misc.InputMappingsInput;
+import com.mentalfrostbyte.jello.misc.InputMappingsType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.InputMappings;
@@ -31,8 +34,15 @@ public class KeyBinding implements Comparable<KeyBinding>
     private final InputMappings.Input keyCodeDefault;
     private final String keyCategory;
     public InputMappings.Input keyCode;
+    public InputMappingsInput inputMappingsInput;
     private boolean pressed;
     private int pressTime;
+
+    public KeyBinding(String var1, InputMappingsType inputMappingsType, int var2, String var3, String keyDescription, InputMappings.Input keyCodeDefault, String keyCategory) {
+        this.keyDescription = keyDescription;
+        this.keyCodeDefault = keyCodeDefault;
+        this.keyCategory = keyCategory;
+    }
 
     public static void onTick(InputMappings.Input key)
     {
@@ -115,10 +125,10 @@ public class KeyBinding implements Comparable<KeyBinding>
         return this.keyCategory;
     }
 
-    /**
-     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
-     * event.
-     */
+//    /**
+//     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
+//     * event.
+//     **/
     public boolean isPressed()
     {
         if (this.pressTime == 0)

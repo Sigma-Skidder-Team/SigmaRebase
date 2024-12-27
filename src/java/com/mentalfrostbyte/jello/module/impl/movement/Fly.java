@@ -3,6 +3,8 @@ package com.mentalfrostbyte.jello.module.impl.movement;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.movement.fly.*;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
+import com.mentalfrostbyte.jello.module.impl.movement.fly.CubecraftFly;
+import com.mentalfrostbyte.jello.module.impl.movement.fly.Cubecraft2Fly;
 
 public class Fly extends ModuleWithModuleSettings {
     public Fly() {
@@ -11,7 +13,7 @@ public class Fly extends ModuleWithModuleSettings {
                 "Fly",
                 "Allows you to fly like a bird",
                 new VanillaFly(),
-//                new HypixelFly(),
+                new HypixelFly(),
                 new MineplexFly(),
                 new JetpackFly(),
                 new BowFly(),
@@ -25,8 +27,8 @@ public class Fly extends ModuleWithModuleSettings {
                 new AGCFly(),
                 new HorizonFly(),
                 new SpartanFly(),
-//                new CubecraftFly(),
-//                new Cubecraft2Fly(),
+                new CubecraftFly(),
+                new Cubecraft2Fly(),
                 new OmegaCraftTestFly()
         );
     }

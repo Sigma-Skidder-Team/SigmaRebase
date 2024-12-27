@@ -75,7 +75,7 @@ public class VeltPvPFly extends Module {
                 if (this.field23419 != -1) {
                     if (this.field23419 == 0) {
                         if (!mc.gameSettings.keyBindJump.isKeyDown() && var1.getY() > 0.0) {
-//                            var1.setY(-MovementUtil.method37080());
+                            var1.setY(-MovementUtil.method37080());
                         }
 
                         MovementUtil.setPlayerYMotion(var1.getY());
@@ -83,9 +83,9 @@ public class VeltPvPFly extends Module {
                     }
                 } else {
                     if (!mc.gameSettings.keyBindJump.isKeyDown()) {
-//                        var1.setY(!this.field23423 ? MovementUtil.method37080() : -var4 / 2.0);
+                        var1.setY(!this.field23423 ? MovementUtil.method37080() : -var4 / 2.0);
                     } else {
-//                        var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.method37080());
+                        var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.method37080());
                         this.field23422 = this.field23421;
                         this.field23421 = !this.field23423 ? mc.player.getPosY() + var1.getY() : this.field23421;
                     }

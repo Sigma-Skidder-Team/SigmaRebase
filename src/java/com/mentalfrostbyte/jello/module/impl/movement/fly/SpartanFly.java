@@ -8,6 +8,7 @@ import com.mentalfrostbyte.jello.event.impl.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -73,7 +74,7 @@ public class SpartanFly extends Module {
     @EventTarget
     public void method16271(EventMove var1) {
         if (this.isEnabled()) {
-            boolean var4 = mc.player.isOnGround() /*|| MultiUtilities.isAboveBounds(mc.player, 0.001F)*/;
+            boolean var4 = mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F);
             if (!var4) {
                 if (var1.getY() < 0.0) {
                     if (this.field23569 != mc.player.getPositionVec().y) {
@@ -85,15 +86,14 @@ public class SpartanFly extends Module {
                                 mc.getConnection().sendPacket(new CHeldItemChangePacket(var5));
                             }
 
-                            if (var6 && (var5 >= 0
-                                    || mc.player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof BlockItem)) {
+                            if (var6 && (var5 >= 0 || mc.player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof BlockItem)) {
                                 BlockRayTraceResult var7 = new BlockRayTraceResult(
                                         mc.player.getPositionVec().add(0.0, -2.0, 0.0),
                                         Direction.UP,
                                         mc.player.getPosition().add(0, -2, 0),
-                                        false);
-                                CPlayerTryUseItemOnBlockPacket var8 = new CPlayerTryUseItemOnBlockPacket(Hand.MAIN_HAND,
-                                        var7);
+                                        false
+                                );
+                                CPlayerTryUseItemOnBlockPacket var8 = new CPlayerTryUseItemOnBlockPacket(Hand.MAIN_HAND, var7);
                                 mc.getConnection().sendPacket(var8);
                             }
 

@@ -7,6 +7,7 @@ import com.mentalfrostbyte.jello.event.impl.WorldLoadEvent;
 import com.mentalfrostbyte.jello.event.impl.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
@@ -92,9 +93,7 @@ public class OmegaCraftFly extends Module {
         if (this.field23700 != 1) {
             if (this.field23700 > 1) {
                 mc.player.setPosition(mc.player.getPositionVec().x, this.field23702, mc.player.getPositionVec().z);
-                double speed = !mc.gameSettings.keyBindSneak.isKeyDown()
-                        ? 0.405/* + (double) MovementUtil.method37078() * 0.02*/
-                        : 0.25;
+                double speed = !mc.gameSettings.keyBindSneak.isKeyDown() ? 0.405 + (double) MovementUtil.method37078() * 0.02 : 0.25;
                 MovementUtil.setSpeed(event, speed);
                 this.field23700 = 0;
             }

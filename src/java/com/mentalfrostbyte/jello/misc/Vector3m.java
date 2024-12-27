@@ -1,5 +1,7 @@
 package com.mentalfrostbyte.jello.misc;
 
+import com.mentalfrostbyte.jello.misc.unmapped.Vector2d;
+
 public class Vector3m implements Comparable<Vector3m> {
    public final double x;
    public final double y;
@@ -341,11 +343,11 @@ public class Vector3m implements Comparable<Vector3m> {
       return (float)Math.toDegrees((var7 + var9) % var9);
    }
 
-   public static IntegerVector method8603(double var0, double var2, double var4) {
-      return new IntegerVector(Math.floor(var0), Math.floor(var2), Math.floor(var4));
+   public static IntegerVector intVecFromCoords(double x, double y, double z) {
+      return new IntegerVector(Math.floor(x), Math.floor(y), Math.floor(z));
    }
 
-   public IntegerVector method8604() {
+   public IntegerVector toIntVec() {
       return new IntegerVector(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
    }
 
@@ -353,8 +355,8 @@ public class Vector3m implements Comparable<Vector3m> {
       return new IntegerVector(this);
    }
 
-   public Class8828 method8606() {
-      return new Class8828(this.x, this.z);
+   public Vector2d getXZ() {
+      return new Vector2d(this.x, this.z);
    }
 
    @Override
@@ -386,9 +388,9 @@ public class Vector3m implements Comparable<Vector3m> {
    @Override
    public int hashCode() {
       int var3 = 7;
-      var3 = 79 * var3 + (int)(Double.doubleToLongBits(this.x) ^ Double.doubleToLongBits(this.x) >>> 32);
-      var3 = 79 * var3 + (int)(Double.doubleToLongBits(this.y) ^ Double.doubleToLongBits(this.y) >>> 32);
-      return 79 * var3 + (int)(Double.doubleToLongBits(this.z) ^ Double.doubleToLongBits(this.z) >>> 32);
+      var3 = 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.x));
+      var3 = 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.y));
+      return 79 * var3 + Long.hashCode(Double.doubleToLongBits(this.z));
    }
 
    @Override

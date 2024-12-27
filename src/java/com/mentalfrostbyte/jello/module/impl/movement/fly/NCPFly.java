@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -94,7 +95,7 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16803(SendPacketEvent event) {
+    public void onSendPacket(SendPacketEvent event) {
         if (this.isEnabled()) {
             IPacket packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {
@@ -107,7 +108,7 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16804(Render2DEvent var1) {
+    public void onRender2D(Render2DEvent var1) {
         if (this.isEnabled()) {
             double var4 = this.field23920;
             mc.player.setPosition(mc.player.getPosX(), var4, mc.player.getPosZ());

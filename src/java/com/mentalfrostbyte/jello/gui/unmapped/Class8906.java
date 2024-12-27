@@ -10,15 +10,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.StringTextComponent;
 
 public class Class8906 {
-   private static Pattern field40303;
-   private static Matcher field40304;
-   private static final String field40305 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,3})$";
+   private static Pattern emailAddressPattern;
+   private static Matcher emailAddressMatcher;
+   private static final String emailAddressRegex
+           = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,3})$";
 
    public static boolean method32486(char var0) {
       return var0 != 167 && var0 >= ' ' && var0 != 127;
    }
 
-   public static void method32487(String var0) {
+   public static void printChatMessage(String var0) {
       Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(var0));
    }
 
@@ -39,13 +40,13 @@ public class Class8906 {
          }
       }
 
-      return method32490(var0);
+      return isEmail(var0);
    }
 
-   public static boolean method32490(String var0) {
-      field40303 = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,3})$");
-      field40304 = field40303.matcher(var0);
-      return field40304.matches();
+   public static boolean isEmail(String address) {
+      emailAddressPattern = Pattern.compile(emailAddressRegex);
+      emailAddressMatcher = emailAddressPattern.matcher(address);
+      return emailAddressMatcher.matches();
    }
 
    public static boolean method32491(String var0) {

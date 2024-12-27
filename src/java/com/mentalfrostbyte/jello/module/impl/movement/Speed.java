@@ -1,6 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
 import com.mentalfrostbyte.Client;
+import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
@@ -20,20 +21,20 @@ public class Speed extends ModuleWithModuleSettings {
                 "Speed",
                 "Vroom vroom",
                 new VanillaSpeed(),
-//                new HypixelSpeed(),
-//                new AACSpeed(),
-//                new OldAACSpeed(),
-//                new ViperMCSpeed(),
+                new HypixelSpeed(),
+                new AACSpeed(),
+                new OldAACSpeed(),
+                new ViperMCSpeed(),
                 new SlowHopSpeed(),
-//                new NCPSpeed(),
+                new NCPSpeed(),
                 new LegitSpeed(),
-//                new CubecraftSpeed(),
-//                new YPortSpeed(),
-                new MinemenSpeed()
-//                new InvadedSpeed(),
-//                new MineplexSpeed(),
-//                new GommeSpeed(),
-//                new TestSpeed()
+                new CubecraftSpeed(),
+                new YPortSpeed(),
+                new MinemenSpeed(),
+                new InvadedSpeed(),
+                new MineplexSpeed(),
+                new GommeSpeed(),
+                new TestSpeed()
         );
         this.registerSetting(new BooleanSetting("Lag back checker", "Disable speed when you get lag back", true));
         tickCounter = 0;
@@ -56,9 +57,9 @@ public class Speed extends ModuleWithModuleSettings {
     }
 
     public void method16764() {
-//        if (this.parentModule instanceof HypixelSpeed) {
-//            HypixelSpeed hypixelSpeed = (HypixelSpeed) this.parentModule;
-//            hypixelSpeed.method16044();
-//        }
+        if (this.parentModule instanceof HypixelSpeed) {
+            HypixelSpeed hypixelSpeed = (HypixelSpeed) this.parentModule;
+            hypixelSpeed.method16044();
+        }
     }
 }

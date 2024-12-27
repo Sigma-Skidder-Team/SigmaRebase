@@ -53,7 +53,7 @@ public class Class9625 {
       GL11.glPushMatrix();
       GL11.glScalef(0.5F, 0.5F, 0.5F);
       GL11.glBegin(2);
-      GL11.glColor4fv(ColorUtils.method17709(var3));
+      GL11.glColor4fv(ColorUtils.colorToFloatArray(var3));
 
       for (int var11 = 0; var11 < 32; var11++) {
          GL11.glVertex2f(var9 + var0, var10 + var1);

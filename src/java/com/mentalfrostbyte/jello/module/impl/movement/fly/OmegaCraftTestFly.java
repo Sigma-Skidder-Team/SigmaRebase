@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -41,7 +42,7 @@ public class OmegaCraftTestFly extends Module {
             MovementUtil.setPlayerYMotion(-0.0789);
         }
 
-//        mc.timer.timerSpeed = 1.0F;
+        mc.timer.timerSpeed = 1.0F;
     }
 
     @EventTarget

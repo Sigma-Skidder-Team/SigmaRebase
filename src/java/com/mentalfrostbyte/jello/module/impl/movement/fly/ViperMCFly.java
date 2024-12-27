@@ -6,6 +6,7 @@ import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -75,7 +76,7 @@ public class ViperMCFly extends Module {
                 if (this.field23594 != -1) {
                     if (this.field23594 == 0) {
                         if (!mc.gameSettings.keyBindJump.isKeyDown() && var1.getY() > 0.0) {
-//                            var1.setY(-MovementUtil.method37080());
+                            var1.setY(-MovementUtil.method37080());
                         }
 
                         MovementUtil.setPlayerYMotion(var1.getY());
@@ -83,14 +84,13 @@ public class ViperMCFly extends Module {
                     }
                 } else {
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
-//                        var1.setY(!this.field23598 ? var4 / 2.0 : MovementUtil.method37080());
+                        var1.setY(!this.field23598 ? var4 / 2.0 : MovementUtil.method37080());
                         this.field23597 = this.field23596;
                         this.field23596 = !this.field23598 ? mc.player.getPosY() + var1.getY() : this.field23596;
                     } else {
-                        var1.setY(this.field23598 /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/ ? -var4 / 2.0
-                                : /*MovementUtil.method37080()*/-69420);
+                        var1.setY(this.field23598 && !MultiUtilities.isAboveBounds(mc.player, 0.01F) ? -var4 / 2.0 : MovementUtil.method37080());
                         this.field23597 = this.field23596;
-                        this.field23596 = this.field23598 /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/
+                        this.field23596 = this.field23598 && !MultiUtilities.isAboveBounds(mc.player, 0.01F)
                                 ? mc.player.getPosY() + var1.getY()
                                 : this.field23596;
                     }

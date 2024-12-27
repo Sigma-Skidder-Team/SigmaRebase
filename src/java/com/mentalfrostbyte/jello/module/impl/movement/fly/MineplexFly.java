@@ -8,10 +8,11 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.managers.impl.notifs.Notification;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-//import com.mentalfrostbyte.jello.util.MultiUtilities;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-//import mapped.*;
-//import net.minecraft.inventory.container.ClickType;
+import com.mentalfrostbyte.jello.misc.InvManagerUtils;
+
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.network.play.client.CHeldItemChangePacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemOnBlockPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
@@ -57,7 +58,7 @@ public class MineplexFly extends Module {
             this.field23670 = mc.player.inventory.currentItem;
         }
 
-//        mc.timer.timerSpeed = 1.0F;
+        mc.timer.timerSpeed = 1.0F;
     }
 
     @EventTarget
@@ -81,18 +82,18 @@ public class MineplexFly extends Module {
         return this.isEnabled()
                 && this.field23670 != -1
                 && this.speed < (double) this.getNumberValueBySettingName("Boost")
-                && (mc.player.isOnGround() /*|| MultiUtilities.isAboveBounds(mc.player, 0.001F)*/)
+                && (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F))
                 && !this.field23675;
     }
 
-//    @EventTarget
-//    public void onSafeWalk(SafeWalkEvent var1) {
-//        if (this.isEnabled() && this.field23675 && mc.player != null) {
-//            if (mc.player.isOnGround()) {
-//                var1.setSafe(true);
-//            }
-//        }
-//    }
+    @EventTarget
+    public void onSafeWalk(SafeWalkEvent var1) {
+        if (this.isEnabled() && this.field23675 && mc.player != null) {
+            if (mc.player.isOnGround()) {
+                var1.setSafe(true);
+            }
+        }
+    }
 
     @EventTarget
     public void onMove(EventMove var1) {
@@ -101,9 +102,9 @@ public class MineplexFly extends Module {
                 MovementUtil.setSpeed(var1, 0.01);
             } else {
                 float var4 = mc.player.rotationYaw + 90.0F;
-                if (!mc.player.isOnGround()/* && !MultiUtilities.isAboveBounds(mc.player, 0.001F)*/) {
+                if (!mc.player.isOnGround() && !MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                     if (this.field23668 != -1) {
-                        if (this.field23674 /*&& !MultiUtilities.method17686()*/) {
+                        if (this.field23674 && !MultiUtilities.method17686()) {
                             this.field23674 = !this.field23674;
                             this.speed = 0.5;
                         }
@@ -119,7 +120,7 @@ public class MineplexFly extends Module {
                             this.field23672 -= 0.02;
                         }
 
-                        if (this.field23669 > 6 /*&& !MultiUtilities.method17686()*/) {
+                        if (this.field23669 > 6 && !MultiUtilities.method17686()) {
                             this.field23672 -= 0.05;
                         }
 
@@ -159,13 +160,13 @@ public class MineplexFly extends Module {
                         mc.player.jump();
                         this.field23672 = 0.4299999;
                         this.field23669 = 0;
-//                        this.field23674 = MultiUtilities.method17686();
+                        this.field23674 = MultiUtilities.method17686();
                         var1.setY(this.field23672);
                         this.posY = mc.player.getPosY();
                         this.field23668++;
                         this.speed += 0.5;
                     } else {
-//                        mc.timer.timerSpeed = Math.min(1.0F, Math.max(0.1F, (float) (1.2 - this.speed * 0.15)));
+                        mc.timer.timerSpeed = Math.min(1.0F, Math.max(0.1F, (float) (1.2 - this.field23671 * 0.15)));
                         if (this.field23668 > 2) {
                             this.speed += 0.05;
                         }
@@ -224,7 +225,7 @@ public class MineplexFly extends Module {
                 }
             }
 
-//            InvManagerUtils.fixedClick(mc.player.container.windowId, 42, 0, ClickType.QUICK_MOVE, mc.player, true);
+            InvManagerUtils.fixedClick(mc.player.container.windowId, 42, 0, ClickType.QUICK_MOVE, mc.player, true);
             if (!mc.player.container.getSlot(42).getStack().isEmpty()) {
                 Client.getInstance().notificationManager
                         .send(new Notification("Mineplex Fly", "Please empty a slot in your inventory"));

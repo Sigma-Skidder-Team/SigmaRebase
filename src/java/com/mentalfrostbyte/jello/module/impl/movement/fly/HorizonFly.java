@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
@@ -22,7 +23,7 @@ public class HorizonFly extends Module {
     public void onEnable() {
         this.field23498 = mc.player.getPosY();
         this.field23497 = 10;
-//        mc.timer.timerSpeed = 0.6F;
+        mc.timer.timerSpeed = 0.6F;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class HorizonFly extends Module {
             MovementUtil.setPlayerYMotion(-0.0789);
         }
 
-//        mc.timer.timerSpeed = 1.0F;
+        mc.timer.timerSpeed = 1.0F;
     }
 
     @EventTarget
@@ -50,8 +51,8 @@ public class HorizonFly extends Module {
                         MovementUtil.setSpeed(var1, var4 + 0.0015);
                     }
                 } else {
-//                    var1.setY(MovementUtil.method37080());
-                    MovementUtil.setPlayerYMotion(var1.getY());
+                    var1.setY(MovementUtil.method37080());
+                    MultiUtilities.setPlayerYMotion(var1.getY());
                     MovementUtil.setSpeed(var1, 0.125);
                 }
             } else {

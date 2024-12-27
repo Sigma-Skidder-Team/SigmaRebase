@@ -166,6 +166,31 @@ public class TrueTypeFont implements Font {
         }
     }
 
+    @Override
+    public int getStringWidth(String var1) {
+        int var4 = 0;
+        IntObject var5 = null;
+        char var6 = '\u0000';
+        if (var1 != null) {
+            for (int var7 = 0; var7 < var1.length(); var7++) {
+                var6 = var1.charAt(var7);
+                if (var6 >= 256) {
+                    var5 = (IntObject) this.customChars.get(new Character(var6));
+                } else {
+                    var5 = this.charArray[var6];
+                }
+
+                if (var5 != null) {
+                    var4 += var5.field35435;
+                }
+            }
+
+            return var4;
+        } else {
+            return 0;
+        }
+    }
+
     private void method23951(float var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
         float var11 = var3 - var1;
         float var12 = var4 - var2;
