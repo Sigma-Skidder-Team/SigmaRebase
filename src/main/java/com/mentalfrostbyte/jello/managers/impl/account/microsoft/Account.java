@@ -7,7 +7,7 @@ import org.newdawn.slick.opengl.Texture;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
-import net.minecraft.util.Session;
+import net.minecraft.client.util.Session;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -130,13 +130,14 @@ public class Account {
             MicrosoftAuthResult result = authenticator.loginWithCredentials("email", "password");
             // Or using a webview: authenticator.loginWithWebView();
             // Or using refresh token: authenticator.loginWithRefreshToken("refresh token");
-            // Or using your own way: authenticator.loginWithTokens("access token", "refresh token");
+            // Or using your own way: authenticator.loginWithTokens("access token", "refresh
+            // token");
 
             System.out.printf("Logged in with '%s'%n", result.getProfile().getName());
             account.updateUsedCount();
             return new Session(
-                    result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), account.getAccountType().name()
-            );
+                    result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(),
+                    account.getAccountType().name());
         } else {
             return new Session(account.getEmail(), "", "", "mojang");
         }
@@ -253,7 +254,8 @@ public class Account {
         if (!this.getKnownUUID().contains("steve") && this.skinUpdateThread == null) {
             this.skinUpdateThread = new Thread(() -> {
                 try {
-                    this.skin = ImageIO.read(new URL(ImageUtil.getSkinUrlByID(this.getKnownUUID().replaceAll("-", ""))));
+                    this.skin = ImageIO
+                            .read(new URL(ImageUtil.getSkinUrlByID(this.getKnownUUID().replaceAll("-", ""))));
                 } catch (Exception var4) {
                     var4.printStackTrace();
                 }
@@ -281,8 +283,8 @@ public class Account {
             this.updateSkin();
             this.lastUsed = System.currentTimeMillis();
             return new Session(
-                    result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), getAccountType().name()
-            );
+                    result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(),
+                    getAccountType().name());
         } else {
             this.setName(this.getEmail());
             return new Session(this.getEmail(), "", "", "mojang");
@@ -295,8 +297,7 @@ public class Account {
     public static String fixUUID(String uuidString) {
         return uuidString.replaceFirst(
                 "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
-                "$1-$2-$3-$4-$5"
-        );
+                "$1-$2-$3-$4-$5");
     }
 
     public JSONObject method34232() {

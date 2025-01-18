@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import org.apache.commons.codec.binary.Base64;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
@@ -141,7 +141,7 @@ public class Class4348 extends AnimatedIconPanelWrap {
       GL11.glTranslatef((float) (-this.getXA() - 44), (float) (-this.getYA() - 44), 0.0F);
       if (this.field21245 == null) {
          MinecraftClient.getInstance().getTextureManager()
-               .bindTexture(new ResourceLocation("textures/misc/unknown_server.png"));
+               .bindTexture(new Identifier("textures/misc/unknown_server.png"));
          RenderUtil.method11457(
                (float) (this.xA + 12), (float) (this.yA + 12), 64.0F, 64.0F, ClientColors.LIGHT_GREYISH_BLUE.getColor(),
                0.0F, 0.0F, 64.0F, 64.0F);

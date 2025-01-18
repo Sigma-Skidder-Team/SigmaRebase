@@ -5,7 +5,7 @@ import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
 
@@ -41,14 +41,14 @@ public class Class1118 extends AbstractClientPlayerEntity {
    }
 
    @Override
-   public ResourceLocation getLocationSkin() {
+   public Identifier getLocationSkin() {
       NetworkPlayerInfo var3 = this.getPlayerInfo();
       return var3 != null ? var3.getLocationSkin() : DefaultPlayerSkin.getDefaultSkin(this.getUniqueID());
    }
 
    @Nullable
    @Override
-   public ResourceLocation getLocationCape() {
+   public Identifier getLocationCape() {
       NetworkPlayerInfo var3 = this.getPlayerInfo();
       return var3 != null ? var3.getLocationCape() : null;
    }
@@ -60,7 +60,7 @@ public class Class1118 extends AbstractClientPlayerEntity {
 
    @Nullable
    @Override
-   public ResourceLocation getLocationElytra() {
+   public Identifier getLocationElytra() {
       NetworkPlayerInfo var3 = this.getPlayerInfo();
       return var3 != null ? var3.getLocationElytra() : null;
    }

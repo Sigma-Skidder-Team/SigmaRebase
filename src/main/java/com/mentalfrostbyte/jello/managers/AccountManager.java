@@ -4,10 +4,10 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
 import com.mentalfrostbyte.jello.managers.impl.account.microsoft.BanListener;
 import com.mentalfrostbyte.jello.util.FileUtil;
-import com.mojang.realmsclient.RealmsMainScreen;
+import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Session;
+import net.minecraft.client.util.Session;
 import team.sdhq.eventBus.EventBus;
 import totalcross.json.JSONArray;
 import totalcross.json.JSONException2;
@@ -85,7 +85,7 @@ public class AccountManager {
      */
     public boolean login(Account account) {
         try {
-            RealmsMainScreen.field_224000_H = null; // ?????
+//            RealmsMainScreen.realmsGenericErrorScreen = null; // ?????
             Session session = MinecraftClient.getInstance().getSession();
             Session newSession = account.login();
             session.username = newSession.getUsername();

@@ -1,4 +1,5 @@
 package com.mentalfrostbyte.jello.gui.unmapped;
+
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import net.minecraft.block.Blocks;
@@ -6,7 +7,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ public class Class4258 extends UIBase {
    private final UIInput field20643;
    private final boolean field20644;
 
-   public Class4258(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, boolean var7, String... var8) {
+   public Class4258(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, boolean var7,
+         String... var8) {
       super(var1, var2, var3, var4, var5, var6, false);
       this.field20644 = var7;
-      this.addToList(this.field20643 = new UIInput(this, "textbox", 0, 0, var5, 32, UIInput.field20741, "", "Search...", ResourceRegistry.JelloLightFont14));
+      this.addToList(this.field20643 = new UIInput(this, "textbox", 0, 0, var5, 32, UIInput.field20741, "", "Search...",
+            ResourceRegistry.JelloLightFont14));
       this.field20643.setFont(ResourceRegistry.JelloLightFont18);
       this.field20643.method13151(var1x -> this.method13069(this.field20643.getTypedText()));
       this.method13071(var8);
@@ -48,16 +51,17 @@ public class Class4258 extends UIBase {
 
          for (Item var13 : method13070(var5, var1)) {
             if (var13 != Items.AIR && (!this.field20644 || var13 instanceof BlockItem)) {
-               ResourceLocation var8 = Registry.ITEM.getKey(var13);
+               Identifier var8 = Registry.ITEM.getKey(var13);
                String var9;
                if (var13 instanceof BlockItem && var8.getPath().equals("air")) {
-                  var9 = Registry.BLOCK.getKey(((BlockItem)var13).getBlock()).toString();
+                  var9 = Registry.BLOCK.getKey(((BlockItem) var13).getBlock()).toString();
                } else {
                   var9 = var8.toString();
                }
 
                Class4372 var10;
-               this.field20642.addButton(var10 = new Class4372(this, "btn" + var9, 0, 0, 40, 40, var13.getDefaultInstance()));
+               this.field20642
+                     .addButton(var10 = new Class4372(this, "btn" + var9, 0, 0, 40, 40, var13.getDefaultInstance()));
                var10.method13702(this.field20641.contains(var9), false);
                var10.addUIHandler(var3 -> {
                   int var6 = this.field20641.size();

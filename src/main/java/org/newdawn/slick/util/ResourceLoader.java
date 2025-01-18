@@ -28,7 +28,7 @@ public class ResourceLoader {
      *
      * @param location The location that will be searched for resoruces
      */
-    public static void addResourceLocation(ResourceLocation location) {
+    public static void addResourceLocation(Identifier location) {
         locations.add(location);
     }
 
@@ -37,7 +37,7 @@ public class ResourceLoader {
      *
      * @param location The location that will be removed from the search list
      */
-    public static void removeResourceLocation(ResourceLocation location) {
+    public static void removeResourceLocation(Identifier location) {
         locations.remove(location);
     }
 
@@ -59,7 +59,7 @@ public class ResourceLoader {
         InputStream in = null;
 
         for (int i = 0; i < locations.size(); i++) {
-            ResourceLocation location = (ResourceLocation) locations.get(i);
+            Identifier location = (Identifier) locations.get(i);
             in = location.getResourceAsStream(ref);
             if (in != null) {
                 break;
@@ -83,7 +83,7 @@ public class ResourceLoader {
         URL url = null;
 
         for (int i = 0; i < locations.size(); i++) {
-            ResourceLocation location = (ResourceLocation) locations.get(i);
+            Identifier location = (Identifier) locations.get(i);
             url = location.getResource(ref);
             if (url != null) {
                 return true;
@@ -104,7 +104,7 @@ public class ResourceLoader {
         URL url = null;
 
         for (int i = 0; i < locations.size(); i++) {
-            ResourceLocation location = (ResourceLocation) locations.get(i);
+            Identifier location = (Identifier) locations.get(i);
             url = location.getResource(ref);
             if (url != null) {
                 break;

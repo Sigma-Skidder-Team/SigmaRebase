@@ -20,7 +20,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import team.sdhq.eventBus.EventBus;
@@ -266,10 +266,10 @@ public class GuiManager {
             } else {
                 if (!(scaleFactor > 1.0F)) {
                     MinecraftClient.getInstance().getTextureManager().bindTexture(
-                            new ResourceLocation("com/mentalfrostbyte/gui/resources/sigma/jello_watermark.png"));
+                            new Identifier("com/mentalfrostbyte/gui/resources/sigma/jello_watermark.png"));
                 } else {
                     MinecraftClient.getInstance().getTextureManager().bindTexture(
-                            new ResourceLocation("com/mentalfrostbyte/gui/resources/sigma/jello_watermark@2x.png"));
+                            new Identifier("com/mentalfrostbyte/gui/resources/sigma/jello_watermark@2x.png"));
                 }
 
                 RenderSystem.enableBlend();

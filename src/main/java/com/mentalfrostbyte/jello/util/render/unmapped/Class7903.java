@@ -1,12 +1,12 @@
 package com.mentalfrostbyte.jello.util.render.unmapped;
 
 import org.newdawn.slick.util.ResourceLoader;
-import org.newdawn.slick.util.ResourceLocation;
+import org.newdawn.slick.util.Identifier;
 
 import java.io.InputStream;
 import java.net.URL;
 
-public class Class7903 implements ResourceLocation {
+public class Class7903 implements Identifier {
    private static String[] field33859;
 
    @Override

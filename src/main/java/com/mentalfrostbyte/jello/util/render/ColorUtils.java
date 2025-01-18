@@ -5,7 +5,7 @@ import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ColorUtils {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
-    public static final ResourceLocation BLUR_SHADER = new ResourceLocation("shaders/post/blur.json");
+    public static final Identifier BLUR_SHADER = new Identifier("shaders/post/blur.json");
 
     public static int applyAlpha(int color, float alpha) {
         return (int) (alpha * 255.0F) << 24 | color & 16777215;

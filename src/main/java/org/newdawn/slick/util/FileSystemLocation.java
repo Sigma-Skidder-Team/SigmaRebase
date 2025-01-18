@@ -11,7 +11,7 @@ import java.net.URL;
  *
  * @author kevin
  */
-public class FileSystemLocation implements ResourceLocation {
+public class FileSystemLocation implements Identifier {
     /**
      * The root of the file system to search
      */
@@ -27,7 +27,7 @@ public class FileSystemLocation implements ResourceLocation {
     }
 
     /**
-     * @see ResourceLocation#getResource(String)
+     * @see Identifier#getResource(String)
      */
     public URL getResource(String ref) {
         try {
@@ -46,7 +46,7 @@ public class FileSystemLocation implements ResourceLocation {
     }
 
     /**
-     * @see ResourceLocation#getResourceAsStream(String)
+     * @see Identifier#getResourceAsStream(String)
      */
     public InputStream getResourceAsStream(String ref) {
         try {

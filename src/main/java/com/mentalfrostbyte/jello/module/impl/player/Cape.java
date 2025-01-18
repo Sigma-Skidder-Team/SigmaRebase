@@ -4,7 +4,7 @@ import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class Cape extends Module {
@@ -15,8 +15,8 @@ public class Cape extends Module {
         super(ModuleCategory.PLAYER, "Cape", "gives you a cape (wow)");
     }
 
-    public ResourceLocation getCape() {
-        return new ResourceLocation("minecraft", "com/mentalfrostbyte/gui/resources/jello/capes/2016.png");
+    public Identifier getCape() {
+        return new Identifier("minecraft", "com/mentalfrostbyte/gui/resources/jello/capes/2016.png");
     }
 
     public void onDisable() {

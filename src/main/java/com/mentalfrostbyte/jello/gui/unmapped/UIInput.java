@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputMappings;
+import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -111,8 +111,8 @@ public class UIInput extends AnimatedIconPanelWrap {
 
          this.field20752 = true;
          this.field20749 = Class8906.method32494(var6, this.font, (float) this.method13271(), mouseX, this.field20746);
-         if (!InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
-               && !InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
+         if (!InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
+               && !InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
             this.field20750 = this.field20749;
          }
 
@@ -264,8 +264,8 @@ public class UIInput extends AnimatedIconPanelWrap {
                   }
                }
 
-               if (!InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
-                     && !InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
+               if (!InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
+                     && !InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
                   this.field20750 = this.field20749;
                }
                break;
@@ -292,22 +292,22 @@ public class UIInput extends AnimatedIconPanelWrap {
                   }
                }
 
-               if (!InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
-                     && !InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
+               if (!InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
+                     && !InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
                   this.field20750 = this.field20749;
                }
                break;
             case 268:
                this.field20749 = 0;
-               if (!InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
-                     && !InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
+               if (!InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
+                     && !InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
                   this.field20750 = this.field20749;
                }
                break;
             case 269:
                this.field20749 = this.typedText.length();
-               if (!InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
-                     && !InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
+               if (!InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 340)
+                     && !InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 344)) {
                   this.field20750 = this.field20749;
                }
          }
@@ -315,9 +315,9 @@ public class UIInput extends AnimatedIconPanelWrap {
    }
 
    public boolean method13149() {
-      return InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 341)
-            || InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 345)
-            || InputMappings.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 343);
+      return InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 341)
+            || InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 345)
+            || InputUtil.isKeyDown(MinecraftClient.getInstance().getWindow().getHandle(), 343);
    }
 
    @Override

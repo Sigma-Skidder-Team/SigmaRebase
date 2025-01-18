@@ -8,9 +8,9 @@ import java.net.URL;
  *
  * @author kevin
  */
-public class ClasspathLocation implements ResourceLocation {
+public class ClasspathLocation implements Identifier {
     /**
-     * @see org.newdawn.slick.util.ResourceLocation#getResource(java.lang.String)
+     * @see org.newdawn.slick.util.Identifier#getResource(java.lang.String)
      */
     public URL getResource(String ref) {
         String cpRef = ref.replace('\\', '/');
@@ -18,7 +18,7 @@ public class ClasspathLocation implements ResourceLocation {
     }
 
     /**
-     * @see org.newdawn.slick.util.ResourceLocation#getResourceAsStream(java.lang.String)
+     * @see org.newdawn.slick.util.Identifier#getResourceAsStream(java.lang.String)
      */
     public InputStream getResourceAsStream(String ref) {
         String cpRef = ref.replace('\\', '/');

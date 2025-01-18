@@ -21,7 +21,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.client.util.InputMappings;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
@@ -756,7 +756,7 @@ public class RenderUtil {
             }
         }
 
-        InputMappings.Input var7 = InputMappings.getInputByCode(var0, 0);
+        InputUtil.Input var7 = InputUtil.getInputByCode(var0, 0);
         String[] var8 = var7.getTranslationKey().split("\\.");
         if (var8.length != 0) {
             String var9 = var8[var8.length - 1];

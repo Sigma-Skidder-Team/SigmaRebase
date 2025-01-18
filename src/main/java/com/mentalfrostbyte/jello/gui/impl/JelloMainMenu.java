@@ -14,9 +14,9 @@ import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.TrueTypeFont;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.OptionsScreen;
-import net.minecraft.client.gui.screen.WorldSelectionScreen;
-import net.minecraft.realms.RealmsBridgeScreen;
+import net.minecraft.client.gui.screen.options.OptionsScreen;
+import net.minecraft.client.gui.screen.world.SelectWorldScreen;
+import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 
 public class JelloMainMenu extends CustomGuiScreen {
     private final ButtonPanel singleplayerButton;
@@ -147,7 +147,7 @@ public class JelloMainMenu extends CustomGuiScreen {
         });
         this.changelogButton.doThis((var1x, var2x) -> ((JelloMainMenuManager) this.getParent()).animateIn());
         this.singleplayerButton.doThis((var1x, var2x) -> this
-                .displayGUI(new WorldSelectionScreen(MinecraftClient.getInstance().currentScreen)));
+                .displayGUI(new SelectWorldScreen(MinecraftClient.getInstance().currentScreen)));
         this.multiplayerButton.doThis(
                 (var1x, var2x) -> this.displayGUI(new JelloPortalScreen(MinecraftClient.getInstance().currentScreen)));
         this.optionsButton

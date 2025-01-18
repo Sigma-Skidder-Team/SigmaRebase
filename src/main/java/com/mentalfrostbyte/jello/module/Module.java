@@ -5,7 +5,7 @@ import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.managers.impl.sound.CustomSoundPlayer;
 import com.mentalfrostbyte.jello.module.settings.Setting;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.sound.SoundEvents;
 import team.sdhq.eventBus.EventBus;
 import totalcross.json.*;
 
