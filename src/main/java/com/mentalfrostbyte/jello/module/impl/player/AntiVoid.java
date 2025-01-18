@@ -18,19 +18,20 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class AntiVoid extends Module {
     private double fallDistanceAccumulated;
     private int disableTimer;
     private int speedBoostTimer;
-    private Vector3d lastSafePosition = null;
+    private Vec3d lastSafePosition = null;
 
     public AntiVoid() {
         super(ModuleCategory.PLAYER, "AntiVoid", "Avoids you from falling into the void");
         this.registerSetting(new BooleanSetting("Void", "Catch only above void", true));
-        this.registerSetting(new NumberSetting<Float>("Fall Distance", "Fall distance before catching you", 8.0F, Float.class, 2.0F, 15.0F, 0.5F));
+        this.registerSetting(new NumberSetting<Float>("Fall Distance", "Fall distance before catching you", 8.0F,
+                Float.class, 2.0F, 15.0F, 0.5F));
         this.registerSetting(new ModeSetting("Mode", "AntiVoid method", 0, "Hypixel", "Motion", "Cubecraft", "Legit"));
     }
 
@@ -40,7 +41,7 @@ public class AntiVoid extends Module {
         this.speedBoostTimer = 0;
         this.disableTimer = 0;
         if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
-            this.lastSafePosition = new Vector3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
+            this.lastSafePosition = new Vec3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
         }
     }
 
@@ -48,7 +49,7 @@ public class AntiVoid extends Module {
     public void onMove(EventMove event) {
         if (this.isEnabled()) {
             if (mc.player.isOnGround() || MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
-                this.lastSafePosition = new Vector3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
+                this.lastSafePosition = new Vec3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
             }
 
             if (this.disableTimer <= 0) {
@@ -63,7 +64,7 @@ public class AntiVoid extends Module {
                 }
 
                 if (highJumpModule.isEnabled() && highJumpMode.equals("Hypixel")) {
-                   shouldFly = true;
+                    shouldFly = true;
                 }
 
                 if (mc.player.getMotion().y < -0.08 && !shouldFly) {
@@ -77,7 +78,8 @@ public class AntiVoid extends Module {
                 this.disableTimer--;
             }
 
-            if (this.fallDistanceAccumulated > (double) this.getNumberValueBySettingName("Fall Distance") && (isSafeToFall() || !this.getBooleanValueFromSettingName("Void"))) {
+            if (this.fallDistanceAccumulated > (double) this.getNumberValueBySettingName("Fall Distance")
+                    && (isSafeToFall() || !this.getBooleanValueFromSettingName("Void"))) {
                 this.fallDistanceAccumulated = 0.0;
                 handleVoidMode(this.getStringSettingValueByName("Mode"), event);
             }

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.managers.impl.combat;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import team.sdhq.eventBus.EventBus;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Class7249 implements Class7251 {
-    public static final Minecraft field31119 = Minecraft.getInstance();
+    public static final Minecraft field31119 = MinecraftClient.getInstance();
     private boolean field31120 = true;
     public String field31121;
     public String field31122;

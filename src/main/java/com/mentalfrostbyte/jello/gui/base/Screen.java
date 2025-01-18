@@ -1,13 +1,14 @@
 package com.mentalfrostbyte.jello.gui.base;
 
 import totalcross.json.JSONObject;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 public abstract class Screen
         extends CustomGuiScreen {
 
     public Screen(String var1) {
-        super(null, var1, 0, 0, Minecraft.getInstance().getMainWindow().getWidth(), Minecraft.getInstance().getMainWindow().getHeight());
+        super(null, var1, 0, 0, MinecraftClient.getInstance().getWindow().getWidth(),
+                MinecraftClient.getInstance().getWindow().getHeight());
     }
 
     public int method13313() {
@@ -17,15 +18,16 @@ public abstract class Screen
     @Override
     public void loadConfig(JSONObject config) {
         super.loadConfig(config);
-        this.setWidthA(Minecraft.getInstance().getMainWindow().getWidth());
-        this.setHeightA(Minecraft.getInstance().getMainWindow().getHeight());
+        this.setWidthA(MinecraftClient.getInstance().getWindow().getWidth());
+        this.setHeightA(MinecraftClient.getInstance().getWindow().getHeight());
     }
 
     @Override
     public void keyPressed(int keyCode) {
-        if (keyCode == Minecraft.getInstance().gameSettings.keyBindFullscreen.keyCode.getKeyCode()) {
-            Minecraft.getInstance().getMainWindow().toggleFullscreen();
-            Minecraft.getInstance().gameSettings.fullscreen = Minecraft.getInstance().getMainWindow().isFullscreen();
+        if (keyCode == MinecraftClient.getInstance().gameSettings.keyBindFullscreen.keyCode.getKeyCode()) {
+            MinecraftClient.getInstance().getWindow().toggleFullscreen();
+            MinecraftClient.getInstance().gameSettings.fullscreen = MinecraftClient.getInstance().getWindow()
+                    .isFullscreen();
         }
 
         super.keyPressed(keyCode);

@@ -2,7 +2,7 @@ package com.mentalfrostbyte.jello.util.render;
 
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.util.ClientColors;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.apache.commons.codec.binary.Base64;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -35,7 +35,7 @@ public class ImageUtil {
         JSONObject var9 = new JSONObject(var6);
 
         for (Object var12 : var9.getJSONArray("properties")) {
-            JSONObject var13 = (JSONObject)var12;
+            JSONObject var13 = (JSONObject) var12;
             if (var13.has("value") && var13.has("name")) {
                 var8 = var13.getString("value");
             }
@@ -81,7 +81,8 @@ public class ImageUtil {
     public static BufferedImage method35041(BufferedImage var0, int var1) {
         int var4 = var0.getWidth() + var1 * 2;
         int var5 = var0.getHeight() + var1 * 2;
-        BufferedImage var6 = method35043(var0, (float) var4 / (float) var0.getWidth(), (float) var5 / (float) var0.getHeight());
+        BufferedImage var6 = method35043(var0, (float) var4 / (float) var0.getWidth(),
+                (float) var5 / (float) var0.getHeight());
 
         for (int var7 = 0; var7 < var0.getWidth(); var7++) {
             for (int var8 = 0; var8 < var0.getHeight(); var8++) {
@@ -177,10 +178,12 @@ public class ImageUtil {
         if (image == null) {
             return image;
         } else {
-            ConvolveOp blurOperation = new ConvolveOp(createGaussianKernel((float) blurRadius), ConvolveOp.EDGE_NO_OP, null);
+            ConvolveOp blurOperation = new ConvolveOp(createGaussianKernel((float) blurRadius), ConvolveOp.EDGE_NO_OP,
+                    null);
             int imageWidth = image.getWidth();
             int imageHeight = image.getHeight();
-            BufferedImage extendedImage = new BufferedImage(imageWidth + blurRadius * 2, imageHeight + blurRadius * 2, image.getType());
+            BufferedImage extendedImage = new BufferedImage(imageWidth + blurRadius * 2, imageHeight + blurRadius * 2,
+                    image.getType());
 
             for (int x = 0; x < imageWidth; x++) {
                 for (int y = 0; y < imageHeight; y++) {
@@ -191,18 +194,20 @@ public class ImageUtil {
             BufferedImage blurredImage = blurOperation.filter(extendedImage, null);
             blurredImage = blurOperation.filter(applyEdgeWrap(blurredImage), null);
             blurredImage = applyEdgeWrap(blurredImage);
-            return blurredImage.getSubimage(blurRadius, blurRadius, extendedImage.getWidth() - blurRadius * 2, extendedImage.getHeight() - blurRadius * 2);
+            return blurredImage.getSubimage(blurRadius, blurRadius, extendedImage.getWidth() - blurRadius * 2,
+                    extendedImage.getHeight() - blurRadius * 2);
         }
     }
 
-    public static BufferedImage method35036(int var0, int var1, int var2, int var3, int var4, int var5, int var6, boolean var7) {
+    public static BufferedImage method35036(int var0, int var1, int var2, int var3, int var4, int var5, int var6,
+            boolean var7) {
         int var10 = 4;
         var1 = (int) ((float) var1 * GuiManager.scaleFactor);
         var0 = (int) ((float) var0 * GuiManager.scaleFactor);
         var2 = (int) ((float) var2 * GuiManager.scaleFactor);
         var3 = (int) ((float) var3 * GuiManager.scaleFactor);
         var4 = (int) ((float) var4 * GuiManager.scaleFactor);
-        var1 = Minecraft.getInstance().getMainWindow().getFramebufferHeight() - var1 - var3;
+        var1 = MinecraftClient.getInstance().getWindow().getFramebufferHeight() - var1 - var3;
         if (var4 <= 0) {
             var4 = 1;
         }
@@ -218,7 +223,8 @@ public class ImageUtil {
                     int var16 = var11.get(var15) & 255;
                     int var17 = var11.get(var15 + 1) & 255;
                     int var18 = var11.get(var15 + 2) & 255;
-                    var12.setRGB(var13 / var4, var3 / var4 - (var14 / var4 + 1), 0xFF000000 | var16 << 16 | var17 << 8 | var18);
+                    var12.setRGB(var13 / var4, var3 / var4 - (var14 / var4 + 1),
+                            0xFF000000 | var16 << 16 | var17 << 8 | var18);
                 }
             }
         }
@@ -226,7 +232,8 @@ public class ImageUtil {
         if (var5 <= 1) {
             return var12;
         } else {
-            return !var7 ? method35032(method35040(var12, var5, var6), var5) : method35032(method35041(var12, var5), var5);
+            return !var7 ? method35032(method35040(var12, var5, var6), var5)
+                    : method35032(method35041(var12, var5), var5);
         }
     }
 

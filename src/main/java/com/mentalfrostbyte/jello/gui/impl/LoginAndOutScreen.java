@@ -12,7 +12,7 @@ import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import org.lwjgl.opengl.GL11;
 
@@ -36,7 +36,8 @@ public class LoginAndOutScreen extends Screen {
     public LoginAndOutScreen() {
         super("Credits");
         this.method13300(false);
-        this.field21087 = Resources.createScaledAndProcessedTexture2("com/mentalfrostbyte/gui/resources/background/panorama5.png", 0.075F, 8);
+        this.field21087 = Resources.createScaledAndProcessedTexture2(
+                "com/mentalfrostbyte/gui/resources/background/panorama5.png", 0.075F, 8);
         this.addToList(
                 this.field21088 = new LoginScreen(
                         this,
@@ -44,9 +45,7 @@ public class LoginAndOutScreen extends Screen {
                         (this.widthA - LoginScreen.heighty) / 2,
                         (this.heightA - LoginScreen.widthy) / 2,
                         LoginScreen.heighty,
-                        LoginScreen.widthy
-                )
-        );
+                        LoginScreen.widthy));
         this.addToList(
                 this.field21089 = new AccountSignUpScreen(
                         this,
@@ -54,9 +53,7 @@ public class LoginAndOutScreen extends Screen {
                         (this.widthA - AccountSignUpScreen.height) / 2,
                         (this.heightA - AccountSignUpScreen.widthy) / 2,
                         AccountSignUpScreen.height,
-                        AccountSignUpScreen.widthy
-                )
-        );
+                        AccountSignUpScreen.widthy));
         this.method13423();
         this.addToList(
                 this.field21091 = new UIButton(
@@ -68,15 +65,13 @@ public class LoginAndOutScreen extends Screen {
                         60,
                         new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F)),
                         "Continue",
-                        ResourceRegistry.JelloLightFont25
-                )
-        );
+                        ResourceRegistry.JelloLightFont25));
         this.field21091.setEnabled(false);
         this.field21088.addUIHandler(var1 -> {
             this.field21092 = true;
             this.field21091.setEnabled(true);
         });
-        this.field21091.doThis((var0, var1) -> Minecraft.getInstance().displayGuiScreen(new MainMenuScreen()));
+        this.field21091.doThis((var0, var1) -> MinecraftClient.getInstance().displayGuiScreen(new MainMenuScreen()));
     }
 
     public void method13422() {
@@ -101,7 +96,8 @@ public class LoginAndOutScreen extends Screen {
                 }
 
                 var5.add(new MiniAlert(AlertType.BUTTON, "Ok", 55));
-                this.method13233(this.field21090 = new AlertPanel(this, "modal", true, "", var5.toArray(new MiniAlert[0])));
+                this.method13233(
+                        this.field21090 = new AlertPanel(this, "modal", true, "", var5.toArray(new MiniAlert[0])));
                 this.field21090.method13604(var1xx -> new Thread(() -> this.runThisOnDimensionUpdate(() -> {
                     this.method13236(this.field21090);
                     this.field21090 = null;
@@ -120,19 +116,24 @@ public class LoginAndOutScreen extends Screen {
         }
 
         this.method13425();
-        float var4 = (float) Math.sin((double) QuadraticEasing.easeOutQuad(this.field21085, 0.0F, 1.0F, 1.0F) * Math.PI / 2.0);
+        float var4 = (float) Math
+                .sin((double) QuadraticEasing.easeOutQuad(this.field21085, 0.0F, 1.0F, 1.0F) * Math.PI / 2.0);
         if (this.field21092) {
             var4 = 1.0F
-                    - (float) Math.sin((Math.PI / 2) + (double) QuadraticEasing.easeInOutQuad(1.0F - this.field21093.calcPercent(), 0.0F, 1.0F, 1.0F) * (Math.PI / 2)) * 0.2F;
+                    - (float) Math.sin((Math.PI / 2) + (double) QuadraticEasing
+                            .easeInOutQuad(1.0F - this.field21093.calcPercent(), 0.0F, 1.0F, 1.0F) * (Math.PI / 2))
+                            * 0.2F;
         }
 
         this.field21088.method13277(var4);
         this.field21088.method13278(var4);
         this.field21089.method13277(var4);
         this.field21089.method13278(var4);
-        Rectangle var5 = RenderUtil.method11413(RenderUtil.method11414(this.field21088), this.field21088.method13273(), this.field21088.method13275());
+        Rectangle var5 = RenderUtil.method11413(RenderUtil.method11414(this.field21088), this.field21088.method13273(),
+                this.field21088.method13275());
         if (this.field21089.isVisible()) {
-            var5 = RenderUtil.method11413(RenderUtil.method11414(this.field21089), this.field21089.method13273(), this.field21089.method13275());
+            var5 = RenderUtil.method11413(RenderUtil.method11414(this.field21089), this.field21089.method13273(),
+                    this.field21089.method13275());
         }
 
         if ((double) var4 > 0.1) {
@@ -141,8 +142,8 @@ public class LoginAndOutScreen extends Screen {
                     (int) ((double) this.heightA - var5.getHeight()) / 2,
                     (int) var5.getWidth(),
                     (int) var5.getHeight(),
-                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 1.0F - this.field21093.calcPercent())
-            );
+                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                            1.0F - this.field21093.calcPercent()));
         }
 
         if (this.field21092 && this.field21093.calcPercent() == 1.0F) {
@@ -154,7 +155,8 @@ public class LoginAndOutScreen extends Screen {
             String welcomeBackSign = "Welcome back";
             int var8 = 100;
             int var9 = 10;
-            int var10 = var8 + Math.max(ResourceRegistry.JelloMediumFont40.getWidth(welcomeBackSign), ResourceRegistry.JelloLightFont36.getWidth(username)) + var9 * 10;
+            int var10 = var8 + Math.max(ResourceRegistry.JelloMediumFont40.getWidth(welcomeBackSign),
+                    ResourceRegistry.JelloLightFont36.getWidth(username)) + var9 * 10;
             int var11 = (this.widthA - var10) / 2;
             int var12 = (this.heightA - var8 * 2) / 2;
             RenderUtil.drawRoundedRect(
@@ -162,15 +164,16 @@ public class LoginAndOutScreen extends Screen {
                     0.0F,
                     (float) this.widthA,
                     (float) this.heightA,
-                    ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * this.field21093.calcPercent())
-            );
+                    ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * this.field21093.calcPercent()));
             RenderUtil.drawImage(
-                    (float) (var11 + 20), (float) (var12 + 40), (float) (var8 + 30), (float) (var8 + 30), Resources.sigmaPNG, this.field21093.calcPercent()
-            );
+                    (float) (var11 + 20), (float) (var12 + 40), (float) (var8 + 30), (float) (var8 + 30),
+                    Resources.sigmaPNG, this.field21093.calcPercent());
             int var13 = 165;
             int var14 = 54;
-            RenderUtil.drawString(ResourceRegistry.JelloMediumFont40, (float) (var11 + var13), (float) (var12 + var14), welcomeBackSign, ClientColors.LIGHT_GREYISH_BLUE.getColor());
-            RenderUtil.drawString(ResourceRegistry.JelloLightFont36, (float) (var11 + var13), (float) (var12 + var14 + 45), username, ClientColors.LIGHT_GREYISH_BLUE.getColor());
+            RenderUtil.drawString(ResourceRegistry.JelloMediumFont40, (float) (var11 + var13), (float) (var12 + var14),
+                    welcomeBackSign, ClientColors.LIGHT_GREYISH_BLUE.getColor());
+            RenderUtil.drawString(ResourceRegistry.JelloLightFont36, (float) (var11 + var13),
+                    (float) (var12 + var14 + 45), username, ClientColors.LIGHT_GREYISH_BLUE.getColor());
         }
 
         GL11.glPushMatrix();
@@ -191,7 +194,8 @@ public class LoginAndOutScreen extends Screen {
 
         float var5 = var4 - (float) this.field21082;
         float var6 = (float) (var3 - this.field21083);
-        float var7 = (float) Math.sin((double) QuadraticEasing.easeOutQuad(this.field21086, 0.0F, 1.0F, 1.0F) * Math.PI / 2.0);
+        float var7 = (float) Math
+                .sin((double) QuadraticEasing.easeOutQuad(this.field21086, 0.0F, 1.0F, 1.0F) * Math.PI / 2.0);
         GL11.glPushMatrix();
         GL11.glTranslatef((float) this.widthA / 2.0F, (float) this.widthA / 2.0F, 0.0F);
         GL11.glScalef(1.0F + var7 * 0.2F, 1.0F + var7 * 0.2F, 0.0F);
@@ -202,8 +206,7 @@ public class LoginAndOutScreen extends Screen {
                 (float) (this.getWidthA() * 2),
                 (float) (this.getHeightA() + 114),
                 this.field21087,
-                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.field21085)
-        );
+                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.field21085));
         GL11.glPopMatrix();
         float var8 = 0.5F;
         if (var4 != (float) this.field21082) {
@@ -219,7 +222,7 @@ public class LoginAndOutScreen extends Screen {
     public void keyPressed(int keyCode) {
         super.keyPressed(keyCode);
         if (keyCode == 256) {
-            Minecraft.getInstance().displayGuiScreen(new MainMenuScreen());
+            MinecraftClient.getInstance().displayGuiScreen(new MainMenuScreen());
         }
     }
 }

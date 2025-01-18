@@ -4,7 +4,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import totalcross.json.JSONException;
 import totalcross.json.JSONObject;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +52,7 @@ public class Ban {
     }
 
     public ServerData method31736() {
-        ServerList var3 = new ServerList(Minecraft.getInstance());
+        ServerList var3 = new ServerList(MinecraftClient.getInstance());
         var3.loadServerList();
         int var4 = var3.countServers();
 

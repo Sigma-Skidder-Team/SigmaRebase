@@ -8,7 +8,7 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.viamcp.protocolinfo.ProtocolInfo;
 import net.minecraft.client.GameSettings;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
@@ -39,9 +39,9 @@ public class JelloPortalScreen extends MultiplayerScreen {
                 1.0F,
                 (var1) -> (double) getCurrentVersionIndex(),
                 this::onSliderChange,
-                (settings, slider) -> new StringTextComponent(getVersion(getCurrentVersionIndex()).getName())
-        );
-        this.versionSelectorWidget = this.addButton(versionSelector.createWidget(this.minecraft.gameSettings, this.width / 2 + 40, 7, 114));
+                (settings, slider) -> new StringTextComponent(getVersion(getCurrentVersionIndex()).getName()));
+        this.versionSelectorWidget = this
+                .addButton(versionSelector.createWidget(this.minecraft.gameSettings, this.width / 2 + 40, 7, 114));
     }
 
     private void onSliderChange(GameSettings settings, Double aDouble) {
@@ -56,8 +56,9 @@ public class JelloPortalScreen extends MultiplayerScreen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
         RenderUtil.drawPortalBackground(
-                0, 0, Minecraft.getInstance().getMainWindow().getWidth(), (int)(30.0 * Minecraft.getInstance().getMainWindow().getGuiScaleFactor() / (double) GuiManager.scaleFactor)
-        );
+                0, 0, MinecraftClient.getInstance().getWindow().getWidth(),
+                (int) (30.0 * MinecraftClient.getInstance().getWindow().getScaleFactor()
+                        / (double) GuiManager.scaleFactor));
         this.renderBackground(matrices);
         RenderUtil.endScissor();
         this.versionSelectorWidget.render(matrices, mouseX, mouseY, delta);

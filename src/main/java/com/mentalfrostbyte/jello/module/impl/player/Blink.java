@@ -4,9 +4,9 @@ import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ public class Blink extends Module {
     public static RemoteClientPlayerEntity clientPlayerEntity;
     public float yaw;
     public float pitch;
-    private final List<IPacket<?>> packets = new ArrayList<>();
-    private Vector3d vector;
+    private final List<Packet<?>> packets = new ArrayList<>();
+    private Vec3d vector;
 
     // New boolean flag for controlling the blinking state
     private boolean isBlinking = false;
@@ -28,7 +28,7 @@ public class Blink extends Module {
 
     @Override
     public void onEnable() {
-        this.vector = new Vector3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
+        this.vector = new Vec3d(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ());
         this.yaw = mc.player.rotationYaw;
         this.pitch = mc.player.rotationPitch;
         clientPlayerEntity = new RemoteClientPlayerEntity(mc.world, mc.player.getGameProfile());

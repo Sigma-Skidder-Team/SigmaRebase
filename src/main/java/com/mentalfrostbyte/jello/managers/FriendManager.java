@@ -8,7 +8,7 @@ import team.sdhq.eventBus.EventBus;
 import team.sdhq.eventBus.annotations.EventTarget;
 import totalcross.json.JSONArray;
 import net.minecraft.entity.Entity;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import totalcross.json.JSONException;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FriendManager {
     public List<String> field34176 = new CopyOnWriteArrayList<>();
     public List<String> friends = new CopyOnWriteArrayList<>();
-    private final Minecraft mc = Minecraft.getInstance();
+    private final Minecraft mc = MinecraftClient.getInstance();
 
     public void init() {
         EventBus.register(this);
@@ -38,11 +38,12 @@ public class FriendManager {
             if (this.method26997(this.mc.pointedEntity)) {
                 this.method27005(this.mc.pointedEntity.getName().getUnformattedComponentText());
                 Class8906.method32487(
-                        var4.getPrefix() + " " + this.mc.pointedEntity.getName().getUnformattedComponentText() + " is no longer your friend."
-                );
+                        var4.getPrefix() + " " + this.mc.pointedEntity.getName().getUnformattedComponentText()
+                                + " is no longer your friend.");
             } else {
                 this.method27001(this.mc.pointedEntity.getName().getUnformattedComponentText());
-                Class8906.method32487(var4.getPrefix() + " " + this.mc.pointedEntity.getName().getUnformattedComponentText() + " is now your friend.");
+                Class8906.method32487(var4.getPrefix() + " "
+                        + this.mc.pointedEntity.getName().getUnformattedComponentText() + " is now your friend.");
             }
 
             this.method27009();

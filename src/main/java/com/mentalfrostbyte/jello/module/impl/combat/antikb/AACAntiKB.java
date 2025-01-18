@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SEntityVelocityPacket;
 import team.sdhq.eventBus.annotations.EventTarget;
 
@@ -46,7 +46,8 @@ public class AACAntiKB extends Module {
                         float var6 = MovementUtil.lenientStrafe()[0];
                         double var7 = Math.cos(Math.toRadians(var6));
                         double var9 = Math.sin(Math.toRadians(var6));
-                        double var11 = (double) ((float) (7 - ticks) * this.getNumberValueBySettingName("Strength")) * 0.04 * (double) this.field23909 * 0.2;
+                        double var11 = (double) ((float) (7 - ticks) * this.getNumberValueBySettingName("Strength"))
+                                * 0.04 * (double) this.field23909 * 0.2;
                         double var13 = ((double) var4 * var7 + (double) var5 * var9) * var11;
                         double var15 = ((double) var4 * var9 - (double) var5 * var7) * var11;
                         float var17 = (float) (Math.atan2(var13, var15) * 180.0 / Math.PI) - 90.0F;
@@ -70,7 +71,7 @@ public class AACAntiKB extends Module {
     @EventTarget
     public void method16789(ReceivePacketEvent var1) {
         if (this.isEnabled() && mc.player != null) {
-            IPacket packet = var1.getPacket();
+            Packet packet = var1.getPacket();
             if (packet instanceof SEntityVelocityPacket) {
                 if (this.noStrength()) {
                     ticks = 0;
@@ -79,14 +80,16 @@ public class AACAntiKB extends Module {
 
                 SEntityVelocityPacket kb = (SEntityVelocityPacket) packet;
                 if (kb.getEntityID() == mc.player.getEntityId() && (kb.getMotionX() != 0 || kb.getMotionZ() != 0)) {
-                    this.field23909 = (float) (Math.sqrt(kb.getMotionX() * kb.getMotionX() + kb.getMotionZ() * kb.getMotionZ()) / 1000.0);
-                    this.field23908 = (float) (Math.atan2((double) kb.getMotionX() / 1000, (double) kb.getMotionZ() / 1000) * 180.0 / Math.PI) - 90.0F;
+                    this.field23909 = (float) (Math
+                            .sqrt(kb.getMotionX() * kb.getMotionX() + kb.getMotionZ() * kb.getMotionZ()) / 1000.0);
+                    this.field23908 = (float) (Math.atan2((double) kb.getMotionX() / 1000,
+                            (double) kb.getMotionZ() / 1000) * 180.0 / Math.PI) - 90.0F;
                     ticks = 0;
                 }
             }
-//            unused
-//            if (var1.getPacket() instanceof SExplosionPacket) {
-//            }
+            // unused
+            // if (var1.getPacket() instanceof SExplosionPacket) {
+            // }
         }
     }
 

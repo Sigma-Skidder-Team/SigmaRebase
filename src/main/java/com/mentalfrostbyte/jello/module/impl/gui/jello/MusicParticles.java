@@ -27,7 +27,8 @@ public class MusicParticles extends Module {
     @EventTarget
     public void onRender(EventRender event) {
         if (this.isEnabled() && mc.player != null) {
-            if (Client.getInstance().musicManager.method24319() && !Client.getInstance().musicManager.field32163.isEmpty()) {
+            if (Client.getInstance().musicManager.method24319()
+                    && !Client.getInstance().musicManager.field32163.isEmpty()) {
                 long var4 = System.nanoTime() - this.field23676;
                 float var6 = Math.min(10.0F, Math.max(0.0F, (float) var4 / 1.810361E7F));
                 double var7 = 0.0;
@@ -84,10 +85,10 @@ public class MusicParticles extends Module {
     }
 
     public static class Class5968 {
-        public final float field26020 = (float)(0.1F + Math.random() * 0.9F);
-        public final float field26021 = (float)(0.5 + Math.random() * 0.5);
-        public final int field26022 = (int)((double) mc.getMainWindow().getWidth() * Math.random());
-        public final int field26023 = (int)((double) mc.getMainWindow().getHeight() * Math.random());
+        public final float field26020 = (float) (0.1F + Math.random() * 0.9F);
+        public final float field26021 = (float) (0.5 + Math.random() * 0.5);
+        public final int field26022 = (int) ((double) mc.getWindow().getWidth() * Math.random());
+        public final int field26023 = (int) ((double) mc.getWindow().getHeight() * Math.random());
         public float field26024;
 
         public void method18497(float var1) {
@@ -106,12 +107,14 @@ public class MusicParticles extends Module {
             }
 
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)(mc.getMainWindow().getWidth() / 2), (float)(mc.getMainWindow().getHeight() / 2), 0.0F);
+            GL11.glTranslatef((float) (mc.getWindow().getWidth() / 2), (float) (mc.getWindow().getHeight() / 2), 0.0F);
             GL11.glScalef(var3, var3, 1.0F);
-            GL11.glTranslatef((float)(-mc.getMainWindow().getWidth() / 2), (float)(-mc.getMainWindow().getHeight() / 2), 0.0F);
-            int var5 = Color.getHSBColor((float)(System.currentTimeMillis() % 4000L) / 4000.0F, 0.3F, 1.0F).getRGB();
+            GL11.glTranslatef((float) (-mc.getWindow().getWidth() / 2), (float) (-mc.getWindow().getHeight() / 2),
+                    0.0F);
+            int var5 = Color.getHSBColor((float) (System.currentTimeMillis() % 4000L) / 4000.0F, 0.3F, 1.0F).getRGB();
             float var6 = 60.0F * this.field26021;
-            RenderUtil.drawImage((float)this.field26022 - var6 / 2.0F, (float)this.field26023 - var6 / 2.0F, var6, var6, Resources.particlePNG, ColorUtils.applyAlpha(var5, var4 * 0.9F));
+            RenderUtil.drawImage((float) this.field26022 - var6 / 2.0F, (float) this.field26023 - var6 / 2.0F, var6,
+                    var6, Resources.particlePNG, ColorUtils.applyAlpha(var5, var4 * 0.9F));
             GL11.glPopMatrix();
         }
 

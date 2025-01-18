@@ -7,7 +7,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import team.sdhq.eventBus.EventBus;
@@ -20,27 +20,28 @@ import java.util.*;
 public class CombatTracker {
     public HashMap<UUID, Class8433> field36054 = new HashMap<>();
     public Class8930 field36058;
-    private final Minecraft mc = Minecraft.getInstance();
+    private final Minecraft mc = MinecraftClient.getInstance();
     private final List<UUID> field36053 = new ArrayList<>();
 
     public CombatTracker() {
         EventBus.register(this);
         this.field36058 = new Class8930(this);
-        RandomModuleThread.field8342 = RandomModuleThread.field8342 | Client.getInstance().networkManager.field38425 != null;
+        RandomModuleThread.field8342 = RandomModuleThread.field8342
+                | Client.getInstance().networkManager.field38425 != null;
     }
 
     public static Minecraft method29522(CombatTracker var0) {
         return var0.mc;
     }
 
-    public static void method29523(CombatTracker var0, GameProfile var1, String var2) throws AuthenticationException, IOException {
+    public static void method29523(CombatTracker var0, GameProfile var1, String var2)
+            throws AuthenticationException, IOException {
         var0.method29520(var1, var2);
     }
 
     public HashMap<UUID, Class8433> method29510() {
         return this.field36054;
     }
-
 
     public Class8433 method29512(Entity var1) {
         return this.field36054.get(var1.getUniqueID());
@@ -96,6 +97,7 @@ public class CombatTracker {
         Client.getInstance();
         System.out.println("Jello Connect: successfully reached out mojangs servers " + var2);
         System.out
-                .println("https://sessionserver.mojang.com/session/minecraft/hasJoined?serverId=" + var2 + "&username=" + this.mc.getSession().getUsername());
+                .println("https://sessionserver.mojang.com/session/minecraft/hasJoined?serverId=" + var2 + "&username="
+                        + this.mc.getSession().getUsername());
     }
 }

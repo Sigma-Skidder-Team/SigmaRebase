@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 
 public class LibreCraftFly extends Module {
@@ -106,7 +106,7 @@ public class LibreCraftFly extends Module {
     @EventTarget
     public void method16795(ReceivePacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (mc.player != null && var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
                 if (this.field23910 >= 1) {

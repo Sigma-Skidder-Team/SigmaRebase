@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.settings.KeyBinding;
 import team.sdhq.eventBus.annotations.EventTarget;
 
@@ -41,8 +41,8 @@ public class KeyStrokes extends Module {
     @EventTarget
     public void onRender(EventRender var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (!Minecraft.getInstance().gameSettings.showDebugInfo) {
-                if (!Minecraft.getInstance().gameSettings.hideGUI) {
+            if (!MinecraftClient.getInstance().gameSettings.showDebugInfo) {
+                if (!MinecraftClient.getInstance().gameSettings.hideGUI) {
                     this.yBase = var1.method13960();
                     if (Client.getInstance().guiManager.getGuiBlur()) {
                         for (Keystroke var7 : Keystroke.values()) {
@@ -52,11 +52,11 @@ public class KeyStrokes extends Module {
                                     this.xBase + var8.x,
                                     this.yBase + var8.y,
                                     this.xBase + var8.x + var9.x,
-                                    this.yBase + var8.y + var9.y
-                            );
+                                    this.yBase + var8.y + var9.y);
                             // TODO: blur
-//                            BlurEngine.drawBlur(this.field23585 + var8.field42635, this.field23586 + var8.field42636, var9.field42635, var9.field42636);
-//                            BlurEngine.endBlur();
+                            // BlurEngine.drawBlur(this.field23585 + var8.field42635, this.field23586 +
+                            // var8.field42636, var9.field42635, var9.field42636);
+                            // BlurEngine.endBlur();
                             RenderUtil.endScissor();
                         }
                     }
@@ -85,23 +85,21 @@ public class KeyStrokes extends Module {
                                 (float) (this.yBase + var21.y),
                                 (float) (this.xBase + var21.x + var23.x),
                                 (float) (this.yBase + var21.y + var23.y),
-                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F * var10)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F * var10));
                         RenderUtil.drawRoundedRect(
                                 (float) (this.xBase + var21.x),
                                 (float) (this.yBase + var21.y),
                                 (float) var23.x,
                                 (float) var23.y,
                                 10.0F,
-                                0.75F * var11
-                        );
+                                0.75F * var11);
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloLightFont18,
-                                (float) (this.xBase + var21.x + (var23.x - ResourceRegistry.JelloLightFont18.getWidth(var12)) / 2),
+                                (float) (this.xBase + var21.x
+                                        + (var23.x - ResourceRegistry.JelloLightFont18.getWidth(var12)) / 2),
                                 (float) (this.yBase + var21.y + 12),
                                 var12,
-                                ClientColors.LIGHT_GREYISH_BLUE.getColor()
-                        );
+                                ClientColors.LIGHT_GREYISH_BLUE.getColor());
                     }
 
                     Iterator iter = this.animations.iterator();
@@ -115,8 +113,7 @@ public class KeyStrokes extends Module {
                                 this.xBase + topLeftPosition.x,
                                 this.yBase + topLeftPosition.y,
                                 this.xBase + topLeftPosition.x + bottomRightPosition.x,
-                                this.yBase + topLeftPosition.y + bottomRightPosition.y
-                        );
+                                this.yBase + topLeftPosition.y + bottomRightPosition.y);
                         float maxAnimPercent = 0.7F;
                         int duplicates = 0;
 
@@ -126,7 +123,8 @@ public class KeyStrokes extends Module {
                             }
                         }
 
-                        if (keyStroke.getKeyBinding().isKeyDown() && animationData.animation.calcPercent() >= maxAnimPercent && duplicates < 2) {
+                        if (keyStroke.getKeyBinding().isKeyDown()
+                                && animationData.animation.calcPercent() >= maxAnimPercent && duplicates < 2) {
                             animationData.animation.updateStartTime(maxAnimPercent);
                         }
 
@@ -141,8 +139,7 @@ public class KeyStrokes extends Module {
                                 (float) (this.xBase + topLeftPosition.x + bottomRightPosition.getX() / 2),
                                 (float) (this.yBase + topLeftPosition.y + bottomRightPosition.y / 2),
                                 (float) (bottomRightPosition.getX() - 4) * var27 + 4.0F,
-                                color
-                        );
+                                color);
                         RenderUtil.endScissor();
                         if (animationData.animation.calcPercent() == 1.0F) {
                             iter.remove();
@@ -164,11 +161,11 @@ public class KeyStrokes extends Module {
         }
     }
 
-//    @EventTarget
-//    public void onClick(ClickEvent var1) {
-//        if (!this.isEnabled() || mc.player == null) {
-//        }
-//    }
+    // @EventTarget
+    // public void onClick(ClickEvent var1) {
+    // if (!this.isEnabled() || mc.player == null) {
+    // }
+    // }
     /**
      * {@link Keystroke} represents a key on the keyboard that can be pressed
      * or released. It provides information about the key such as its position
@@ -204,16 +201,18 @@ public class KeyStrokes extends Module {
 
         /**
          * Gets the top left position of the key on the keyboard.
+         * 
          * @return the top left position of the key on the keyboard.
          */
         public KeyPosition getTopLeftPosition() {
             return new KeyPosition(
-                    this, (int)(this.positionX * (float)(this.width + this.padding)), (int)(this.positionY * (float)(this.height + this.padding))
-            );
+                    this, (int) (this.positionX * (float) (this.width + this.padding)),
+                    (int) (this.positionY * (float) (this.height + this.padding)));
         }
 
         /**
          * Gets the bottom right position of the key on the keyboard.
+         * 
          * @return the bottom right position of the key on the keyboard.
          */
         public KeyPosition getBottomRightPosition() {
@@ -222,17 +221,25 @@ public class KeyStrokes extends Module {
 
         /**
          * Gets the key binding for the key.
+         * 
          * @return the key binding for the key.
          */
         public KeyBinding getKeyBinding() {
             switch (this) {
-                case Left: return mc.gameSettings.keyBindLeft;
-                case Right: return mc.gameSettings.keyBindRight;
-                case Forward: return mc.gameSettings.keyBindForward;
-                case Back: return mc.gameSettings.keyBindBack;
-                case Attack: return mc.gameSettings.keyBindAttack;
-                case UseItem: return mc.gameSettings.keyBindUseItem;
-                default: return null;
+                case Left:
+                    return mc.gameSettings.keyBindLeft;
+                case Right:
+                    return mc.gameSettings.keyBindRight;
+                case Forward:
+                    return mc.gameSettings.keyBindForward;
+                case Back:
+                    return mc.gameSettings.keyBindBack;
+                case Attack:
+                    return mc.gameSettings.keyBindAttack;
+                case UseItem:
+                    return mc.gameSettings.keyBindUseItem;
+                default:
+                    return null;
             }
         }
     }
@@ -263,6 +270,7 @@ public class KeyStrokes extends Module {
 
         /**
          * Gets the x position of the key.
+         * 
          * @return the x position of the key.
          */
         public int getX() {

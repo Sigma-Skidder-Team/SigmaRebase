@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.managers.impl.music.Class2329;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;

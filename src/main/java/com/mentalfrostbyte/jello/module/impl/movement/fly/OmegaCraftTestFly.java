@@ -6,7 +6,7 @@ import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 
@@ -41,7 +41,7 @@ public class OmegaCraftTestFly extends Module {
             MovementUtil.setPlayerYMotion(-0.0789);
         }
 
-//        mc.timer.timerSpeed = 1.0F;
+        // mc.timer.timerSpeed = 1.0F;
     }
 
     @EventTarget
@@ -95,7 +95,7 @@ public class OmegaCraftTestFly extends Module {
     @EventTarget
     public void method16702(ReceivePacketEvent event) {
         if (this.isEnabled()) {
-            IPacket<?> packet = event.getPacket();
+            Packet<?> packet = event.getPacket();
             if (packet instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) packet;
                 if (this.field23854 >= 1) {
@@ -116,7 +116,7 @@ public class OmegaCraftTestFly extends Module {
     @EventTarget
     public void method16703(SendPacketEvent event) {
         if (this.isEnabled()) {
-            IPacket<?> packet = event.getPacket();
+            Packet<?> packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {
                 CPlayerPacket playerPacket = (CPlayerPacket) packet;
                 if (this.field23854 == -1) {
@@ -126,10 +126,10 @@ public class OmegaCraftTestFly extends Module {
         }
     }
 
-//    empty
-//    @EventTarget
-//    public void onRender(Render2DEvent event) {
-//        if (!this.isEnabled()) {
-//        }
-//    }
+    // empty
+    // @EventTarget
+    // public void onRender(Render2DEvent event) {
+    // if (!this.isEnabled()) {
+    // }
+    // }
 }

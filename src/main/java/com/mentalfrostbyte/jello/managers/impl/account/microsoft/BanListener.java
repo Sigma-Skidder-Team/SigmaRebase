@@ -2,7 +2,7 @@ package com.mentalfrostbyte.jello.managers.impl.account.microsoft;
 
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.login.server.SDisconnectLoginPacket;
 import net.minecraft.network.login.server.SLoginSuccessPacket;
 import net.minecraft.network.play.server.SDisconnectPacket;
@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BanListener {
-    public Minecraft mc = Minecraft.getInstance();
+    public Minecraft mc = MinecraftClient.getInstance();
 
     @EventTarget
     public void onPacketReceive(ReceivePacketEvent event) {
@@ -28,12 +28,11 @@ public class BanListener {
                         Arrays.asList(
                                 "You are permanently banned from MinemenClub. ",
                                 "Your connection to the server leu-practice has been prevented due to you being associated to a blacklisted player.",
-                                "You are blacklisted from MinemenClub. "
-                        )
-                );
+                                "You are blacklisted from MinemenClub. "));
                 if (!packet.getChatComponent().getSiblings().isEmpty()
                         && var5.contains(packet.getChatComponent().getString())
-                        && packet.getChatComponent().getSiblings().get(0).getStyle().getColor().toString().equalsIgnoreCase("red")) {
+                        && packet.getChatComponent().getSiblings().get(0).getStyle().getColor().toString()
+                                .equalsIgnoreCase("red")) {
                     Account var6 = Client.getInstance().accountManager.containsAccount();
                     if (var6 != null) {
                         Ban var7 = new Ban(this.mc.getCurrentServerData().serverIP, new Date(Long.MAX_VALUE));
@@ -128,10 +127,11 @@ public class BanListener {
     }
 
     private int extractDays(String var1) {
-        String[] dayKeywords = new String[]{"day", "jour", "tage", "día", "dia"};
+        String[] dayKeywords = new String[] { "day", "jour", "tage", "día", "dia" };
 
         for (String keyword : dayKeywords) {
-            Pattern pattern = Pattern.compile("([0-9]+)(?:d| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
+            Pattern pattern = Pattern.compile(
+                    "([0-9]+)(?:d| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
             Matcher matcher = pattern.matcher(var1);
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group(1));
@@ -142,10 +142,11 @@ public class BanListener {
     }
 
     private int extractHours(String input) {
-        String[] hourKeywords = new String[]{"hour", "heure", "uhr", "hora"};
+        String[] hourKeywords = new String[] { "hour", "heure", "uhr", "hora" };
 
         for (String keyword : hourKeywords) {
-            Pattern pattern = Pattern.compile("([0-9]+)(?:h| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
+            Pattern pattern = Pattern.compile(
+                    "([0-9]+)(?:h| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group(1));
@@ -156,10 +157,11 @@ public class BanListener {
     }
 
     private int extractMinutes(String input) {
-        String[] minuteKeywords = new String[]{"minute", "min", "minuto", "mínuto"};
+        String[] minuteKeywords = new String[] { "minute", "min", "minuto", "mínuto" };
 
         for (String keyword : minuteKeywords) {
-            Pattern pattern = Pattern.compile("([0-9]+)(?:m| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
+            Pattern pattern = Pattern.compile(
+                    "([0-9]+)(?:m| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group(1));
@@ -170,10 +172,11 @@ public class BanListener {
     }
 
     private int extractSeconds(String input) {
-        String[] secondKeywords = new String[]{"second", "sec", "seconde", "sekunde", "segundo"};
+        String[] secondKeywords = new String[] { "second", "sec", "seconde", "sekunde", "segundo" };
 
         for (String keyword : secondKeywords) {
-            Pattern pattern = Pattern.compile("([0-9]+)(?:s| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
+            Pattern pattern = Pattern.compile(
+                    "([0-9]+)(?:s| " + keyword + "s|" + keyword + "s| " + keyword + "|" + keyword + ")[ |\\n]");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group(1));

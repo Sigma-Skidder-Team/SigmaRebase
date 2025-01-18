@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.util.player;
 
 import com.mentalfrostbyte.jello.event.impl.EventMove;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.potion.Effects;
@@ -13,32 +13,37 @@ import net.minecraft.util.MovementInput;
  * including speed adjustments, strafing, and motion control.
  */
 public class MovementUtil {
-    protected static Minecraft mc = Minecraft.getInstance();
+    protected static Minecraft mc = MinecraftClient.getInstance();
 
     /**
      * Gets the current speed boost level of the player.
      *
-     * @return The amplifier of the speed effect plus one, or 0 if the player doesn't have a speed effect.
+     * @return The amplifier of the speed effect plus one, or 0 if the player
+     *         doesn't have a speed effect.
      */
     public static int getSpeedBoost() {
-        return !mc.player.isPotionActive(Effects.SPEED) ? 0 : mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1;
+        return !mc.player.isPotionActive(Effects.SPEED) ? 0
+                : mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1;
     }
 
     /**
      * Gets the current jump boost level of the player.
      *
-     * @return The amplifier of the jump boost effect plus one, or 0 if the player doesn't have a jump boost effect.
+     * @return The amplifier of the jump boost effect plus one, or 0 if the player
+     *         doesn't have a jump boost effect.
      */
     public static int getJumpBoost() {
-        return !mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0 : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1;
+        return !mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0
+                : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1;
     }
 
     public static double method37080() {
-        return 0.42F + (double)getJumpBoost() * 0.1;
+        return 0.42F + (double) getJumpBoost() * 0.1;
     }
 
     /**
-     * Calculates the player's current movement speed, taking into account various factors such as sprinting, potion effects, sneaking, and being in water.
+     * Calculates the player's current movement speed, taking into account various
+     * factors such as sprinting, potion effects, sneaking, and being in water.
      *
      * @return The calculated movement speed as a double value.
      */
@@ -46,13 +51,15 @@ public class MovementUtil {
         double speed = 0.2873;
         float multiplier = 1.0F;
         ModifiableAttributeInstance var5 = mc.player.getAttribute(Attributes.MOVEMENT_SPEED);
-        multiplier = (float)((double)multiplier * ((var5.getValue() / (double) mc.player.abilities.getWalkSpeed() + 1.0) / 2.0));
+        multiplier = (float) ((double) multiplier
+                * ((var5.getValue() / (double) mc.player.abilities.getWalkSpeed() + 1.0) / 2.0));
         if (mc.player.isSprinting()) {
-            multiplier = (float)((double)multiplier - 0.15);
+            multiplier = (float) ((double) multiplier - 0.15);
         }
 
         if (mc.player.isPotionActive(Effects.SPEED) && mc.player.isSprinting()) {
-            multiplier = (float)((double)multiplier - 0.03000002 * (double)(mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1));
+            multiplier = (float) ((double) multiplier
+                    - 0.03000002 * (double) (mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1));
         }
 
         if (mc.player.isSneaking()) {
@@ -63,11 +70,11 @@ public class MovementUtil {
             speed *= 0.3;
         }
 
-        return speed * (double)multiplier;
+        return speed * (double) multiplier;
     }
 
     public static double method37076() {
-        double var2 = 0.2873 + (double)getSpeedBoost() * 0.057;
+        double var2 = 0.2873 + (double) getSpeedBoost() * 0.057;
         if (mc.player.isSneaking()) {
             var2 *= 0.25;
         }
@@ -76,11 +83,15 @@ public class MovementUtil {
     }
 
     /**
-     * Calculates movement angles and directions based on input forward and strafe values.
-     * This method adjusts the player's yaw and movement direction for smooth motion.
+     * Calculates movement angles and directions based on input forward and strafe
+     * values.
+     * This method adjusts the player's yaw and movement direction for smooth
+     * motion.
      *
-     * @param forward The forward movement input (-1.0 to 1.0, where negative is backwards)
-     * @param strafe The strafe movement input (-1.0 to 1.0, where negative is left)
+     * @param forward The forward movement input (-1.0 to 1.0, where negative is
+     *                backwards)
+     * @param strafe  The strafe movement input (-1.0 to 1.0, where negative is
+     *                left)
      * @return A float array containing:
      *         [0] - Adjusted yaw angle
      *         [1] - Normalized forward movement (-1.0, 0.0, or 1.0)
@@ -88,18 +99,18 @@ public class MovementUtil {
      */
     public static float[] getAdjustedStrafe(float forward, float strafe) {
         float yaw = mc.player.rotationYaw + 90.0F;
-//        if (Client.getInstance().getOrientation().getAdjustedYaw() != -999.0F) {
-//            yaw = Client.getInstance().getOrientation().getAdjustedYaw() + 90.0F;
-//        }
+        // if (Client.getInstance().getOrientation().getAdjustedYaw() != -999.0F) {
+        // yaw = Client.getInstance().getOrientation().getAdjustedYaw() + 90.0F;
+        // }
 
         if (forward != 0.0F) {
             if (!(strafe >= 1.0F)) {
                 if (strafe <= -1.0F) {
-                    yaw += (float)(!(forward > 0.0F) ? -45 : 45);
+                    yaw += (float) (!(forward > 0.0F) ? -45 : 45);
                     strafe = 0.0F;
                 }
             } else {
-                yaw += (float)(!(forward > 0.0F) ? 45 : -45);
+                yaw += (float) (!(forward > 0.0F) ? 45 : -45);
                 strafe = 0.0F;
             }
 
@@ -112,13 +123,16 @@ public class MovementUtil {
             }
         }
 
-        return new float[]{yaw, forward, strafe};
+        return new float[] { yaw, forward, strafe };
     }
+
     public static boolean isMovingHorizontally() {
         return mc.player.moveStrafing != 0.0F || mc.player.moveForward != 0.0F;
     }
+
     /**
-     * Calculates adjusted strafe values based on the player's current movement input.
+     * Calculates adjusted strafe values based on the player's current movement
+     * input.
      *
      * @return A float array containing adjusted yaw, forward, and strafe values.
      */
@@ -188,7 +202,7 @@ public class MovementUtil {
     /**
      * Sets the player's movement speed for a given event.
      *
-     * @param moveEvent The movement event to modify.
+     * @param moveEvent   The movement event to modify.
      * @param motionSpeed The desired motion speed.
      */
     public static void setSpeed(EventMove moveEvent, double motionSpeed) {

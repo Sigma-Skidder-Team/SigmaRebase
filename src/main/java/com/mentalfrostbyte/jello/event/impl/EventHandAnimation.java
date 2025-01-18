@@ -1,26 +1,26 @@
 package com.mentalfrostbyte.jello.event.impl;
 
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.HandSide;
+import net.minecraft.util.Arm;
 
 public class EventHandAnimation extends CancellableEvent {
     private final boolean field21504;
     private boolean blocking;
     private final float field21506;
     private final float field21507;
-    private final HandSide field21508;
-    private final ItemStack field21509;
-    private final MatrixStack field21510;
+    private final Arm hand;
+    private final ItemStack itemStack;
+    private final MatrixStack matrixStack;
 
-    public EventHandAnimation(boolean var1, float var2, float var3, HandSide var4, ItemStack var5, MatrixStack var6) {
+    public EventHandAnimation(boolean var1, float var2, float var3, Arm var4, ItemStack var5, MatrixStack var6) {
         this.field21504 = var1;
         this.field21506 = var2;
         this.field21507 = var3;
-        this.field21508 = var4;
-        this.field21509 = var5;
-        this.field21510 = var6;
+        this.hand = var4;
+        this.itemStack = var5;
+        this.matrixStack = var6;
         this.blocking = true;
     }
 
@@ -36,23 +36,23 @@ public class EventHandAnimation extends CancellableEvent {
         return this.field21504;
     }
 
-    public HandSide getHand() {
-        return this.field21508;
+    public Arm getHand() {
+        return this.hand;
     }
 
     public ItemStack getItemStack() {
-        return this.field21509;
+        return this.itemStack;
     }
 
     public MatrixStack getMatrix() {
-        return this.field21510;
+        return this.matrixStack;
     }
 
     public boolean isBlocking() {
         return this.blocking;
     }
 
-    public void renderBlocking(boolean var1) {
-        this.blocking = var1;
+    public void renderBlocking(boolean blocking) {
+        this.blocking = blocking;
     }
 }

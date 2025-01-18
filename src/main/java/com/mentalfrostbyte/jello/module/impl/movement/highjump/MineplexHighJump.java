@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -22,7 +22,8 @@ public class MineplexHighJump extends Module {
 
    public MineplexHighJump() {
       super(ModuleCategory.MOVEMENT, "Mineplex", "Highjump for Mineplex");
-      this.registerSetting(new NumberSetting<Float>("Motion", "Highjump motion", 1.1F, Float.class, 0.42F, 5.0F, 0.05F));
+      this.registerSetting(
+            new NumberSetting<Float>("Motion", "Highjump motion", 1.1F, Float.class, 0.42F, 5.0F, 0.05F));
       this.registerSetting(new BooleanSetting("Disable", "Disable on landing.", true));
       this.registerSetting(new BooleanSetting("Fake fly", "Am i flying ?", false));
    }
@@ -88,22 +89,26 @@ public class MineplexHighJump extends Module {
             float var14 = mc.player.rotationYaw;
             double var15 = 0.1;
             double var17 = var4
-               + (var10 * 0.45 * Math.cos(Math.toRadians((double)(var14 + 90.0F))) + var12 * 0.45 * Math.sin(Math.toRadians((double)(var14 + 90.0F)))) * var15;
+                  + (var10 * 0.45 * Math.cos(Math.toRadians((double) (var14 + 90.0F)))
+                        + var12 * 0.45 * Math.sin(Math.toRadians((double) (var14 + 90.0F)))) * var15;
             double var19 = var6
-               + (var10 * 0.45 * Math.sin(Math.toRadians((double)(var14 + 90.0F))) - var12 * 0.45 * Math.cos(Math.toRadians((double)(var14 + 90.0F)))) * var15;
-            AxisAlignedBB var21 = new AxisAlignedBB(var17 - 0.3, var8 - 1.0, var19 - 0.3, var17 + 0.3, var8 + 2.0, var19 + 0.3);
+                  + (var10 * 0.45 * Math.sin(Math.toRadians((double) (var14 + 90.0F)))
+                        - var12 * 0.45 * Math.cos(Math.toRadians((double) (var14 + 90.0F)))) * var15;
+            AxisAlignedBB var21 = new AxisAlignedBB(var17 - 0.3, var8 - 1.0, var19 - 0.3, var17 + 0.3, var8 + 2.0,
+                  var19 + 0.3);
             if (mc.world.getCollisionShapes(mc.player, var21).count() == 0L) {
                double var22 = this.method16975(var21);
                if (var22 != 11.0) {
                   double var24 = mc.player.getPosY();
                   var19 = 312.7;
-                  CPlayerPacket.PositionPacket var26 = new CPlayerPacket.PositionPacket(var17, var24 - var22, var19, true);
+                  CPlayerPacket.PositionPacket var26 = new CPlayerPacket.PositionPacket(var17, var24 - var22, var19,
+                        true);
                   CPlayerPacket.PositionPacket var27 = new CPlayerPacket.PositionPacket(var17, var24, var19, true);
                   mc.getConnection().sendPacket(var27);
                   mc.getConnection().sendPacket(var26);
                   this.field24026 = var24 + 0.42;
                   mc.player.setPosition(var17, var24, var19);
-                  this.field24025 = (double)this.getNumberValueBySettingName("Motion");
+                  this.field24025 = (double) this.getNumberValueBySettingName("Motion");
                   this.field24024 = 0.81;
                }
             }
@@ -114,7 +119,7 @@ public class MineplexHighJump extends Module {
    @EventTarget
    public void method16973(ReceivePacketEvent var1) {
       if (this.isEnabled()) {
-         IPacket var4 = var1.getPacket();
+         Packet var4 = var1.getPacket();
          if (var4 instanceof SPlayerPositionLookPacket) {
             this.access().toggle();
          }
@@ -123,7 +128,8 @@ public class MineplexHighJump extends Module {
 
    @EventTarget
    public void method16974(Render2DEvent var1) {
-      if (this.isEnabled() && this.field24023 && !(mc.player.getPosY() < this.field24026) && this.getBooleanValueFromSettingName("Fake fly")) {
+      if (this.isEnabled() && this.field24023 && !(mc.player.getPosY() < this.field24026)
+            && this.getBooleanValueFromSettingName("Fake fly")) {
          mc.player.getPositionVec().y = this.field24026;
          mc.player.lastTickPosY = this.field24026;
          mc.player.chasingPosY = this.field24026;

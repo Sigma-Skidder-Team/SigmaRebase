@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.TrueTypeFont;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.opengl.GL11;
 
 public class Class4236 extends PNGIconButton implements Class4238 {

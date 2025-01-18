@@ -4,13 +4,13 @@ import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.TimerUtil;
 import org.newdawn.slick.TrueTypeFont;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
-    public boolean field20876;
+   public boolean field20876;
    public boolean field20877;
    public int field20878;
    public int field20879;
@@ -26,22 +26,26 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
    public int field20889 = 2;
    private final List<Class6751> field20890 = new ArrayList<Class6751>();
 
-   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height, boolean var7) {
+   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height,
+         boolean var7) {
       super(screen, iconName, x, y, width, height);
       this.field20876 = var7;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height, ColorHelper colorHelper, boolean var8) {
+   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height,
+         ColorHelper colorHelper, boolean var8) {
       super(screen, iconName, x, y, width, height, colorHelper);
       this.field20876 = var8;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height, ColorHelper colorHelper, String var8, boolean var9) {
+   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height,
+         ColorHelper colorHelper, String var8, boolean var9) {
       super(screen, iconName, x, y, width, height, colorHelper, var8);
       this.field20876 = var9;
    }
 
-   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height, ColorHelper colorHelper, String var8, TrueTypeFont font, boolean var10) {
+   public AnimatedIconPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height,
+         ColorHelper colorHelper, String var8, TrueTypeFont font, boolean var10) {
       super(screen, iconName, x, y, width, height, colorHelper, var8, font);
       this.field20876 = var10;
    }
@@ -96,10 +100,11 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
    public void handleMovementAndCheckBoundaries(int newHeight, int newWidth) {
       boolean var5 = this.field20877;
       if (!this.method13216() && this.method13214()) {
-         boolean var6 = this.field20884 && this.timerUtil.getElapsedTime() >= (long)this.field20888;
+         boolean var6 = this.field20884 && this.timerUtil.getElapsedTime() >= (long) this.field20888;
          boolean var7 = this.field20885
-            && this.field20909
-            && (Math.abs(this.field20878 - newHeight) > this.field20889 || Math.abs(this.field20879 - newWidth) > this.field20889);
+               && this.field20909
+               && (Math.abs(this.field20878 - newHeight) > this.field20889
+                     || Math.abs(this.field20879 - newWidth) > this.field20889);
          boolean var8 = this.field20886 && this.field20909;
          if (var6 || var7 || var8) {
             this.method13217(true);
@@ -113,16 +118,16 @@ public class AnimatedIconPanel extends CustomGuiScreen implements Class4347 {
                   this.setXA(0);
                }
 
-               if (this.getXA() + this.getWidthA() > Minecraft.getInstance().getMainWindow().getWidth()) {
-                  this.setXA(Minecraft.getInstance().getMainWindow().getWidth() - this.getWidthA());
+               if (this.getXA() + this.getWidthA() > MinecraftClient.getInstance().getWindow().getWidth()) {
+                  this.setXA(MinecraftClient.getInstance().getWindow().getWidth() - this.getWidthA());
                }
 
                if (this.getYA() < 0) {
                   this.setYA(0);
                }
 
-               if (this.getYA() + this.getHeightA() > Minecraft.getInstance().getMainWindow().getHeight()) {
-                  this.setYA(Minecraft.getInstance().getMainWindow().getHeight() - this.getHeightA());
+               if (this.getYA() + this.getHeightA() > MinecraftClient.getInstance().getWindow().getHeight()) {
+                  this.setYA(MinecraftClient.getInstance().getWindow().getHeight() - this.getHeightA());
                }
             } else {
                if (this.getXA() < 0) {

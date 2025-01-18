@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.block.Block;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -116,7 +116,7 @@ public class AGCFly extends Module {
     @EventTarget
     public void onReceivePacket(ReceivePacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
                 if (this.preUpdates >= (this.field23903 != 3 ? this.field23903 : 1)) {

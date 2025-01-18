@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.network.play.server.SChatPacket;
@@ -75,7 +75,7 @@ public class VeltPvPFly extends Module {
                 if (this.field23419 != -1) {
                     if (this.field23419 == 0) {
                         if (!mc.gameSettings.keyBindJump.isKeyDown() && var1.getY() > 0.0) {
-//                            var1.setY(-MovementUtil.method37080());
+                            // var1.setY(-MovementUtil.method37080());
                         }
 
                         MovementUtil.setPlayerYMotion(var1.getY());
@@ -83,9 +83,9 @@ public class VeltPvPFly extends Module {
                     }
                 } else {
                     if (!mc.gameSettings.keyBindJump.isKeyDown()) {
-//                        var1.setY(!this.field23423 ? MovementUtil.method37080() : -var4 / 2.0);
+                        // var1.setY(!this.field23423 ? MovementUtil.method37080() : -var4 / 2.0);
                     } else {
-//                        var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.method37080());
+                        // var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.method37080());
                         this.field23422 = this.field23421;
                         this.field23421 = !this.field23423 ? mc.player.getPosY() + var1.getY() : this.field23421;
                     }
@@ -129,7 +129,7 @@ public class VeltPvPFly extends Module {
     @EventTarget
     public void method16049(ReceivePacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (!(var4 instanceof SPlayerPositionLookPacket)) {
                 if (var4 instanceof SChatPacket) {
                     SChatPacket var5 = (SChatPacket) var4;
@@ -154,7 +154,7 @@ public class VeltPvPFly extends Module {
     @EventTarget
     public void method16050(SendPacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.field23419 == -1) {

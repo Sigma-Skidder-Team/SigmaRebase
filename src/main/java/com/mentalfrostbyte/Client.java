@@ -10,11 +10,11 @@ import com.mentalfrostbyte.jello.managers.*;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
 import com.mentalfrostbyte.jello.util.ClientLogger;
 import com.mentalfrostbyte.jello.util.FileUtil;
+import net.minecraft.client.texture.TextureManager;
 import org.newdawn.slick.opengl.Texture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import team.sdhq.eventBus.EventBus;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Client {
 
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static int currentVersionIndex = 28;
 
     public static final String VERSION = "5.0.0b15";
@@ -94,7 +94,7 @@ public class Client {
         this.accountManager.registerEvents();
         this.waypointsManager = new WaypointsManager();
         this.waypointsManager.init();
-        GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Sigma 5.1");
+        GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Sigma 5.1");
         this.logger.info("Initialized.");
     }
 
@@ -128,7 +128,8 @@ public class Client {
 
     public void method19926() {
         GL11.glPushMatrix();
-        double var3 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
+        double var3 = mc.getWindow().getScaleFactor()
+                / (double) ((float) Math.pow(mc.getWindow().getScaleFactor(), 2.0));
         GL11.glScaled(var3, var3, var3);
         GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, GuiManager.scaleFactor);
         GL11.glDisable(2912);
@@ -138,7 +139,9 @@ public class Client {
         RenderSystem.enableBlend();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA,
+                GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE,
+                GlStateManager.DstFactor.ZERO);
         EventBus.call(new EventRender2D());
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableCull();
@@ -157,7 +160,7 @@ public class Client {
             EventBus.call(new Render3DEvent());
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
-            mc.getTextureManager().bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
+            mc.getTextureManager().bindTexture(TextureManager.MISSING_IDENTIFIER);
         }
     }
 
@@ -178,7 +181,8 @@ public class Client {
         }
 
         if (getInstance().clientMode != ClientMode.NOADDONS) {
-            double var5 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
+            double var5 = mc.getWindow().getScaleFactor()
+                    / (double) ((float) Math.pow(mc.getWindow().getScaleFactor(), 2.0));
             GL11.glScaled(var5, var5, 1.0);
             GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, 1.0);
             RenderSystem.disableDepthTest();
@@ -191,7 +195,7 @@ public class Client {
             GL11.glAlphaFunc(518, 0.1F);
             TextureManager var10000 = mc.getTextureManager();
             mc.getTextureManager();
-            var10000.bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
+            var10000.bindTexture(TextureManager.MISSING_IDENTIFIER);
         }
     }
 
@@ -225,11 +229,11 @@ public class Client {
         if (mode != ClientMode.CLASSIC) {
             if (mode == ClientMode.JELLO) {
                 this.initRPC();
-                GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Jello for Sigma 5.1");
+                GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Jello for Sigma 5.1");
             }
         } else {
             getInstance().guiManager.method33452();
-            GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Classic Sigma 5.1");
+            GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Classic Sigma 5.1");
         }
 
         if (this.moduleManager == null && RandomModuleThread.field8341 != null) {

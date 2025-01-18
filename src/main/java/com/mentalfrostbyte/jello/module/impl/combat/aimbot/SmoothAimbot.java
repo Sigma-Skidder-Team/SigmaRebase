@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.combat.Aimbot;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import team.sdhq.eventBus.annotations.EventTarget;

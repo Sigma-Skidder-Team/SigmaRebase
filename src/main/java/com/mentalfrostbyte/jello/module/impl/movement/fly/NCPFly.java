@@ -6,7 +6,7 @@ import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 
@@ -79,7 +79,7 @@ public class NCPFly extends Module {
     @EventTarget
     public void method16802(ReceivePacketEvent event) {
         if (this.isEnabled()) {
-            IPacket packet = event.getPacket();
+            Packet packet = event.getPacket();
             if (packet instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) packet;
                 if (this.field23919 >= 1) {
@@ -96,7 +96,7 @@ public class NCPFly extends Module {
     @EventTarget
     public void method16803(SendPacketEvent event) {
         if (this.isEnabled()) {
-            IPacket packet = event.getPacket();
+            Packet packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {
                 CPlayerPacket playerPacket = (CPlayerPacket) packet;
                 if (this.field23919 == -1) {

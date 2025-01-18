@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Color;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.text.StringTextComponent;
 
 public class Class8906 {
@@ -19,7 +19,7 @@ public class Class8906 {
    }
 
    public static void method32487(String var0) {
-      Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(var0));
+      MinecraftClient.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(var0));
    }
 
    public static boolean method32488(String var0) {
@@ -43,7 +43,8 @@ public class Class8906 {
    }
 
    public static boolean method32490(String var0) {
-      field40303 = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,3})$");
+      field40303 = Pattern
+            .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,3})$");
       field40304 = field40303.matcher(var0);
       return field40304.matches();
    }
@@ -82,18 +83,19 @@ public class Class8906 {
       for (int var9 = 0; var9 <= var0.length(); var9++) {
          int var10 = var1.getWidth(var0.substring(0, Math.max(var9 - 1, 0)));
          int var11 = var1.getWidth(var0.substring(0, var9));
-         if ((float)var11 > (float)var3 - var2 - var4) {
+         if ((float) var11 > (float) var3 - var2 - var4) {
             var7 = var10;
             var8 = var11;
             break;
          }
       }
 
-      if ((float)var3 - var2 - var4 >= (float)var1.getWidth(var0)) {
+      if ((float) var3 - var2 - var4 >= (float) var1.getWidth(var0)) {
          var8 = var1.getWidth(var0);
       }
 
-      int var12 = !(Math.abs((float)var3 - var2 - var4 - (float)var7) < Math.abs((float)var3 - var2 - var4 - (float)var8)) ? var8 : var7;
+      int var12 = !(Math.abs((float) var3 - var2 - var4 - (float) var7) < Math
+            .abs((float) var3 - var2 - var4 - (float) var8)) ? var8 : var7;
 
       for (int var13 = 0; var13 < var0.length(); var13++) {
          if (var1.getWidth(var0.substring(0, var13)) == var12) {
@@ -135,24 +137,24 @@ public class Class8906 {
    }
 
    public static Color method32496(char var0) {
-      char[] var3 = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-      int[] var4 = new int[]{
-         -16777216,
-         -16777046,
-         -16733696,
-         -16733526,
-         -5636096,
-         -5635926,
-         -22016,
-         -5592406,
-         -11184811,
-         -11184641,
-         -11141291,
-         -11141121,
-         -43691,
-         -43521,
-         -171,
-         -65794
+      char[] var3 = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+      int[] var4 = new int[] {
+            -16777216,
+            -16777046,
+            -16733696,
+            -16733526,
+            -5636096,
+            -5635926,
+            -22016,
+            -5592406,
+            -11184811,
+            -11184641,
+            -11141291,
+            -11141121,
+            -43691,
+            -43521,
+            -171,
+            -65794
       };
       int var5 = -1;
 

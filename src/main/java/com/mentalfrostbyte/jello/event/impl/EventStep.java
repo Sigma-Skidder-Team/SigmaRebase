@@ -1,14 +1,13 @@
 package com.mentalfrostbyte.jello.event.impl;
 
-
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 
 public class EventStep extends CancellableEvent {
     private final double height;
-    private final Vector3d vector;
+    private final Vec3d vector;
 
-    public EventStep(double height, Vector3d vector) {
+    public EventStep(double height, Vec3d vector) {
         this.height = height;
         this.vector = vector;
     }
@@ -26,7 +25,7 @@ public class EventStep extends CancellableEvent {
         return this.vector.y;
     }
 
-    public Vector3d getVector() {
+    public Vec3d getVector() {
         return this.vector;
     }
 }

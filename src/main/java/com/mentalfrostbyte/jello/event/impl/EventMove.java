@@ -1,13 +1,13 @@
 package com.mentalfrostbyte.jello.event.impl;
 
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.Vec3d;
 
 public class EventMove extends CancellableEvent {
-    public Vector3d vector;
+    public Vec3d vector;
 
-    public EventMove(Vector3d vector3D) {
-        this.vector = vector3D;
+    public EventMove(Vec3d Vec3d) {
+        this.vector = Vec3d;
     }
 
     public double getX() {
@@ -34,11 +34,11 @@ public class EventMove extends CancellableEvent {
         this.vector.z = z;
     }
 
-    public Vector3d getVector() {
+    public Vec3d getVector() {
         return this.vector;
     }
 
-    public void setVector(Vector3d vector3D) {
-        this.vector = vector3D;
+    public void setVector(Vec3d Vec3d) {
+        this.vector = Vec3d;
     }
 }

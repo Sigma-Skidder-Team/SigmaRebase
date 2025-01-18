@@ -29,7 +29,7 @@ import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -44,7 +44,7 @@ import totalcross.json.JSONException2;
 import totalcross.json.JSONObject;
 
 public class WaypointsManager {
-    private Minecraft field36365 = Minecraft.getInstance();
+    private Minecraft field36365 = MinecraftClient.getInstance();
     private List<ChunkPos> field36366 = new ArrayList<ChunkPos>();
     private List<ChunkPos> field36367 = new ArrayList<ChunkPos>();
     private List<Class8351> field36368 = new ArrayList<Class8351>();
@@ -152,7 +152,8 @@ public class WaypointsManager {
                 boolean var4 = false;
                 if (!var4) {
                     if (this.field36365.player.ticksExisted % 140 == 0) {
-                        Class2531 var5 = Class7927.method26605(this.field36365.world.getChunk(this.field36365.player.getPosition()).getPos());
+                        Class2531 var5 = Class7927.method26605(
+                                this.field36365.world.getChunk(this.field36365.player.getPosition()).getPos());
                         Iterator var6 = this.field36372.entrySet().iterator();
 
                         while (var6.hasNext()) {
@@ -164,15 +165,16 @@ public class WaypointsManager {
                             if (var13 > 2.0) {
                                 try {
                                     ObjectOutputStream var15 = new ObjectOutputStream(
-                                            new FileOutputStream(this.method30001(this.field36371, (Class7927) var7.getValue()))
-                                    );
+                                            new FileOutputStream(
+                                                    this.method30001(this.field36371, (Class7927) var7.getValue())));
                                     ((Class7927) var7.getValue()).method26603(var15);
                                     var15.close();
                                 } catch (IOException var22) {
                                     var22.printStackTrace();
                                 }
 
-                                this.field36373 = Math.max(0, this.field36373 - ((Class7927) var7.getValue()).field33959.size());
+                                this.field36373 = Math.max(0,
+                                        this.field36373 - ((Class7927) var7.getValue()).field33959.size());
                                 var6.remove();
                             }
                         }
@@ -182,7 +184,8 @@ public class WaypointsManager {
                     String var23 = this.field36371;
                     int var24 = 0;
 
-                    for (int var25 = 0; var25 < this.field36365.world.getChunkProvider().array.chunks.length(); var25++) {
+                    for (int var25 = 0; var25 < this.field36365.world.getChunkProvider().array.chunks
+                            .length(); var25++) {
                         Chunk var17 = this.field36365.world.getChunkProvider().array.chunks.get(var25);
                         if (var17 != null) {
                             boolean var18 = this.field36366.contains(var17.getPos());
@@ -275,7 +278,8 @@ public class WaypointsManager {
 
             try {
                 for (Entry var5 : this.field36372.entrySet()) {
-                    ObjectOutputStream var6 = new ObjectOutputStream(new FileOutputStream(this.method30001(var3, (Class7927) var5.getValue())));
+                    ObjectOutputStream var6 = new ObjectOutputStream(
+                            new FileOutputStream(this.method30001(var3, (Class7927) var5.getValue())));
                     ((Class7927) var5.getValue()).method26603(var6);
                     var6.close();
                 }
@@ -402,8 +406,10 @@ public class WaypointsManager {
             for (int var9 = 0; var9 < 16; var9++) {
                 BlockPos var10 = new BlockPos(var6 + var8, 64, var7 + var9);
                 int var11 = this.method30006(
-                        new BlockPos(var10.getX(), var1.getHeightmap(Heightmap.Type.WORLD_SURFACE).getHeight(var8, var9) - 1, var10.getZ()), var2
-                );
+                        new BlockPos(var10.getX(),
+                                var1.getHeightmap(Heightmap.Type.WORLD_SURFACE).getHeight(var8, var9) - 1,
+                                var10.getZ()),
+                        var2);
                 var5.put((byte) (var11 >> 16 & 0xFF));
                 var5.put((byte) (var11 >> 8 & 0xFF));
                 var5.put((byte) (var11 & 0xFF));

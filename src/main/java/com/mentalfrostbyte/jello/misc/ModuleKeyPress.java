@@ -7,14 +7,14 @@ import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
 import com.mentalfrostbyte.jello.gui.unmapped.Bound;
 import com.mentalfrostbyte.jello.managers.GuiManager;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import team.sdhq.eventBus.EventBus;
 
 public class ModuleKeyPress {
-   private static final Minecraft mc = Minecraft.getInstance();
+   private static final Minecraft mc = MinecraftClient.getInstance();
 
    public static void press(int key) {
       if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
@@ -28,12 +28,14 @@ public class ModuleKeyPress {
                      case 2:
                         try {
                            Screen var6 = var5.getScreenTarget()
-                              .getDeclaredConstructor(ITextComponent.class)
-                              .newInstance(new StringTextComponent(GuiManager.screenToScreenName.get(var5.getScreenTarget())));
+                                 .getDeclaredConstructor(ITextComponent.class)
+                                 .newInstance(new StringTextComponent(
+                                       GuiManager.screenToScreenName.get(var5.getScreenTarget())));
                            if (Client.getInstance().guiManager.method33484(var6)) {
                               mc.displayGuiScreen(var6);
                            }
-                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException var7) {
+                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                              | NoSuchMethodException | SecurityException | InstantiationException var7) {
                            var7.printStackTrace();
                         }
                   }

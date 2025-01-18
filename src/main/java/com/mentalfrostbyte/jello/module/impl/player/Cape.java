@@ -3,19 +3,17 @@ package com.mentalfrostbyte.jello.module.impl.player;
 import com.mentalfrostbyte.jello.event.impl.TickEvent;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.ResourceLocation;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class Cape extends Module {
 
-    private final Minecraft mc = Minecraft.getInstance();
+    private final Minecraft mc = MinecraftClient.getInstance();
 
     public Cape() {
         super(ModuleCategory.PLAYER, "Cape", "gives you a cape (wow)");
     }
-
-
 
     public ResourceLocation getCape() {
         return new ResourceLocation("minecraft", "com/mentalfrostbyte/gui/resources/jello/capes/2016.png");

@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 
@@ -117,7 +117,7 @@ public class ACRFly extends Module {
     @EventTarget
     public void method16906(ReceivePacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket lookPacket = (SPlayerPositionLookPacket) var4;
                 if (this.preUpdates >= 1) {
@@ -134,7 +134,7 @@ public class ACRFly extends Module {
     @EventTarget
     public void method16907(SendPacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.preUpdates == -1 && this.getBooleanValueFromSettingName("NoFall")) {

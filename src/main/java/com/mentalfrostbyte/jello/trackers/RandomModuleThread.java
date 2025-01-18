@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.trackers;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class RandomModuleThread implements Runnable {
                 break;
             }
 
-            if (Minecraft.getInstance().world != null) {
+            if (MinecraftClient.getInstance().world != null) {
                 boolean var3 = false;
                 boolean var4 = false;
                 if (Client.getInstance().moduleManager != null) {
@@ -42,7 +42,8 @@ public class RandomModuleThread implements Runnable {
                     }
 
                     for (Module var10 : var5) {
-                        if (var10.getClass().getSuperclass() != Module.class && var10.getClass().getSuperclass() != ModuleWithModuleSettings.class) {
+                        if (var10.getClass().getSuperclass() != Module.class
+                                && var10.getClass().getSuperclass() != ModuleWithModuleSettings.class) {
                             var3 = true;
                             if (field8343.containsKey(var10) && field8343.get(var10) != var10.getRandomAssOffset()) {
                                 var4 = true;

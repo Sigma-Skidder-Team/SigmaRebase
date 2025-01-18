@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 
 public class HawkFly extends Module {
     private int field23424;
@@ -74,7 +74,7 @@ public class HawkFly extends Module {
     @EventTarget
     public void method16054(ReceivePacketEvent var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            Packet var4 = var1.getPacket();
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
                 if (this.field23424 >= 1) {

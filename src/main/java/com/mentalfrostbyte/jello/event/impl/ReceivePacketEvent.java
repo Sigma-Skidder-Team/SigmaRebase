@@ -1,21 +1,20 @@
 package com.mentalfrostbyte.jello.event.impl;
 
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 
 public class ReceivePacketEvent extends CancellableEvent {
-    private IPacket<?> packet;
+    private Packet<?> packet;
 
-    public ReceivePacketEvent(IPacket<?> var1) {
+    public ReceivePacketEvent(Packet<?> var1) {
         this.packet = var1;
     }
 
-    public IPacket<?> getPacket() {
+    public Packet<?> getPacket() {
         return this.packet;
     }
 
-    public void setPacket(IPacket packet) {
+    public void setPacket(Packet packet) {
         this.packet = packet;
     }
 }
-

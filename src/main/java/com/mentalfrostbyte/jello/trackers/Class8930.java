@@ -1,12 +1,12 @@
 package com.mentalfrostbyte.jello.trackers;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.HashMap;
 
 public class Class8930 {
     private static String[] field40410;
-    private final Minecraft field40411 = Minecraft.getInstance();
+    private final Minecraft field40411 = MinecraftClient.getInstance();
     private final CombatTracker field40412;
     private final HashMap<String, Class8499> field40413 = new HashMap<String, Class8499>();
 

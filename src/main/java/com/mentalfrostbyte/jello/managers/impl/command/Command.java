@@ -1,13 +1,13 @@
 package com.mentalfrostbyte.jello.managers.impl.command;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
-    public static final Minecraft mc = Minecraft.getInstance();
+    public static final Minecraft mc = MinecraftClient.getInstance();
     private final String name;
     private final String descriptor;
     private final String[] alias;
@@ -45,5 +45,6 @@ public abstract class Command {
         Collections.addAll(this.field25702, var1);
     }
 
-    public abstract void run(String var1, ChatCommandArguments[] var2, ChatCommandExecutor var3) throws CommandException;
+    public abstract void run(String var1, ChatCommandArguments[] var2, ChatCommandExecutor var3)
+            throws CommandException;
 }

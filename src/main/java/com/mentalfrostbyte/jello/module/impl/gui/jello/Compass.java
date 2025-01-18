@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ public class Compass extends Module {
     @EventTarget
     public void onRender(EventRender eventRender) {
         if (this.isEnabled() && mc.player != null) {
-            if (! Minecraft.getInstance().gameSettings.hideGUI) {
+            if (!MinecraftClient.getInstance().gameSettings.hideGUI) {
                 int var4 = 5;
                 int var5 = 60;
-                int var6 = !Minecraft.getInstance().gameSettings.showDebugInfo ? 0 : 60;
+                int var6 = !MinecraftClient.getInstance().gameSettings.showDebugInfo ? 0 : 60;
                 List<Integer> var7 = this.method16660((int) this.method16662(mc.player.rotationYaw), var4);
                 int var8 = (Integer) var7.get(var4);
                 if (var8 == 0 && this.method16662(mc.player.rotationYaw) > 345.0F) {
@@ -36,21 +36,24 @@ public class Compass extends Module {
                 float var9 = 7.0F + this.method16662(mc.player.rotationYaw) - (float) var8;
                 double var10 = var9 / 15.0F * (float) var5;
                 RenderUtil.drawImage(
-                        (float) (mc.getMainWindow().getWidth() / 2) - (float) (var4 * var5) * 1.5F,
+                        (float) (mc.getWindow().getWidth() / 2) - (float) (var4 * var5) * 1.5F,
                         -40.0F,
                         (float) (var4 * var5 * 2) * 1.5F,
                         (float) (220 + var6),
                         Resources.shadowPNG,
-                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.25F)
-                );
+                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.25F));
                 int var12 = 0;
 
                 for (int var14 : var7) {
                     var12++;
-                    double var15 = Math.max(0.0, Math.min(((double) (var12 * var5) - var10) / (double) ((float) (var5 * var4)), 1.0));
-                    double var17 = Math.max(0.0, Math.min(2.25 - ((double) (var12 * var5) - var10) / (double) ((float) (var5 * var4)), 1.0));
+                    double var15 = Math.max(0.0,
+                            Math.min(((double) (var12 * var5) - var10) / (double) ((float) (var5 * var4)), 1.0));
+                    double var17 = Math.max(0.0,
+                            Math.min(2.25 - ((double) (var12 * var5) - var10) / (double) ((float) (var5 * var4)), 1.0));
                     float var19 = (float) Math.min(var15, var17);
-                    this.method16658(mc.getMainWindow().getWidth() / 2 + var12 * var5 - (int) var10 - (var4 + 1) * var5 - 2, 30 + var6, var5, var14, var19 * 0.8F);
+                    this.method16658(
+                            mc.getWindow().getWidth() / 2 + var12 * var5 - (int) var10 - (var4 + 1) * var5 - 2,
+                            30 + var6, var5, var14, var19 * 0.8F);
                 }
             }
         }
@@ -97,16 +100,14 @@ public class Compass extends Module {
                         (float) (var1 + (var3 - ResourceRegistry.JelloLightFont25.getWidth(var8)) / 2),
                         (float) (var2 + 20),
                         var8,
-                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5)
-                );
+                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5));
             } else {
                 RenderUtil.drawString(
                         ResourceRegistry.JelloMediumFont40,
                         (float) (var1 + (var3 - ResourceRegistry.JelloMediumFont40.getWidth(var8)) / 2),
                         (float) (var2 + 10),
                         var8,
-                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5)
-                );
+                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5));
             }
         } else {
             RenderUtil.drawRoundedRect(
@@ -114,15 +115,13 @@ public class Compass extends Module {
                     (float) (var2 + 28),
                     (float) (var1 + var3 / 2 + 1),
                     (float) (var2 + 38),
-                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5 * 0.5F)
-            );
+                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5 * 0.5F));
             RenderUtil.drawString(
                     ResourceRegistry.JelloLightFont18,
                     (float) (var1 + (var3 - ResourceRegistry.JelloLightFont18.getWidth(var8)) / 2),
                     (float) (var2 + 40),
                     var8,
-                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5)
-            );
+                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5));
         }
     }
 

@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.gui.impl.JelloMainMenuManager;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 public class FloatingBubble extends CustomGuiScreen {
     public float field20928;
@@ -39,27 +39,29 @@ public class FloatingBubble extends CustomGuiScreen {
         this.xA = Math.round(this.field20932);
         this.yA = Math.round(this.field20933);
         if (!(this.field20932 + (float) this.widthA < 0.0F)) {
-            if (this.field20932 > (float) Minecraft.getInstance().getMainWindow().getWidth()) {
+            if (this.field20932 > (float) MinecraftClient.getInstance().getWindow().getWidth()) {
                 this.field20932 = (float) (0 - this.widthA);
             }
         } else {
-            this.field20932 = (float) Minecraft.getInstance().getMainWindow().getWidth();
+            this.field20932 = (float) MinecraftClient.getInstance().getWindow().getWidth();
         }
 
         if (!(this.field20933 + (float) this.heightA < 0.0F)) {
-            if (this.field20933 > (float) Minecraft.getInstance().getMainWindow().getHeight()) {
+            if (this.field20933 > (float) MinecraftClient.getInstance().getWindow().getHeight()) {
                 this.field20933 = (float) (0 - this.heightA);
             }
         } else {
-            this.field20933 = (float) Minecraft.getInstance().getMainWindow().getHeight();
+            this.field20933 = (float) MinecraftClient.getInstance().getWindow().getHeight();
         }
 
         float var5 = (float) (newHeight - this.method13271());
         float var6 = (float) (newWidth - this.method13272());
         this.field20934 = (float) (1.0 - Math.sqrt((double) (var5 * var5 + var6 * var6)) / (double) this.field20938);
         if (!(Math.sqrt((double) (var5 * var5 + var6 * var6)) < (double) this.field20938)) {
-            this.field20928 = this.field20928 - (this.field20928 - this.field20930) * 0.05F * JelloMainMenuManager.field20982;
-            this.field20929 = this.field20929 - (this.field20929 - this.field20931) * 0.05F * JelloMainMenuManager.field20982;
+            this.field20928 = this.field20928
+                    - (this.field20928 - this.field20930) * 0.05F * JelloMainMenuManager.field20982;
+            this.field20929 = this.field20929
+                    - (this.field20929 - this.field20931) * 0.05F * JelloMainMenuManager.field20982;
         } else {
             float var7 = this.field20932 - (float) newHeight;
             float var8 = this.field20933 - (float) newWidth;
@@ -81,8 +83,8 @@ public class FloatingBubble extends CustomGuiScreen {
                 (float) this.xA,
                 (float) this.yA,
                 (float) this.getWidthA(),
-                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.07F + (!(this.field20934 > 0.0F) ? 0.0F : this.field20934 * 0.3F))
-        );
+                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                        0.07F + (!(this.field20934 > 0.0F) ? 0.0F : this.field20934 * 0.3F)));
         super.draw(var1);
     }
 }

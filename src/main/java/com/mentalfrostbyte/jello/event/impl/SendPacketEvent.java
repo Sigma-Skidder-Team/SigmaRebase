@@ -1,29 +1,29 @@
 package com.mentalfrostbyte.jello.event.impl;
 
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import net.minecraft.network.IPacket;
+import net.minecraft.network.Packet;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SendPacketEvent extends CancellableEvent {
-    private IPacket packet;
-    private final List<IPacket> field21514 = new ArrayList<IPacket>();
+    private Packet packet;
+    private final List<Packet> field21514 = new ArrayList<Packet>();
 
-    public SendPacketEvent(IPacket var1) {
+    public SendPacketEvent(Packet var1) {
         this.packet = var1;
         this.field21514.add(var1);
     }
 
-    public IPacket getPacket() {
+    public Packet getPacket() {
         return this.packet;
     }
 
-    public List<IPacket> method13933() {
+    public List<Packet> method13933() {
         return this.field21514;
     }
 
-    public void method13934(IPacket var1) {
+    public void method13934(Packet var1) {
         this.packet = var1;
     }
 }
