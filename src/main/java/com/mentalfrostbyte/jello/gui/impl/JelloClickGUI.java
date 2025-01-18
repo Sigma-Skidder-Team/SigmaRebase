@@ -109,11 +109,13 @@ public class JelloClickGUI extends Screen {
                   var3.toArray(new MiniAlert[0])));
             this.dependenciesAlert.addUIHandler(var0 -> {
                if (!Client.getInstance().musicManager.hasPython()) {
-                  Util.getOSType().openLink("https://www.python.org/ftp/python/3.12.5/python-3.12.5-macos11.pkg");
+                  Util.getOperatingSystem()
+                        .open("https://www.python.org/ftp/python/3.12.5/python-3.12.5-macos11.pkg");
                }
 
                if (!Client.getInstance().musicManager.hasVCRedist()) {
-                  Util.getOSType().openLink("https://www.microsoft.com/en-US/Download/confirmation.aspx?id=26999");
+                  Util.getOperatingSystem()
+                        .open("https://www.microsoft.com/en-US/Download/confirmation.aspx?id=26999");
                }
             });
             this.dependenciesAlert.method13604(var1 -> new Thread(() -> {

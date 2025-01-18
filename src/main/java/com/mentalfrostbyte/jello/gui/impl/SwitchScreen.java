@@ -64,19 +64,19 @@ public class SwitchScreen extends Screen {
         var12.addToList(var15 = new ImageQ(var12, "guilded", 142, 0, 32, 34, Resources.guildedPNG));
         var13.doThis((var0, var1) -> {
             try {
-                Util.getOSType().openURL(new URL("https://www.youtube.com/@sigmaclient2950"));
+                Util.getOperatingSystem().openURL(new URL("https://www.youtube.com/@sigmaclient2950"));
             } catch (MalformedURLException var5x) {
             }
         });
         var14.doThis((var0, var1) -> {
             try {
-                Util.getOSType().openURL(new URL("https://www.reddit.com/r/SigmaClient/"));
+                Util.getOperatingSystem().openURL(new URL("https://www.reddit.com/r/SigmaClient/"));
             } catch (MalformedURLException var5x) {
             }
         });
         var15.doThis((var0, var1) -> {
             try {
-                Util.getOSType().openURL(new URL("https://discord.gg/KBGX8FTAXa"));
+                Util.getOperatingSystem().openURL(new URL("https://discord.gg/KBGX8FTAXa"));
             } catch (MalformedURLException var5x) {
             }
         });

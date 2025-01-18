@@ -677,11 +677,11 @@ public class MusicManager {
 
     public boolean doesExecutableExist() {
         File file = new File(Client.getInstance().file + "/music/yt-dlp");
-        if (Util.getOSType() == Util.OS.WINDOWS) {
+        if (Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS) {
             file = new File(Client.getInstance().file + "/music/yt-dlp.exe");
-        } else if (Util.getOSType() == Util.OS.LINUX) {
+        } else if (Util.getOperatingSystem() == Util.OperatingSystem.LINUX) {
             file = new File(Client.getInstance().file + "/music/yt-dlp_linux");
-        } else if (Util.getOSType() == Util.OS.OSX) {
+        } else if (Util.getOperatingSystem() == Util.OperatingSystem.OSX) {
             file = new File(Client.getInstance().file + "/music/yt-dlp_macos");
         }
 
@@ -695,13 +695,14 @@ public class MusicManager {
 
     public void download() {
         if (!this.finished) {
-            if (Util.getOSType() == Util.OS.WINDOWS || Util.getOSType() == Util.OS.OSX
-                    || Util.getOSType() == Util.OS.LINUX) {
+            if (Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS
+                    || Util.getOperatingSystem() == Util.OperatingSystem.OSX
+                    || Util.getOperatingSystem() == Util.OperatingSystem.LINUX) {
                 File musicDir = new File(Client.getInstance().file + "/music/");
                 musicDir.mkdirs();
 
-                String fileName = Util.getOSType() == Util.OS.WINDOWS ? "yt-dlp.exe"
-                        : Util.getOSType() == Util.OS.LINUX ? "yt-dlp_linux"
+                String fileName = Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS ? "yt-dlp.exe"
+                        : Util.getOperatingSystem() == Util.OperatingSystem.LINUX ? "yt-dlp_linux"
                                 : "yt-dlp_macos";
 
                 File targetFile = new File(Client.getInstance().file + "/music/" + fileName);
@@ -752,11 +753,11 @@ public class MusicManager {
     }
 
     public String method24333() {
-        String fileName = Util.getOSType() == Util.OS.WINDOWS ? "yt-dlp.exe"
-                : Util.getOSType() == Util.OS.LINUX ? "yt-dlp_linux"
+        String fileName = Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS ? "yt-dlp.exe"
+                : Util.getOperatingSystem() == Util.OperatingSystem.LINUX ? "yt-dlp_linux"
                         : "yt-dlp_macos";
         String var3 = Client.getInstance().file.getAbsolutePath() + "/music/" + fileName;
-        if (Util.getOSType() != Util.OS.WINDOWS) {
+        if (Util.getOperatingSystem() != Util.OperatingSystem.WINDOWS) {
             File var4 = new File(var3);
             var4.setExecutable(true);
         }
@@ -766,7 +767,7 @@ public class MusicManager {
 
     public boolean hasPython() {
         String[] commands;
-        if (Util.getOSType() == Util.OS.WINDOWS) {
+        if (Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS) {
             commands = new String[] { "python --version || py --version || python3 --version" };
         } else {
             commands = new String[] { "python3 --version || python --version" };
@@ -801,7 +802,7 @@ public class MusicManager {
     }
 
     private String[] getCommandArray(String command) {
-        if (Util.getOSType() == Util.OS.WINDOWS) {
+        if (Util.getOperatingSystem()gSystem() == Util.OperatingSystem.WINDOWS) {
             return new String[] { "cmd", "/c", command };
         } else {
             return new String[] { "bash", "-c", command };
@@ -824,7 +825,7 @@ public class MusicManager {
     }
 
     public boolean hasVCRedist() {
-        if (Util.getOSType() != Util.OS.WINDOWS) {
+        if (Util.getOperatingSystem() != Util.OperatingSystemeratingSystem.WINDOWS) {
             return true;
         } else {
             boolean var3 = false;
