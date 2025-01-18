@@ -9,8 +9,8 @@ import com.mentalfrostbyte.jello.gui.unmapped.Bound;
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 import team.sdhq.eventBus.EventBus;
 
 public class ModuleKeyPress {
@@ -28,8 +28,8 @@ public class ModuleKeyPress {
                      case 2:
                         try {
                            Screen var6 = var5.getScreenTarget()
-                                 .getDeclaredConstructor(ITextComponent.class)
-                                 .newInstance(new StringTextComponent(
+                                 .getDeclaredConstructor(Text.class)
+                                 .newInstance(new LiteralText(
                                        GuiManager.screenToScreenName.get(var5.getScreenTarget())));
                            if (Client.getInstance().guiManager.method33484(var6)) {
                               mc.displayGuiScreen(var6);

@@ -13,7 +13,7 @@ import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.settings.SliderPercentageOption;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class JelloPortalScreen extends MultiplayerScreen {
                 1.0F,
                 (var1) -> (double) getCurrentVersionIndex(),
                 this::onSliderChange,
-                (settings, slider) -> new StringTextComponent(getVersion(getCurrentVersionIndex()).getName()));
+                (settings, slider) -> new LiteralText(getVersion(getCurrentVersionIndex()).getName()));
         this.versionSelectorWidget = this
                 .addButton(versionSelector.createWidget(this.minecraft.gameSettings, this.width / 2 + 40, 7, 114));
     }

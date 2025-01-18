@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Color;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
 
 public class Class8906 {
    private static Pattern field40303;
@@ -19,7 +19,7 @@ public class Class8906 {
    }
 
    public static void method32487(String var0) {
-      MinecraftClient.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(var0));
+      MinecraftClient.getInstance().ingameGUI.getChatGUI().printChatMessage(new LiteralText(var0));
    }
 
    public static boolean method32488(String var0) {

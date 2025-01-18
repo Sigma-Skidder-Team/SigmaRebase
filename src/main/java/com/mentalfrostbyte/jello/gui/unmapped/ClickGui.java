@@ -1,11 +1,11 @@
 package com.mentalfrostbyte.jello.gui.unmapped;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.text.Text;
 
 public class ClickGui extends Screen {
 
-   public ClickGui(ITextComponent var1) {
+   public ClickGui(Text var1) {
       super(var1);
    }
 

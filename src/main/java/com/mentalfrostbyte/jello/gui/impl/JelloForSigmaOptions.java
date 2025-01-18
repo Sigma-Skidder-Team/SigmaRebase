@@ -7,7 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
 
 import java.io.IOException;
 import java.util.Date;
@@ -36,22 +36,20 @@ public class JelloForSigmaOptions extends IngameMenuScreen {
    public void init() {
       if (Client.getInstance().clientMode == ClientMode.JELLO) {
          this.addButton(
-            new Button(
-               this.width / 2 - 102,
-               this.height - 45,
-               204,
-               20,
-               new StringTextComponent("Jello for Sigma Options"),
-               var1 -> this.minecraft.displayGuiScreen(new InGameOptionsScreen())
-            )
-         );
+               new Button(
+                     this.width / 2 - 102,
+                     this.height - 45,
+                     204,
+                     20,
+                     new LiteralText("Jello for Sigma Options"),
+                     var1 -> this.minecraft.displayGuiScreen(new InGameOptionsScreen())));
       }
 
       super.init();
       Iterator var3 = this.buttons.iterator();
 
       while (var3.hasNext()) {
-         Widget var4 = (Widget)var3.next();
+         Widget var4 = (Widget) var3.next();
          if (var4.y == this.height / 4 + 72 + -16) {
             var3.remove();
          }
