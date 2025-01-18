@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.render.Resources;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.math.Vec3i;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class Class4259 extends UIBase {
          float var13 = (float) (this.chunkPos.z * 16) - this.field20650 * 16.0F;
          float var14 = var12 + var9 / var11 * 16.0F;
          float var15 = var13 - var10 / var11 * 16.0F;
-         this.method13081(mouseX, mouseY, new Vector3i(Math.round(var14), 0, Math.round(var15)));
+         this.method13081(mouseX, mouseY, new Vec3i(Math.round(var14), 0, Math.round(var15)));
          return false;
       } else {
          this.method13083();
@@ -189,7 +189,7 @@ public class Class4259 extends UIBase {
       this.field20659.add(var1);
    }
 
-   public final void method13081(int var1, int var2, Vector3i var3) {
+   public final void method13081(int var1, int var2, Vec3i var3) {
       for (Class8041 var7 : this.field20659) {
          var7.method27609(this, var1, var2, var3);
       }

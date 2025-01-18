@@ -12,8 +12,8 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.options.ServerList;
 import org.newdawn.slick.opengl.Texture;
 import totalcross.json.JSONObject;
 
@@ -59,7 +59,7 @@ public class AltManagerScreen extends Screen {
       int serverListSize = serverList.countServers();
 
       for (int i = 0; i < serverListSize; i++) {
-         ServerData server = serverList.getServerData(i);
+         ServerInfo server = serverList.getServerData(i);
          if (!servers.contains(server.serverIP)) {
             servers.add(server.serverIP);
          }

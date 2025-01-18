@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.managers.impl.sound.CustomSoundPlayer;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.LanguageScreen;
+import net.minecraft.client.gui.screen.options.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.options.OptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.sound.SoundEvents;
@@ -48,19 +48,19 @@ public class ClassicTitleScreen extends CustomGuiScreen {
             this.optionsButton.doThis(
                         (var1x, var2x) -> this
                                     .displayMcScreen(new OptionsScreen(MinecraftClient.getInstance().currentScreen,
-                                                MinecraftClient.getInstance().gameSettings)));
+                                                MinecraftClient.getInstance().options)));
             this.accountsButton.doThis((var1x, var2x) -> this.handleScreenAndPlayClick(new SigmaClassicAltManager()));
             this.languageButton
                         .doThis(
                                     (var1x, var2x) -> this.displayMcScreen(
-                                                new LanguageScreen(MinecraftClient.getInstance().currentScreen,
-                                                            MinecraftClient.getInstance().gameSettings,
+                                                new LanguageOptionsScreen(MinecraftClient.getInstance().currentScreen,
+                                                            MinecraftClient.getInstance().options,
                                                             MinecraftClient.getInstance().getLanguageManager())));
-            this.exitButton.doThis((var0, var1x) -> MinecraftClient.getInstance().shutdown());
+            this.exitButton.doThis((var0, var1x) -> MinecraftClient.getInstance().stop());
       }
 
       public void displayMcScreen(net.minecraft.client.gui.screen.Screen screen) {
-            MinecraftClient.getInstance().displayGuiScreen(screen);
+            MinecraftClient.getInstance().openScreen(screen);
             this.playClick();
       }
 
@@ -70,7 +70,7 @@ public class ClassicTitleScreen extends CustomGuiScreen {
       }
 
       public void playClick() {
-            MinecraftClient.getInstance().getSoundHandler()
+            MinecraftClient.getInstance().getSoundManager()
                         .play(CustomSoundPlayer.playSoundWithCustomPitch(SoundEvents.UI_BUTTON_CLICK, 1.0F));
       }
 

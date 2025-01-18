@@ -290,8 +290,8 @@ public class WaypointsManager {
 
     public String method29998() {
         String var3 = "local/local";
-        if (this.field36365.getIntegratedServer() == null && this.field36365.getCurrentServerData() != null) {
-            var3 = "server/" + this.field36365.getCurrentServerData().serverIP.replace("/", ":");
+        if (this.field36365.getIntegratedServer() == null && this.field36365.getCurrentServerEntry() != null) {
+            var3 = "server/" + this.field36365.getCurrentServerEntry().address.replace("/", ":");
         } else if (this.field36365.getIntegratedServer() != null) {
             var3 = "local/" + this.field36365.getIntegratedServer().func_240793_aU_().getWorldName();
         }

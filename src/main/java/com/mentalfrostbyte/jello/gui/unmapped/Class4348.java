@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.util.Identifier;
 import org.apache.commons.codec.binary.Base64;
 import org.lwjgl.opengl.GL11;
@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class Class4348 extends AnimatedIconPanelWrap {
    public Ban field21243 = null;
-   public ServerData field21244 = null;
+   public ServerInfo field21244 = null;
    public Texture field21245 = null;
    public Texture field21246 = null;
    private BufferedImage field21247;

@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.managers.impl.account.microsoft;
 
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.options.ServerList;
 import totalcross.json.JSONException;
 import totalcross.json.JSONObject;
 import net.minecraft.client.MinecraftClient;
@@ -51,14 +51,14 @@ public class Ban {
         return this.date;
     }
 
-    public ServerData method31736() {
+    public ServerInfo method31736() {
         ServerList var3 = new ServerList(MinecraftClient.getInstance());
-        var3.loadServerList();
-        int var4 = var3.countServers();
+        var3.loadFile();
+        int var4 = var3.size();
 
         for (int var5 = 0; var5 < var4; var5++) {
-            ServerData var6 = var3.getServerData(var5);
-            if (var6.serverIP.equals(this.serverIP)) {
+            ServerInfo var6 = var3.get(var5);
+            if (var6.address.equals(this.serverIP)) {
                 return var6;
             }
         }

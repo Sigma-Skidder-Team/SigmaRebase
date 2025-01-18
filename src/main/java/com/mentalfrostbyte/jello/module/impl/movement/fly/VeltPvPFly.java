@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.network.play.server.SChatPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class VeltPvPFly extends Module {
     private int field23419;
@@ -131,9 +131,9 @@ public class VeltPvPFly extends Module {
         if (this.isEnabled()) {
             Packet var4 = var1.getPacket();
             if (!(var4 instanceof SPlayerPositionLookPacket)) {
-                if (var4 instanceof SChatPacket) {
-                    SChatPacket var5 = (SChatPacket) var4;
-                    String var6 = var5.getChatComponent().getString();
+                if (var4 instanceof GameMessageS2CPacket) {
+                    GameMessageS2CPacket var5 = (GameMessageS2CPacket) var4;
+                    String var6 = var5.getMessage().getString();
                     if (this.field23420 > 0 && (var6.contains("Now leaving: §") || var6.contains("Now entering: §"))) {
                         this.field23420--;
                         var1.cancelled = true;

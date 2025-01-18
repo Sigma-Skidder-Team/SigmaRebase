@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.math.Vec3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class Class4340 extends Class4339 {
       boolean var3 = false;
    }
 
-   public void method13519(String var1, Vector3i var2, int var3) {
+   public void method13519(String var1, Vec3i var2, int var3) {
       String var6 = "waypoint x" + var2.getX() + " z" + var2.getZ();
       if (this.buttonList.method13221(var6) == null) {
          Class4355 var7 = new Class4355(

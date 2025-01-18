@@ -15,8 +15,8 @@ import org.newdawn.slick.opengl.Texture;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.options.ServerList;
 import totalcross.json.JSONObject;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class SigmaClassicAltManager extends Screen {
       int var6 = var5.countServers();
 
       for (int var7 = 0; var7 < var6; var7++) {
-         ServerData var8 = var5.getServerData(var7);
+         ServerInfo var8 = var5.getServerData(var7);
          if (!var4.contains(var8.serverIP)) {
             var4.add(var8.serverIP);
          }

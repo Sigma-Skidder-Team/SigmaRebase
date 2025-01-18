@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.math.Vec3i;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -23,13 +23,13 @@ public class Class4276 extends UIBase {
    private final Date field20724;
    private boolean field20725 = false;
    private Date field20726;
-   public Vector3i field20727;
+   public Vec3i field20727;
    public UIInput field20728;
    public UIInput field20729;
    public Class4356 field20730;
    private final List<Class9073> field20731 = new ArrayList<Class9073>();
 
-   public Class4276(CustomGuiScreen var1, String var2, int var3, int var4, Vector3i var5) {
+   public Class4276(CustomGuiScreen var1, String var2, int var3, int var4, Vec3i var5) {
       super(var1, var2, var3 - 107, var4 + 10, 214, 170, ColorHelper.field27961, "", false);
       this.field20727 = var5;
       if (this.yA + this.heightA <= MinecraftClient.getInstance().getWindow().getHeight()) {
@@ -76,13 +76,13 @@ public class Class4276 extends UIBase {
       this.field20728.setFont(ResourceRegistry.JelloLightFont18);
    }
 
-   public Vector3i method13130() {
+   public Vec3i method13130() {
       if (this.field20728.getTypedText() != null && this.field20728.getTypedText().contains(" ")) {
          String[] var3 = this.field20728.getTypedText().split(" ");
          if (var3.length == 2 && var3[0].matches("-?\\d+") && var3[1].matches("-?\\d+")) {
             int var4 = Integer.valueOf(var3[0]);
             int var5 = Integer.valueOf(var3[1]);
-            return new Vector3i(var4, 0, var5);
+            return new Vec3i(var4, 0, var5);
          }
       }
 
@@ -138,7 +138,7 @@ public class Class4276 extends UIBase {
       this.field20731.add(var1);
    }
 
-   public final void method13132(String var1, Vector3i var2, int var3) {
+   public final void method13132(String var1, Vec3i var2, int var3) {
       for (Class9073 var7 : this.field20731) {
          var7.method33814(this, var1, var2, var3);
       }

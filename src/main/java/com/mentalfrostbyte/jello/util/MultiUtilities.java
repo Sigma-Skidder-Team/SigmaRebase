@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.util;
 
-import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.client.CChatMessagePacket;
@@ -50,8 +50,8 @@ public class MultiUtilities {
     }
 
     public static boolean isCubecraft() {
-        return mc.getIntegratedServer() == null && mc.getCurrentServerData() != null
-                && mc.getCurrentServerData().serverIP.toLowerCase().contains("cubecraft.net");
+        return mc.getIntegratedServer() == null && mc.getCurrentServerEntry() != null
+                && mc.getCurrentServerEntry().address.toLowerCase().contains("cubecraft.net");
     }
     public static List<PlayerEntity> method17680() {
         ArrayList<PlayerEntity> var2 = new ArrayList<>();
@@ -70,8 +70,8 @@ public class MultiUtilities {
     public static boolean isHypixel() {
         return !field24954
                 && mc.getIntegratedServer() == null
-                && mc.getCurrentServerData() != null
-                && mc.getCurrentServerData().serverIP.toLowerCase().contains("hypixel.net");
+                && mc.getCurrentServerEntry() != null
+                && mc.getCurrentServerEntry().address.toLowerCase().contains("hypixel.net");
     }
 
     public static double setPlayerYMotion(double var0) {

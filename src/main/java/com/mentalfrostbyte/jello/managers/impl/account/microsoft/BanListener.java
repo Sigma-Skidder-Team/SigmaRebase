@@ -3,10 +3,10 @@ package com.mentalfrostbyte.jello.managers.impl.account.microsoft;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.login.server.SDisconnectLoginPacket;
-import net.minecraft.network.login.server.SLoginSuccessPacket;
-import net.minecraft.network.play.server.SDisconnectPacket;
-import net.minecraft.network.play.server.SChatPacket;
+import net.minecraft.network.packet.s2c.login.LoginDisconnectS2CPacket;
+import net.minecraft.network.packet.s2c.login.LoginSuccessS2CPacket;
+import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 import java.util.ArrayList;
@@ -21,21 +21,21 @@ public class BanListener {
 
     @EventTarget
     public void onPacketReceive(ReceivePacketEvent event) {
-        if (this.mc.getCurrentServerData() != null) {
-            if (event.getPacket() instanceof SChatPacket) {
-                SChatPacket packet = (SChatPacket) event.getPacket();
+        if (this.mc.getCurrentServerEntry() != null) {
+            if (event.getPacket() instanceof GameMessageS2CPacket) {
+                GameMessageS2CPacket packet = (GameMessageS2CPacket) event.getPacket();
                 ArrayList<String> var5 = new ArrayList<>(
                         Arrays.asList(
                                 "You are permanently banned from MinemenClub. ",
                                 "Your connection to the server leu-practice has been prevented due to you being associated to a blacklisted player.",
                                 "You are blacklisted from MinemenClub. "));
-                if (!packet.getChatComponent().getSiblings().isEmpty()
-                        && var5.contains(packet.getChatComponent().getString())
-                        && packet.getChatComponent().getSiblings().get(0).getStyle().getColor().toString()
+                if (!packet.getMessage().getSiblings().isEmpty()
+                        && var5.contains(packet.getMessage().getString())
+                        && packet.getMessage().getSiblings().get(0).getStyle().getColor().toString()
                                 .equalsIgnoreCase("red")) {
                     Account var6 = Client.getInstance().accountManager.containsAccount();
                     if (var6 != null) {
-                        Ban var7 = new Ban(this.mc.getCurrentServerData().serverIP, new Date(Long.MAX_VALUE));
+                        Ban var7 = new Ban(this.mc.getCurrentServerEntry().address, new Date(Long.MAX_VALUE));
                         var6.registerBan(var7);
                         Client.getInstance().accountManager.updateAccount(var6);
                         Client.getInstance().accountManager.saveAlts();
@@ -43,15 +43,15 @@ public class BanListener {
                 }
             }
 
-            if (!(event.getPacket() instanceof SDisconnectLoginPacket)) {
-                if (!(event.getPacket() instanceof SDisconnectPacket)) {
-                    if (event.getPacket() instanceof SLoginSuccessPacket) {
+            if (!(event.getPacket() instanceof LoginDisconnectS2CPacket)) {
+                if (!(event.getPacket() instanceof DisconnectS2CPacket)) {
+                    if (event.getPacket() instanceof LoginSuccessS2CPacket) {
                         long currentTimeMillis = System.currentTimeMillis();
-                        if (this.mc.getCurrentServerData() == null) {
+                        if (this.mc.getCurrentServerEntry() == null) {
                             return;
                         }
 
-                        Ban ban = new Ban(this.mc.getCurrentServerData().serverIP, new Date(currentTimeMillis));
+                        Ban ban = new Ban(this.mc.getCurrentServerEntry().address, new Date(currentTimeMillis));
                         Account account = Client.getInstance().accountManager.containsAccount();
                         if (account != null) {
                             account.registerBan(ban);
@@ -60,13 +60,13 @@ public class BanListener {
                         }
                     }
                 } else {
-                    SDisconnectPacket packet = (SDisconnectPacket) event.getPacket();
+                    DisconnectS2CPacket packet = (DisconnectS2CPacket) event.getPacket();
                     long banDur = this.calculateBanDuration(packet.getReason().getString());
                     if (banDur == 0L) {
                         return;
                     }
 
-                    Ban ban = new Ban(this.mc.getCurrentServerData().serverIP, new Date(banDur));
+                    Ban ban = new Ban(this.mc.getCurrentServerEntry().address, new Date(banDur));
                     Account account = Client.getInstance().accountManager.containsAccount();
                     if (account != null) {
                         account.registerBan(ban);
@@ -75,13 +75,13 @@ public class BanListener {
                     }
                 }
             } else {
-                SDisconnectLoginPacket packet = (SDisconnectLoginPacket) event.getPacket();
+                LoginDisconnectS2CPacket packet = (LoginDisconnectS2CPacket) event.getPacket();
                 long banDur = this.calculateBanDuration(packet.getReason().getString());
                 if (banDur == 0L) {
                     return;
                 }
 
-                Ban ban = new Ban(this.mc.getCurrentServerData().serverIP, new Date(banDur));
+                Ban ban = new Ban(this.mc.getCurrentServerEntry().address, new Date(banDur));
                 Account account = Client.getInstance().accountManager.containsAccount();
                 if (account != null) {
                     account.registerBan(ban);

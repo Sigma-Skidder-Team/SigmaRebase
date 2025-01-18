@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.math.Vec3i;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -28,10 +28,12 @@ public class Class4251 extends UIBase {
       this.addToList(this.field20615 = new Class4340(this, "waypointList", 0, 65, this.field20616, this.heightA - 65));
 
       for (Class8351 var10 : Client.getInstance().waypointsManager.method29989()) {
-         this.field20615.method13519(var10.field35889, new Vector3i(var10.field35890, 64, var10.field35891), var10.field35892);
+         this.field20615.method13519(var10.field35889, new Vec3i(var10.field35890, 64, var10.field35891),
+               var10.field35892);
       }
 
-      this.addToList(this.field20614 = new Class4259(this, "mapFrame", this.field20616, 0, this.widthA - this.field20616, this.heightA));
+      this.addToList(this.field20614 = new Class4259(this, "mapFrame", this.field20616, 0,
+            this.widthA - this.field20616, this.heightA));
       this.method13300(false);
    }
 
@@ -47,72 +49,67 @@ public class Class4251 extends UIBase {
    public void draw(float var1) {
       int var4 = 14;
       RenderUtil.drawRoundedRect(
-         (float)(this.xA + var4 / 2),
-         (float)(this.yA + var4 / 2),
-         (float)(this.widthA - var4),
-         (float)(this.heightA - var4),
-         20.0F,
-         var1 * 0.9F
-      );
+            (float) (this.xA + var4 / 2),
+            (float) (this.yA + var4 / 2),
+            (float) (this.widthA - var4),
+            (float) (this.heightA - var4),
+            20.0F,
+            var1 * 0.9F);
       float var5 = 0.88F;
       if (!Client.getInstance().guiManager.getGuiBlur()) {
          var5 = 0.95F;
       }
 
       RenderUtil.drawRoundedRect(
-         (float)this.xA,
-         (float)this.yA,
-         (float)this.widthA,
-         (float)this.heightA,
-         14.0F,
-         ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5)
-      );
+            (float) this.xA,
+            (float) this.yA,
+            (float) this.widthA,
+            (float) this.heightA,
+            14.0F,
+            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var5));
       RenderUtil.method11474(
-         (float)(this.xA + this.field20616),
-         (float)this.yA,
-         (float)(this.widthA - this.field20616),
-         (float)this.heightA,
-         14.0F,
-         -7687425
-      );
+            (float) (this.xA + this.field20616),
+            (float) this.yA,
+            (float) (this.widthA - this.field20616),
+            (float) this.heightA,
+            14.0F,
+            -7687425);
       RenderUtil.initStencilBuffer();
       RenderUtil.method11474(
-         (float)this.xA, (float)this.yA, (float)this.widthA, (float)this.heightA, 14.0F, ClientColors.LIGHT_GREYISH_BLUE.getColor()
-      );
+            (float) this.xA, (float) this.yA, (float) this.widthA, (float) this.heightA, 14.0F,
+            ClientColors.LIGHT_GREYISH_BLUE.getColor());
       RenderUtil.method11477(Class2329.field15940);
       GL11.glPushMatrix();
-      GL11.glTranslatef((float)this.getXA(), (float)this.getYA(), 0.0F);
+      GL11.glTranslatef((float) this.getXA(), (float) this.getYA(), 0.0F);
       this.field20615.draw(var1);
       GL11.glPopMatrix();
       GL11.glPushMatrix();
-      GL11.glTranslatef((float)this.getXA(), (float)this.getYA(), 0.0F);
+      GL11.glTranslatef((float) this.getXA(), (float) this.getYA(), 0.0F);
       this.field20614.draw(var1);
       GL11.glPopMatrix();
       RenderUtil.restorePreviousStencilBuffer();
       RenderUtil.drawRoundedRect2(
-         (float)(this.xA + this.field20616),
-         (float)(this.yA + 0),
-         1.0F,
-         (float)this.heightA,
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.14F)
-      );
+            (float) (this.xA + this.field20616),
+            (float) (this.yA + 0),
+            1.0F,
+            (float) this.heightA,
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.14F));
       int var6 = ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.6F);
-      RenderUtil.drawString(ResourceRegistry.JelloLightFont25, (float)(this.xA + 30), (float)(this.yA + 25), "Waypoints", var6);
+      RenderUtil.drawString(ResourceRegistry.JelloLightFont25, (float) (this.xA + 30), (float) (this.yA + 25),
+            "Waypoints", var6);
       RenderUtil.drawString(
-         ResourceRegistry.JelloMediumFont40,
-         (float)this.xA,
-         (float)((this.parent.getHeightA() - this.heightA) / 2 - 70),
-         "Jello Maps",
-         ClientColors.LIGHT_GREYISH_BLUE.getColor()
-      );
+            ResourceRegistry.JelloMediumFont40,
+            (float) this.xA,
+            (float) ((this.parent.getHeightA() - this.heightA) / 2 - 70),
+            "Jello Maps",
+            ClientColors.LIGHT_GREYISH_BLUE.getColor());
       String var7 = Client.getInstance().waypointsManager.method29998().replace("/", " - ");
       RenderUtil.drawString(
-         ResourceRegistry.JelloLightFont24,
-         (float)(this.xA + this.widthA - ResourceRegistry.JelloLightFont24.getWidth(var7) - 10),
-         (float)((this.parent.getHeightA() - this.heightA) / 2 - 62),
-         var7,
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F)
-      );
+            ResourceRegistry.JelloLightFont24,
+            (float) (this.xA + this.widthA - ResourceRegistry.JelloLightFont24.getWidth(var7) - 10),
+            (float) ((this.parent.getHeightA() - this.heightA) / 2 - 62),
+            var7,
+            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F));
    }
 
    public final void method13043(Class9514 var1) {

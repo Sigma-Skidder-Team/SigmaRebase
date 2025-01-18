@@ -72,7 +72,7 @@ public class Jesus extends Module {
 
     @EventTarget
     public void onUpdate(EventUpdate var1) {
-        if (this.isEnabled() && mc.world != null && var1.isPre() && mc.getCurrentServerData() != null) {
+        if (this.isEnabled() && mc.world != null && var1.isPre() && mc.getCurrentServerEntry() != null) {
             if (isWalkingOnLiquid() && !this.isOnLiquid(mc.player.getBoundingBox())) {
                 this.field24017++;
             } else {
@@ -159,7 +159,7 @@ public class Jesus extends Module {
 
     @EventTarget
     public void onJump(JumpEvent var1) {
-        if (this.isEnabled() && mc.world != null && mc.getCurrentServerData() != null) {
+        if (this.isEnabled() && mc.world != null && mc.getCurrentServerEntry() != null) {
             if (isWalkingOnLiquid()) {
                 if (this.liquidTicks % 2 != 0) {
                     var1.cancelled = true;
