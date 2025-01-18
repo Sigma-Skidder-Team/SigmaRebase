@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 public class DefaultClientFont extends TrueTypeFont {
    public final int field31945;
-   public Minecraft field31946 = MinecraftClient.getInstance();
+   public MinecraftClient field31946 = MinecraftClient.getInstance();
 
    public DefaultClientFont(int var1) {
       super(new Font("Arial", 0, var1), false);

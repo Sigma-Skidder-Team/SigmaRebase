@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Map.Entry;
 
 public class JelloKeyboardScreen extends Screen {
-   private static Minecraft field20953 = MinecraftClient.getInstance();
+   private static MinecraftClient field20953 = MinecraftClient.getInstance();
    private Texture field20954;
    public Date field20955;
    public Class4375 field20956;

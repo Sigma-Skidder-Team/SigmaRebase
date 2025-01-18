@@ -49,12 +49,11 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
    @Override
    public void method24718(float partialTicks) {
       RenderUtil.drawRoundedRect2(
-         (float)this.getStartX(),
-         (float)this.getStartY(),
-         (float)this.getWidth(),
-         (float)this.method24725(),
-         ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
-      );
+            (float) this.getStartX(),
+            (float) this.getStartY(),
+            (float) this.getWidth(),
+            (float) this.method24725(),
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
       this.field32403 = this.field32403 + this.method24733();
       int var4 = this.getStartX() + 4;
       int var5 = this.getStartY() + this.field32403 + 4;
@@ -72,12 +71,11 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
          }
 
          RenderUtil.drawString(
-            this.fontRenderer,
-            (float)(7 + this.getStartX()),
-                 this.getStartY() + var10,
-            categoryName,
-            ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F))
-         );
+               this.fontRenderer,
+               (float) (7 + this.getStartX()),
+               this.getStartY() + var10,
+               categoryName,
+               ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F)));
          var10 += 25;
       }
    }
@@ -111,10 +109,10 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
    }
 
    public int method24733() {
-      float var3 = (float)(this.index * 25);
-      float var4 = Math.abs(var3 - (float)this.field32403);
-      boolean var5 = var3 - (float)this.field32403 != var4;
-      float var6 = 60.0F / (float) Minecraft.getFps();
+      float var3 = (float) (this.index * 25);
+      float var4 = Math.abs(var3 - (float) this.field32403);
+      boolean var5 = var3 - (float) this.field32403 != var4;
+      float var6 = 60.0F / (float) MinecraftClient.getFps();
       float var7 = Math.min(var4 * 0.8F, var4 * 0.3F * var6);
       if (var5) {
          var7 *= -1.0F;

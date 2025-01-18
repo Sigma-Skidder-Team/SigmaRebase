@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.gui.unmapped.SpotlightDialog;
 import net.minecraft.client.MinecraftClient;
 
 public class SearchBar extends Screen {
-   private static Minecraft field21107 = MinecraftClient.getInstance();
+   private static MinecraftClient field21107 = MinecraftClient.getInstance();
    public SpotlightDialog field21108;
 
    public SearchBar() {

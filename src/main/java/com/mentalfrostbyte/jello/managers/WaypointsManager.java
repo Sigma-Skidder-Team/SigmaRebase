@@ -44,7 +44,7 @@ import totalcross.json.JSONException2;
 import totalcross.json.JSONObject;
 
 public class WaypointsManager {
-    private Minecraft field36365 = MinecraftClient.getInstance();
+    private MinecraftClient field36365 = MinecraftClient.getInstance();
     private List<ChunkPos> field36366 = new ArrayList<ChunkPos>();
     private List<ChunkPos> field36367 = new ArrayList<ChunkPos>();
     private List<Class8351> field36368 = new ArrayList<Class8351>();

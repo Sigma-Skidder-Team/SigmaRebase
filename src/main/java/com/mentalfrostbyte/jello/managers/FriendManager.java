@@ -17,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class FriendManager {
     public List<String> field34176 = new CopyOnWriteArrayList<>();
     public List<String> friends = new CopyOnWriteArrayList<>();
-    private final Minecraft mc = MinecraftClient.getInstance();
+    private final MinecraftClient mc = MinecraftClient.getInstance();
 
     public void init() {
         EventBus.register(this);

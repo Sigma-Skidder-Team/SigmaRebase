@@ -14,7 +14,7 @@ import net.minecraft.text.LiteralText;
 import team.sdhq.eventBus.EventBus;
 
 public class ModuleKeyPress {
-   private static final Minecraft mc = MinecraftClient.getInstance();
+   private static final MinecraftClient mc = MinecraftClient.getInstance();
 
    public static void press(int key) {
       if (Client.getInstance().clientMode != ClientMode.NOADDONS) {

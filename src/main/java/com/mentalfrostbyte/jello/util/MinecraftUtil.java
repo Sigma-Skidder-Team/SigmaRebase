@@ -5,7 +5,7 @@ import net.minecraft.text.LiteralText;
 
 public class MinecraftUtil {
 
-    private static final Minecraft mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static void addChatMessage(String text) {
         LiteralText textComp = new LiteralText(text);

@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL11.GL_SCISSOR_TEST;
 
 public class RenderUtil {
 
-    private static final Minecraft mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static boolean stencilOpInProgress = false;
 

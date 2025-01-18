@@ -126,7 +126,7 @@ public class GuiManager {
 
     public static void method33475() {
         MinecraftClient.getInstance();
-        if (Minecraft.IS_RUNNING_ON_MAC) {
+        if (MinecraftClient.IS_RUNNING_ON_MAC) {
             try {
                 JSONObject var2 = FileUtil.readFile(new File(Client.getInstance().file + "/config.json"));
                 if (var2.has("hidpicocoa")) {

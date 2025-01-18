@@ -41,15 +41,16 @@ public class Class4299 extends AnimatedIconPanelWrap {
          this.field20834.put(System.currentTimeMillis() + (var3 * 2), 0.25 + Math.random() * 0.5);
       }
 
-      for (long var5 = this.field20834.lastKey(); var5 < System.currentTimeMillis() + (var3 * var4); var5 = this.field20834.lastKey()) {
+      for (long var5 = this.field20834.lastKey(); var5 < System.currentTimeMillis()
+            + (var3 * var4); var5 = this.field20834.lastKey()) {
          this.field20834.put(var5 + var3, 0.25 + Math.random() * 0.5);
       }
 
       Iterator var7 = this.field20834.entrySet().iterator();
 
       while (var7.hasNext()) {
-         Entry var8 = (Entry)var7.next();
-         if ((Long)var8.getKey() < System.currentTimeMillis() - (var3 * 2)) {
+         Entry var8 = (Entry) var7.next();
+         if ((Long) var8.getKey() < System.currentTimeMillis() - (var3 * 2)) {
             var7.remove();
          }
       }
@@ -69,10 +70,10 @@ public class Class4299 extends AnimatedIconPanelWrap {
       RenderUtil.method11415(this);
 
       for (int var4 = 0; var4 < 3; var4++) {
-         RenderUtil.drawImage((float)(this.xA + 288 * var4), (float)this.yA, 288.0F, 512.0F, this.backgrnd);
+         RenderUtil.drawImage((float) (this.xA + 288 * var4), (float) this.yA, 288.0F, 512.0F, this.backgrnd);
       }
 
-      float var16 = 60.0F / (float) Minecraft.getFps();
+      float var16 = 60.0F / (float) MinecraftClient.getFps();
       float var5 = 0.026F * var16;
       this.field20835 = Math.max(Math.min(1.0F, this.field20835 + this.field20836 - var5), 0.0F);
       this.field20836 = Math.max(-var5, this.field20836 * 0.965F);
@@ -81,46 +82,44 @@ public class Class4299 extends AnimatedIconPanelWrap {
       int var8 = this.heightA - 112;
 
       for (Entry var10 : this.field20834.entrySet()) {
-         int var11 = (int)((Long)var10.getKey() - System.currentTimeMillis());
-         float var12 = (float)var11 / 12.0F;
-         float var13 = (float)var7 / 12.0F;
+         int var11 = (int) ((Long) var10.getKey() - System.currentTimeMillis());
+         float var12 = (float) var11 / 12.0F;
+         float var13 = (float) var7 / 12.0F;
          RenderUtil.drawImage(
-            (float)this.xA + var13 + var12,
-            (float)(this.yA - 320 + (int)((double)var8 * (Double)var10.getValue()) - var6 / 2),
-            52.0F,
-            320.0F,
-            this.pipe,
-            ClientColors.LIGHT_GREYISH_BLUE.getColor()
-         );
+               (float) this.xA + var13 + var12,
+               (float) (this.yA - 320 + (int) ((double) var8 * (Double) var10.getValue()) - var6 / 2),
+               52.0F,
+               320.0F,
+               this.pipe,
+               ClientColors.LIGHT_GREYISH_BLUE.getColor());
          RenderUtil.drawImage(
-            (float)this.xA + var13 + var12,
-            (float)(this.yA + (int)((double)var8 * (Double)var10.getValue()) + var6 / 2),
-            52.0F,
-            320.0F,
-            this.pipe2,
-            ClientColors.LIGHT_GREYISH_BLUE.getColor()
-         );
+               (float) this.xA + var13 + var12,
+               (float) (this.yA + (int) ((double) var8 * (Double) var10.getValue()) + var6 / 2),
+               52.0F,
+               320.0F,
+               this.pipe2,
+               ClientColors.LIGHT_GREYISH_BLUE.getColor());
          if (var12 > -52.0F && var12 < 0.0F) {
-            float var14 = (float)(var6 - 24) / (float)var8;
-            boolean var15 = (double)this.field20835 < (Double)var10.getValue() - (double)(var14 / 2.0F)
-               || (double)this.field20835 > (Double)var10.getValue() + (double)(var14 / 2.0F);
+            float var14 = (float) (var6 - 24) / (float) var8;
+            boolean var15 = (double) this.field20835 < (Double) var10.getValue() - (double) (var14 / 2.0F)
+                  || (double) this.field20835 > (Double) var10.getValue() + (double) (var14 / 2.0F);
          }
       }
 
-      float var18 = (float)(System.currentTimeMillis() % (long)3400) / 3400;
+      float var18 = (float) (System.currentTimeMillis() % (long) 3400) / 3400;
 
       for (int var19 = 0; var19 < 4; var19++) {
-         RenderUtil.drawImage((float)(this.xA + 288 * var19) - 288.0F * var18, (float)(this.yA + var8), 288.0F, 112.0F, this.foregrnd);
+         RenderUtil.drawImage((float) (this.xA + 288 * var19) - 288.0F * var18, (float) (this.yA + var8), 288.0F,
+               112.0F, this.foregrnd);
       }
 
       RenderUtil.drawImage(
-              (float)this.xA + (float)var7 / 12.0F,
-              (float)this.yA + (float)var8 * (1.0F - this.field20835),
-              40,
-              20,
-              this.bird,
-              ClientColors.LIGHT_GREYISH_BLUE.getColor()
-      );
+            (float) this.xA + (float) var7 / 12.0F,
+            (float) this.yA + (float) var8 * (1.0F - this.field20835),
+            40,
+            20,
+            this.bird,
+            ClientColors.LIGHT_GREYISH_BLUE.getColor());
       RenderUtil.endScissor();
       this.field20837 = System.currentTimeMillis();
       super.draw(var1);

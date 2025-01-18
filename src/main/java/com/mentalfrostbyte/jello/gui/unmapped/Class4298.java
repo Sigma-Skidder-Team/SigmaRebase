@@ -40,7 +40,7 @@ public class Class4298 extends AnimatedIconPanelWrap {
          Class2218.field14492);
    public String field20822 = null;
    private AbstractClientPlayerEntity field20823;
-   private Minecraft mc = MinecraftClient.getInstance();
+   private MinecraftClient mc = MinecraftClient.getInstance();
    private static ClientWorld clientWorld;
    public Account account;
    private DynamicTexture field20827;

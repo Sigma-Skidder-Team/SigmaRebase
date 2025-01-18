@@ -150,7 +150,7 @@ public class MacOSTouchBar {
    }
 
    public boolean isValidMacOS() {
-      return Minecraft.IS_RUNNING_ON_MAC
+      return MinecraftClient.IS_RUNNING_ON_MAC
             && Client.getInstance().clientMode == ClientMode.JELLO
             && (System.getProperty("os.version").startsWith("10.14")
                   || System.getProperty("os.version").startsWith("10.15")

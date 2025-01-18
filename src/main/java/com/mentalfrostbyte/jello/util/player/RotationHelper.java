@@ -16,7 +16,7 @@ import java.util.Date;
 import static com.mentalfrostbyte.jello.util.EntityUtil.getCenteredHitbox;
 
 public class RotationHelper {
-    private static final Minecraft mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static float field42013;
     public static float field42014;
     public static long field42015;

@@ -13,7 +13,7 @@ import net.minecraft.util.MovementInput;
  * including speed adjustments, strafing, and motion control.
  */
 public class MovementUtil {
-    protected static Minecraft mc = MinecraftClient.getInstance();
+    protected static MinecraftClient mc = MinecraftClient.getInstance();
 
     /**
      * Gets the current speed boost level of the player.

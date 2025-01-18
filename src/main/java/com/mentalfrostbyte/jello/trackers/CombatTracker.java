@@ -20,7 +20,7 @@ import java.util.*;
 public class CombatTracker {
     public HashMap<UUID, Class8433> field36054 = new HashMap<>();
     public Class8930 field36058;
-    private final Minecraft mc = MinecraftClient.getInstance();
+    private final MinecraftClient mc = MinecraftClient.getInstance();
     private final List<UUID> field36053 = new ArrayList<>();
 
     public CombatTracker() {
@@ -30,7 +30,7 @@ public class CombatTracker {
                 | Client.getInstance().networkManager.field38425 != null;
     }
 
-    public static Minecraft method29522(CombatTracker var0) {
+    public static MinecraftClient method29522(CombatTracker var0) {
         return var0.mc;
     }
 

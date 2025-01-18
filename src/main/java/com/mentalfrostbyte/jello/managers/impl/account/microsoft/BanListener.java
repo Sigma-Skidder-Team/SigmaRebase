@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BanListener {
-    public Minecraft mc = MinecraftClient.getInstance();
+    public MinecraftClient mc = MinecraftClient.getInstance();
 
     @EventTarget
     public void onPacketReceive(ReceivePacketEvent event) {

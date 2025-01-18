@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
-    public static final Minecraft mc = MinecraftClient.getInstance();
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
     private final String name;
     private final String descriptor;
     private final String[] alias;

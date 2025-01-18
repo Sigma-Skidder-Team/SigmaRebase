@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ColorUtils {
-    private static final Minecraft mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static final ResourceLocation BLUR_SHADER = new ResourceLocation("shaders/post/blur.json");
 
     public static int applyAlpha(int color, float alpha) {

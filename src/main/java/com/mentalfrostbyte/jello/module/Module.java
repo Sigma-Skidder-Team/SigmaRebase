@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Module {
 
-    public static Minecraft mc = MinecraftClient.getInstance();
+    public static MinecraftClient mc = MinecraftClient.getInstance();
     public String name;
     public String descriptor;
     public ModuleCategory category;

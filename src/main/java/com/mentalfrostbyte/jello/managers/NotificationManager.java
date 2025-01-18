@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class NotificationManager {
-    public Minecraft mc = MinecraftClient.getInstance();
+    public MinecraftClient mc = MinecraftClient.getInstance();
     private final List<Notification> notifications = new ArrayList<>();
     private final int field39922 = 200, field39923 = 340, field39924 = 64, field39925 = 10, field39926 = 10,
             field39927 = 10;

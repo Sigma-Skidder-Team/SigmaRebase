@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicManager {
-    private static final Minecraft mc = MinecraftClient.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public BufferedImage field32149;
     public String field32150 = "";
     public List<double[]> field32163 = new ArrayList<>();
@@ -175,7 +175,7 @@ public class MusicManager {
                     }
                 }
 
-                float var10 = 60.0F / (float) Minecraft.getFps();
+                float var10 = 60.0F / (float) MinecraftClient.getFps();
 
                 for (int var6 = 0; var6 < var4.length; var6++) {
                     double var7 = this.field32165.get(var6) - var4[var6];

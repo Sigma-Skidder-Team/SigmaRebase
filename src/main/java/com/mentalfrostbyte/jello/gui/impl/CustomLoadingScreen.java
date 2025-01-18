@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 public class CustomLoadingScreen extends LoadingGui {
 
-        private final Minecraft client;
+        private final MinecraftClient client;
         private final IAsyncReloader reloadMonitor;
         private final Consumer<Optional<Throwable>> exceptionHandler;
         private final boolean reloading;

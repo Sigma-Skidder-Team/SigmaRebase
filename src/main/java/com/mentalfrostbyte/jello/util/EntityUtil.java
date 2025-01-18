@@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
 import static com.mentalfrostbyte.jello.util.player.RotationHelper.getLookVector;
 
 public class EntityUtil {
-    private static Minecraft mc = MinecraftClient.getInstance();
+    private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static Entity getEntityFromRayTrace(float yaw, float pitch, float reachDistanceModifier,
             double boundingBoxExpansion) {

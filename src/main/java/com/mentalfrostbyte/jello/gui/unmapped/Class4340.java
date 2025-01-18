@@ -31,7 +31,7 @@ public class Class4340 extends Class4339 {
       this.method13511();
    }
 
-//   @Override
+   // @Override
    public void method13511() {
       boolean var3 = false;
    }
@@ -40,24 +40,23 @@ public class Class4340 extends Class4339 {
       String var6 = "waypoint x" + var2.getX() + " z" + var2.getZ();
       if (this.buttonList.method13221(var6) == null) {
          Class4355 var7 = new Class4355(
-            this, var6, this.xA, this.getChildren().get(0).getChildren().size() * this.field21210, this.widthA, this.field21210, var1, var2, var3
-         );
+               this, var6, this.xA, this.getChildren().get(0).getChildren().size() * this.field21210, this.widthA,
+               this.field21210, var1, var2, var3);
          var7.field21288 = var7.getYA();
          this.field21209.add(var7);
          this.addButton(var7);
          var7.doThis((var2x, var3x) -> {
-            Class4251 var6x = (Class4251)this.getParent();
+            Class4251 var6x = (Class4251) this.getParent();
             var6x.field20614.method13077(var7.field21292.getX(), var7.field21292.getZ());
          });
          var7.addUIHandler(
-            var3x -> {
-               Client.getInstance()
-                  .waypointsManager
-                  .method29993(new Class8351(var7.field21291, var7.field21292.getX(), var7.field21292.getZ(), var7.field21293));
-               this.buttonList.method13237(var7);
-               this.field21209.remove(var3x);
-            }
-         );
+               var3x -> {
+                  Client.getInstance().waypointsManager
+                        .method29993(new Class8351(var7.field21291, var7.field21292.getX(), var7.field21292.getZ(),
+                              var7.field21293));
+                  this.buttonList.method13237(var7);
+                  this.field21209.remove(var3x);
+               });
       }
    }
 
@@ -86,9 +85,9 @@ public class Class4340 extends Class4339 {
          if (var11.method13216()) {
             this.field21211.changeDirection(Direction.FORWARDS);
             if (newHeight > this.method13271() + 10
-               && newHeight < this.method13271() + 50
-               && newWidth < this.method13272() + this.getHeightA() - 10
-               && newWidth > this.method13272() + this.getHeightA() - 50) {
+                  && newHeight < this.method13271() + 50
+                  && newWidth < this.method13272() + this.getHeightA() - 10
+                  && newWidth > this.method13272() + this.getHeightA() - 50) {
                this.field21212 = true;
                this.field21213 = var11;
             } else {
@@ -102,10 +101,10 @@ public class Class4340 extends Class4339 {
             Client.getInstance().waypointsManager.method29989().clear();
 
             for (Class4355 var9 : this.field21209) {
-               Client.getInstance()
-                  .waypointsManager
-                  .method29989()
-                  .add(new Class8351(var9.field21291, var9.field21292.getX(), var9.field21292.getZ(), var9.field21293));
+               Client.getInstance().waypointsManager
+                     .method29989()
+                     .add(new Class8351(var9.field21291, var9.field21292.getX(), var9.field21292.getZ(),
+                           var9.field21293));
             }
 
             Collections.reverse(Client.getInstance().waypointsManager.method29989());
@@ -118,31 +117,32 @@ public class Class4340 extends Class4339 {
 
    @Override
    public void draw(float var1) {
-      float var4 = Math.min(1.0F, 0.21F * (60.0F / (float) Minecraft.getFps()));
+      float var4 = Math.min(1.0F, 0.21F * (60.0F / (float) MinecraftClient.getFps()));
 
       for (Class4355 var6 : this.field21209) {
          if (!var6.method13216()) {
-            float var7 = (float)(var6.getYA() - var6.field21288) * var4;
+            float var7 = (float) (var6.getYA() - var6.field21288) * var4;
             if (Math.round(var7) == 0 && var7 > 0.0F) {
                var7 = 1.0F;
             } else if (Math.round(var7) == 0 && var7 < 0.0F) {
                var7 = -1.0F;
             }
 
-            var6.setYA(Math.round((float)var6.getYA() - var7));
+            var6.setYA(Math.round((float) var6.getYA() - var7));
          }
       }
 
       super.draw(var1);
       int var8 = Math.round(QuadraticEasing.easeInQuad(1.0F - this.field21211.calcPercent(), 0.0F, 1.0F, 1.0F) * 30.0F);
       RenderUtil.drawImage(
-         (float)(this.xA - var8 + 18),
-         (float)(this.heightA - 46),
-         22.0F,
-         26.0F,
-         Resources.trashcanPNG,
-         ColorUtils.applyAlpha(!this.field21212 ? ClientColors.DEEP_TEAL.getColor() : ClientColors.PALE_YELLOW.getColor(), this.field21211.calcPercent() * 0.5F),
-         false
-      );
+            (float) (this.xA - var8 + 18),
+            (float) (this.heightA - 46),
+            22.0F,
+            26.0F,
+            Resources.trashcanPNG,
+            ColorUtils.applyAlpha(
+                  !this.field21212 ? ClientColors.DEEP_TEAL.getColor() : ClientColors.PALE_YELLOW.getColor(),
+                  this.field21211.calcPercent() * 0.5F),
+            false);
    }
 }

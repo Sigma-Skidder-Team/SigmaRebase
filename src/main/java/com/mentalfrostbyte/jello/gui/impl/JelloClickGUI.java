@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class JelloClickGUI extends Screen {
    public ClickGUIBlurOverlay blurOverlay;
-   private static Minecraft mc = MinecraftClient.getInstance();
+   private static MinecraftClient mc = MinecraftClient.getInstance();
    private static Animation field20942;
    private static boolean field20943;
    private static boolean field20944;
@@ -190,7 +190,7 @@ public class JelloClickGUI extends Screen {
 
    @Override
    public int method13313() {
-      return Minecraft.getFps();
+      return MinecraftClient.getFps();
    }
 
    @Override

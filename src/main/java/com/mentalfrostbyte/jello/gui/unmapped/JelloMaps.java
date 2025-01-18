@@ -13,7 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import java.util.Date;
 
 public class JelloMaps extends Screen {
-   private static Minecraft field21033 = MinecraftClient.getInstance();
+   private static MinecraftClient field21033 = MinecraftClient.getInstance();
    private Texture field21034;
    public Date field21035;
    public Class4251 field21036;

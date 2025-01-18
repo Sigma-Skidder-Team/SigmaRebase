@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 public class Class4297 extends AnimatedIconPanelWrap {
    private static String[] field20816;
-   public Minecraft field20817 = MinecraftClient.getInstance();
+   public MinecraftClient field20817 = MinecraftClient.getInstance();
    public Class8455 field20818;
    public TimerUtil field20819 = new TimerUtil();
    public int field20820;

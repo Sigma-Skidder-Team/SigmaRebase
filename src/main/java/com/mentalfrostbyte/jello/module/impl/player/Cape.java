@@ -9,7 +9,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
 
 public class Cape extends Module {
 
-    private final Minecraft mc = MinecraftClient.getInstance();
+    private final MinecraftClient mc = MinecraftClient.getInstance();
 
     public Cape() {
         super(ModuleCategory.PLAYER, "Cape", "gives you a cape (wow)");
