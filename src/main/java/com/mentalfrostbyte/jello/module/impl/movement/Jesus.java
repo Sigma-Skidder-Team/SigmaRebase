@@ -15,8 +15,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 
@@ -30,7 +30,7 @@ public class Jesus extends Module {
 
     public Jesus() {
         super(ModuleCategory.MOVEMENT, "Jesus", "Where's the scientific proof?");
-        this.registerSetting(new ModeSetting("Mode", "Mode", 0, "Basic", "Dolphin")/*.setPremiumModes("Dolphin")*/);
+        this.registerSetting(new ModeSetting("Mode", "Mode", 0, "Basic", "Dolphin")/* .setPremiumModes("Dolphin") */);
         this.registerSetting(new BooleanSetting("Swim up", "Automatically swim up", true));
     }
 
@@ -40,14 +40,12 @@ public class Jesus extends Module {
 
     @EventTarget
     public void method16945(EventBlockCollision var1) {
-        if (this.isEnabled() && mc.world != null &&!AutoMLG.method16421()) {
+        if (this.isEnabled() && mc.world != null && !AutoMLG.method16421()) {
             if (mc.world.getBlockState(var1.getBlockPos()).getMaterial() == Material.SEA_GRASS
                     || mc.world.getBlockState(var1.getBlockPos()).getMaterial() == Material.WATER
                     || mc.world.getBlockState(var1.getBlockPos()).getMaterial() == Material.LAVA) {
-                if (!(
-                        (double)var1.getBlockPos().getY()
-                                >= mc.player.getPosY() - (double)(mc.player.getPosY() % 0.5 != 0.0 ? 0.0F : 0.5F)
-                )) {
+                if (!((double) var1.getBlockPos().getY() >= mc.player.getPosY()
+                        - (double) (mc.player.getPosY() % 0.5 != 0.0 ? 0.0F : 0.5F))) {
                     if (!this.isOnLiquid(mc.player.getBoundingBox())) {
                         if (!mc.player.isSneaking()) {
                             if (!(mc.player.fallDistance > 10.0F)) {
@@ -62,7 +60,7 @@ public class Jesus extends Module {
                                     var6 -= 0.8F;
                                 }
 
-                                VoxelShape var7 = VoxelShapes.create(0.0, 0.0, 0.0, 1.0, (double)var6, 1.0);
+                                VoxelShape var7 = VoxelShapes.create(0.0, 0.0, 0.0, 1.0, (double) var6, 1.0);
                                 var1.setBoxelShape(var7);
                             }
                         }
@@ -109,7 +107,7 @@ public class Jesus extends Module {
 
                         boolean onLiquid = this.isOnLiquid(mc.player.getBoundingBox().offset(0.0, var1.getY(), 0.0));
                         if (!onLiquid) { // TODO: is it correct for it to only work when swim up is active & still bob?
-                            double var8 = (double)((int) mc.player.getPosY() + 1);
+                            double var8 = (double) ((int) mc.player.getPosY() + 1);
                             double var10 = var8 - mc.player.getPosY();
                             var1.setY(var10);
                             mc.player.setOnGround(true);
@@ -118,13 +116,14 @@ public class Jesus extends Module {
                     }
                 }
             } else {
-                if (isWalkingOnLiquid() && var1.getY() != -0.0784000015258789 && var1.getY() != MovementUtil.method37080()) {
+                if (isWalkingOnLiquid() && var1.getY() != -0.0784000015258789
+                        && var1.getY() != MovementUtil.method37080()) {
                     var1.setY(-0.078);
                 }
 
                 if (this.getStringSettingValueByName("Mode").equals("Dolphin")) {
                     if (this.field24016 > 0) {
-                        if (/*MultiUtilities.isAboveBounds(mc.player, 0.001F)*/false) {
+                        if (/* MultiUtilities.isAboveBounds(mc.player, 0.001F) */false) {
                             this.field24016 = 0;
                         } else {
                             if (mc.player.isSneaking() || mc.player.collidedVertically) {
@@ -137,7 +136,7 @@ public class Jesus extends Module {
                                 this.field24016++;
                             }
 
-                            double var14 = this.method16954((double)this.field24016);
+                            double var14 = this.method16954((double) this.field24016);
                             if (var14 != -999.0) {
                                 mc.player.lastReportedPosY = 0.0;
                                 var1.setY(var14);
@@ -145,7 +144,7 @@ public class Jesus extends Module {
                         }
                     } else if (isWalkingOnLiquid() && this.liquidTicks % 2 == 0) {
                         this.field24016++;
-                        double var12 = this.method16954((double)this.field24016);
+                        double var12 = this.method16954((double) this.field24016);
                         MovementUtil.setSpeed(var1, 0.25);
                         if (var12 != -999.0) {
                             var1.setY(var12);
@@ -235,7 +234,7 @@ public class Jesus extends Module {
 
     public double method16954(double var1) {
         var1--;
-        double[] var5 = new double[]{
+        double[] var5 = new double[] {
                 0.499,
                 0.484,
                 0.468,
@@ -270,6 +269,6 @@ public class Jesus extends Module {
                 -0.077,
                 -0.109
         };
-        return var1 < (double)var5.length && var1 >= 0.0 ? var5[(int)var1] : -999.0;
+        return var1 < (double) var5.length && var1 >= 0.0 ? var5[(int) var1] : -999.0;
     }
 }

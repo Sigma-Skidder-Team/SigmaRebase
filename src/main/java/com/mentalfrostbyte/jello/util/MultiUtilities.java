@@ -1,6 +1,5 @@
 package com.mentalfrostbyte.jello.util;
 
-
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +11,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -38,7 +37,6 @@ public class MultiUtilities {
 
     private static boolean field24954 = false;
 
-
     public static boolean isAboveBounds(Entity var0, float var1) {
         AxisAlignedBB var4 = new AxisAlignedBB(
                 var0.getBoundingBox().minX,
@@ -46,14 +44,14 @@ public class MultiUtilities {
                 var0.getBoundingBox().minZ,
                 var0.getBoundingBox().maxX,
                 var0.getBoundingBox().maxY,
-                var0.getBoundingBox().maxZ
-        );
+                var0.getBoundingBox().maxZ);
         Stream<VoxelShape> var5 = mc.world.getCollisionShapes(mc.player, var4);
         return var5.findAny().isPresent();
     }
 
     public static boolean isCubecraft() {
-        return mc.getIntegratedServer() == null && mc.getCurrentServerData() != null && mc.getCurrentServerData().serverIP.toLowerCase().contains("cubecraft.net");
+        return mc.getIntegratedServer() == null && mc.getCurrentServerData() != null
+                && mc.getCurrentServerData().serverIP.toLowerCase().contains("cubecraft.net");
     }
     public static List<PlayerEntity> method17680() {
         ArrayList<PlayerEntity> var2 = new ArrayList<>();
@@ -100,8 +98,10 @@ public class MultiUtilities {
         mc.getConnection().sendPacket(new CPlayerTryUseItemPacket(Hand.MAIN_HAND));
         mc.getConnection().sendPacket(new CPlayerTryUseItemPacket(Hand.OFF_HAND));
     }
+
     public static void unblock() {
-        mc.getConnection().sendPacket(new CPlayerDiggingPacket(CPlayerDiggingPacket.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), Direction.DOWN));
+        mc.getConnection().sendPacket(new CPlayerDiggingPacket(CPlayerDiggingPacket.Action.RELEASE_USE_ITEM,
+                new BlockPos(0, 0, 0), Direction.DOWN));
     }
 
     public static double method17750() {
@@ -116,16 +116,12 @@ public class MultiUtilities {
 
         for (int var10 = 0; var10 < var9; var10++) {
             double var11 = !var0 ? 0.0 : method17750();
-            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var3 + var11, var5 + 0.06248 + method17750(), var7 + var11, false));
+            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var3 + var11, var5 + 0.06248 + method17750(),
+                    var7 + var11, false));
             if (isHypixel()) {
-                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var3 + var11, var5 + 0.05 + method17750(), var7 + var11, false));
+                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var3 + var11,
+                        var5 + 0.05 + method17750(), var7 + var11, false));
             }
         }
     }
 }
-
-
-
-
-
-

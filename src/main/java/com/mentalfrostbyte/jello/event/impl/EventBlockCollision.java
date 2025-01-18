@@ -1,9 +1,9 @@
 package com.mentalfrostbyte.jello.event.impl;
 
 import com.mentalfrostbyte.jello.event.CancellableEvent;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.shape.VoxelShapes;
 
 public class EventBlockCollision extends CancellableEvent {
     private BlockPos blockPos;

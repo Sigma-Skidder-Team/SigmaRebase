@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
@@ -76,7 +76,7 @@ public class VanillaFly extends Module {
         if (this.isEnabled()) {
             if (!mc.player.isOnGround() && this.getBooleanValueFromSettingName("Kick bypass")) {
                 if (this.ticksInAir > 0 && this.ticksInAir % 30 == 0
-                        /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/) {
+                /* && !MultiUtilities.isAboveBounds(mc.player, 0.01F) */) {
                     /*
                      * if (JelloPortal.getCurrentVersionApplied() !=
                      * ViaVerList._1_8_x.getVersionNumber()) {
@@ -130,7 +130,7 @@ public class VanillaFly extends Module {
     @EventTarget
     public void onMove(EventMove event) {
         if (this.isEnabled()) {
-            if (!/*MultiUtilities.isAboveBounds(mc.player, 0.01F)*/mc.player.isOnGround()) {
+            if (!/* MultiUtilities.isAboveBounds(mc.player, 0.01F) */mc.player.isOnGround()) {
                 this.ticksInAir++;
             } else {
                 this.ticksInAir = 0;

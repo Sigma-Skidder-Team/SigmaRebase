@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.module.impl.movement.Fly;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.play.client.CAnimateHandPacket;
@@ -66,8 +66,8 @@ public class AutoMLG extends PremiumModule {
             if (var1.isPre() && preTicks >= 0) {
                 preTicks++;
                 float[] var4 = RotationHelper.method34144(
-                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5, (double) this.field23650.getY() + 0.5
-                );
+                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5,
+                        (double) this.field23650.getY() + 0.5);
                 var1.setYaw(var4[0]);
                 var1.setPitch(var4[1]);
             }
@@ -94,7 +94,8 @@ public class AutoMLG extends PremiumModule {
                 BlockPos var5 = this.method16425();
                 if (var5 != null) {
                     if (var1.isPre() && preTicks == -1) {
-                        float[] var6 = RotationHelper.method34144((double) var5.getX() + 0.5, (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
+                        float[] var6 = RotationHelper.method34144((double) var5.getX() + 0.5,
+                                (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
                         var1.setYaw(var6[0]);
                         var1.setPitch(var6[1]);
                         if (var7 != mc.player.inventory.currentItem) {
@@ -128,19 +129,21 @@ public class AutoMLG extends PremiumModule {
             }
         }
 
-        if (true/*Client.getInstance().playerTracker.getMode() > 1*/) { // TODO
+        if (true/* Client.getInstance().playerTracker.getMode() > 1 */) { // TODO
             for (int var5 = 9; var5 < 36; var5++) {
                 if (mc.player.container.getSlot(var5).getHasStack()) {
                     ItemStack var6 = mc.player.container.getSlot(var5).getStack();
                     if (var6.getItem() == Items.WATER_BUCKET) {
                         /*
-                        if (JelloPortal.getCurrentVersionApplied() <= ViaVerList._1_11_1_or_2.getVersionNumber()) {
-                            mc.getConnection().sendPacket(new CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
-                        }
+                         * if (JelloPortal.getCurrentVersionApplied() <=
+                         * ViaVerList._1_11_1_or_2.getVersionNumber()) {
+                         * mc.getConnection().sendPacket(new
+                         * CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
+                         * }
                          */
 
-//                        TODO
-//                        InvManagerUtils.moveItemToHotbar(var5, 6);
+                        // TODO
+                        // InvManagerUtils.moveItemToHotbar(var5, 6);
                         mc.getConnection().sendPacket(new CCloseWindowPacket(-1));
                         return 6;
                     }
@@ -166,15 +169,19 @@ public class AutoMLG extends PremiumModule {
             VoxelShape var13 = (VoxelShape) var11.next();
             AxisAlignedBB var14 = var13.getBoundingBox();
             BlockPos var15 = new BlockPos(var14.getCenter());
-            if (true/*BlockUtil.method34578(var15)
-                    && (double) (var15.getY() + 1) < mc.player.getPosY()
-                    && (
-                    var12 == null
-                            || mc.player
-                            .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
-                            > mc.player
-                            .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double) var15.getZ() + 0.5 - var7)
-            )*/) {
+            if (true/*
+                     * BlockUtil.method34578(var15)
+                     * && (double) (var15.getY() + 1) < mc.player.getPosY()
+                     * && (
+                     * var12 == null
+                     * || mc.player
+                     * .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double)
+                     * var12.getZ() + 0.5 - var7)
+                     * > mc.player
+                     * .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double)
+                     * var15.getZ() + 0.5 - var7)
+                     * )
+                     */) {
                 var12 = var15;
             }
         }
@@ -192,15 +199,19 @@ public class AutoMLG extends PremiumModule {
                 AxisAlignedBB var21 = var20.getBoundingBox();
                 BlockPos var22 = new BlockPos(var21.getCenter());
                 // TODO
-                if (true/*BlockUtil.method34578(var22)
-                        && (double) (var22.getY() + 1) < mc.player.getPosY()
-                        && (
-                        var12 == null
-                                || mc.player
-                                .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
-                                > mc.player
-                                .getDistanceSq((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double) var22.getZ() + 0.5 - var7)
-                )*/) {
+                if (true/*
+                         * BlockUtil.method34578(var22)
+                         * && (double) (var22.getY() + 1) < mc.player.getPosY()
+                         * && (
+                         * var12 == null
+                         * || mc.player
+                         * .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double)
+                         * var12.getZ() + 0.5 - var7)
+                         * > mc.player
+                         * .getDistanceSq((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double)
+                         * var22.getZ() + 0.5 - var7)
+                         * )
+                         */) {
                     var12 = var22;
                 }
             }

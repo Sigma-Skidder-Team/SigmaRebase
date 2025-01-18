@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
 import net.minecraft.block.SnowBlock;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;

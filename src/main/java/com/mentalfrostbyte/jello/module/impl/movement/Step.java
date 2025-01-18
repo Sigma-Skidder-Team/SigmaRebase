@@ -1,17 +1,15 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
-
 //import com.mentalfrostbyte.jello.misc.unmapped.StepEnum;
 //import com.mentalfrostbyte.jello.misc.unmapped.Class5631;
 import com.mentalfrostbyte.jello.misc.StepEnum;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.shape.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
 import com.mentalfrostbyte.jello.event.impl.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.EventStep;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
 import com.mentalfrostbyte.jello.module.impl.movement.step.*;
-
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -28,10 +26,10 @@ public class Step extends ModuleWithModuleSettings {
                 "Step",
                 "Allows you to step up more than 0.5 block",
                 new VanillaStep()
-//                new HypixelStep(),
-//                new NCPStep(),
-//                new AACStep(),
-//                new SpiderStep()
+        // new HypixelStep(),
+        // new NCPStep(),
+        // new AACStep(),
+        // new SpiderStep()
         );
 
     }
@@ -43,7 +41,7 @@ public class Step extends ModuleWithModuleSettings {
     }
 
     @EventTarget
-//    @Class5631
+    // @Class5631
     public void onStep(EventStep var1) {
         if (!(var1.getHeight() < 0.1)) {
             updateTicksBeforeStep = 0;
@@ -51,7 +49,7 @@ public class Step extends ModuleWithModuleSettings {
     }
 
     @EventTarget
-//    @Class5631
+    // @Class5631
     public void onUpdate(EventUpdate var1) {
         if (var1.isPre()) {
             updateTicksBeforeStep++;
@@ -64,8 +62,8 @@ public class Step extends ModuleWithModuleSettings {
         double var8 = 0.41;
         double var10 = var1.getHeight() - var1.getY();
         AxisAlignedBB var12 = new AxisAlignedBB(
-                var4 - var8, mc.player.getBoundingBox().minY, var6 - var8, var4 + var8, mc.player.getBoundingBox().minY + var10, var6 + var8
-        );
+                var4 - var8, mc.player.getBoundingBox().minY, var6 - var8, var4 + var8,
+                mc.player.getBoundingBox().minY + var10, var6 + var8);
         Object[] var13 = mc.world.getCollisionShapes(mc.player, var12).toArray();
         int var14 = var13.length;
         BlockState var15 = null;
@@ -74,7 +72,8 @@ public class Step extends ModuleWithModuleSettings {
 
         for (int var19 = 0; var19 < var14; var19++) {
             VoxelShape var20 = (VoxelShape) var13[var19];
-            BlockPos var21 = new BlockPos(var20.getStart(Direction.Axis.X), var20.getStart(Direction.Axis.Y), var20.getStart(Direction.Axis.Z));
+            BlockPos var21 = new BlockPos(var20.getStart(Direction.Axis.X), var20.getStart(Direction.Axis.Y),
+                    var20.getStart(Direction.Axis.Z));
             BlockState var22 = mc.world.getBlockState(var21);
             if (var15 == null || var20.getBoundingBox().maxY > var17) {
                 var15 = var22;
