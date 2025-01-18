@@ -802,7 +802,7 @@ public class MusicManager {
     }
 
     private String[] getCommandArray(String command) {
-        if (Util.getOperatingSystem()gSystem() == Util.OperatingSystem.WINDOWS) {
+        if (Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS) {
             return new String[] { "cmd", "/c", command };
         } else {
             return new String[] { "bash", "-c", command };
