@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "sigma",
+	"version": "${version}",
+	"name": "Sigma",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/sigma/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.mentalfrostbyte.Sigma"
+		]
+	},
+	"mixins": [
+		"sigma.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.16.4",
+		"java": ">=8",
+		"fabric": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
