@@ -12,7 +12,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.client.CPlayerPacket;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -157,7 +157,7 @@ public class VanillaFly extends Module {
     private double getGroundCollisionHeight() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
             if (!mc.player.isOnGround()) {
-                AxisAlignedBB alignedBB = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
+                Box alignedBB = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 Iterator<VoxelShape> shapeIterator = mc.world.getCollisionShapes(mc.player, alignedBB).iterator();
                 double maxCollisionHeight = -1.0;
 

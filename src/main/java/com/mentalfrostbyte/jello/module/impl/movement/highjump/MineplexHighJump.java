@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class MineplexHighJump extends Module {
@@ -94,7 +94,7 @@ public class MineplexHighJump extends Module {
             double var19 = var6
                   + (var10 * 0.45 * Math.sin(Math.toRadians((double) (var14 + 90.0F)))
                         - var12 * 0.45 * Math.cos(Math.toRadians((double) (var14 + 90.0F)))) * var15;
-            AxisAlignedBB var21 = new AxisAlignedBB(var17 - 0.3, var8 - 1.0, var19 - 0.3, var17 + 0.3, var8 + 2.0,
+            Box var21 = new Box(var17 - 0.3, var8 - 1.0, var19 - 0.3, var17 + 0.3, var8 + 2.0,
                   var19 + 0.3);
             if (mc.world.getCollisionShapes(mc.player, var21).count() == 0L) {
                double var22 = this.method16975(var21);
@@ -140,9 +140,9 @@ public class MineplexHighJump extends Module {
       }
    }
 
-   public double method16975(AxisAlignedBB var1) {
+   public double method16975(Box var1) {
       double var4 = 6.0;
-      AxisAlignedBB var6 = var1.offset(0.0, -var4, 0.0);
+      Box var6 = var1.offset(0.0, -var4, 0.0);
 
       do {
          var6 = var1.offset(0.0, -var4, 0.0);

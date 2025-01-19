@@ -12,7 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
@@ -188,11 +188,11 @@ public class Jesus extends Module {
         return MovementUtil.isInWater();
     }
 
-    public boolean isOnLiquid(AxisAlignedBB on) {
+    public boolean isOnLiquid(Box on) {
         return this.method16952(on, Material.WATER) || this.method16952(on, Material.LAVA);
     }
 
-    public boolean method16952(AxisAlignedBB var1, Material var2) {
+    public boolean method16952(Box var1, Material var2) {
         int var5 = MathHelper.floor(var1.minX);
         int var6 = MathHelper.ceil(var1.maxX);
         int var7 = MathHelper.floor(var1.minY);
@@ -207,14 +207,14 @@ public class Jesus extends Module {
     }
 
     public static boolean isWalkingOnLiquid() {
-        AxisAlignedBB box = mc.player.getBoundingBox().offset(0.0, -0.001, 0.0);
+        Box box = mc.player.getBoundingBox().offset(0.0, -0.001, 0.0);
         Stream<VoxelShape> collisionShapes = mc.world.getCollisionShapes(mc.player, box);
         Iterator<VoxelShape> shapeIterator = collisionShapes.iterator();
         boolean isLiquid = true;
         if (shapeIterator.hasNext()) {
             while (shapeIterator.hasNext()) {
                 VoxelShape shape = shapeIterator.next();
-                AxisAlignedBB bb = shape.getBoundingBox();
+                Box bb = shape.getBoundingBox();
                 BlockPos pos = new BlockPos(bb.getCenter());
                 Block block = mc.world.getBlockState(pos).getBlock();
                 if (block != Blocks.WATER

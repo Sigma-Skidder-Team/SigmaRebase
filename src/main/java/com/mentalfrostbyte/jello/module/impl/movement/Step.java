@@ -15,7 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 
 public class Step extends ModuleWithModuleSettings {
@@ -61,7 +61,7 @@ public class Step extends ModuleWithModuleSettings {
         double var6 = mc.player.getPosZ() + var1.getVector().z;
         double var8 = 0.41;
         double var10 = var1.getHeight() - var1.getY();
-        AxisAlignedBB var12 = new AxisAlignedBB(
+        Box var12 = new Box(
                 var4 - var8, mc.player.getBoundingBox().minY, var6 - var8, var4 + var8,
                 mc.player.getBoundingBox().minY + var10, var6 + var8);
         Object[] var13 = mc.world.getCollisionShapes(mc.player, var12).toArray();

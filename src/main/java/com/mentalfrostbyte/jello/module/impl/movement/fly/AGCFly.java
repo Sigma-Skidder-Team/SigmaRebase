@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.block.Block;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Iterator;
@@ -132,7 +132,7 @@ public class AGCFly extends Module {
     private double method16785() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
             if (!mc.player.isOnGround()) {
-                AxisAlignedBB var3 = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
+                Box var3 = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 Iterator var4 = mc.world.getCollisionShapes(mc.player, var3).iterator();
                 double var5 = -1.0;
                 BlockPos var7 = null;

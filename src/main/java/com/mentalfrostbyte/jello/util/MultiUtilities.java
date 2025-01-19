@@ -9,7 +9,7 @@ import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import org.apache.http.HttpEntity;
@@ -38,7 +38,7 @@ public class MultiUtilities {
     private static boolean field24954 = false;
 
     public static boolean isAboveBounds(Entity var0, float var1) {
-        AxisAlignedBB var4 = new AxisAlignedBB(
+        Box var4 = new Box(
                 var0.getBoundingBox().minX,
                 var0.getBoundingBox().minY - (double) var1,
                 var0.getBoundingBox().minZ,

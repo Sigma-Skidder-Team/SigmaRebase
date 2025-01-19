@@ -17,7 +17,7 @@ import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import team.sdhq.eventBus.annotations.EventTarget;
 
@@ -111,7 +111,7 @@ public class AntiVoid extends Module {
     private boolean isSafeToFall() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
             if (!mc.player.isOnGround()) {
-                AxisAlignedBB boundingBox = mc.player.getBoundingBox();
+                Box boundingBox = mc.player.getBoundingBox();
                 boundingBox = boundingBox.expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 return mc.world.getCollisionShapes(mc.player, boundingBox).count() == 0L;
             } else {

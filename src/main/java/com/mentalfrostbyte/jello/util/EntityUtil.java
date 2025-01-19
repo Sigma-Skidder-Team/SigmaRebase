@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.FallingBlockEntity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -49,7 +49,7 @@ public class EntityUtil {
             Vec3d lookVector = getLookVector(pitch, yaw);
             Vec3d rayEndPos = playerEyesPos.add(lookVector.x * reachDistance, lookVector.y * reachDistance,
                     lookVector.z * reachDistance);
-            AxisAlignedBB searchBox = renderViewEntity.getBoundingBox().expand(lookVector.scale(reachDistance))
+            Box searchBox = renderViewEntity.getBoundingBox().expand(lookVector.scale(reachDistance))
                     .grow(1.0, 1.0, 1.0);
 
             return traceEntityRay(
@@ -61,7 +61,7 @@ public class EntityUtil {
         }
     }
 
-    public static boolean isVecWithinBox(Vec3d vec, AxisAlignedBB box) {
+    public static boolean isVecWithinBox(Vec3d vec, Box box) {
         return vec.x >= box.minX
                 && vec.x <= box.maxX
                 && vec.y >= box.minY
@@ -71,13 +71,13 @@ public class EntityUtil {
     }
 
     public static EntityRayTraceResult traceEntityRay(
-            World world, Entity sourceEntity, Vec3d startPos, Vec3d endPos, AxisAlignedBB searchBox,
+            World world, Entity sourceEntity, Vec3d startPos, Vec3d endPos, Box searchBox,
             Predicate<Entity> entityFilter, double maxDistance, double boundingBoxExpansion) {
         double closestDistance = maxDistance;
         Entity closestEntity = null;
 
         for (Entity entity : world.getEntitiesInAABBexcluding(sourceEntity, searchBox, entityFilter)) {
-            AxisAlignedBB expandedBox = entity.getBoundingBox().grow(boundingBoxExpansion);
+            Box expandedBox = entity.getBoundingBox().grow(boundingBoxExpansion);
             Optional<Vec3d> hitResult = expandedBox.rayTrace(startPos, endPos);
 
             if (!hitResult.isPresent()) {
@@ -97,7 +97,7 @@ public class EntityUtil {
         return closestEntity != null ? new EntityRayTraceResult(closestEntity) : null;
     }
 
-    public static Vec3d getCenteredPosition(AxisAlignedBB var0) {
+    public static Vec3d getCenteredPosition(Box var0) {
         double var3 = var0.getCenter().x;
         double var5 = var0.minY;
         double var7 = var0.getCenter().z;

@@ -16,7 +16,7 @@ import net.minecraft.network.play.client.CAnimateHandPacket;
 import net.minecraft.network.play.client.CCloseWindowPacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemPacket;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
@@ -160,14 +160,14 @@ public class AutoMLG extends PremiumModule {
         double var3 = mc.player.getMotion().x;
         double var5 = mc.player.getMotion().y;
         double var7 = mc.player.getMotion().z;
-        AxisAlignedBB var9 = mc.player.getBoundingBox().expand(var3, 0.0, var7).offset(0.0, var5, 0.0);
+        Box var9 = mc.player.getBoundingBox().expand(var3, 0.0, var7).offset(0.0, var5, 0.0);
         Stream var10 = mc.world.getCollisionShapes(mc.player, var9);
         Iterator var11 = var10.iterator();
         BlockPos var12 = null;
 
         while (var11.hasNext()) {
             VoxelShape var13 = (VoxelShape) var11.next();
-            AxisAlignedBB var14 = var13.getBoundingBox();
+            Box var14 = var13.getBoundingBox();
             BlockPos var15 = new BlockPos(var14.getCenter());
             if (true/*
                      * BlockUtil.method34578(var15)
@@ -196,7 +196,7 @@ public class AutoMLG extends PremiumModule {
 
             while (var11.hasNext()) {
                 VoxelShape var20 = (VoxelShape) var11.next();
-                AxisAlignedBB var21 = var20.getBoundingBox();
+                Box var21 = var20.getBoundingBox();
                 BlockPos var22 = new BlockPos(var21.getCenter());
                 // TODO
                 if (true/*

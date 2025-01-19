@@ -16,6 +16,22 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	maven {
+		name = "Jitpack"
+		url = "https://jitpack.io"
+	}
+//	maven {
+//		name = "TerraformersMC"
+//		url = "https://maven.terraformersmc.com/"
+//	}
+	maven {
+		name = "ViaVersion"
+		url = "https://repo.viaversion.com/"
+	}
+	maven {
+		name = "modrinth"
+		url = "https://api.modrinth.com/maven"
+	}
 }
 
 dependencies {
@@ -26,7 +42,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
+	modImplementation "maven.modrinth:lithium:${project.lithium_version}"
+
+	// ViaFabricPlus
+	modImplementation "com.viaversion:viafabricplus-api:${project.viafabricplus_version}"
+	modRuntimeOnly "com.viaversion:viafabricplus:${project.viafabricplus_version}"
 }
 
 processResources {
@@ -47,7 +69,7 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_1_8
+	sourceCompatibility = JavaVersion.VERSION_16
 	targetCompatibility = JavaVersion.VERSION_1_8
 }
 

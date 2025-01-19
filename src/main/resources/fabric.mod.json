@@ -8,12 +8,12 @@
 		"Me!"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Sigma-Skidder-Team/SigmaRebase",
+		"issues": "https://github.com/Sigma-Skidder-Team/SigmaRebase/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/sigma/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"com.mentalfrostbyte.Sigma"
@@ -29,6 +29,10 @@
 		"fabric": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"fabric": ">=${fabric_version}",
+		"viafabricplus": ">=${viafabricplus_version}"
+	},
+	"breaks": {
+		"viafabricplus": "<${viafabricplus_version}"
 	}
 }
