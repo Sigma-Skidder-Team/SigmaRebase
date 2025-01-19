@@ -3,17 +3,18 @@ package com.mentalfrostbyte.jello.gui.impl;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.viamcp.protocolinfo.ProtocolInfo;
-import net.minecraft.client.GameSettings;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.settings.SliderPercentageOption;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.options.DoubleOption;
+import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import static de.florianmichael.viamcp.protocolinfo.ProtocolInfo.PROTOCOL_INFOS;
 
 public class JelloPortalScreen extends MultiplayerScreen {
 
-    private Widget versionSelectorWidget;
+    private AbstractButtonWidget versionSelectorWidget;
 
     public JelloPortalScreen(Screen parentScreen) {
         super(parentScreen);
@@ -32,19 +33,19 @@ public class JelloPortalScreen extends MultiplayerScreen {
     public void init() {
         super.init();
         // Create the slider
-        SliderPercentageOption versionSelector = new SliderPercentageOption(
+        DoubleOption versionSelector = new DoubleOption(
                 "jello.portaloption",
                 0.0,
                 this.getAvailableVersions().size() - 1,
                 1.0F,
                 (var1) -> (double) getCurrentVersionIndex(),
                 this::onSliderChange,
-                (settings, slider) -> new LiteralText(getVersion(getCurrentVersionIndex()).getName()));
+                (settings, slider) -> new LiteralText(getVersion(getCurrentVersionIndex())).getString());
         this.versionSelectorWidget = this
-                .addButton(versionSelector.createWidget(this.minecraft.gameSettings, this.width / 2 + 40, 7, 114));
+                .addButton(versionSelector.createButton(this.client.options, this.width / 2 + 40, 7, 114));
     }
 
-    private void onSliderChange(GameSettings settings, Double aDouble) {
+    private void onSliderChange(GameOptions settings, Double aDouble) {
         int newIndex = aDouble.intValue();
         if (newIndex >= 0 && newIndex < getAvailableVersions().size()) {
             ViaLoadingBase.getInstance().reload(getVersion(newIndex));
@@ -62,8 +63,8 @@ public class JelloPortalScreen extends MultiplayerScreen {
         this.renderBackground(matrices);
         RenderUtil.endScissor();
         this.versionSelectorWidget.render(matrices, mouseX, mouseY, delta);
-        drawString(matrices, this.font, this.getTitle().getString(), this.width / 2 - 146, 13, 16777215);
-        minecraft.fontRenderer.drawStringWithShadow(matrices, "Jello Portal:", (float) this.width / 2 - 30, 13, -1);
+        drawCenteredText(matrices, this.textRenderer, Text.of(this.getTitle().getString()), this.width / 2 - 146, 13, 16777215);
+        client.textRenderer.drawWithShadow(matrices, "Jello Portal:", (float) this.width / 2 - 30, 13, -1);
     }
 
     private int getCurrentVersionIndex() {

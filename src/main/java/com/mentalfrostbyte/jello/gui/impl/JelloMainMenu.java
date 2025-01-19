@@ -152,7 +152,7 @@ public class JelloMainMenu extends CustomGuiScreen {
                 (var1x, var2x) -> this.displayGUI(new JelloPortalScreen(MinecraftClient.getInstance().currentScreen)));
         this.optionsButton
                 .doThis((var1x, var2x) -> this.displayGUI(new OptionsScreen(MinecraftClient.getInstance().currentScreen,
-                        MinecraftClient.getInstance().gameSettings)));
+                        MinecraftClient.getInstance().options)));
         this.altManagerButton.doThis((var1x, var2x) -> this.displayScreen(new AltManagerScreen()));
         this.realmsButton.doThis((var1x, var2x) -> this.method13443());
         this.loginButton.doThis((var1x, var2x) -> {
@@ -171,7 +171,7 @@ public class JelloMainMenu extends CustomGuiScreen {
 
     public void method13443() {
         RealmsBridgeScreen var3 = new RealmsBridgeScreen();
-        var3.func_231394_a_(MinecraftClient.getInstance().currentScreen);
+        var3.switchToRealms(MinecraftClient.getInstance().currentScreen);
         this.playClickSound();
     }
 
@@ -210,7 +210,7 @@ public class JelloMainMenu extends CustomGuiScreen {
     }
 
     public void displayGUI(net.minecraft.client.gui.screen.Screen var1) {
-        MinecraftClient.getInstance().displayGuiScreen(var1);
+        MinecraftClient.getInstance().openScreen(var1);
         this.playClickSound();
     }
 

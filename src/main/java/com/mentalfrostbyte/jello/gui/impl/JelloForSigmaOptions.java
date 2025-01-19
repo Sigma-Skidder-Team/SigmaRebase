@@ -5,7 +5,7 @@ import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.gui.unmapped.InGameOptionsScreen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.text.LiteralText;
 
@@ -49,7 +49,7 @@ public class JelloForSigmaOptions extends IngameMenuScreen {
       Iterator var3 = this.buttons.iterator();
 
       while (var3.hasNext()) {
-         Widget var4 = (Widget) var3.next();
+         AbstractButtonWidget var4 = (AbstractButtonWidget) var3.next();
          if (var4.y == this.height / 4 + 72 + -16) {
             var3.remove();
          }
