@@ -14,18 +14,23 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 
 public class NoSlow extends Module {
+    private final BooleanSetting sword;
+    private final BooleanSetting consume;
+    private final BooleanSetting bow;
+    public final BooleanSetting sneak;
+    public final BooleanSetting blocks;
     public boolean isBlocking;
 
     public NoSlow() {
         super(ModuleCategory.MOVEMENT, "NoSlow", "Stops slowdown when using an item");
         this.registerSetting(new ModeSetting("Mode", "NoSlow mode", 0, "Vanilla", "NCP"));
-        this.registerSetting(new BooleanSetting("Sword", "Cancels blocking slowdown", true));
-        this.registerSetting(new BooleanSetting("Consume", "Cancels consuming slowdown", true));
-        this.registerSetting(new BooleanSetting("Bow", "Cancels bow's slowdown", true));
+        this.registerSetting(this.sword = new BooleanSetting("Sword", "Cancels blocking slowdown", true));
+        this.registerSetting(this.consume = new BooleanSetting("Consume", "Cancels consuming slowdown", true));
+        this.registerSetting(this.bow = new BooleanSetting("Bow", "Cancels bow's slowdown", true));
         // See net.minecraft.util.MovementInputFromOptions
-        this.registerSetting(new BooleanSetting("Sneak", "Cancels sneaking slowdown", false));
+        this.registerSetting(this.sneak = new BooleanSetting("Sneak", "Cancels sneaking slowdown", false));
         // See net.minecraft.entity.player.PlayerEntity/Entity and net.minecraft.block.SlimeBlock
-        this.registerSetting(new BooleanSetting("Blocks", "Cancels some blocks slowdown like honey, slime & soul sand", false));
+        this.registerSetting(this.blocks = new BooleanSetting("Blocks", "Cancels some blocks slowdown like honey, slime & soul sand", false));
     }
 
     @EventTarget
@@ -36,11 +41,11 @@ public class NoSlow extends Module {
             Item offHandItem = mc.player.getHeldItemOffhand().getItem();
             boolean isUsingItem = mc.gameSettings.keyBindUseItem.isKeyDown();
             boolean shouldCancel =
-                    (mainHandItem instanceof SwordItem && isUsingItem && getBooleanValueFromSettingName("Sword")) ||
-                            ((mainHandItem.isFood() || mainHandItem instanceof PotionItem || mainHandItem instanceof MilkBucketItem) && isUsingItem && getBooleanValueFromSettingName("Consume")) ||
-                            ((offHandItem.isFood() || offHandItem instanceof PotionItem || offHandItem instanceof MilkBucketItem) && isUsingItem && getBooleanValueFromSettingName("Consume")) ||
-                            (mainHandItem instanceof BowItem && isUsingItem && getBooleanValueFromSettingName("Bow")) ||
-                            (offHandItem instanceof BowItem && isUsingItem && getBooleanValueFromSettingName("Bow"));
+                    (mainHandItem instanceof SwordItem && isUsingItem && sword.currentValue) ||
+                            ((mainHandItem.isFood() || mainHandItem instanceof PotionItem || mainHandItem instanceof MilkBucketItem) && isUsingItem && consume.currentValue) ||
+                            ((offHandItem.isFood() || offHandItem instanceof PotionItem || offHandItem instanceof MilkBucketItem) && isUsingItem && consume.currentValue) ||
+                            (mainHandItem instanceof BowItem && isUsingItem && bow.currentValue) ||
+                            (offHandItem instanceof BowItem && isUsingItem && bow.currentValue);
 
             if (shouldCancel)
                 event.setCancelled(true);

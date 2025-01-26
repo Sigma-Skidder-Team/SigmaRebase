@@ -28,8 +28,8 @@ public class MovementInputFromOptions extends MovementInput
         if (p_225607_1_)
         {
             // MODIFICATION BEGIN: Don't slow down if NoSlow is enabled & the Sneak setting in NoSlow is enabled
-            Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
-            boolean shouldCancelSneakSlowdown = noSlow.isEnabled2() && this.sneaking && noSlow.getBooleanValueFromSettingName("Sneak");
+            NoSlow noSlow = (NoSlow) Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+            boolean shouldCancelSneakSlowdown = noSlow.isEnabled2() && this.sneaking && noSlow.sneak.currentValue;
             if (shouldCancelSneakSlowdown) return;
             // MODIFICATION END
 

@@ -796,8 +796,8 @@ public abstract class Entity implements INameable, ICommandSource
         float f = this.world.getBlockState(this.getPosition()).getBlock().getJumpFactor();
         float f1 = this.world.getBlockState(this.getPositionUnderneath()).getBlock().getJumpFactor();
         // MODIFICATION BEGIN: full jump factor if NoSlow is enabled & the Blocks setting is toggled
-        Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
-        if (this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks"))
+        NoSlow noSlow = (NoSlow)Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        if (this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.blocks.currentValue)
             return 1.0F;
             // MODIFICATION END
         return (double)f == 1.0D ? f1 : f;

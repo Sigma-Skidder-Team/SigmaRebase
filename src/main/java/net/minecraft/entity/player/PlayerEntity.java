@@ -2620,8 +2620,8 @@ public abstract class PlayerEntity extends LivingEntity
     protected float getSpeedFactor()
     {
         // MODIFICATION BEGIN: also use full speed factor if NoSlow is enabled, this is a ClientPlayerEntity, and the Blocks setting is toggled
-        Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
-        return !this.abilities.isFlying && !this.isElytraFlying() && !(this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks"))
+        NoSlow noSlow = (NoSlow) Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        return !this.abilities.isFlying && !this.isElytraFlying() && !(this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.blocks.currentValue)
                 ? super.getSpeedFactor() : 1.0F;
         // MODIFICATION END
     }
