@@ -3,7 +3,10 @@ package net.minecraft.entity;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventStep;
+import com.mentalfrostbyte.jello.module.Module;
+import com.mentalfrostbyte.jello.module.impl.movement.NoSlow;
 import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import java.util.Arrays;
@@ -792,6 +795,9 @@ public abstract class Entity implements INameable, ICommandSource
     {
         float f = this.world.getBlockState(this.getPosition()).getBlock().getJumpFactor();
         float f1 = this.world.getBlockState(this.getPositionUnderneath()).getBlock().getJumpFactor();
+        Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        if (this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks"))
+            return 1.0F;
         return (double)f == 1.0D ? f1 : f;
     }
 

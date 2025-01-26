@@ -1,6 +1,10 @@
 package net.minecraft.block;
 
+import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.module.Module;
+import com.mentalfrostbyte.jello.module.impl.movement.NoSlow;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.BoatEntity;
@@ -99,6 +103,11 @@ public class HoneyBlock extends BreakableBlock
 
     private void setSlideVelocity(Entity entity)
     {
+        Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        if (entity instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks")) {
+            entity.fallDistance = 0;
+            return;
+        }
         Vector3d vector3d = entity.getMotion();
 
         if (vector3d.y < -0.13D)

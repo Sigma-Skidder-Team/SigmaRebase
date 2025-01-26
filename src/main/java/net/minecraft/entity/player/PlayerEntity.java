@@ -3,8 +3,11 @@ package net.minecraft.entity.player;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventSafeWalk;
 import com.mentalfrostbyte.jello.misc.Situation;
+import com.mentalfrostbyte.jello.module.Module;
+import com.mentalfrostbyte.jello.module.impl.movement.NoSlow;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Either;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +24,7 @@ import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RespawnAnchorBlock;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
@@ -2615,7 +2619,9 @@ public abstract class PlayerEntity extends LivingEntity
 
     protected float getSpeedFactor()
     {
-        return !this.abilities.isFlying && !this.isElytraFlying() ? super.getSpeedFactor() : 1.0F;
+        Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        return !this.abilities.isFlying && !this.isElytraFlying() && !(this instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks"))
+                ? super.getSpeedFactor() : 1.0F;
     }
 
     public float getLuck()
