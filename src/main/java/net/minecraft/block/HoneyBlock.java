@@ -103,11 +103,13 @@ public class HoneyBlock extends BreakableBlock
 
     private void setSlideVelocity(Entity entity)
     {
+        // MODIFICATION BEGIN: cancel slide velocity if NoSlow is enabled, this is the local player, and Blocks is enabled in NoSlow.
         Module noSlow = Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
         if (entity instanceof ClientPlayerEntity && noSlow.isEnabled2() && noSlow.getBooleanValueFromSettingName("Blocks")) {
             entity.fallDistance = 0;
             return;
         }
+        // MODIFICATION END
         Vector3d vector3d = entity.getMotion();
 
         if (vector3d.y < -0.13D)
