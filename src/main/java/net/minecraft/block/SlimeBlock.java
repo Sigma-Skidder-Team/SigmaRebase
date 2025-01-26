@@ -79,9 +79,11 @@ public class SlimeBlock extends BreakableBlock
 
     @Override
     public float getSlipperiness() {
+        // MODIFICATION BEGIN: less slipperiness if NoSlow is enabled, this is the local player, and Blocks is enabled in NoSlow.
         if (noSlow().isEnabled2() && noSlow().getBooleanValueFromSettingName("Blocks"))
             return 0.6f;
         return super.getSlipperiness();
+        // MODIFICATION END
     }
 
     private Module noSlow() {
