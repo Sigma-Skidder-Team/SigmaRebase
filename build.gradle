@@ -46,9 +46,9 @@ dependencies {
 	modImplementation "maven.modrinth:sodium:${project.sodium_version}"
 	modImplementation "maven.modrinth:lithium:${project.lithium_version}"
 
-	// ViaFabricPlus
-	modImplementation "com.viaversion:viafabricplus-api:${project.viafabricplus_version}"
-	modRuntimeOnly "com.viaversion:viafabricplus:${project.viafabricplus_version}"
+	// ViaFabric
+//	modImplementation "com.viaversion:viafabric-api:${project.viafabric_version}"
+	modRuntimeOnly "maven.modrinth:viafabric:${project.viafabric_version}"
 }
 
 processResources {
