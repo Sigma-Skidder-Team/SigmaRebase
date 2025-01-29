@@ -10,11 +10,11 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import totalcross.json.JSONObject;
 
 public class ClassicScreenk extends Screen {
-    private static final Minecraft field21078 = Minecraft.getInstance();
+    private static final MinecraftClient field21078 = MinecraftClient.getInstance();
     private static Animation field21079;
     private static final boolean field21080 = true;
     private Class4333 field21081;
@@ -55,7 +55,7 @@ public class ClassicScreenk extends Screen {
 
     @Override
     public int getFPS() {
-        return Minecraft.getFps();
+        return MinecraftClient.getFps();
     }
 
     @Override
