@@ -1,88 +1,85 @@
 package com.mentalfrostbyte.jello.gui.impl;
 
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
-import com.mentalfrostbyte.jello.gui.unmapped.Class2422;
+import com.mentalfrostbyte.jello.gui.unmapped.RandomIntGenerator;
 import com.mentalfrostbyte.jello.gui.unmapped.AnimatedIconPanelWrap;
-import com.mentalfrostbyte.jello.gui.unmapped.Class8854;
-import com.mentalfrostbyte.jello.gui.unmapped.Class9715;
-import net.minecraft.client.MinecraftClient;
+import com.mentalfrostbyte.jello.gui.unmapped.ParticleEffect;
+import com.mentalfrostbyte.jello.gui.unmapped.AnimationManager;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BrainFreezeGui extends AnimatedIconPanelWrap {
-   private static String[] field20736;
-   private List<Class8854> field20738 = new ArrayList<Class8854>();
-   private Class9715 field20739 = new Class9715();
-   public Class2422 field20740 = new Class2422();
+    private final List<ParticleEffect> particles = new ArrayList<>();
+    private final AnimationManager animationManager = new AnimationManager();
+    public RandomIntGenerator random = new RandomIntGenerator();
 
-   public BrainFreezeGui(CustomGuiScreen var1, String var2) {
-      super(var1, var2, 0, 0, MinecraftClient.getInstance().getWindow().getWidth(),
-            MinecraftClient.getInstance().getWindow().getHeight(), false);
-      this.method13145(false);
-      this.method13296(false);
-      this.method13292(false);
-      this.method13294(true);
-      this.method13300(false);
-   }
+    public BrainFreezeGui(CustomGuiScreen parentScreen, String name) {
+        super(parentScreen, name, 0, 0, Minecraft.getInstance().getMainWindow().getWidth(), Minecraft.getInstance().getMainWindow().getHeight(), false);
+        this.method13145(false);
+        this.method13296(false);
+        this.method13292(false);
+        this.method13294(true);
+        this.setListening(false);
+    }
 
-   @Override
-   public void method13145(boolean var1) {
-      super.method13145(false);
-   }
+    @Override
+    public void method13145(boolean var1) {
+        super.method13145(false);
+    }
 
-   @Override
-   public void updatePanelDimensions(int newHeight, int newWidth) {
-      super.updatePanelDimensions(newHeight, newWidth);
-   }
+    @Override
+    public void updatePanelDimensions(int newHeight, int newWidth) {
+        super.updatePanelDimensions(newHeight, newWidth);
+    }
 
-   @Override
-   public void draw(float var1) {
-      int var4 = MinecraftClient.getInstance().getWindow().getScaledWidth();
-      int var5 = MinecraftClient.getInstance().getWindow().getScaledHeight();
-      int var6 = var4 / 2;
+    @Override
+    public void draw(float partialTicks) {
+        int scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
+        int scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        int halfScreenWidth = scaledWidth / 2;
 
-      boolean var7;
-      for (var7 = false; this.field20738.size() < var6; var7 = true) {
-         this.field20738
-               .add(new Class8854((float) this.field20740.nextInt(var4), (float) this.field20740.nextInt(var5)));
-      }
+        boolean shouldUpdate;
+        for (shouldUpdate = false; this.particles.size() < halfScreenWidth; shouldUpdate = true) {
+            this.particles.add(new ParticleEffect((float) this.random.nextInt(scaledWidth), (float) this.random.nextInt(scaledHeight)));
+        }
 
-      while (this.field20738.size() > var6) {
-         this.field20738.remove(0);
-         var7 = true;
-      }
+        while (this.particles.size() > halfScreenWidth) {
+            this.particles.remove(0);
+            shouldUpdate = true;
+        }
 
-      if (var7) {
-         for (int var8 = 0; var8 < this.field20738.size(); var8++) {
-            this.field20738.get(var8).field40027 = (float) this.field20740.nextInt(var4);
-            this.field20738.get(var8).field40028 = (float) this.field20740.nextInt(var5);
-         }
-      }
-
-      this.field20739.method38061();
-
-      for (Class8854 var9 : this.field20738) {
-         var9.method32236(this.field20739);
-         if (!(var9.field40027 < 0.0F)) {
-            if (var9.field40027 > (float) var4) {
-               var9.field40027 = 0.0F;
+        if (shouldUpdate) {
+            for (ParticleEffect particle : this.particles) {
+                particle.initialXPosition = (float) this.random.nextInt(scaledWidth);
+                particle.yPosition = (float) this.random.nextInt(scaledHeight);
             }
-         } else {
-            var9.field40027 = (float) var4;
-         }
+        }
 
-         if (!(var9.field40028 < 0.0F)) {
-            if (var9.field40028 > (float) var5) {
-               var9.field40028 = 0.0F;
+        this.animationManager.update();
+
+        for (ParticleEffect particle : this.particles) {
+            particle.updatePosition(this.animationManager);
+            if (!(particle.initialXPosition < 0.0F)) {
+                if (particle.initialXPosition > (float) scaledWidth) {
+                    particle.initialXPosition = 0.0F;
+                }
+            } else {
+                particle.initialXPosition = (float) scaledWidth;
             }
-         } else {
-            var9.field40028 = (float) var5;
-         }
 
-         var9.method32235(var1);
-      }
+            if (!(particle.yPosition < 0.0F)) {
+                if (particle.yPosition > (float) scaledHeight) {
+                    particle.yPosition = 0.0F;
+                }
+            } else {
+                particle.yPosition = (float) scaledHeight;
+            }
 
-      super.draw(var1);
-   }
+            particle.render(partialTicks);
+        }
+
+        super.draw(partialTicks);
+    }
 }

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.gui.unmapped;
 
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.Account;
 
 import java.util.ArrayList;
 import java.util.Collections;

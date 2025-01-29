@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileUtil {
-    public static boolean field25727 = false;
+    public static boolean freshConfig = false;
 
     public static void save(JSONObject var0, File var1) throws IOException {
         FileOutputStream var4 = new FileOutputStream(var1);
@@ -49,7 +49,7 @@ public class FileUtil {
                 Client.getInstance().getLogger().info("Config does not exist... creating new config file...");
             }
 
-            field25727 = true;
+            freshConfig = true;
             var0.createNewFile();
         }
 

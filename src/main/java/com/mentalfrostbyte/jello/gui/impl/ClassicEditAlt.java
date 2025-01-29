@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.gui.base.Screen;
 import com.mentalfrostbyte.jello.gui.unmapped.Class4300;
 import com.mentalfrostbyte.jello.gui.unmapped.SigmaClassicTextBox;
 import com.mentalfrostbyte.jello.managers.AccountManager;
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.Account;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
@@ -24,7 +24,7 @@ public class ClassicEditAlt extends Screen {
    public ClassicEditAlt(Account var1) {
       super("Alt Manager");
 
-      this.method13300(false);
+      this.setListening(false);
       int var4 = 400;
       int var5 = 114;
       int var6 = (this.getWidthA() - var4) / 2;
@@ -53,7 +53,7 @@ public class ClassicEditAlt extends Screen {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawImage(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), Resources.mainmenubackground);
       RenderUtil.drawRoundedRect(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), ColorUtils.applyAlpha(ClientColors.PALE_RED.getColor(), 0.1F));
       RenderUtil.drawRoundedRect(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.95F));
@@ -70,7 +70,7 @@ public class ClassicEditAlt extends Screen {
          Class2218.field14488,
          true
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    @Override

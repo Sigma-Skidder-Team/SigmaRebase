@@ -1,16 +1,22 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
+import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.Packet;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.network.play.server.SChatPacket;
 
 public class VeltPvPFly extends Module {
     private int field23419;
@@ -57,7 +63,7 @@ public class VeltPvPFly extends Module {
     }
 
     @EventTarget
-    public void method16046(MouseHoverEvent var1) {
+    public void method16046(EventMouseHover var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
@@ -75,7 +81,7 @@ public class VeltPvPFly extends Module {
                 if (this.field23419 != -1) {
                     if (this.field23419 == 0) {
                         if (!mc.gameSettings.keyBindJump.isKeyDown() && var1.getY() > 0.0) {
-                            // var1.setY(-MovementUtil.method37080());
+//                            var1.setY(-MovementUtil.getJumpValue());
                         }
 
                         MovementUtil.setPlayerYMotion(var1.getY());
@@ -83,9 +89,9 @@ public class VeltPvPFly extends Module {
                     }
                 } else {
                     if (!mc.gameSettings.keyBindJump.isKeyDown()) {
-                        // var1.setY(!this.field23423 ? MovementUtil.method37080() : -var4 / 2.0);
+//                        var1.setY(!this.field23423 ? MovementUtil.getJumpValue() : -var4 / 2.0);
                     } else {
-                        // var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.method37080());
+//                        var1.setY(!this.field23423 ? var4 / 2.0 : MovementUtil.getJumpValue());
                         this.field23422 = this.field23421;
                         this.field23421 = !this.field23423 ? mc.player.getPosY() + var1.getY() : this.field23421;
                     }
@@ -101,7 +107,7 @@ public class VeltPvPFly extends Module {
     }
 
     @EventTarget
-    public void method16048(EventUpdate var1) {
+    public void method16048(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             this.field23419++;
             if (this.field23419 != 2) {
@@ -122,18 +128,18 @@ public class VeltPvPFly extends Module {
                 this.field23420 += 2;
             }
 
-            var1.method13908(true);
+            var1.setMoving(true);
         }
     }
 
     @EventTarget
-    public void method16049(ReceivePacketEvent var1) {
+    public void method16049(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            Packet var4 = var1.getPacket();
+            IPacket var4 = var1.getPacket();
             if (!(var4 instanceof SPlayerPositionLookPacket)) {
-                if (var4 instanceof GameMessageS2CPacket) {
-                    GameMessageS2CPacket var5 = (GameMessageS2CPacket) var4;
-                    String var6 = var5.getMessage().getString();
+                if (var4 instanceof SChatPacket) {
+                    SChatPacket var5 = (SChatPacket) var4;
+                    String var6 = var5.getChatComponent().getString();
                     if (this.field23420 > 0 && (var6.contains("Now leaving: §") || var6.contains("Now entering: §"))) {
                         this.field23420--;
                         var1.cancelled = true;
@@ -152,9 +158,9 @@ public class VeltPvPFly extends Module {
     }
 
     @EventTarget
-    public void method16050(SendPacketEvent var1) {
+    public void method16050(EventSendPacket var1) {
         if (this.isEnabled()) {
-            Packet var4 = var1.getPacket();
+            IPacket var4 = var1.getPacket();
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.field23419 == -1) {
@@ -165,7 +171,7 @@ public class VeltPvPFly extends Module {
     }
 
     @EventTarget
-    public void method16051(Render2DEvent var1) {
+    public void method16051(EventRender2D var1) {
         if (this.isEnabled()) {
             double var4 = this.field23421;
             mc.player.setPosition(mc.player.getPosX(), var4, mc.player.getPosZ());

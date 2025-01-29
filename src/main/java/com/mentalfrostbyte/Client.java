@@ -3,18 +3,20 @@ package com.mentalfrostbyte;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import com.mentalfrostbyte.jello.event.impl.EventRender2D;
-import com.mentalfrostbyte.jello.event.impl.EventWriter;
-import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2DCustom;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender3D;
 import com.mentalfrostbyte.jello.managers.*;
+import com.mentalfrostbyte.jello.managers.ModuleManager;
 import com.mentalfrostbyte.jello.trackers.RandomModuleThread;
+import com.mentalfrostbyte.jello.trackers.SlotChangeTracker;
+import com.mentalfrostbyte.jello.util.PlayerStateTracker;
 import com.mentalfrostbyte.jello.util.ClientLogger;
 import com.mentalfrostbyte.jello.util.FileUtil;
-import net.minecraft.client.texture.TextureManager;
 import org.newdawn.slick.opengl.Texture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import team.sdhq.eventBus.EventBus;
@@ -28,7 +30,7 @@ import java.util.List;
 
 public class Client {
 
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final Minecraft mc = Minecraft.getInstance();
     public static int currentVersionIndex = 28;
 
     public static final String VERSION = "5.0.0b15";
@@ -43,6 +45,7 @@ public class Client {
     public ClientMode clientMode = ClientMode.INDETERMINATE;
     public DiscordRichPresence discordRichPresence;
     public FriendManager friendManager;
+    public SlotChangeTracker slotChangeTracker;
 
     private JSONObject config;
 
@@ -53,9 +56,11 @@ public class Client {
     public CommandManager commandManager;
     public SoundManager soundManager;
     public AccountManager accountManager;
+
     public WaypointsManager waypointsManager;
     public NotificationManager notificationManager;
     public MusicManager musicManager;
+    public PlayerStateTracker playerTracker;
     private Logger logger;
 
     public static boolean dontRenderHand = false;
@@ -92,9 +97,11 @@ public class Client {
         this.notificationManager.init();
         this.accountManager = new AccountManager();
         this.accountManager.registerEvents();
+        this.playerTracker = new PlayerStateTracker();
+        EventBus.register(this.playerTracker);
         this.waypointsManager = new WaypointsManager();
         this.waypointsManager.init();
-        GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Sigma 5.1");
+        GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Sigma 5.0");
         this.logger.info("Initialized.");
     }
 
@@ -110,10 +117,7 @@ public class Client {
                 this.moduleManager.method14660(this.config);
             }
 
-            EventWriter var3 = new EventWriter(this.config);
-            EventBus.call(var3);
-
-            FileUtil.save(var3.getFile(), new File(this.file + "/config.json"));
+            FileUtil.save(this.config, new File(this.file + "/config.json"));
         } catch (IOException var4) {
             this.logger.error("Unable to shutdown correctly. Config may be corrupt?");
             var4.printStackTrace();
@@ -128,8 +132,7 @@ public class Client {
 
     public void method19926() {
         GL11.glPushMatrix();
-        double var3 = mc.getWindow().getScaleFactor()
-                / (double) ((float) Math.pow(mc.getWindow().getScaleFactor(), 2.0));
+        double var3 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
         GL11.glScaled(var3, var3, var3);
         GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, GuiManager.scaleFactor);
         GL11.glDisable(2912);
@@ -139,10 +142,8 @@ public class Client {
         RenderSystem.enableBlend();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
-        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA,
-                GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE,
-                GlStateManager.DstFactor.ZERO);
-        EventBus.call(new EventRender2D());
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        EventBus.call(new EventRender2DCustom());
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableCull();
         RenderSystem.disableDepthTest();
@@ -157,10 +158,10 @@ public class Client {
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             GL11.glDisable(2896);
-            EventBus.call(new Render3DEvent());
+            EventBus.call(new EventRender3D());
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
-            mc.getTextureManager().bindTexture(TextureManager.MISSING_IDENTIFIER);
+            mc.getTextureManager().bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
         }
     }
 
@@ -176,13 +177,12 @@ public class Client {
                 }
 
                 textureList.clear();
-            } catch (ConcurrentModificationException var7) {
+            } catch (ConcurrentModificationException ignored) {
             }
         }
 
         if (getInstance().clientMode != ClientMode.NOADDONS) {
-            double var5 = mc.getWindow().getScaleFactor()
-                    / (double) ((float) Math.pow(mc.getWindow().getScaleFactor(), 2.0));
+            double var5 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
             GL11.glScaled(var5, var5, 1.0);
             GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, 1.0);
             RenderSystem.disableDepthTest();
@@ -192,10 +192,7 @@ public class Client {
             RenderSystem.popMatrix();
             RenderSystem.enableDepthTest();
             RenderSystem.enableAlphaTest();
-            GL11.glAlphaFunc(518, 0.1F);
-            TextureManager var10000 = mc.getTextureManager();
-            mc.getTextureManager();
-            var10000.bindTexture(TextureManager.MISSING_IDENTIFIER);
+            GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
         }
     }
 
@@ -229,11 +226,11 @@ public class Client {
         if (mode != ClientMode.CLASSIC) {
             if (mode == ClientMode.JELLO) {
                 this.initRPC();
-                GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Jello for Sigma 5.1");
+                GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Jello for Sigma 5.0");
             }
         } else {
             getInstance().guiManager.method33452();
-            GLFW.glfwSetWindowTitle(mc.getWindow().getHandle(), "Classic Sigma 5.1");
+            GLFW.glfwSetWindowTitle(mc.getMainWindow().getHandle(), "Classic Sigma 5.0");
         }
 
         if (this.moduleManager == null && RandomModuleThread.field8341 != null) {

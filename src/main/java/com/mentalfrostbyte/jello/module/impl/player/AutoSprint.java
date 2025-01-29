@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
@@ -14,7 +14,7 @@ public class AutoSprint extends Module {
     }
 
     @EventTarget
-    public void TickEvent(TickEvent event) {
+    public void TickEvent(EventPlayerTick event) {
         mc.gameSettings.keyBindSprint.setPressed(true);
     }
 

@@ -14,7 +14,7 @@ public class Class4372 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       byte var4 = 5;
       if (this.method13700() || this.method13298()) {
          RenderUtil.method11464(
@@ -23,12 +23,12 @@ public class Class4372 extends UIBase {
             (float)this.widthA,
             (float)this.heightA,
             14.0F,
-            !this.method13700() ? 0.3F * var1 : 0.8F * var1
+            !this.method13700() ? 0.3F * partialTicks : 0.8F * partialTicks
          );
       }
 
       RenderUtil.method11479(this.field21366, this.xA + var4, this.yA + var4, this.widthA - var4 * 2, this.heightA - var4 * 2);
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    public boolean method13700() {

@@ -102,38 +102,36 @@ public class PNGDecoder {
     private byte[] paletteA;
     private byte[] transPixel;
 
-    public PNGDecoder(InputStream input) throws IOException {
-        this.input = input;
+    public PNGDecoder(InputStream var1) throws IOException {
+        this.input = var1;
         this.crc = new CRC32();
         this.buffer = new byte[4096];
-
-        readFully(buffer, 0, SIGNATURE.length);
-        if (!checkSignature(buffer)) {
+        this.readFully(this.buffer, 0, SIGNATURE.length);
+        if (!checkSignature(this.buffer)) {
             throw new IOException("Not a valid PNG file");
-        }
+        } else {
+            this.openChunk(1229472850);
+            this.readIHDR();
+            this.closeChunk();
 
-        openChunk(IHDR);
-        readIHDR();
-        closeChunk();
+            while (true) {
+                this.openChunk();
+                switch (this.chunkType) {
+                    case 1229209940:
+                        if (this.colorType == 3 && this.palette == null) {
+                            throw new IOException("Missing PLTE chunk");
+                        }
 
-        searchIDAT:
-        for (; ; ) {
-            openChunk();
-            switch (chunkType) {
-                case IDAT:
-                    break searchIDAT;
-                case PLTE:
-                    readPLTE();
-                    break;
-                case tRNS:
-                    readtRNS();
-                    break;
+                        return;
+                    case 1347179589:
+                        this.readPLTE();
+                        break;
+                    case 1951551059:
+                        this.readtRNS();
+                }
+
+                this.closeChunk();
             }
-            closeChunk();
-        }
-
-        if (colorType == COLOR_INDEXED && palette == null) {
-            throw new IOException("Missing PLTE chunk");
         }
     }
 
@@ -574,61 +572,67 @@ public class PNGDecoder {
     }
 
     private void readIHDR() throws IOException {
-        checkChunkLength(13);
-        readChunk(buffer, 0, 13);
-        width = readInt(buffer, 0);
-        height = readInt(buffer, 4);
-        bitdepth = buffer[8] & 255;
-        colorType = buffer[9] & 255;
+        this.checkChunkLength(13);
+        this.readChunk(this.buffer, 0, 13);
+        this.width = this.readInt(this.buffer, 0);
+        this.height = this.readInt(this.buffer, 4);
+        this.bitdepth = this.buffer[8] & 255;
+        this.colorType = this.buffer[9] & 255;
+        label59:
+        switch (this.colorType) {
+            case 0:
+                if (this.bitdepth != 8) {
+                    throw new IOException("Unsupported bit depth: " + this.bitdepth);
+                }
 
-        switch (colorType) {
-            case COLOR_GREYSCALE:
-                if (bitdepth != 8) {
-                    throw new IOException("Unsupported bit depth: " + bitdepth);
-                }
-                bytesPerPixel = 1;
+                this.bytesPerPixel = 1;
                 break;
-            case COLOR_GREYALPHA:
-                if (bitdepth != 8) {
-                    throw new IOException("Unsupported bit depth: " + bitdepth);
-                }
-                bytesPerPixel = 2;
-                break;
-            case COLOR_TRUECOLOR:
-                if (bitdepth != 8) {
-                    throw new IOException("Unsupported bit depth: " + bitdepth);
-                }
-                bytesPerPixel = 3;
-                break;
-            case COLOR_TRUEALPHA:
-                if (bitdepth != 8) {
-                    throw new IOException("Unsupported bit depth: " + bitdepth);
-                }
-                bytesPerPixel = 4;
-                break;
-            case COLOR_INDEXED:
-                switch (bitdepth) {
-                    case 8:
-                    case 4:
-                    case 2:
-                    case 1:
-                        bytesPerPixel = 1;
-                        break;
-                    default:
-                        throw new IOException("Unsupported bit depth: " + bitdepth);
-                }
-                break;
+            case 1:
+            case 5:
             default:
-                throw new IOException("unsupported color format: " + colorType);
+                throw new IOException("unsupported color format: " + this.colorType);
+            case 2:
+                if (this.bitdepth != 8) {
+                    throw new IOException("Unsupported bit depth: " + this.bitdepth);
+                }
+
+                this.bytesPerPixel = 3;
+                break;
+            case 3:
+                switch (this.bitdepth) {
+                    case 1:
+                    case 2:
+                    case 4:
+                    case 8:
+                        this.bytesPerPixel = 1;
+                        break label59;
+                    case 3:
+                    case 5:
+                    case 6:
+                    case 7:
+                    default:
+                        throw new IOException("Unsupported bit depth: " + this.bitdepth);
+                }
+            case 4:
+                if (this.bitdepth != 8) {
+                    throw new IOException("Unsupported bit depth: " + this.bitdepth);
+                }
+
+                this.bytesPerPixel = 2;
+                break;
+            case 6:
+                if (this.bitdepth != 8) {
+                    throw new IOException("Unsupported bit depth: " + this.bitdepth);
+                }
+
+                this.bytesPerPixel = 4;
         }
 
-        if (buffer[10] != 0) {
+        if (this.buffer[10] != 0) {
             throw new IOException("unsupported compression method");
-        }
-        if (buffer[11] != 0) {
+        } else if (this.buffer[11] != 0) {
             throw new IOException("unsupported filtering method");
-        }
-        if (buffer[12] != 0) {
+        } else if (this.buffer[12] != 0) {
             throw new IOException("unsupported interlace method");
         }
     }

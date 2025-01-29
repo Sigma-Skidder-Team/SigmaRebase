@@ -1,0 +1,279 @@
+package com.mentalfrostbyte.jello.gui.unmapped;
+
+import com.mentalfrostbyte.jello.gui.base.Animation;
+import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
+import com.mentalfrostbyte.jello.gui.base.Direction;
+import com.mentalfrostbyte.jello.gui.base.QuadraticEasing;
+import com.mentalfrostbyte.jello.util.ClientColors;
+import com.mentalfrostbyte.jello.util.ColorHelper;
+import com.mentalfrostbyte.jello.util.MathHelper;
+import com.mentalfrostbyte.jello.util.ResourceRegistry;
+import com.mentalfrostbyte.jello.util.render.ColorUtils;
+import com.mentalfrostbyte.jello.util.render.RenderUtil;
+import com.mentalfrostbyte.jello.util.unmapped.Class2218;
+import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class Dropdown extends UIBase {
+   public static final ColorHelper field21325 = new ColorHelper(1250067, -15329770).method19410(ClientColors.DEEP_TEAL.getColor()).method19414(Class2218.field14492);
+   public List<String> values;
+   public int selectedIdx;
+   public boolean field21328;
+   private Animation animation = new Animation(220, 220);
+   private Map<Integer, Class4362> field21331 = new HashMap<Integer, Class4362>();
+
+   public Dropdown(CustomGuiScreen var1, String typeThingIdk, int x, int y, int width, int height, List<String> values, int selectedIdx) {
+      super(var1, typeThingIdk, x, y, width, height, field21325, false);
+      this.values = values;
+      this.selectedIdx = selectedIdx;
+      this.addButtons();
+   }
+
+   public void method13643(List<String> var1, int var2) {
+      Class4362 var5 = new Class4362(this, "sub" + var2, this.widthA + 10, this.getHeightA() * (var2 + 1), 200, this.getHeightA(), var1, 0);
+      this.field21331.put(var2, var5);
+      var5.setEnabled(false);
+      var5.onPress(var2x -> {
+         this.method13656(var2);
+         this.method13658(false);
+         this.callUIHandlers();
+      });
+      this.addToList(var5);
+   }
+
+   public Class4362 method13645(int var1) {
+      for (Entry var5 : this.field21331.entrySet()) {
+         if ((Integer)var5.getKey() == var1) {
+            return (Class4362)var5.getValue();
+         }
+      }
+
+      return null;
+   }
+
+   private void addButtons() {
+      this.getChildren().clear();
+      this.font = ResourceRegistry.JelloLightFont18;
+      ButtonPanel dropdownButton;
+      this.addToList(dropdownButton = new ButtonPanel(this, "dropdownButton", 0, 0, this.getHeightA(), this.getHeightA(), this.textColor));
+      dropdownButton.setSize((var1, var2) -> {
+         var1.setXA(0);
+         var1.setYA(0);
+         var1.setWidthA(this.getWidthA());
+         var1.setHeightA(this.getHeightA());
+      });
+      dropdownButton.doThis((var1, var2) -> this.method13658(!this.method13657()));
+
+      for (String mode : this.values) {
+         ButtonPanel buttonPanel;
+         this.addToList(
+            buttonPanel = new ButtonPanel(
+               this,
+               mode,
+               0,
+               this.getHeightA(),
+               this.getWidthA(),
+               this.getHeightA(),
+               new ColorHelper(
+                  ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                  -1381654,
+                  this.textColor.method19405(),
+                  this.textColor.method19405(),
+                  Class2218.field14488,
+                  Class2218.field14492
+               ),
+               mode,
+               this.getFont()
+            )
+         );
+         buttonPanel.method13034(10);
+         buttonPanel.doThis((var2, var3x) -> {
+            int var6x = this.method13655();
+            this.method13656(this.values.indexOf(mode));
+            this.method13658(false);
+            if (var6x != this.method13655()) {
+               this.callUIHandlers();
+            }
+         });
+      }
+
+      this.animation.changeDirection(Direction.BACKWARDS);
+      this.method13246(new Class7262(1));
+   }
+
+   private int method13647() {
+      int var3 = this.method13648();
+
+      for (Entry var5 : this.field21331.entrySet()) {
+         if (((Class4362)var5.getValue()).isVisible()) {
+            var3 = Math.max(
+               var3,
+               (((Class4362)var5.getValue()).values.size() - 1) * ((Class4362)var5.getValue()).getHeightA() + ((Class4362)var5.getValue()).getYA()
+            );
+         }
+      }
+
+      return var3;
+   }
+
+   private int method13648() {
+      float var3 = MathHelper.calculateTransition(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+      if (this.animation.getDirection() != Direction.FORWARDS) {
+         var3 = QuadraticEasing.easeInQuad(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+      }
+
+      return (int)((float)(this.getHeightA() * this.values.size() + 1) * var3);
+   }
+
+   public int method13649() {
+      return (int)((float)(this.getHeightA() * this.values.size() + 1));
+   }
+
+   @Override
+   public void updatePanelDimensions(int newHeight, int newWidth) {
+      super.updatePanelDimensions(newHeight, newWidth);
+      if (!this.method13114(newHeight, newWidth) && this.animation.getDirection() == Direction.FORWARDS) {
+         this.method13658(false);
+      }
+
+      int var5 = (newWidth - this.method13272()) / this.getHeightA() - 1;
+      if (var5 >= 0
+         && var5 < this.values.size()
+         && this.animation.getDirection() == Direction.FORWARDS
+         && this.animation.calcPercent() == 1.0F
+         && newHeight - this.method13271() < this.getWidthA()) {
+         for (Entry var9 : this.field21331.entrySet()) {
+            ((Class4362)var9.getValue()).setEnabled((Integer)var9.getKey() == var5);
+         }
+      } else if (!this.method13114(newHeight, newWidth) || this.animation.getDirection() == Direction.BACKWARDS) {
+         for (Entry var7 : this.field21331.entrySet()) {
+            ((Class4362)var7.getValue()).setEnabled(false);
+         }
+      }
+   }
+
+   @Override
+   public void draw(float partialTicks) {
+      RenderUtil.drawRoundedRect(
+         (float)this.getXA(),
+         (float)this.getYA(),
+         (float)(this.getXA() + this.getWidthA()),
+         (float)(this.getYA() + this.getHeightA()),
+         ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks * this.animation.calcPercent())
+      );
+      RenderUtil.drawRoundedRect(
+         (float)this.getXA(),
+         (float)this.getYA(),
+         (float)this.getWidthA(),
+         (float)(this.getHeightA() + this.method13648() - 1),
+         6.0F,
+         partialTicks * 0.1F * this.animation.calcPercent()
+      );
+      RenderUtil.drawRoundedRect(
+         (float)this.getXA(),
+         (float)this.getYA(),
+         (float)this.getWidthA(),
+         (float)(this.getHeightA() + this.method13648() - 1),
+         20.0F,
+         partialTicks * 0.2F * this.animation.calcPercent()
+      );
+      if (this.getTypedText() != null) {
+         RenderUtil.method11415(this);
+         String var4 = "";
+
+         for (Entry var6 : this.field21331.entrySet()) {
+            if (this.selectedIdx == (Integer)var6.getKey()) {
+               var4 = " (" + ((Class4362)var6.getValue()).values.get(((Class4362)var6.getValue()).field21324) + ")";
+            }
+         }
+
+         RenderUtil.drawString(
+            this.getFont(),
+            (float)(this.getXA() + 10),
+            (float)(this.getYA() + (this.getHeightA() - this.getFont().getHeight()) / 2 + 1),
+            this.getTypedText() + var4,
+                 ColorUtils.applyAlpha(this.textColor.method19405(), partialTicks * 0.7F)
+         );
+         RenderUtil.endScissor();
+      }
+
+      boolean var8 = this.animation.calcPercent() < 1.0F;
+      if (var8) {
+         RenderUtil.drawPortalBackground(
+            this.method13271(), this.method13272(), this.method13271() + this.getWidthA() + 140, this.method13272() + this.getHeightA() + this.method13647()
+         );
+      }
+
+      GL11.glPushMatrix();
+      if (this.animation.calcPercent() > 0.0F) {
+         super.draw(partialTicks);
+      }
+
+      GL11.glPopMatrix();
+      if (var8) {
+         RenderUtil.endScissor();
+      }
+
+      int var9 = this.getWidthA() - (int)((float)this.getHeightA() / 2.0F + 0.5F);
+      int var10 = (int)((float)this.getHeightA() / 2.0F + 0.5F) + 1;
+      int var7 = (int)((float)this.getHeightA() / 6.0F + 0.5F);
+      GL11.glTranslatef((float)(this.getXA() + var9), (float)(this.getYA() + var10), 0.0F);
+      GL11.glRotatef(90.0F * this.animation.calcPercent(), 0.0F, 0.0F, 1.0F);
+      GL11.glTranslatef((float)(-this.getXA() - var9), (float)(-this.getYA() - var10), 0.0F);
+      RenderUtil.drawString(
+         this.font,
+         (float)(this.getXA() + var9 - 6),
+         (float)(this.getYA() + var10 - 14),
+         ">",
+              ColorUtils.applyAlpha(this.textColor.method19405(), partialTicks * 0.7F * (!this.method13114(this.getHeightO(), this.getWidthO()) ? 0.5F : 1.0F))
+      );
+   }
+
+   public List<String> method13651() {
+      return this.values;
+   }
+
+   public void method13652(String var1, int var2) {
+      this.method13651().add(var2, var1);
+      this.addButtons();
+   }
+
+   public int method13655() {
+      return this.selectedIdx;
+   }
+
+   public void method13656(int var1) {
+      this.selectedIdx = var1;
+   }
+
+   public boolean method13657() {
+      return this.field21328;
+   }
+
+   public void method13658(boolean var1) {
+      this.field21328 = var1;
+      this.animation.changeDirection(!this.method13657() ? Direction.BACKWARDS : Direction.FORWARDS);
+   }
+
+   @Override
+   public String getTypedText() {
+      return this.method13651().size() <= 0 ? null : this.method13651().get(this.method13655());
+   }
+
+   @Override
+   public boolean method13114(int var1, int var2) {
+      for (Entry var6 : this.field21331.entrySet()) {
+         if (((Class4362)var6.getValue()).isVisible() && ((Class4362)var6.getValue()).method13114(var1, var2)) {
+            return true;
+         }
+      }
+
+      var1 -= this.method13271();
+      var2 -= this.method13272();
+      return var1 >= 0 && var1 <= this.getWidthA() && var2 >= 0 && var2 <= this.getHeightA() + this.method13648();
+   }
+}

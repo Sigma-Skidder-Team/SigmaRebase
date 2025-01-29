@@ -8,15 +8,15 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 
 public class Class4288 extends AnimatedIconPanelWrap {
-   private final Class4339 field20780;
+   private final MusicTabs field20780;
    public final VerticalScrollBar field20781;
 
    public Class4288(VerticalScrollBar var1, VerticalScrollBar var2, int var3) {
       super(var2, "verticalScrollBarButton", 0, 0, var3, 10, true);
       this.field20781 = var1;
       this.field20886 = true;
-      this.field20780 = (Class4339)var2.getParent();
-      this.method13300(false);
+      this.field20780 = (MusicTabs)var2.getParent();
+      this.setListening(false);
    }
 
    @Override
@@ -68,9 +68,9 @@ public class Class4288 extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       int var4 = 5;
-      var1 *= !this.field20877 ? (!this.field20908 ? 0.3F : 0.7F) : 0.75F;
+      partialTicks *= !this.field20877 ? (!this.field20908 ? 0.3F : 0.7F) : 0.75F;
       int var5 = this.xA;
       int var6 = this.widthA;
       if (Client.getInstance().clientMode != ClientMode.JELLO) {
@@ -82,20 +82,20 @@ public class Class4288 extends AnimatedIconPanelWrap {
             (float)(this.yA + var4),
             (float)(var5 + var6),
             (float)(this.yA + this.getHeightA() - var4),
-            ColorUtils.applyAlpha(ClientColors.MID_GREY.getColor(), 1.0F * var1)
+            ColorUtils.applyAlpha(ClientColors.MID_GREY.getColor(), 1.0F * partialTicks)
          );
       } else {
-         RenderUtil.drawImage((float)var5, (float)this.yA, (float)var6, (float)var4, Resources.verticalScrollBarTopPNG, var1);
-         RenderUtil.drawImage((float)var5, (float)(this.yA + this.heightA - var4), (float)var6, (float)var4, Resources.verticalScrollBarBottomPNG, var1);
+         RenderUtil.drawImage((float)var5, (float)this.yA, (float)var6, (float)var4, Resources.verticalScrollBarTopPNG, partialTicks);
+         RenderUtil.drawImage((float)var5, (float)(this.yA + this.heightA - var4), (float)var6, (float)var4, Resources.verticalScrollBarBottomPNG, partialTicks);
          RenderUtil.drawRoundedRect(
             (float)var5,
             (float)(this.yA + var4),
             (float)(var5 + var6),
             (float)(this.yA + this.getHeightA() - var4),
-                 ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * var1)
+                 ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * partialTicks)
          );
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

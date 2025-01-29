@@ -38,10 +38,10 @@ public class Class4367 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
-      int var4 = ColorUtils.applyAlpha(Color.HSBtoRGB(this.field21347, 0.0F, 1.0F), var1);
-      int var5 = ColorUtils.applyAlpha(Color.HSBtoRGB(this.field21347, 1.0F, 1.0F), var1);
-      int var6 = ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var1);
+   public void draw(float partialTicks) {
+      int var4 = ColorUtils.applyAlpha(Color.HSBtoRGB(this.field21347, 0.0F, 1.0F), partialTicks);
+      int var5 = ColorUtils.applyAlpha(Color.HSBtoRGB(this.field21347, 1.0F, 1.0F), partialTicks);
+      int var6 = ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks);
       RenderUtil.method11415(this);
       RenderUtil.drawQuad(
          this.getXA(), this.getYA(), this.getXA() + this.getWidthA(), this.getYA() + this.getHeightA(), var4, var5, var5, var4
@@ -60,17 +60,17 @@ public class Class4367 extends UIBase {
          this.xA + Math.round((float)this.widthA * this.method13679()),
          this.yA + Math.round((float)this.heightA * (1.0F - this.method13682())),
          Color.HSBtoRGB(this.field21347, this.field21348, this.field21349),
-         var1
+              partialTicks
       );
       RenderUtil.method11428(
          (float)this.getXA(),
          (float)this.getYA(),
          (float)(this.getXA() + this.getWidthA()),
          (float)(this.getYA() + this.getHeightA()),
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.25F * var1)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.25F * partialTicks)
       );
       RenderUtil.endScissor();
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    @Override

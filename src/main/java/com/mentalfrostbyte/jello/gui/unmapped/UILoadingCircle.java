@@ -19,7 +19,7 @@ public class UILoadingCircle extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.field20770 = this.field20770 + (this.isHovered() ? 0.2F : -0.2F);
       this.field20770 = Math.min(1.0F, Math.max(0.0F, this.field20770));
       float var4 = (float)(this.field20769.getElapsedTime() / 75L % 12L);
@@ -34,7 +34,7 @@ public class UILoadingCircle extends AnimatedIconPanelWrap {
             (float)this.widthA,
             (float)this.heightA,
             Resources.loadingIndicatorPNG,
-            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), this.field20770 * var1)
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), this.field20770 * partialTicks)
          );
          GL11.glPopMatrix();
       }

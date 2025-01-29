@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.network.play.client.CEntityActionPacket;
@@ -17,9 +17,9 @@ public class Sneak extends Module {
     }
 
     @EventTarget
-    public void EventUpdate(EventUpdate eventUpdate) {
+    public void EventUpdate(EventUpdateWalkingPlayer eventUpdateWakkingPlayer) {
         if (this.isEnabled()) {
-            if (!eventUpdate.isPre()) {
+            if (!eventUpdateWakkingPlayer.isPre()) {
                 mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.RELEASE_SHIFT_KEY));
                 mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.PRESS_SHIFT_KEY));
             } else {

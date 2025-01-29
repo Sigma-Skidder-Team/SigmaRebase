@@ -1,43 +1,40 @@
 package com.mentalfrostbyte.jello.module.impl.combat.antibot;
 
-
-import com.mentalfrostbyte.jello.managers.impl.combat.Class2124;
-import com.mentalfrostbyte.jello.managers.impl.combat.Class7249;
+import com.mentalfrostbyte.jello.managers.util.combat.BotRecognitionTechnique;
+import com.mentalfrostbyte.jello.managers.util.combat.AntiBotBase;
 import net.minecraft.entity.Entity;
+import java.util.Objects;
 
-import java.util.HashMap;
-
-public class HypixelAntiBot extends Class7249 {
-   public HashMap<Entity, Boolean> field31124 = new HashMap<Entity, Boolean>();
-
+public class HypixelAntiBot extends AntiBotBase {
    public HypixelAntiBot() {
-      super("Hypixel", "Detects bots on Hypixel based on entity names", Class2124.field13865);
+      super("Hypixel", "Detects bots on Hypixel based on entity names", BotRecognitionTechnique.SERVER);
    }
 
    @Override
-   public boolean method22751(Entity var1) {
-      if (var1 != null) {
-         String var4 = var1.getDisplayName().getString();
-         String var5 = var1.getCustomName() != null ? var1.getDisplayName().getString() : null;
-         String var6 = var1.getName().getString();
-         if (var1.isInvisible() && !var4.startsWith("§c") && var4.endsWith("§r") && (var5 == null || var5.equals(var6))) {
-            double var7 = Math.abs(var1.getPosX() - field31119.player.getPosX());
-            double var9 = Math.abs(var1.getPosY() - field31119.player.getPosY());
-            double var11 = Math.abs(var1.getPosZ() - field31119.player.getPosZ());
+   public boolean isBot(Entity entity) {
+      if (entity != null) {
+         String displayName = entity.getDisplayName().getString();
+         String customName = entity.getCustomName() != null ? entity.getDisplayName().getString() : null;
+         String name = entity.getName().getString();
+         if (entity.isInvisible() && !displayName.startsWith("§c") && displayName.endsWith("§r") && (customName == null || customName.equals(name))) {
+             assert mc.player != null;
+             double var7 = Math.abs(entity.getPosX() - mc.player.getPosX());
+            double var9 = Math.abs(entity.getPosY() - mc.player.getPosY());
+            double var11 = Math.abs(entity.getPosZ() - mc.player.getPosZ());
             double var13 = Math.sqrt(var7 * var7 + var11 * var11);
             if (var9 < 13.0 && var9 > 10.0 && var13 < 3.0) {
                return true;
             }
          }
 
-         if (!var4.startsWith("§") && var4.endsWith("§r")) {
+         if (!displayName.startsWith("§") && displayName.endsWith("§r")) {
             return true;
-         } else if (var1.isInvisible() && var6.equals(var4) && var5.equals(var6 + "§r")) {
+         } else if (entity.isInvisible() && name.equals(displayName) && Objects.equals(customName, name + "§r")) {
             return true;
-         } else if (var5 != null && !var5.equalsIgnoreCase("") && var4.toLowerCase().contains("§c") && var4.toLowerCase().contains("§r")) {
+         } else if (customName != null && !customName.equalsIgnoreCase("") && displayName.toLowerCase().contains("§c") && displayName.toLowerCase().contains("§r")) {
             return true;
          } else {
-            return !var4.contains("§8[NPC]") ? !var4.contains("§c") && var5 != null && !var5.equalsIgnoreCase("") : true;
+            return displayName.contains("§8[NPC]") || !displayName.contains("§c") && customName != null && !customName.equalsIgnoreCase("");
          }
       } else {
          return false;
@@ -45,7 +42,7 @@ public class HypixelAntiBot extends Class7249 {
    }
 
    @Override
-   public boolean method22758(Entity var1) {
+   public boolean isNotBot(Entity entity) {
       return true;
    }
 }

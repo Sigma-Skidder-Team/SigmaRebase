@@ -65,14 +65,14 @@ public class Class4277 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       int var6 = this.getHeightA() / 4;
       int var7 = this.getWidthA() - this.field20734.getWidthA() / 2 - 3;
       int var8 = this.getXA() + this.field20734.getWidthA() / 4 + 3;
       int var9 = this.getYA() + this.getHeightA() / 2 - var6 / 2;
       int var10 = this.field20734.getXA() + this.field20734.getWidthA() / 2 - 6;
       RenderUtil.drawRoundedRect(
-         (float)var8, (float)var9, (float)var10, (float)var6, (float)(var6 / 2), ColorUtils.applyAlpha(this.textColor.method19405(), var1 * var1 * var1)
+         (float)var8, (float)var9, (float)var10, (float)var6, (float)(var6 / 2), ColorUtils.applyAlpha(this.textColor.method19405(), partialTicks * partialTicks * partialTicks)
       );
       RenderUtil.drawRoundedRect(
          (float)(var8 + var10),
@@ -80,7 +80,7 @@ public class Class4277 extends UIBase {
          (float)(var7 - var10),
          (float)var6,
          (float)(var6 / 2),
-              ColorUtils.applyAlpha(ColorUtils.adjustColorTowardsWhite(this.textColor.method19405(), 0.8F), var1 * var1 * var1)
+              ColorUtils.applyAlpha(ColorUtils.adjustColorTowardsWhite(this.textColor.method19405(), 0.8F), partialTicks * partialTicks * partialTicks)
       );
       if (this.getTypedText() != null) {
          int var11 = Math.max(0, 9 - this.field20734.getXA());
@@ -89,11 +89,11 @@ public class Class4277 extends UIBase {
             (float)(var8 - ResourceRegistry.JelloLightFont14.getWidth(this.getTypedText()) - 10 - var11),
             (float)(var9 - 5),
             this.getTypedText(),
-                 ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F * this.field20735.calcPercent() * var1)
+                 ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F * this.field20735.calcPercent() * partialTicks)
          );
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    @Override

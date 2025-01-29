@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Sigma Rebase" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Start" />
-    <module name="SigmaRebase" />
+    <module name="sigma-jello" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/run" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
@@ -16,7 +16,7 @@ public class Regen extends Module {
     }
 
     @EventTarget
-    public void method16007(TickEvent var1) {
+    public void method16007(EventPlayerTick var1) {
         if (this.isEnabled()) {
             if (!mc.player.abilities.isCreativeMode
                     && mc.player.getFoodStats().getFoodLevel() > 17

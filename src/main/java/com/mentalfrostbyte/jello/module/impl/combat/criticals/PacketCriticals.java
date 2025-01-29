@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
-import com.mentalfrostbyte.jello.event.impl.EventRayTraceResult;
-import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
+import com.mentalfrostbyte.jello.event.impl.game.EventRayTraceResult;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.movement.Step;
@@ -57,7 +57,7 @@ public class PacketCriticals extends Module {
 
     @EventTarget
     @HigherPriority
-    public void method16924(SendPacketEvent var1) {
+    public void method16924(EventSendPacket var1) {
         if (this.isEnabled()) {
             if (var1.getPacket() instanceof CPlayerPacket) {
                 if (!this.timer.isEnabled()) {

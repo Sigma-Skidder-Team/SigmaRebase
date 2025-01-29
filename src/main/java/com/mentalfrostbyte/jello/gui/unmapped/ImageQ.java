@@ -16,7 +16,7 @@ public class ImageQ extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawImage(
          (float)this.xA,
          (float)this.yA,
@@ -27,6 +27,6 @@ public class ImageQ extends AnimatedIconPanelWrap {
             ClientColors.DEEP_TEAL.getColor(), ClientColors.LIGHT_GREYISH_BLUE.getColor(), !this.method13298() ? 0.0F : (!this.method13212() ? 0.15F : 0.3F)
          )
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

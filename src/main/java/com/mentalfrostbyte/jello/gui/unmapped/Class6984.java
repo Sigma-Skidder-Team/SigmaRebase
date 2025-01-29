@@ -22,7 +22,7 @@ public class Class6984 {
    }
 
    public String method21597() {
-      return this.field30212 == null ? "Screen" : this.field30212.getAdjustedCategoryBasedOnClientMode().getName();
+      return this.field30212 == null ? "Screen" : this.field30212.getAdjustedCategoryBasedOnClientMode().name();
    }
 
    public void method21598(int var1) {

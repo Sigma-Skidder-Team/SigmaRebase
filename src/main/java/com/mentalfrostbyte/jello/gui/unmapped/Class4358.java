@@ -25,7 +25,7 @@ public class Class4358 extends UIBase {
    public int field21305;
    public int field21306;
    public String field21307;
-   public Class4339 field21308;
+   public MusicTabs field21308;
    public Class6984 field21309;
    public boolean field21311 = false;
    private final List<Class7875> field21312 = new ArrayList<>();
@@ -48,7 +48,7 @@ public class Class4358 extends UIBase {
       });
       var10.method13242();
       this.addToList(
-         this.field21308 = new Class4339(
+         this.field21308 = new MusicTabs(
             this, "mods", this.field21304 + 30, this.field21303 + 30 + 120, this.field21305 - 30 * 2, this.field21306 - 30 * 2 - 120
          )
       );
@@ -61,7 +61,7 @@ public class Class4358 extends UIBase {
             .method19412(Class2218.field14492);
          ButtonPanel var16;
          this.field21308
-            .addButton(
+            .addToList(
                var16 = new ButtonPanel(this.field21308, var14.method21596(), 0, var11++ * 55, this.field21308.getWidthA(), 55, var15, var14.method21596())
             );
          var16.doThis((var2x, var3x) -> {
@@ -82,7 +82,7 @@ public class Class4358 extends UIBase {
          ColorHelper var20 = new ColorHelper(16777215, -986896).method19410(ClientColors.DEEP_TEAL.getColor()).method19412(Class2218.field14488);
          ButtonPanel var21;
          this.field21308
-            .addButton(
+            .addToList(
                var21 = new ButtonPanel(
                   this.field21308, var19.getName(), 0, var11++ * 40, this.field21308.getWidthA(), 40, var20, new Class6984(var19).method21596()
                )
@@ -100,7 +100,7 @@ public class Class4358 extends UIBase {
       }
 
       this.field21302 = new Animation(200, 120);
-      this.method13300(false);
+      this.setListening(false);
    }
 
    @Override
@@ -178,15 +178,15 @@ public class Class4358 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
-      var1 = this.field21302.calcPercent();
-      float var4 = EasingFunctions.easeOutBack(var1, 0.0F, 1.0F, 1.0F);
+   public void draw(float partialTicks) {
+      partialTicks = this.field21302.calcPercent();
+      float var4 = EasingFunctions.easeOutBack(partialTicks, 0.0F, 1.0F, 1.0F);
       if (this.field21311) {
-         var4 = QuadraticEasing.easeOutQuad(var1, 0.0F, 1.0F, 1.0F);
+         var4 = QuadraticEasing.easeOutQuad(partialTicks, 0.0F, 1.0F, 1.0F);
       }
 
       this.method13279(0.8F + var4 * 0.2F, 0.8F + var4 * 0.2F);
-      if (var1 == 0.0F && this.field21311) {
+      if (partialTicks == 0.0F && this.field21311) {
          this.method13624(this.field21309);
       }
 
@@ -195,7 +195,7 @@ public class Class4358 extends UIBase {
          (float)this.yA,
          (float)this.widthA,
          (float)this.heightA,
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.3F * var1)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.3F * partialTicks)
       );
       super.method13224();
       RenderUtil.drawRoundedRect(
@@ -204,16 +204,16 @@ public class Class4358 extends UIBase {
          (float)this.field21305,
          (float)this.field21306,
          10.0F,
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
       );
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont36,
          (float)(30 + this.field21304),
          (float)(30 + this.field21303),
          "Select mod to bind",
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var1 * 0.7F)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.7F)
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    public final void method13623(Class7875 var1) {

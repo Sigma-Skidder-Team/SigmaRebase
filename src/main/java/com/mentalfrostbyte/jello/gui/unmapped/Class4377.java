@@ -59,8 +59,8 @@ public class Class4377 extends PNGIconButton {
    }
 
    @Override
-   public void draw(float var1) {
-      super.draw(var1);
+   public void draw(float partialTicks) {
+      super.draw(partialTicks);
    }
 
    public int method13720() {

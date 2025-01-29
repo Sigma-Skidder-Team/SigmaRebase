@@ -2,8 +2,8 @@ package com.mentalfrostbyte.jello.gui.unmapped;
 
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.impl.AltManagerScreen;
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
-import net.minecraft.client.MinecraftClient;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.Account;
+import net.minecraft.client.Minecraft;
 
 import java.util.List;
 
@@ -34,25 +34,26 @@ public class Class1428 implements Runnable {
       }
 
       this.field7661
-            .method13233(
-                  AltManagerScreen.method13383(
-                        this.field7664,
-                        new Class4339(
-                              this.field7661,
-                              "alts",
-                              0,
-                              114,
-                              (int) ((float) MinecraftClient.getInstance().getWindow().getWidth()
-                                    * AltManagerScreen.method13384(this.field7664)) - 4,
-                              MinecraftClient.getInstance().getWindow().getHeight() - 119
-                                    - AltManagerScreen.method13385(this.field7664))));
+         .showAlert(
+            AltManagerScreen.method13383(
+               this.field7664,
+               new MusicTabs(
+                  this.field7661,
+                  "alts",
+                  0,
+                  114,
+                  (int)((float) Minecraft.getInstance().getMainWindow().getWidth() * AltManagerScreen.method13384(this.field7664)) - 4,
+                  Minecraft.getInstance().getMainWindow().getHeight() - 119 - AltManagerScreen.getTitleOffset(this.field7664)
+               )
+            )
+         );
 
       for (Account var6 : this.field7662) {
          AltManagerScreen.method13386(this.field7664, var6, this.field7663);
       }
 
       AltManagerScreen.method13382(this.field7664).method13512(var3);
-      AltManagerScreen.method13382(this.field7664).method13300(false);
+      AltManagerScreen.method13382(this.field7664).setListening(false);
       AltManagerScreen.method13382(this.field7664).method13515(false);
    }
 }

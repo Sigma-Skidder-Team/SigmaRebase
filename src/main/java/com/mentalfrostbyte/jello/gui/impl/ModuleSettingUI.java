@@ -36,7 +36,7 @@ public class ModuleSettingUI extends UIBase {
       );
       this.animation1 = new Animation(200, 120);
       this.animation = new Animation(240, 200);
-      this.method13300(false);
+      this.setListening(false);
    }
 
    @Override
@@ -60,11 +60,11 @@ public class ModuleSettingUI extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
-      var1 = this.animation1.calcPercent();
-      float var4 = EasingFunctions.easeOutBack(var1, 0.0F, 1.0F, 1.0F);
+   public void draw(float partialTicks) {
+      partialTicks = this.animation1.calcPercent();
+      float var4 = EasingFunctions.easeOutBack(partialTicks, 0.0F, 1.0F, 1.0F);
       if (this.field20671) {
-         var4 = QuadraticEasing.easeOutQuad(var1, 0.0F, 1.0F, 1.0F);
+         var4 = QuadraticEasing.easeOutQuad(partialTicks, 0.0F, 1.0F, 1.0F);
       }
 
       this.method13279(0.8F + var4 * 0.2F, 0.8F + var4 * 0.2F);
@@ -73,7 +73,7 @@ public class ModuleSettingUI extends UIBase {
          (float)this.yA,
          (float)this.widthA,
          (float)this.heightA,
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * var1)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.45F * partialTicks)
       );
       super.method13224();
       RenderUtil.drawRoundedRect(
@@ -82,14 +82,14 @@ public class ModuleSettingUI extends UIBase {
          (float)this.width,
          (float)this.height,
          10.0F,
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
       );
       RenderUtil.drawString(
          ResourceRegistry.JelloMediumFont40,
          (float)this.x,
          (float)(this.y - 60),
          this.module.getName(),
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
       );
       RenderUtil.startScissor((float)this.x, (float)this.y, (float)(this.width - 30), (float)this.height);
       RenderUtil.drawString(
@@ -97,9 +97,9 @@ public class ModuleSettingUI extends UIBase {
          (float)(30 + this.x),
          (float)(30 + this.y),
          this.module.getDescription(),
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var1 * 0.7F)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.7F)
       );
       RenderUtil.endScissor();
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

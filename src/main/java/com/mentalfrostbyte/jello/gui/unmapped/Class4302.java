@@ -15,7 +15,7 @@ public class Class4302 extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       if (this.isVisible()) {
          RenderUtil.drawImage(
             (float)(this.xA + 30),
@@ -23,7 +23,7 @@ public class Class4302 extends AnimatedIconPanelWrap {
             187.0F,
             36.0F,
             Resources.gemPNG,
-            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
          );
       }
    }

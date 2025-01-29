@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.gui.unmapped;
 
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,12 +10,11 @@ import java.util.List;
 public class ClassicParticleEngine extends AnimatedIconPanelWrap {
    private static String[] field21273;
    private List<Class9625> field21274 = new ArrayList<Class9625>();
-   private Class9715 field21275 = new Class9715();
-   public Class2422 field21276 = new Class2422();
+   private AnimationManager field21275 = new AnimationManager();
+   public RandomIntGenerator field21276 = new RandomIntGenerator();
 
    public ClassicParticleEngine(CustomGuiScreen var1, String var2) {
-      super(var1, var2, 0, 0, MinecraftClient.getInstance().getWindow().getWidth(),
-            MinecraftClient.getInstance().getWindow().getHeight(), false);
+      super(var1, var2, 0, 0, Minecraft.getInstance().getMainWindow().getWidth(), Minecraft.getInstance().getMainWindow().getHeight(), false);
       this.method13145(false);
       this.method13296(false);
       this.method13292(false);
@@ -33,15 +32,14 @@ public class ClassicParticleEngine extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.method13225();
-      int var4 = MinecraftClient.getInstance().getWindow().getScaledWidth();
-      int var5 = MinecraftClient.getInstance().getWindow().getScaledHeight();
-      int var6 = (int) ((float) var4 / 4.0F);
+      int var4 = Minecraft.getInstance().getMainWindow().getScaledWidth();
+      int var5 = Minecraft.getInstance().getMainWindow().getScaledHeight();
+      int var6 = (int)((float)var4 / 4.0F);
       boolean var7 = false;
       if (this.field21274.size() < var6) {
-         this.field21274
-               .add(new Class9625((float) this.field21276.nextInt(var4), (float) this.field21276.nextInt(var5)));
+         this.field21274.add(new Class9625((float)this.field21276.nextInt(var4), (float)this.field21276.nextInt(var5)));
       }
 
       while (this.field21274.size() > var6) {
@@ -50,28 +48,28 @@ public class ClassicParticleEngine extends AnimatedIconPanelWrap {
 
       if (var7) {
          for (int var8 = 0; var8 < this.field21274.size(); var8++) {
-            this.field21274.get(var8).field45023 = (float) this.field21276.nextInt(var4);
-            this.field21274.get(var8).field45024 = (float) this.field21276.nextInt(var5);
+            this.field21274.get(var8).field45023 = (float)this.field21276.nextInt(var4);
+            this.field21274.get(var8).field45024 = (float)this.field21276.nextInt(var5);
          }
       }
 
-      this.field21275.method38061();
+      this.field21275.update();
       Iterator var10 = this.field21274.iterator();
 
       while (var10.hasNext()) {
-         Class9625 var9 = (Class9625) var10.next();
+         Class9625 var9 = (Class9625)var10.next();
          var9.method37521();
          if (!(var9.field45023 < -50.0F)
-               && !(var9.field45023 > (float) (var4 + 50))
-               && !(var9.field45024 < -50.0F)
-               && !(var9.field45024 > (float) (var5 + 50))
-               && Class9625.method37522(var9) != 0.0F) {
-            var9.method37519(var1);
+            && !(var9.field45023 > (float)(var4 + 50))
+            && !(var9.field45024 < -50.0F)
+            && !(var9.field45024 > (float)(var5 + 50))
+            && Class9625.method37522(var9) != 0.0F) {
+            var9.method37519(partialTicks);
          } else {
             var10.remove();
          }
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

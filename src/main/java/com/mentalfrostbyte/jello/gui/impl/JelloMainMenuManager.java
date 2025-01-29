@@ -14,7 +14,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -39,7 +39,7 @@ public class JelloMainMenuManager extends Screen {
     private static Texture background;
     public List<FloatingBubble> bubbles = new ArrayList<>();
 
-    public static String[] goodbyeTitles = new String[] {
+    public static String[] goodbyeTitles = new String[]{
             "Goodbye.",
             "See you soon.",
             "Bye!",
@@ -58,7 +58,7 @@ public class JelloMainMenuManager extends Screen {
             "Shutting down.",
             "Was good to see you!"
     };
-    public static String[] goodbyeMessages = new String[] {
+    public static String[] goodbyeMessages = new String[]{
             "The two hardest things to say in life are hello for the first time and goodbye for the last.",
             "Don’t cry because it’s over, smile because it happened.",
             "It’s time to say goodbye, but I think goodbyes are sad and I’d much rather say hello. Hello to a new adventure.",
@@ -78,22 +78,20 @@ public class JelloMainMenuManager extends Screen {
 
     public JelloMainMenuManager() {
         super("Main Screen");
-        this.method13300(false);
+        this.setListening(false);
         currentTime = System.nanoTime();
         if (background == null) {
-            background = Resources.createScaledAndProcessedTexture2(
-                    "com/mentalfrostbyte/gui/resources/background/panorama5.png", 0.075F, 8);
+            background = Resources.createScaledAndProcessedTexture2("com/mentalfrostbyte/gui/resources/background/panorama5.png", 0.075F, 8);
         }
 
         this.field20974.changeDirection(Direction.BACKWARDS);
         this.field20975.changeDirection(Direction.BACKWARDS);
-        int var3 = MinecraftClient.getInstance().getWindow().getWidth()
-                * MinecraftClient.getInstance().getWindow().getHeight() / 14000;
+        int var3 = Minecraft.getInstance().getMainWindow().getWidth() * Minecraft.getInstance().getMainWindow().getHeight() / 14000;
         Random var4 = new Random();
 
         for (int var5 = 0; var5 < var3; var5++) {
-            int var6 = var4.nextInt(MinecraftClient.getInstance().getWindow().getWidth());
-            int var7 = var4.nextInt(MinecraftClient.getInstance().getWindow().getHeight());
+            int var6 = var4.nextInt(Minecraft.getInstance().getMainWindow().getWidth());
+            int var7 = var4.nextInt(Minecraft.getInstance().getMainWindow().getHeight());
             int var8 = 7 + var4.nextInt(5);
             int var9 = (1 + var4.nextInt(4)) * (!var4.nextBoolean() ? 1 : -1);
             int var10 = 1 + var4.nextInt(2);
@@ -144,11 +142,10 @@ public class JelloMainMenuManager extends Screen {
     }
 
     @Override
-    public void draw(float deltaTime) {
+    public void draw(float partialTicks) {
         float transitionProgress = MathHelper.calculateTransition(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
         if (this.field20972.getDirection() == Direction.BACKWARDS) {
-            transitionProgress = MathHelper.calculateBackwardTransition(this.field20972.calcPercent(), 0.0F, 1.0F,
-                    1.0F);
+            transitionProgress = MathHelper.calculateBackwardTransition(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
         }
 
         float scaleOffset = 0.07F * transitionProgress;
@@ -167,7 +164,7 @@ public class JelloMainMenuManager extends Screen {
 
         float deltaX = offsetX - (float) this.field20966;
         float deltaY = (float) (offsetY - this.field20967);
-        if (MinecraftClient.getInstance().loadingGui != null) {
+        if (Minecraft.getInstance().loadingGui != null) {
             if (offsetX != (float) this.field20966) {
                 this.field20966 = (int) ((float) this.field20966 + deltaX * field20982);
             }
@@ -178,8 +175,7 @@ public class JelloMainMenuManager extends Screen {
         } else {
             this.field20974.changeDirection(Direction.FORWARDS);
             this.field20975.changeDirection(Direction.FORWARDS);
-            float parallaxFactor = 0.5F - (float) this.field20967
-                    / (float) MinecraftClient.getInstance().getWindow().getWidth() * -1.0F;
+            float parallaxFactor = 0.5F - (float) this.field20967 / (float) Minecraft.getInstance().getMainWindow().getWidth() * -1.0F;
             float backgroundOpacity = 1.0F - this.field20974.calcPercent();
             float foregroundOpacity = 1.0F - this.field20975.calcPercent();
 
@@ -193,17 +189,19 @@ public class JelloMainMenuManager extends Screen {
                     (float) this.field20966,
                     (float) (this.getWidthA() * 2 + backgroundWidth),
                     (float) (this.getHeightA() + 114),
-                    Resources.backgroundPNG);
+                    Resources.backgroundPNG
+            );
             RenderUtil.drawImage(
                     (float) this.field20967 - (float) middleWidth * parallaxFactor,
                     (float) this.field20966,
                     (float) (this.getWidthA() * 2 + middleWidth),
                     (float) (this.getHeightA() + 114),
-                    Resources.middlePNG);
+                    Resources.middlePNG
+            );
 
             for (CustomGuiScreen bubble : this.bubbles) {
                 GL11.glPushMatrix();
-                bubble.draw(deltaTime);
+                bubble.draw(partialTicks);
                 GL11.glPopMatrix();
             }
 
@@ -212,7 +210,9 @@ public class JelloMainMenuManager extends Screen {
                     (float) this.field20966,
                     (float) (this.getWidthA() * 2 + foregroundWidth),
                     (float) (this.getHeightA() + 114),
-                    Resources.foregroundPNG);
+                    Resources.foregroundPNG
+            );
+
 
             RenderUtil.drawImage(
                     (float) this.field20967,
@@ -221,26 +221,29 @@ public class JelloMainMenuManager extends Screen {
                     (float) (this.getHeightA() + 200),
                     background,
                     ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), transitionProgress),
-                    false);
+                    false
+            );
 
             RenderUtil.drawRoundedRect2(
-                    0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
-                    ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), transitionProgress * 0.3F));
+                    0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(), ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), transitionProgress * 0.3F)
+            );
+
 
             for (CustomGuiScreen object : this.getChildren()) {
                 if (object.isVisible()) {
                     GL11.glPushMatrix();
                     if (object instanceof ChangelogScreen) {
                         if (transitionProgress > 0.0F) {
-                            object.draw(deltaTime);
+                            object.draw(partialTicks);
                         }
                     } else {
-                        object.draw(deltaTime * (1.0F - transitionProgress));
+                        object.draw(partialTicks * (1.0F - transitionProgress));
                     }
 
                     GL11.glPopMatrix();
                 }
             }
+
 
             if (foregroundOpacity > 0.0F && Client.getInstance().method19930()) {
                 CustomLoadingScreen.xd(backgroundOpacity, 1.0F);
@@ -267,16 +270,17 @@ public class JelloMainMenuManager extends Screen {
                         currentTitle,
                         ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.animation.calcPercent()),
                         Class2218.field14492,
-                        Class2218.field14492);
+                        Class2218.field14492
+                );
                 RenderUtil.drawString(
                         ResourceRegistry.JelloLightFont18,
                         (float) (this.widthA / 2),
                         (float) (this.heightA / 2 + 30),
                         "\"" + currentMessage + "\"",
-                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-                                this.animation.calcPercent() * 0.5F),
+                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.animation.calcPercent() * 0.5F),
                         Class2218.field14492,
-                        Class2218.field14492);
+                        Class2218.field14492
+                );
             }
         }
     }
@@ -284,7 +288,7 @@ public class JelloMainMenuManager extends Screen {
     @Override
     public void keyPressed(int keyCode) {
         super.keyPressed(keyCode);
-        if (keyCode == 256) { // escape key
+        if (keyCode == 256) { //escape key
             this.goOut();
         }
     }
@@ -296,8 +300,7 @@ public class JelloMainMenuManager extends Screen {
                 alert.add(new MiniAlert(AlertType.HEADER, "Logout", 45));
                 alert.add(new MiniAlert(AlertType.FIRST_LINE, "Are you sure?", 35));
                 alert.add(new MiniAlert(AlertType.BUTTON, "Yes", 55));
-                this.method13233(this.alertPanel = new AlertPanel(this, "music", true, "Dependencies.",
-                        alert.toArray(new MiniAlert[0])));
+                this.showAlert(this.alertPanel = new AlertPanel(this, "music", true, "Dependencies.", alert.toArray(new MiniAlert[0])));
                 this.alertPanel.method13604(var1 -> new Thread(() -> {
                     this.runThisOnDimensionUpdate(() -> {
                         this.method13236(this.alertPanel);
@@ -319,8 +322,7 @@ public class JelloMainMenuManager extends Screen {
         if (locale == Locale.FRANCE || locale == Locale.FRENCH) {
             goodbyeMessages = ArrayUtils.addAll(
                     goodbyeMessages,
-                    "Mon salut jamais dans la fuite, avant d'm'éteindre, faut m'débrancher",
-                    "Prêt à partir pour mon honneur");
+                    "Mon salut jamais dans la fuite, avant d'm'éteindre, faut m'débrancher", "Prêt à partir pour mon honneur");
         }
 
         currentTitle = goodbyeTitles[new Random().nextInt(goodbyeTitles.length)];

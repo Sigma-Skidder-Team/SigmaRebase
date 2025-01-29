@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.movement.highjump;
 
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
@@ -59,10 +59,10 @@ public class HypixelHighJump extends Module {
    }
 
    @EventTarget
-   public void method16019(EventUpdate var1) {
+   public void method16019(EventUpdateWalkingPlayer var1) {
       if (this.isEnabled()) {
          if (this.field23405 >= 0) {
-            var1.method13908(true);
+            var1.setMoving(true);
          }
       }
    }

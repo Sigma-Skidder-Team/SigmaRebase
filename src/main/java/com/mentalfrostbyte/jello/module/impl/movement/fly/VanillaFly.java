@@ -1,18 +1,19 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
-import net.minecraft.util.shape.VoxelShape;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
+import net.minecraft.util.math.shapes.VoxelShape;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.MouseHoverEvent;
-import com.mentalfrostbyte.jello.event.impl.EventKeyPress;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
+import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
+import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.client.CPlayerPacket;
-import net.minecraft.util.math.Box;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class VanillaFly extends Module {
     }
 
     @EventTarget
-    public void onMouseHover(MouseHoverEvent event) {
+    public void onMouseHover(EventMouseHover event) {
         if (this.isEnabled()) {
             if (event.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 event.cancelled = true;
@@ -72,11 +73,11 @@ public class VanillaFly extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate event) {
+    public void onUpdate(EventUpdateWalkingPlayer event) {
         if (this.isEnabled()) {
             if (!mc.player.isOnGround() && this.getBooleanValueFromSettingName("Kick bypass")) {
                 if (this.ticksInAir > 0 && this.ticksInAir % 30 == 0
-                /* && !MultiUtilities.isAboveBounds(mc.player, 0.01F) */) {
+                        && !MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                     /*
                      * if (JelloPortal.getCurrentVersionApplied() !=
                      * ViaVerList._1_8_x.getVersionNumber()) {
@@ -130,7 +131,7 @@ public class VanillaFly extends Module {
     @EventTarget
     public void onMove(EventMove event) {
         if (this.isEnabled()) {
-            if (!/* MultiUtilities.isAboveBounds(mc.player, 0.01F) */mc.player.isOnGround()) {
+            if (!MultiUtilities.isAboveBounds(mc.player, 0.01F)) {
                 this.ticksInAir++;
             } else {
                 this.ticksInAir = 0;
@@ -157,7 +158,7 @@ public class VanillaFly extends Module {
     private double getGroundCollisionHeight() {
         if (!(mc.player.getPositionVec().y < 1.0)) {
             if (!mc.player.isOnGround()) {
-                Box alignedBB = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
+                AxisAlignedBB alignedBB = mc.player.getBoundingBox().expand(0.0, -mc.player.getPositionVec().y, 0.0);
                 Iterator<VoxelShape> shapeIterator = mc.world.getCollisionShapes(mc.player, alignedBB).iterator();
                 double maxCollisionHeight = -1.0;
 

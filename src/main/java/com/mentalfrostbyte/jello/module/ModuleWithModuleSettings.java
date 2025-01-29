@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ModuleWithModuleSettings extends Module {
 
-    private final List<Class6547> field23882 = new ArrayList<>();
+    private final List<ModuleStateListener> moduleStateListeners = new ArrayList<>();
     public Module[] moduleArray;
     public Module parentModule;
     public ModeSetting modeSetting;
@@ -163,14 +163,13 @@ public class ModuleWithModuleSettings extends Module {
         super.resetModuleState();
     }
 
-    public final ModuleWithModuleSettings addClass6547(Class6547 var1) {
-        this.field23882.add(var1);
-        return this;
+    public final void addModuleStateListener(ModuleStateListener listener) {
+        this.moduleStateListeners.add(listener);
     }
 
     public final void setModuleEnabled(Module module, boolean enabled) {
-        for (Class6547 var6 : this.field23882) {
-            var6.onModuleEnabled(this, module, enabled);
+        for (ModuleStateListener listener : this.moduleStateListeners) {
+            listener.onModuleEnabled(this, module, enabled);
         }
     }
 

@@ -2,7 +2,6 @@ package com.mentalfrostbyte.jello.util.render;
 
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
@@ -12,9 +11,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Resources {
 
@@ -197,7 +193,7 @@ public class Resources {
             var7.scale(var1, var1);
             var7.drawImage(var5, 0, 0, null);
             var7.dispose();
-            var5 = ImageUtil.method35032(var6, var2);
+            var5 = ImageUtil.applyBlur(var6, var2);
             var5 = ImageUtil.method35042(var5, 0.0F, 1.3F, -0.35F);
             return BufferedImageUtil.getTexture(var0, var5);
         } catch (IOException var8) {
@@ -215,7 +211,7 @@ public class Resources {
             var7.scale(var1, var1);
             var7.drawImage(var5, 0, 0, null);
             var7.dispose();
-            var5 = ImageUtil.method35032(ImageUtil.method35041(var6, var2), var2);
+            var5 = ImageUtil.applyBlur(ImageUtil.method35041(var6, var2), var2);
             var5 = ImageUtil.method35042(var5, 0.0F, 1.1F, 0.0F);
             return BufferedImageUtil.getTexture(var0, var5);
         } catch (IOException var8) {

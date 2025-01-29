@@ -1,9 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.EventStep;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.JumpEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventStep;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 //import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
@@ -39,7 +39,7 @@ public class AAC4Criticals extends Module {
     }
 
     @EventTarget
-    public void method16706(JumpEvent var1) {
+    public void method16706(EventJump var1) {
         if (field23862 == 2) {
             var1.setCancelled(true);
         }
@@ -47,7 +47,7 @@ public class AAC4Criticals extends Module {
 
     @EventTarget
     @HigherPriority
-    public void method16707(EventUpdate var1) {
+    public void method16707(EventUpdateWalkingPlayer var1) {
         if (!this.isEnabled() || Client.getInstance().moduleManager.getModuleByClass(Speed.class).isEnabled()) {
             field23862 = 0;
         } else if (var1.isPre()) {

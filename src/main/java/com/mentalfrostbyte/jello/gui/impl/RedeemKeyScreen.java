@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.base.Direction;
 import com.mentalfrostbyte.jello.gui.unmapped.UIButton;
 import com.mentalfrostbyte.jello.gui.unmapped.UIInput;
-import com.mentalfrostbyte.jello.managers.impl.account.Class9507;
+import com.mentalfrostbyte.jello.managers.util.account.Class9507;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.MathUtils;
@@ -23,7 +23,7 @@ public class RedeemKeyScreen extends CustomGuiScreen {
 
    public RedeemKeyScreen(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6) {
       super(var1, var2, var3, var4, var5, var6);
-      this.method13300(false);
+      this.setListening(false);
       UIInput var9;
       this.addToList(var9 = new UIInput(this, "redeemBox", 100, 200, 350, 50, UIInput.field20742, "", "Premium Code"));
       UIButton var10;
@@ -61,10 +61,10 @@ public class RedeemKeyScreen extends CustomGuiScreen {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.field21136.changeDirection(!this.isHovered() ? Direction.BACKWARDS : Direction.FORWARDS);
-      var1 = 1.0F;
-      var1 *= this.field21136.calcPercent();
+      partialTicks = 1.0F;
+      partialTicks *= this.field21136.calcPercent();
       float var4 = MathUtils.lerp(this.field21136.calcPercent(), 0.17, 1.0, 0.51, 1.0);
       if (this.field21136.getDirection() == Direction.BACKWARDS) {
          var4 = 1.0F;
@@ -83,21 +83,21 @@ public class RedeemKeyScreen extends CustomGuiScreen {
                190.0F,
                190.0F,
                var5.method36701(),
-               ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+               ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
             );
             RenderUtil.endScissor();
          }
       }
 
-      RenderUtil.drawString(ResourceRegistry.JelloLightFont36, 100.0F, 100.0F, "Redeem Premium", ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1));
+      RenderUtil.drawString(ResourceRegistry.JelloLightFont36, 100.0F, 100.0F, "Redeem Premium", ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks));
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont25,
          100.0F,
          150.0F,
          "Visit http://sigmaclient.info for more info",
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F * var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F * partialTicks)
       );
-      RenderUtil.drawString(ResourceRegistry.JelloLightFont18, 100.0F, 263.0F, this.field21135, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F * var1));
-      super.draw(var1);
+      RenderUtil.drawString(ResourceRegistry.JelloLightFont18, 100.0F, 263.0F, this.field21135, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F * partialTicks));
+      super.draw(partialTicks);
    }
 }

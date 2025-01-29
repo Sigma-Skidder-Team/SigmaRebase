@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.movement.longjump;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
@@ -31,7 +31,7 @@ public class CubecraftLongJump extends Module {
     }
 
     @EventTarget
-    public void method16174(TickEvent var1) {
+    public void method16174(EventPlayerTick var1) {
         if (this.isEnabled() && mc.player != null) {
             if (!MultiUtilities.isAboveBounds(mc.player, 0.001F)) {
                 this.field23501++;
@@ -62,7 +62,7 @@ public class CubecraftLongJump extends Module {
                 }
 
                 mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var4, var6, var8, true));
-                MultiUtilities.setPlayerYMotion(MovementUtil.method37080());
+                MultiUtilities.setPlayerYMotion(MovementUtil.getJumpValue());
                 this.field23501 = 0;
                 this.field23502 = this.getNumberValueBySettingName("Boost") / 2.0F;
                 MovementUtil.strafe(this.field23502);

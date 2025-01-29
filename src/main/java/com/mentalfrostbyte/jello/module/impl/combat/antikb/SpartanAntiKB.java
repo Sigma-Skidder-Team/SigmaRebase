@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.combat.antikb;
 
-import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
@@ -18,7 +18,7 @@ public class SpartanAntiKB extends Module {
     }
 
     @EventTarget
-    public void onTick(TickEvent event) {
+    public void onTick(EventPlayerTick event) {
         if (this.isEnabled()) {
             if (this.ticksSinceKb < 10) {
                 this.ticksSinceKb++;
@@ -30,7 +30,7 @@ public class SpartanAntiKB extends Module {
     }
 
     @EventTarget
-    public void onReceivePacket(ReceivePacketEvent event) {
+    public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
             if (mc.player != null && event.getPacket() instanceof SEntityVelocityPacket) {
                 SEntityVelocityPacket var4 = (SEntityVelocityPacket) event.getPacket();

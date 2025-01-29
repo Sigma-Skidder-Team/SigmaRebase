@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
-import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
@@ -56,7 +56,7 @@ public class Blink extends Module {
     }
 
     @EventTarget
-    public void onSendPacket(SendPacketEvent event) {
+    public void onSendPacket(EventSendPacket event) {
         // Only handle packets when blinking is enabled
         if (isBlinking && this.isEnabled()) {
             if (mc.player != null && event.getPacket() instanceof CEntityActionPacket

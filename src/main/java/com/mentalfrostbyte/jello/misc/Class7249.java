@@ -1,8 +1,7 @@
 package com.mentalfrostbyte.jello.misc;
 
-import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.managers.impl.combat.Class2124;
-import com.mentalfrostbyte.jello.managers.impl.combat.Class7251;
+import com.mentalfrostbyte.jello.managers.util.combat.BotRecognitionTechnique;
+import com.mentalfrostbyte.jello.managers.util.combat.IBotDetector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,14 +9,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class Class7249 implements Class7251 {
+public abstract class Class7249 implements IBotDetector {
     public static final Minecraft field31119 = Minecraft.getInstance();
     private boolean field31120 = true;
     public String field31121;
     public String field31122;
-    public Class2124 field31123;
+    public BotRecognitionTechnique field31123;
 
-    public Class7249(String var1, String var2, Class2124 var3) {
+    public Class7249(String var1, String var2, BotRecognitionTechnique var3) {
         this.field31121 = var1;
         this.field31122 = var2;
         this.field31123 = var3;

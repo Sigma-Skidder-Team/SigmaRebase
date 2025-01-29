@@ -1,10 +1,11 @@
 package com.mentalfrostbyte.jello.module.impl.combat.antikb;
 
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
+import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.server.SEntityVelocityPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
@@ -25,9 +26,9 @@ public class MinemenAntiKB extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate var1) {
+    public void onUpdate(EventUpdateWalkingPlayer var1) {
         if (var1.isPre()) {
-            if (false/*MultiUtilities.isAboveBounds(mc.player, 1.0E-5F)*/) {
+            if (MultiUtilities.isAboveBounds(mc.player, 1.0E-5F)) {
                 this.aboveBounds = true;
                 var1.setY(var1.getY() - 5.0E-7);
                 var1.setGround(false);
@@ -48,8 +49,7 @@ public class MinemenAntiKB extends Module {
                     this.field23853 = false;
                 }
             } else {
-                // TODO
-//                var1.setY(MovementUtil.method37080());
+                var1.setY(MovementUtil.getJumpValue());
                 this.field23853 = false;
             }
         }
@@ -58,7 +58,7 @@ public class MinemenAntiKB extends Module {
     }
 
     @EventTarget
-    public void onReceivePacket(ReceivePacketEvent var1) {
+    public void onReceivePacket(EventReceivePacket var1) {
         if (mc.player != null && var1.getPacket() instanceof SEntityVelocityPacket) {
             SEntityVelocityPacket var5 = (SEntityVelocityPacket) var1.getPacket();
             if (var5.getEntityID() == mc.player.getEntityId() && var5.motionY < 0 && mc.player.isOnGround()) {

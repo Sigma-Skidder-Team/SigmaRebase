@@ -11,7 +11,7 @@ public class Fly extends ModuleWithModuleSettings {
                 "Fly",
                 "Allows you to fly like a bird",
                 new VanillaFly(),
-//                new HypixelFly(),
+                new HypixelFly(),
                 new MineplexFly(),
                 new JetpackFly(),
                 new BowFly(),

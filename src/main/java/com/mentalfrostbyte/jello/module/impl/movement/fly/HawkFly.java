@@ -1,10 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.Render2DEvent;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
@@ -59,20 +59,20 @@ public class HawkFly extends Module {
     }
 
     @EventTarget
-    public void method16053(EventUpdate var1) {
+    public void method16053(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             this.field23424++;
             if (this.field23424 == 1) {
                 var1.setY(0.1);
             }
 
-            var1.method13908(true);
+            var1.setMoving(true);
             var1.setGround(false);
         }
     }
 
     @EventTarget
-    public void method16054(ReceivePacketEvent var1) {
+    public void method16054(EventReceivePacket var1) {
         if (this.isEnabled()) {
             Packet var4 = var1.getPacket();
             if (var4 instanceof SPlayerPositionLookPacket) {
@@ -91,7 +91,7 @@ public class HawkFly extends Module {
     }
 
     @EventTarget
-    public void method16055(Render2DEvent var1) {
+    public void method16055(EventRender2D var1) {
         if (this.isEnabled()) {
             double y = this.field23426;
             double x = this.field23425;

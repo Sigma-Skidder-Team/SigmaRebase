@@ -1,22 +1,22 @@
 package com.mentalfrostbyte.jello.module.impl.item;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.PremiumModule;
 import com.mentalfrostbyte.jello.module.impl.movement.Fly;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.play.client.CAnimateHandPacket;
 import net.minecraft.network.play.client.CCloseWindowPacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemPacket;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Box;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
@@ -61,13 +61,13 @@ public class AutoMLG extends PremiumModule {
 
     @EventTarget
     @LowerPriority
-    public void onUpdate(EventUpdate var1) {
+    public void onUpdate(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && mc.playerController.gameIsSurvivalOrAdventure()) {
             if (var1.isPre() && preTicks >= 0) {
                 preTicks++;
-                float[] var4 = RotationHelper.method34144(
-                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5,
-                        (double) this.field23650.getY() + 0.5);
+                float[] var4 = RotationHelper.rotationToPos(
+                        (double) this.field23650.getX() + 0.5, (double) this.field23650.getZ() + 0.5, (double) this.field23650.getY() + 0.5
+                );
                 var1.setYaw(var4[0]);
                 var1.setPitch(var4[1]);
             }
@@ -94,8 +94,7 @@ public class AutoMLG extends PremiumModule {
                 BlockPos var5 = this.method16425();
                 if (var5 != null) {
                     if (var1.isPre() && preTicks == -1) {
-                        float[] var6 = RotationHelper.method34144((double) var5.getX() + 0.5,
-                                (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
+                        float[] var6 = RotationHelper.rotationToPos((double) var5.getX() + 0.5, (double) var5.getZ() + 0.5, (double) var5.getY() + 0.5);
                         var1.setYaw(var6[0]);
                         var1.setPitch(var6[1]);
                         if (var7 != mc.player.inventory.currentItem) {
@@ -129,21 +128,19 @@ public class AutoMLG extends PremiumModule {
             }
         }
 
-        if (true/* Client.getInstance().playerTracker.getMode() > 1 */) { // TODO
+        if (true/*Client.getInstance().playerTracker.getMode() > 1*/) { // TODO
             for (int var5 = 9; var5 < 36; var5++) {
                 if (mc.player.container.getSlot(var5).getHasStack()) {
                     ItemStack var6 = mc.player.container.getSlot(var5).getStack();
                     if (var6.getItem() == Items.WATER_BUCKET) {
                         /*
-                         * if (JelloPortal.getCurrentVersionApplied() <=
-                         * ViaVerList._1_11_1_or_2.getVersionNumber()) {
-                         * mc.getConnection().sendPacket(new
-                         * CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
-                         * }
+                        if (JelloPortal.getCurrentVersionApplied() <= ViaVerList._1_11_1_or_2.getVersionNumber()) {
+                            mc.getConnection().sendPacket(new CClientStatusPacket(CClientStatusPacket.State.OPEN_INVENTORY));
+                        }
                          */
 
-                        // TODO
-                        // InvManagerUtils.moveItemToHotbar(var5, 6);
+//                        TODO
+//                        InvManagerUtil.moveItemToHotbar(var5, 6);
                         mc.getConnection().sendPacket(new CCloseWindowPacket(-1));
                         return 6;
                     }
@@ -160,28 +157,24 @@ public class AutoMLG extends PremiumModule {
         double var3 = mc.player.getMotion().x;
         double var5 = mc.player.getMotion().y;
         double var7 = mc.player.getMotion().z;
-        Box var9 = mc.player.getBoundingBox().expand(var3, 0.0, var7).offset(0.0, var5, 0.0);
+        AxisAlignedBB var9 = mc.player.getBoundingBox().expand(var3, 0.0, var7).offset(0.0, var5, 0.0);
         Stream var10 = mc.world.getCollisionShapes(mc.player, var9);
         Iterator var11 = var10.iterator();
         BlockPos var12 = null;
 
         while (var11.hasNext()) {
             VoxelShape var13 = (VoxelShape) var11.next();
-            Box var14 = var13.getBoundingBox();
+            AxisAlignedBB var14 = var13.getBoundingBox();
             BlockPos var15 = new BlockPos(var14.getCenter());
-            if (true/*
-                     * BlockUtil.method34578(var15)
-                     * && (double) (var15.getY() + 1) < mc.player.getPosY()
-                     * && (
-                     * var12 == null
-                     * || mc.player
-                     * .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double)
-                     * var12.getZ() + 0.5 - var7)
-                     * > mc.player
-                     * .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double)
-                     * var15.getZ() + 0.5 - var7)
-                     * )
-                     */) {
+            if (true/*BlockUtil.method34578(var15)
+                    && (double) (var15.getY() + 1) < mc.player.getPosY()
+                    && (
+                    var12 == null
+                            || mc.player
+                            .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
+                            > mc.player
+                            .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double) var15.getZ() + 0.5 - var7)
+            )*/) {
                 var12 = var15;
             }
         }
@@ -196,22 +189,18 @@ public class AutoMLG extends PremiumModule {
 
             while (var11.hasNext()) {
                 VoxelShape var20 = (VoxelShape) var11.next();
-                Box var21 = var20.getBoundingBox();
+                AxisAlignedBB var21 = var20.getBoundingBox();
                 BlockPos var22 = new BlockPos(var21.getCenter());
                 // TODO
-                if (true/*
-                         * BlockUtil.method34578(var22)
-                         * && (double) (var22.getY() + 1) < mc.player.getPosY()
-                         * && (
-                         * var12 == null
-                         * || mc.player
-                         * .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double)
-                         * var12.getZ() + 0.5 - var7)
-                         * > mc.player
-                         * .getDistanceSq((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double)
-                         * var22.getZ() + 0.5 - var7)
-                         * )
-                         */) {
+                if (true/*BlockUtil.method34578(var22)
+                        && (double) (var22.getY() + 1) < mc.player.getPosY()
+                        && (
+                        var12 == null
+                                || mc.player
+                                .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
+                                > mc.player
+                                .getDistanceSq((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double) var22.getZ() + 0.5 - var7)
+                )*/) {
                     var12 = var22;
                 }
             }

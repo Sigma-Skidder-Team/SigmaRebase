@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.movement.step;
 
 
-import com.mentalfrostbyte.jello.event.impl.SafeWalkEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventSafeWalk;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
@@ -14,7 +14,7 @@ public class VanillaStep extends Module {
     }
 
     @EventTarget
-    public void onSafeWalk(SafeWalkEvent var1) {
+    public void onSafeWalk(EventSafeWalk var1) {
         if (this.isEnabled() && mc.player != null) {
             if (!var1.isOnEdge()) {
                 mc.player.stepHeight = this.getNumberValueBySettingName("Maximum heigh");

@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.gui.unmapped;
 import com.mentalfrostbyte.jello.gui.base.Animation;
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.base.Direction;
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.Account;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
@@ -49,10 +49,10 @@ public class Class4294 extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.method13225();
       this.field20808 = ColorUtils.method17690(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor(), 2.0F);
-      int var4 = ((Class4339)this.parent.getParent()).method13513();
+      int var4 = ((MusicTabs)this.parent.getParent()).method13513();
       int var5 = Math.max(0, this.yA - var4);
       int var6 = Math.max(0, this.heightA + Math.min(100, this.yA - var4 - var5));
       float var7 = (float)Math.min(50, var6) / 50.0F;
@@ -84,7 +84,7 @@ public class Class4294 extends AnimatedIconPanelWrap {
                   );
                }
 
-               super.draw(var1 * var7);
+               super.draw(partialTicks * var7);
                RenderUtil.endScissor();
             }
          }

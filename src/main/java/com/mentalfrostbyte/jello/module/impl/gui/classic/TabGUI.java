@@ -1,14 +1,13 @@
 package com.mentalfrostbyte.jello.module.impl.gui.classic;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.EventKeyPress;
-import com.mentalfrostbyte.jello.event.impl.EventRender;
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2DOffset;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.gui.base.Animation;
 import com.mentalfrostbyte.jello.gui.base.Direction;
 import com.mentalfrostbyte.jello.misc.CategoryDrawPart;
 import com.mentalfrostbyte.jello.misc.CategoryDrawPartBackground;
-import com.mentalfrostbyte.jello.misc.KeyAction;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.ModuleWithModuleSettings;
@@ -20,388 +19,369 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.MathHelper;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.HighestPriority;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class TabGUI extends Module {
-   public static final Animation animationProgress = new Animation(200, 200, Direction.BACKWARDS);
-   public Animation secondAnimationProgress = new Animation(500, 0, Direction.BACKWARDS);
-   private Animation firstAnimationProgress = new Animation(300, 300, Direction.BACKWARDS);
-   private List<ModuleCategory> categories = new ArrayList<ModuleCategory>();
-   private int field23384 = 0;
-   private static List<CategoryDrawPart> categoryDrawParts = new ArrayList<>();
+    public static final Animation animationProgress = new Animation(200, 200, Direction.BACKWARDS);
+    public Animation secondAnimationProgress = new Animation(500, 0, Direction.BACKWARDS);
+    private final Animation firstAnimationProgress = new Animation(300, 300, Direction.BACKWARDS);
 
-   public TabGUI() {
-      super(ModuleCategory.GUI, "TabGUI", "Manage mods without opening the ClickGUI");
-   }
+    private final List<ModuleCategory> categories = new ArrayList<>();
+    private int animationCooldown = 0;
+    private static final List<CategoryDrawPart> categoryDrawParts = new ArrayList<>();
 
-   @Override
-   public void initialize() {
-      this.categories.add(ModuleCategory.COMBAT);
-      this.categories.add(ModuleCategory.PLAYER);
-      this.categories.add(ModuleCategory.MOVEMENT);
-      this.categories.add(ModuleCategory.RENDER);
-      this.categories.add(ModuleCategory.WORLD);
-      this.categories.add(ModuleCategory.MISC);
-      ArrayList<String> categoryList = new ArrayList<>();
+    public TabGUI() {
+        super(ModuleCategory.GUI, "TabGUI", "Manage mods without opening the ClickGUI");
+    }
 
-      for (ModuleCategory category : this.categories) {
-         categoryList.add(category.getName());
-      }
+    @Override
+    public void initialize() {
+        this.categories.add(ModuleCategory.COMBAT);
+        this.categories.add(ModuleCategory.PLAYER);
+        this.categories.add(ModuleCategory.MOVEMENT);
+        this.categories.add(ModuleCategory.RENDER);
+        this.categories.add(ModuleCategory.WORLD);
+        this.categories.add(ModuleCategory.MISC);
+        ArrayList<String> categoryList = new ArrayList<>();
 
-      categoryDrawParts.add(0, new CategoryDrawPart(categoryList, 0));
-   }
+        for (ModuleCategory category : this.categories) {
+            categoryList.add(category.name());
+        }
 
-   @EventTarget
-   public void method15954(EventKeyPress event) {
-      if (this.isEnabled()) {
-         KeyAction action = mapKeyToAction(event.getKey());
-         if (action != null) {
-            animationProgress.changeDirection(Direction.FORWARDS);
-            this.field23384 = 80;
-            int categoryState = this.getCurrentCategoryState();
-            CategoryDrawPart category = categoryDrawParts.get(categoryState - 1);
-            if (action != KeyAction.EnterKey
-                  && (!this.method15971() && action != KeyAction.RightArrowKey || categoryState != 3)) {
-               this.secondAnimationProgress = new Animation(500, 200, Direction.BACKWARDS);
+        categoryDrawParts.add(0, new CategoryDrawPart(categoryList, 0));
+    }
+
+    @EventTarget
+    public void onKeyPress(EventKeyPress event) {
+        if (this.isEnabled()) {
+            KeyAction action = mapKeyToAction(event.getKey());
+            if (action != null) {
+                animationProgress.changeDirection(Direction.FORWARDS);
+                this.animationCooldown = 80;
+                int categoryState = this.getCurrentCategoryState();
+                CategoryDrawPart category = categoryDrawParts.get(categoryState - 1);
+                if (action != KeyAction.EnterKey && (!this.isAnimationForwards() && action != KeyAction.RightArrowKey || categoryState != 3)) {
+                    this.secondAnimationProgress = new Animation(500, 200, Direction.BACKWARDS);
+                }
+
+                switch (action) {
+                    case LeftArrowKey:
+                        if (categoryState == 3 && this.isAnimationForwards()) {
+                            this.setAnimationDirection(false);
+                        } else if (categoryState > 1) {
+                            if (categoryDrawParts.get(categoryDrawParts.size() - 1).isExpanded()) {
+                                categoryDrawParts.remove(categoryDrawParts.size() - 1);
+                            }
+
+                            category.expand();
+                        }
+                        break;
+                    case DownArrowKey:
+                        if (categoryState == 3 && this.isAnimationForwards()) {
+                            this.onSettingChange(true);
+                        } else if (category != null) {
+                            category.scrollDown();
+                        }
+                        break;
+                    case UpArrowKey:
+                        if (categoryState == 3 && this.isAnimationForwards()) {
+                            this.onSettingChange(false);
+                        } else if (category != null) {
+                            category.scrollUp();
+                        }
+                        break;
+                    case RightArrowKey:
+                        if (categoryState == 1) {
+                            this.updateCategoryParts(this.categories.get(category.currentOffset));
+                        } else if (categoryState == 2 && category != null) {
+                            CategoryDrawPart drawPart = categoryDrawParts.get(0);
+                            ModuleCategory modCategory = this.categories.get(drawPart.currentOffset);
+                            Module module = Client.getInstance().moduleManager.getModulesByCategory(modCategory).get(category.currentOffset);
+                            this.updateModuleSettingsParts(module);
+                        } else if (categoryState == 3) {
+                            this.setAnimationDirection(true);
+                        }
+                        break;
+                    case EnterKey:
+                        if (categoryState == 2 && category != null) {
+                            CategoryDrawPart drawPart = categoryDrawParts.get(0);
+                            ModuleCategory modCat = this.categories.get(drawPart.currentOffset);
+                            Module mod = Client.getInstance().moduleManager.getModulesByCategory(modCat).get(category.currentOffset);
+                            mod.setEnabled(!mod.isEnabled());
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private void onSettingChange(boolean goDown) {
+        CategoryDrawPart categoryIndex = categoryDrawParts.get(0);
+        CategoryDrawPart moduleIndex = categoryDrawParts.get(1);
+        CategoryDrawPart settingIndex = categoryDrawParts.get(2);
+        ModuleCategory category = this.categories.get(categoryIndex.currentOffset);
+        Module module = Client.getInstance().moduleManager.getModulesByCategory(category).get(moduleIndex.currentOffset);
+        Setting<?> setting = this.getModuleSettings(module).get(settingIndex.currentOffset);
+        if (!(setting instanceof ModeSetting mode)) {
+            if (!(setting instanceof BooleanSetting bool)) {
+                if (setting instanceof NumberSetting<?> numberSetting) {
+                    Object obj = numberSetting.getCurrentValue();
+                    if (obj != null) {
+                        Float value = numberSetting.getCurrentValue();
+                        if (goDown) {
+                            value = value - numberSetting.getStep();
+                        } else {
+                            value = value + numberSetting.getStep();
+                        }
+
+                        value = Math.min(Math.max(value, numberSetting.getMin()), numberSetting.getMax());
+                        numberSetting.setCurrentValue(value);
+                    }
+                }
+            } else {
+                bool.setCurrentValue(!bool.getCurrentValue());
+            }
+        } else {
+            int index = mode.getModeIndex();
+            if (!goDown) {
+                index--;
+            } else {
+                index++;
             }
 
-            switch (action) {
-               case LeftArrowKey:
-                  if (categoryState == 3 && this.method15971()) {
-                     this.method15970(false);
-                  } else if (categoryState > 1) {
-                     if (categoryDrawParts.get(categoryDrawParts.size() - 1).isExpanded()) {
-                        categoryDrawParts.remove(categoryDrawParts.size() - 1);
-                     }
-
-                     category.expand();
-                  }
-                  break;
-               case DownArrowKey:
-                  if (categoryState == 3 && this.method15971()) {
-                     this.onSettingChange(true);
-                  } else if (category != null) {
-                     category.method24731();
-                  }
-                  break;
-               case UpArrowKey:
-                  if (categoryState == 3 && this.method15971()) {
-                     this.onSettingChange(false);
-                  } else if (category != null) {
-                     category.method24730();
-                  }
-                  break;
-               case RightArrowKey:
-                  if (categoryState == 1) {
-                     this.method15962(this.categories.get(category.index));
-                  } else if (categoryState == 2 && category != null) {
-                     CategoryDrawPart drawPart = categoryDrawParts.get(0);
-                     ModuleCategory modCategory = this.categories.get(drawPart.index);
-                     Module module = Client.getInstance().moduleManager.getModulesByCategory(modCategory)
-                           .get(category.index);
-                     this.method15963(module);
-                  } else if (categoryState == 3) {
-                     this.method15970(true);
-                  }
-                  break;
-               case EnterKey:
-                  if (categoryState == 2 && category != null) {
-                     CategoryDrawPart drawPart = categoryDrawParts.get(0);
-                     ModuleCategory modCat = this.categories.get(drawPart.index);
-                     Module mod = Client.getInstance().moduleManager.getModulesByCategory(modCat).get(category.index);
-                     mod.setEnabled(!mod.isEnabled());
-                  }
-                  break;
-            }
-         }
-      }
-   }
-
-   private void onSettingChange(boolean var1) {
-      CategoryDrawPart categoryIndex = categoryDrawParts.get(0);
-      CategoryDrawPart moduleIndex = categoryDrawParts.get(1);
-      CategoryDrawPart settingIndex = categoryDrawParts.get(2);
-      ModuleCategory category = this.categories.get(categoryIndex.index);
-      Module var8 = Client.getInstance().moduleManager.getModulesByCategory(category).get(moduleIndex.index);
-      Setting<?> setting = this.getModuleSettings(var8).get(settingIndex.index);
-      if (!(setting instanceof ModeSetting)) {
-         if (!(setting instanceof BooleanSetting)) {
-            if (setting instanceof NumberSetting) {
-               NumberSetting<?> numberSetting = (NumberSetting<?>) setting;
-               Object obj = numberSetting.getCurrentValue();
-               if (obj != null) {
-                  Float value = numberSetting.getCurrentValue();
-                  if (var1) {
-                     value = value - numberSetting.getStep();
-                  } else {
-                     value = value + numberSetting.getStep();
-                  }
-
-                  value = Math.min(Math.max(value, numberSetting.getMin()), numberSetting.getMax());
-                  numberSetting.setCurrentValue(value);
-               }
-            }
-         } else {
-            BooleanSetting var13 = (BooleanSetting) setting;
-            var13.setCurrentValue(!var13.getCurrentValue());
-         }
-      } else {
-         ModeSetting var14 = (ModeSetting) setting;
-         int var15 = var14.getModeIndex();
-         if (!var1) {
-            var15--;
-         } else {
-            var15++;
-         }
-
-         if (var15 > var14.getAvailableModes().size() - 1) {
-            var15 = 0;
-         }
-
-         if (var15 < 0) {
-            var15 = var14.getAvailableModes().size() - 1;
-         }
-
-         var14.setModeByIndex(var15);
-      }
-
-      settingIndex.method24728(this.method15967(var8));
-   }
-
-   @EventTarget
-   public void method15956(TickEvent var1) {
-      if (this.isEnabled()) {
-         if (this.field23384 <= 0) {
-            animationProgress.changeDirection(Direction.BACKWARDS);
-            this.secondAnimationProgress.changeDirection(Direction.BACKWARDS);
-         } else {
-            this.field23384--;
-         }
-      }
-   }
-
-   @EventTarget
-   @HighestPriority
-   public void method15957(EventRender var1) {
-      if (this.isEnabled() && mc.player != null) {
-         if (!MinecraftClient.getInstance().gameSettings.showDebugInfo) {
-            if (!MinecraftClient.getInstance().gameSettings.hideGUI) {
-               this.method15958();
-
-               for (CategoryDrawPartBackground var5 : categoryDrawParts) {
-                  var5.method24726((float) (0.5 + (double) animationProgress.calcPercent() * 0.5));
-               }
-
-               this.drawCategories((float) (0.5 + (double) animationProgress.calcPercent() * 0.5));
-               RenderUtil.drawRoundedRect2(12.0F, 30.0F, 90.0F, 1.0F, ClientColors.LIGHT_GREYISH_BLUE.getColor());
-            }
-         }
-      }
-   }
-
-   private void method15958() {
-      if (categoryDrawParts.size() >= 2) {
-         CategoryDrawPart var3 = categoryDrawParts.get(1);
-         CategoryDrawPart var4 = categoryDrawParts.get(0);
-         ModuleCategory var5 = this.categories.get(var4.index);
-         int var6 = 0;
-
-         for (Module var8 : Client.getInstance().moduleManager.getModulesByCategory(var5)) {
-            var3.method24727(var6++, (!var8.isEnabled() ? "§7" : "") + var8.getSuffix());
-         }
-      }
-   }
-
-   private void drawCategories(float partialTicks) {
-      try {
-         int drawState = this.getCurrentCategoryState();
-         if (drawState == 2 || drawState == 3) {
-            CategoryDrawPart firstCategoryPart = categoryDrawParts.get(0);
-            CategoryDrawPart secondCategoryPart = categoryDrawParts.get(1);
-            CategoryDrawPart thirdCategoryPart = drawState != 3 ? null : categoryDrawParts.get(2);
-            CategoryDrawPart activeCategoryPart = secondCategoryPart;
-            if (thirdCategoryPart != null) {
-               activeCategoryPart = thirdCategoryPart;
+            if (index > mode.getAvailableModes().size() - 1) {
+                index = 0;
             }
 
-            if (activeCategoryPart.isAnimating() && animationProgress.getDirection() == Direction.FORWARDS) {
-               if (this.getCurrentCategoryState() == categoryDrawParts.size()) {
-                  this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
-               } else if (categoryDrawParts.get(categoryDrawParts.size() - 1).method24724()) {
-                  this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
-               }
+            if (index < 0) {
+                index = mode.getAvailableModes().size() - 1;
             }
 
-            ModuleCategory currentCategory = this.categories.get(firstCategoryPart.index);
-            Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory)
-                  .get(secondCategoryPart.index);
-            String description = currentModule.getDescription();
-            if (drawState == 3) {
-               Setting<?> currentSetting = this.getModuleSettings(currentModule).get(thirdCategoryPart.index);
-               description = currentSetting.getDescription();
+            mode.setModeByIndex(index);
+        }
+
+        settingIndex.setCategories(this.getModuleSettingsWithValues(module));
+    }
+
+    @EventTarget
+    public void onTick(EventPlayerTick event) {
+        if (this.isEnabled()) {
+            if (this.animationCooldown <= 0) {
+                animationProgress.changeDirection(Direction.BACKWARDS);
+                this.secondAnimationProgress.changeDirection(Direction.BACKWARDS);
+            } else {
+                this.animationCooldown--;
             }
+        }
+    }
 
-            float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(),
-                  0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
-            if (this.firstAnimationProgress.getDirection() == Direction.BACKWARDS) {
-               animationProgressValue = MathHelper
-                     .calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+    @EventTarget
+    @HighestPriority
+    public void onRender(EventRender2DOffset event) {
+        if (this.isEnabled() && mc.player != null) {
+            if (!Minecraft.getInstance().gameSettings.showDebugInfo) {
+                if (!Minecraft.getInstance().gameSettings.hideGUI) {
+                    this.refreshCategoryModules();
+
+                    for (CategoryDrawPartBackground cat : categoryDrawParts) {
+                        cat.render((float) (0.5 + (double) animationProgress.calcPercent() * 0.5));
+                    }
+
+                    this.drawCategories((float) (0.5 + (double) animationProgress.calcPercent() * 0.5));
+                    RenderUtil.drawRoundedRect2(12.0F, 30.0F, 90.0F, 1.0F, ClientColors.LIGHT_GREYISH_BLUE.getColor());
+                }
             }
+        }
+    }
 
-            RenderUtil.renderCategoryBox(
-                  (float) activeCategoryPart.getStartX() + (float) activeCategoryPart.getWidth()
-                        + 14.0F * animationProgressValue,
-                  (float) activeCategoryPart.getStartY() + 16.0F + (float) (25 * activeCategoryPart.index),
-                  24.0F * animationProgressValue,
-                  ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F),
-                  ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
-            int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4
-                  + Math.round(animationProgressValue * 28.0F);
-            int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.index + 4;
-            int descriptionWidth = activeCategoryPart.fontRenderer.getWidth(description) + 8;
-            float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(),
-                  0.0F, 1.0F, 1.0F);
-            RenderUtil.drawRoundedRect2((float) descriptionX, (float) descriptionY,
-                  (float) descriptionWidth * secondAnimationValue, 25.0F,
-                  ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
-            RenderUtil.startScissor((float) descriptionX, (float) descriptionY,
-                  (float) descriptionWidth * secondAnimationValue, 25.0F);
-            RenderUtil.drawString(
-                  activeCategoryPart.fontRenderer, (float) (descriptionX + 4), (float) (descriptionY + 2), description,
-                  ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-                        Math.min(1.0F, partialTicks * 1.7F)));
-            RenderUtil.endScissor();
-         }
-      } catch (IndexOutOfBoundsException e) {
-         Client.getInstance().getLogger().warn("bruh your modules aren't enough for this sexy ass tabgui");
-      }
-   }
+    private void refreshCategoryModules() {
+        if (categoryDrawParts.size() >= 2) {
+            CategoryDrawPart categoryDisplay = categoryDrawParts.get(1);
+            CategoryDrawPart activeCategory = categoryDrawParts.get(0);
+            ModuleCategory currentCategory = this.categories.get(activeCategory.currentOffset);
+            int index = 0;
 
-   public static KeyAction mapKeyToAction(int keyCode) {
-      switch (keyCode) {
-         case 257: // ENTER key
-            return KeyAction.EnterKey;
-         case 258: // TAB key
-         case 259: // BACKSPACE key
-         case 260: // INSERT key
-         case 261: // DELETE key
-         default:
-            return null;
-         case 262:
-            return KeyAction.RightArrowKey;
-         case 263:
-            return KeyAction.LeftArrowKey;
-         case 264:
-            return KeyAction.DownArrowKey;
-         case 265:
-            return KeyAction.UpArrowKey;
-      }
-   }
+            for (Module module : Client.getInstance().moduleManager.getModulesByCategory(currentCategory)) {
+                categoryDisplay.updateCategory(index++, (!module.isEnabled() ? "§7" : "") + module.getSuffix());
+            }
+        }
+    }
 
-   public static int method15961(int var0) {
-      int var3 = 0;
+    private void drawCategories(float partialTicks) {
+        try {
+            int drawState = this.getCurrentCategoryState();
+            if (drawState == 2 || drawState == 3) {
+                CategoryDrawPart firstCategoryPart = categoryDrawParts.get(0);
+                CategoryDrawPart secondCategoryPart = categoryDrawParts.get(1);
+                CategoryDrawPart thirdCategoryPart = drawState != 3 ? null : categoryDrawParts.get(2);
+                CategoryDrawPart activeCategoryPart = secondCategoryPart;
+                if (thirdCategoryPart != null) {
+                    activeCategoryPart = thirdCategoryPart;
+                }
 
-      for (int var4 = 0; var4 < var0; var4++) {
-         var3 += categoryDrawParts.get(var4).getWidth();
-      }
+                if (activeCategoryPart.isAnimating() && animationProgress.getDirection() == Direction.FORWARDS) {
+                    if (this.getCurrentCategoryState() == categoryDrawParts.size()) {
+                        this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
+                    } else if (categoryDrawParts.get(categoryDrawParts.size() - 1).isFullyCollapsed()) {
+                        this.secondAnimationProgress.changeDirection(Direction.FORWARDS);
+                    }
+                }
 
-      return 4 + var3 + 5 * var0;
-   }
+                ModuleCategory currentCategory = this.categories.get(firstCategoryPart.currentOffset);
+                Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory).get(secondCategoryPart.currentOffset);
+                String description = currentModule.getDescription();
+                if (drawState == 3) {
+                    Setting<?> currentSetting = this.getModuleSettings(currentModule).get(thirdCategoryPart.currentOffset);
+                    description = currentSetting.getDescription();
+                }
 
-   public void method15962(ModuleCategory var1) {
-      ArrayList var4 = new ArrayList();
+                float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
+                if (this.firstAnimationProgress.getDirection() == Direction.BACKWARDS) {
+                    animationProgressValue = MathHelper.calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+                }
 
-      for (Module var6 : Client.getInstance().moduleManager.getModulesByCategory(var1)) {
-         var4.add(var6.getSuffix());
-      }
+                RenderUtil.renderCategoryBox(
+                        (float) activeCategoryPart.getStartX() + (float) activeCategoryPart.getWidth() + 14.0F * animationProgressValue,
+                        (float) activeCategoryPart.getStartY() + 16.0F + (float) (25 * activeCategoryPart.currentOffset),
+                        24.0F * animationProgressValue,
+                        ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F),
+                        ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
+                );
+                int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4 + Math.round(animationProgressValue * 28.0F);
+                int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.currentOffset + 4;
+                int descriptionWidth = activeCategoryPart.font.getWidth(description) + 8;
+                float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+                RenderUtil.drawRoundedRect2((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F, ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
+                RenderUtil.startScissor((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F);
+                RenderUtil.drawString(
+                        activeCategoryPart.font, (float) (descriptionX + 4), (float) (descriptionY + 2), description, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, partialTicks * 1.7F))
+                );
+                RenderUtil.endScissor();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            Client.getInstance().getLogger().warn("bruh your modules aren't enough for this sexy ass tabgui");
+        }
+    }
 
-      this.method15964(1);
-      categoryDrawParts.add(1, new CategoryDrawPart(var4, 1));
-   }
+    public static KeyAction mapKeyToAction(int keyCode) {
+        switch (keyCode) {
+            case 257: // ENTER key
+                return KeyAction.EnterKey;
+            case 258: // TAB key
+            case 259: // BACKSPACE key
+            case 260: // INSERT key
+            case 261: // DELETE key
+            default:
+                return null;
+            case 262:
+                return KeyAction.RightArrowKey;
+            case 263:
+                return KeyAction.LeftArrowKey;
+            case 264:
+                return KeyAction.DownArrowKey;
+            case 265:
+                return KeyAction.UpArrowKey;
+        }
+    }
 
-   public void method15963(Module var1) {
-      List var4 = this.method15967(var1);
-      if (var4.size() != 0) {
-         this.method15964(2);
-         categoryDrawParts.add(2, new CategoryDrawPart(var4, 2));
-      }
-   }
+    public static int calculateStartX(int index) {
+        int totalWidth = 0;
 
-   public void method15964(int var1) {
-      Iterator var4 = categoryDrawParts.iterator();
+        for (int i = 0; i < index; i++) {
+            totalWidth += categoryDrawParts.get(i).getWidth();
+        }
 
-      while (var4.hasNext()) {
-         if (((CategoryDrawPartBackground) var4.next()).field32395 >= var1) {
-            var4.remove();
-         }
-      }
-   }
+        return 4 + totalWidth + 5 * index;
+    }
 
-   @Override
-   public void onDisable() {
-      animationProgress.changeDirection(Direction.BACKWARDS);
-      this.field23384 = 0;
-   }
+    public void updateCategoryParts(ModuleCategory category) {
+        List<String> suffixes = new ArrayList<>();
 
-   @Override
-   public void onEnable() {
-      animationProgress.changeDirection(Direction.FORWARDS);
-      this.field23384 = 40;
-   }
+        for (Module module : Client.getInstance().moduleManager.getModulesByCategory(category)) {
+            suffixes.add(module.getSuffix());
+        }
 
-   public List<String> method15967(Module var1) {
-      ArrayList var4 = new ArrayList();
+        this.removePartsByThreshold(1);
+        categoryDrawParts.add(1, new CategoryDrawPart(suffixes, 1));
+    }
 
-      for (Setting var6 : this.getModuleSettings(var1)) {
-         var4.add(var6.getName() + " " + var6.getCurrentValue());
-      }
+    public void updateModuleSettingsParts(Module module) {
+        List<String> settings = this.getModuleSettingsWithValues(module);
 
-      return var4;
-   }
+        if (!settings.isEmpty()) {
+            this.removePartsByThreshold(2);
+            categoryDrawParts.add(2, new CategoryDrawPart(settings, 2));
+        }
+    }
 
-   public List<Setting> getModuleSettings(Module var1) {
-      ArrayList var4 = new ArrayList<Setting>(var1.getSettingMap().values());
-      if (var1 instanceof ModuleWithModuleSettings) {
-         ModuleWithModuleSettings var5 = (ModuleWithModuleSettings) var1;
-         var5.calledOnEnable();
-         if (var5.getModWithTypeSetToName() != null) {
-            var4.addAll(var5.getModWithTypeSetToName().getSettingMap().values());
-         }
-      }
+    public void removePartsByThreshold(int threshold) {
+        categoryDrawParts.removeIf(categoryDrawPart -> categoryDrawPart.priority >= threshold);
+    }
 
-      Iterator var7 = var4.iterator();
+    @Override
+    public void onDisable() {
+        animationProgress.changeDirection(Direction.BACKWARDS);
+        this.animationCooldown = 0;
+    }
 
-      while (var7.hasNext()) {
-         Setting var6 = (Setting) var7.next();
-         if (var6.getName().equals("Keybind")) {
-            var7.remove();
-         }
-      }
+    @Override
+    public void onEnable() {
+        animationProgress.changeDirection(Direction.FORWARDS);
+        this.animationCooldown = 40;
+    }
 
-      return var4;
-   }
+    public List<String> getModuleSettingsWithValues(Module module) {
+        List<String> settings = new ArrayList<>();
 
-   private int getCurrentCategoryState() {
-      CategoryDrawPartBackground var3 = categoryDrawParts.get(categoryDrawParts.size() - 1);
-      int var4 = categoryDrawParts.size();
-      if (var3.isExpanded()) {
-         var4--;
-      }
+        for (Setting<?> setting : this.getModuleSettings(module)) {
+            settings.add(setting.getName() + " " + setting.getCurrentValue());
+        }
 
-      return var4;
-   }
+        return settings;
+    }
 
-   private void method15970(boolean var1) {
-      this.firstAnimationProgress.changeDirection(!var1 ? Direction.BACKWARDS : Direction.FORWARDS);
-   }
+    public List<Setting> getModuleSettings(Module module) {
+        List<Setting> setting = new ArrayList<>(module.getSettingMap().values());
+        if (module instanceof ModuleWithModuleSettings moduleWithSubModules) {
+            moduleWithSubModules.calledOnEnable();
+            if (moduleWithSubModules.getModWithTypeSetToName() != null) {
+                setting.addAll(moduleWithSubModules.getModWithTypeSetToName().getSettingMap().values());
+            }
+        }
 
-   private boolean method15971() {
-      return this.firstAnimationProgress.getDirection() == Direction.FORWARDS;
-   }
+        setting.removeIf(nextSetting -> nextSetting.getName().equals("Keybind"));
+
+        return setting;
+    }
+
+    private int getCurrentCategoryState() {
+        CategoryDrawPartBackground lastPart = categoryDrawParts.get(categoryDrawParts.size() - 1);
+        int visibleCount = categoryDrawParts.size();
+        if (lastPart.isExpanded()) {
+            visibleCount--;
+        }
+
+        return visibleCount;
+    }
+
+    private void setAnimationDirection(boolean isForwards) {
+        this.firstAnimationProgress.changeDirection(!isForwards ? Direction.BACKWARDS : Direction.FORWARDS);
+    }
+
+    private boolean isAnimationForwards() {
+        return this.firstAnimationProgress.getDirection() == Direction.FORWARDS;
+    }
+
+    public enum KeyAction {
+        RightArrowKey,
+        LeftArrowKey,
+        EnterKey,
+        UpArrowKey,
+        DownArrowKey;
+    }
 }

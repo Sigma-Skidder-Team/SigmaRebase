@@ -2,7 +2,7 @@ package com.mentalfrostbyte.jello.managers;
 
 import club.minnced.discord.rpc.DiscordRPC;
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.managers.impl.account.Class9507;
+import com.mentalfrostbyte.jello.managers.util.account.Class9507;
 import com.mentalfrostbyte.jello.trackers.CombatTracker;
 import team.sdhq.eventBus.EventBus;
 

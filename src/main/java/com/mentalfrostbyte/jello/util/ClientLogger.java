@@ -49,7 +49,7 @@ public class ClientLogger implements Logger {
     * wtf
     */
    @Override
-   public void dummyMethod(String var1) {
+   public void setThreadName(String var1) {
       Client.getInstance();
    }
 }

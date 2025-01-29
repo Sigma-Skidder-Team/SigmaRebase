@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 
-public class Class4344 extends Class4339 {
+public class Class4344 extends MusicTabs {
    private static String[] field21228;
 
    public Class4344(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6) {
@@ -13,7 +13,7 @@ public class Class4344 extends Class4339 {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawRoundedRect(
          (float)this.xA,
          (float)this.yA,
@@ -29,6 +29,6 @@ public class Class4344 extends Class4339 {
          2,
               ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.14F)
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

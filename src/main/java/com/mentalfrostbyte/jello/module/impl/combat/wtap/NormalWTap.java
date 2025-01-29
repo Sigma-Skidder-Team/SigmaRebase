@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat.wtap;
 
-import com.mentalfrostbyte.jello.event.impl.EventRayTraceResult;
+import com.mentalfrostbyte.jello.event.impl.game.EventRayTraceResult;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.network.play.client.CEntityActionPacket;
@@ -14,7 +14,7 @@ public class NormalWTap extends Module {
 
    @EventTarget
    @HigherPriority
-   private void EventRayTraceResult(EventRayTraceResult event) {
+   public void onRayTraceResult(EventRayTraceResult event) {
       if (this.isEnabled() && event.isHovering()) {
          mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.START_SPRINTING));
       }

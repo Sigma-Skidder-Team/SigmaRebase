@@ -1,16 +1,22 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
+import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
-import net.minecraft.network.Packet;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.network.play.server.SChatPacket;
 
 public class ViperMCFly extends Module {
     private int field23594;
@@ -57,7 +63,7 @@ public class ViperMCFly extends Module {
     }
 
     @EventTarget
-    public void method16330(MouseHoverEvent var1) {
+    public void method16330(EventMouseHover var1) {
         if (this.isEnabled()) {
             if (var1.getMouseButton() == mc.gameSettings.keyBindSneak.keyCode.getKeyCode()) {
                 var1.cancelled = true;
@@ -75,7 +81,7 @@ public class ViperMCFly extends Module {
                 if (this.field23594 != -1) {
                     if (this.field23594 == 0) {
                         if (!mc.gameSettings.keyBindJump.isKeyDown() && var1.getY() > 0.0) {
-                            // var1.setY(-MovementUtil.method37080());
+//                            var1.setY(-MovementUtil.getJumpValue());
                         }
 
                         MovementUtil.setPlayerYMotion(var1.getY());
@@ -83,14 +89,14 @@ public class ViperMCFly extends Module {
                     }
                 } else {
                     if (mc.gameSettings.keyBindJump.isKeyDown()) {
-                        // var1.setY(!this.field23598 ? var4 / 2.0 : MovementUtil.method37080());
+//                        var1.setY(!this.field23598 ? var4 / 2.0 : MovementUtil.getJumpValue());
                         this.field23597 = this.field23596;
                         this.field23596 = !this.field23598 ? mc.player.getPosY() + var1.getY() : this.field23596;
                     } else {
-                        var1.setY(this.field23598 /* && !MultiUtilities.isAboveBounds(mc.player, 0.01F) */ ? -var4 / 2.0
-                                : /* MovementUtil.method37080() */-69420);
+                        var1.setY(this.field23598 /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/ ? -var4 / 2.0
+                                : /*MovementUtil.getJumpValue()*/-69420);
                         this.field23597 = this.field23596;
-                        this.field23596 = this.field23598 /* && !MultiUtilities.isAboveBounds(mc.player, 0.01F) */
+                        this.field23596 = this.field23598 /*&& !MultiUtilities.isAboveBounds(mc.player, 0.01F)*/
                                 ? mc.player.getPosY() + var1.getY()
                                 : this.field23596;
                     }
@@ -106,7 +112,7 @@ public class ViperMCFly extends Module {
     }
 
     @EventTarget
-    public void method16332(EventUpdate var1) {
+    public void method16332(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             this.field23594++;
             if (this.field23594 != 2) {
@@ -124,18 +130,18 @@ public class ViperMCFly extends Module {
             }
 
             var1.setGround(true);
-            var1.method13908(true);
+            var1.setMoving(true);
         }
     }
 
     @EventTarget
-    public void method16333(ReceivePacketEvent var1) {
+    public void method16333(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            Packet var4 = var1.getPacket();
+            IPacket var4 = var1.getPacket();
             if (!(var4 instanceof SPlayerPositionLookPacket)) {
-                if (var4 instanceof GameMessageS2CPacket) {
-                    GameMessageS2CPacket var5 = (GameMessageS2CPacket) var4;
-                    String var6 = var5.getMessage().getString();
+                if (var4 instanceof SChatPacket) {
+                    SChatPacket var5 = (SChatPacket) var4;
+                    String var6 = var5.getChatComponent().getString();
                     if (this.field23595 > 0 && (var6.contains("Now leaving: §") || var6.contains("Now entering: §"))) {
                         this.field23595--;
                         var1.cancelled = true;
@@ -156,9 +162,9 @@ public class ViperMCFly extends Module {
     }
 
     @EventTarget
-    public void method16334(SendPacketEvent var1) {
+    public void method16334(EventSendPacket var1) {
         if (this.isEnabled()) {
-            Packet var4 = var1.getPacket();
+            IPacket var4 = var1.getPacket();
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.field23594 == -1) {
@@ -169,7 +175,7 @@ public class ViperMCFly extends Module {
     }
 
     @EventTarget
-    public void method16335(Render2DEvent var1) {
+    public void method16335(EventRender2D var1) {
         if (this.isEnabled()) {
             double var4 = this.field23596 - this.field23597;
             double var6 = this.field23596;

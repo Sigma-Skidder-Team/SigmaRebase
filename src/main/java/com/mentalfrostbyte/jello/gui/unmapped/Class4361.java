@@ -10,8 +10,8 @@ public class Class4361 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawImage((float)this.xA, (float)this.yA, 30.0F, 30.0F, !this.method13298() ? Resources.xmark : Resources.xmark2);
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

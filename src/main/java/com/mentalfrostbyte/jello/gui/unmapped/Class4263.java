@@ -21,20 +21,20 @@ public class Class4263 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawCircle(
          (float)(this.xA + this.widthA / 2),
          (float)(this.yA + this.heightA / 2),
          (float)this.widthA,
-         ColorUtils.applyAlpha(ClientColors.PALE_YELLOW.getColor(), (0.5F + this.field20678 * 0.3F + (!this.field20909 ? 0.0F : 0.2F)) * var1)
+         ColorUtils.applyAlpha(ClientColors.PALE_YELLOW.getColor(), (0.5F + this.field20678 * 0.3F + (!this.field20909 ? 0.0F : 0.2F)) * partialTicks)
       );
       RenderUtil.drawRoundedRect2(
          (float)(this.xA + (this.widthA - 10) / 2),
          (float)(this.yA + this.heightA / 2 - 1),
          10.0F,
          2.0F,
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.75F * var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.75F * partialTicks)
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

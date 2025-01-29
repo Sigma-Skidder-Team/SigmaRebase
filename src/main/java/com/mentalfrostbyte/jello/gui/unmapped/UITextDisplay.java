@@ -30,7 +30,7 @@ public class UITextDisplay extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float alpha) {
+   public void draw(float partialTicks) {
       if (this.field20779) {
          GL11.glAlphaFunc(518, 0.01F);
          RenderUtil.drawString(
@@ -38,7 +38,7 @@ public class UITextDisplay extends AnimatedIconPanelWrap {
             (float)this.getXA(),
             (float)this.getYA(),
             this.getTypedText(),
-            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), alpha)
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks)
          );
          GL11.glAlphaFunc(519, 0.0F);
       }
@@ -49,7 +49,7 @@ public class UITextDisplay extends AnimatedIconPanelWrap {
             (float)this.getXA(),
             (float)this.getYA(),
             this.getTypedText(),
-            ColorUtils.applyAlpha(this.textColor.getTextColor(), alpha * ColorUtils.getAlpha(this.textColor.getTextColor()))
+            ColorUtils.applyAlpha(this.textColor.getTextColor(), partialTicks * ColorUtils.getAlpha(this.textColor.getTextColor()))
          );
       }
    }

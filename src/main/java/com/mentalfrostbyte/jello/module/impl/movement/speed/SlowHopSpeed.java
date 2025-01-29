@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.movement.speed;
 
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.JumpEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
@@ -51,7 +51,7 @@ public class SlowHopSpeed extends Module {
     }
 
     @EventTarget
-    public void onJump(JumpEvent var1) {
+    public void onJump(EventJump var1) {
         if (this.isEnabled()) {
              var1.setY(0.407 + 0.1 * (double) MovementUtil.getJumpBoost());
             this.onGroundTicks = 0;

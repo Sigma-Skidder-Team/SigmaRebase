@@ -9,14 +9,14 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.vector.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Class4340 extends Class4339 {
+public class Class4340 extends MusicTabs {
    private List<Class4355> field21209 = new ArrayList<Class4355>();
    public final int field21210 = 70;
    public Animation field21211 = new Animation(300, 300);
@@ -27,36 +27,37 @@ public class Class4340 extends Class4339 {
       super(var1, var2, var3, var4, var5, var6);
       this.field21211.changeDirection(Direction.BACKWARDS);
       this.field20883 = true;
-      this.method13300(false);
+      this.setListening(false);
       this.method13511();
    }
 
-   // @Override
+//   @Override
    public void method13511() {
       boolean var3 = false;
    }
 
-   public void method13519(String var1, Vec3i var2, int var3) {
+   public void method13519(String var1, Vector3i var2, int var3) {
       String var6 = "waypoint x" + var2.getX() + " z" + var2.getZ();
       if (this.buttonList.method13221(var6) == null) {
          Class4355 var7 = new Class4355(
-               this, var6, this.xA, this.getChildren().get(0).getChildren().size() * this.field21210, this.widthA,
-               this.field21210, var1, var2, var3);
+            this, var6, this.xA, this.getChildren().get(0).getChildren().size() * this.field21210, this.widthA, this.field21210, var1, var2, var3
+         );
          var7.field21288 = var7.getYA();
          this.field21209.add(var7);
-         this.addButton(var7);
+         this.addToList(var7);
          var7.doThis((var2x, var3x) -> {
-            Class4251 var6x = (Class4251) this.getParent();
+            Class4251 var6x = (Class4251)this.getParent();
             var6x.field20614.method13077(var7.field21292.getX(), var7.field21292.getZ());
          });
-         var7.addUIHandler(
-               var3x -> {
-                  Client.getInstance().waypointsManager
-                        .method29993(new Class8351(var7.field21291, var7.field21292.getX(), var7.field21292.getZ(),
-                              var7.field21293));
-                  this.buttonList.method13237(var7);
-                  this.field21209.remove(var3x);
-               });
+         var7.onPress(
+            var3x -> {
+               Client.getInstance()
+                  .waypointsManager
+                  .method29993(new Class8351(var7.field21291, var7.field21292.getX(), var7.field21292.getZ(), var7.field21293));
+               this.buttonList.method13237(var7);
+               this.field21209.remove(var3x);
+            }
+         );
       }
    }
 
@@ -85,9 +86,9 @@ public class Class4340 extends Class4339 {
          if (var11.method13216()) {
             this.field21211.changeDirection(Direction.FORWARDS);
             if (newHeight > this.method13271() + 10
-                  && newHeight < this.method13271() + 50
-                  && newWidth < this.method13272() + this.getHeightA() - 10
-                  && newWidth > this.method13272() + this.getHeightA() - 50) {
+               && newHeight < this.method13271() + 50
+               && newWidth < this.method13272() + this.getHeightA() - 10
+               && newWidth > this.method13272() + this.getHeightA() - 50) {
                this.field21212 = true;
                this.field21213 = var11;
             } else {
@@ -101,10 +102,10 @@ public class Class4340 extends Class4339 {
             Client.getInstance().waypointsManager.method29989().clear();
 
             for (Class4355 var9 : this.field21209) {
-               Client.getInstance().waypointsManager
-                     .method29989()
-                     .add(new Class8351(var9.field21291, var9.field21292.getX(), var9.field21292.getZ(),
-                           var9.field21293));
+               Client.getInstance()
+                  .waypointsManager
+                  .method29989()
+                  .add(new Class8351(var9.field21291, var9.field21292.getX(), var9.field21292.getZ(), var9.field21293));
             }
 
             Collections.reverse(Client.getInstance().waypointsManager.method29989());
@@ -116,33 +117,32 @@ public class Class4340 extends Class4339 {
    }
 
    @Override
-   public void draw(float var1) {
-      float var4 = Math.min(1.0F, 0.21F * (60.0F / (float) MinecraftClient.getFps()));
+   public void draw(float partialTicks) {
+      float var4 = Math.min(1.0F, 0.21F * (60.0F / (float) Minecraft.getFps()));
 
       for (Class4355 var6 : this.field21209) {
          if (!var6.method13216()) {
-            float var7 = (float) (var6.getYA() - var6.field21288) * var4;
+            float var7 = (float)(var6.getYA() - var6.field21288) * var4;
             if (Math.round(var7) == 0 && var7 > 0.0F) {
                var7 = 1.0F;
             } else if (Math.round(var7) == 0 && var7 < 0.0F) {
                var7 = -1.0F;
             }
 
-            var6.setYA(Math.round((float) var6.getYA() - var7));
+            var6.setYA(Math.round((float)var6.getYA() - var7));
          }
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
       int var8 = Math.round(QuadraticEasing.easeInQuad(1.0F - this.field21211.calcPercent(), 0.0F, 1.0F, 1.0F) * 30.0F);
       RenderUtil.drawImage(
-            (float) (this.xA - var8 + 18),
-            (float) (this.heightA - 46),
-            22.0F,
-            26.0F,
-            Resources.trashcanPNG,
-            ColorUtils.applyAlpha(
-                  !this.field21212 ? ClientColors.DEEP_TEAL.getColor() : ClientColors.PALE_YELLOW.getColor(),
-                  this.field21211.calcPercent() * 0.5F),
-            false);
+         (float)(this.xA - var8 + 18),
+         (float)(this.heightA - 46),
+         22.0F,
+         26.0F,
+         Resources.trashcanPNG,
+         ColorUtils.applyAlpha(!this.field21212 ? ClientColors.DEEP_TEAL.getColor() : ClientColors.PALE_YELLOW.getColor(), this.field21211.calcPercent() * 0.5F),
+         false
+      );
    }
 }

@@ -10,11 +10,11 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import totalcross.json.JSONObject;
 
 public class ClassicScreenk extends Screen {
-    private static final MinecraftClient field21078 = MinecraftClient.getInstance();
+    private static final Minecraft field21078 = Minecraft.getInstance();
     private static Animation field21079;
     private static final boolean field21080 = true;
     private Class4333 field21081;
@@ -36,8 +36,7 @@ public class ClassicScreenk extends Screen {
                 this.method13236(this.field21081);
             }
 
-            this.addToList(
-                    this.field21081 = new Class4335(this, var1, this.getWidthA() / 2, this.getHeightA() / 2, var2));
+            this.addToList(this.field21081 = new Class4335(this, var1, this.getWidthA() / 2, this.getHeightA() / 2, var2));
         });
     }
 
@@ -55,8 +54,8 @@ public class ClassicScreenk extends Screen {
     }
 
     @Override
-    public int method13313() {
-        return MinecraftClient.getFps();
+    public int getFPS() {
+        return Minecraft.getFps();
     }
 
     @Override
@@ -79,14 +78,15 @@ public class ClassicScreenk extends Screen {
     }
 
     @Override
-    public void draw(float var1) {
+    public void draw(float partialTicks) {
         float var4 = field21079.calcPercent();
         RenderUtil.drawRoundedRect(
                 (float) this.xA,
                 (float) this.yA,
                 (float) (this.xA + this.widthA),
                 (float) (this.yA + this.heightA),
-                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var4 * 0.35F));
-        super.draw(var1);
+                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var4 * 0.35F)
+        );
+        super.draw(partialTicks);
     }
 }

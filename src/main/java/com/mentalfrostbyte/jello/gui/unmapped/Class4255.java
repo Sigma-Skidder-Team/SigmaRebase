@@ -19,7 +19,7 @@ public class Class4255 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       GL11.glAlphaFunc(518, 0.1F);
       RenderUtil.drawImage(
          (float)(this.xA + (this.widthA - 64) / 2),
@@ -37,6 +37,6 @@ public class Class4255 extends UIBase {
          this.typedText,
          !this.method13298() ? -14869219 : -319475
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

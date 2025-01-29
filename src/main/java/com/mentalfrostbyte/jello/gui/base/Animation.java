@@ -20,13 +20,14 @@ public class Animation {
         this.reverseStartTime = new Date();
         this.changeDirection(direction);
     }
+
     /**
      * Calculates the progress of an animation with consideration for reverse timing.
      *
      * @param startForward The start time of the forward animation. If null, the current time is used.
      * @param startReverse The start time of the reverse animation. If null, the current time is used.
-     * @param maxForward The maximum duration of the forward animation in milliseconds.
-     * @param maxReverse The maximum duration of the reverse animation in milliseconds.
+     * @param maxForward   The maximum duration of the forward animation in milliseconds.
+     * @param maxReverse   The maximum duration of the reverse animation in milliseconds.
      * @return A float value representing the progress of the animation, ranging from 0.0 to 1.0.
      */
     public static float calculateProgressWithReverse(Date startForward, Date startReverse, float maxForward, float maxReverse) {

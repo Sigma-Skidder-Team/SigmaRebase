@@ -30,7 +30,7 @@ public class Class4270 extends UIBase {
          });
       }
 
-      this.method13300(false);
+      this.setListening(false);
    }
 
    @Override
@@ -83,13 +83,13 @@ public class Class4270 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       int var6 = this.xA - 20;
       int var7 = this.yA - 20;
       int var8 = this.widthA + 20 * 2;
       int var9 = this.heightA + 5 + 20 * 2;
-      RenderUtil.drawRoundedRect((float)(var6 + 14 / 2), (float)(var7 + 14 / 2), (float)(var8 - 14), (float)(var9 - 14), 20.0F, var1 * 0.5F);
+      RenderUtil.drawRoundedRect((float)(var6 + 14 / 2), (float)(var7 + 14 / 2), (float)(var8 - 14), (float)(var9 - 14), 20.0F, partialTicks * 0.5F);
       RenderUtil.method11474((float)var6, (float)var7, (float)var8, (float)var9, 14.0F, ClientColors.LIGHT_GREYISH_BLUE.getColor());
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

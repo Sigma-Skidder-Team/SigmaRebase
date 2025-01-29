@@ -1,18 +1,22 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
+import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.network.play.client.CPlayerPacket;
-import net.minecraft.util.math.Box;
+import net.minecraft.util.math.AxisAlignedBB;
 
 public class NoFall extends Module {
     private boolean field23507 = false;
+    public static boolean falling = false;
     private boolean field23508;
     private double field23509;
     private boolean field23510;
@@ -20,9 +24,8 @@ public class NoFall extends Module {
     public NoFall() {
         super(ModuleCategory.PLAYER, "NoFall", "Avoid you from getting fall damages");
         this.registerSetting(
-                new ModeSetting("Mode", "Nofall mode", 0, "Vanilla", "Hypixel", "Hypixel2", "AAC", "NCPSpigot",
-                        "OldHypixel", "Vanilla Legit")
-        // .setPremiumModes("Hypixel", "Hypixel2")
+                new ModeSetting("Mode", "Nofall mode", 0, "Vanilla", "Cancel", "Hypixel", "Hypixel2", "AAC", "NCPSpigot", "OldHypixel", "Vanilla Legit")
+//                        .setPremiumModes("Hypixel", "Hypixel2")
         );
     }
 
@@ -33,6 +36,13 @@ public class NoFall extends Module {
         this.field23509 = 0.0;
     }
 
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        falling = false;
+        mc.player.fallDistance = 0F;
+    }
+
     @EventTarget
     @LowerPriority
     public void onMove(EventMove event) {
@@ -41,8 +51,8 @@ public class NoFall extends Module {
                     && (double) mc.player.fallDistance > 2.0 + (double) MovementUtil.getJumpBoost() * 0.5
                     && !mc.player.isOnGround()
                     && this.getStringSettingValueByName("Mode").equals("Hypixel")
-            /* && MultiUtilities.isHypixel() */) {
-                double[] var4 = /* MultiUtilities.method17747() */new double[0]; // TODO
+                    /*&& MultiUtilities.isHypixel()*/) {
+                double[] var4 = /*MultiUtilities.method17747()*/new double[0]; // TODO
                 double var6 = Double.MAX_VALUE;
 
                 for (double var9 : var4) {
@@ -56,8 +66,7 @@ public class NoFall extends Module {
                     }
 
                     if (var13 > var17 && var13 < var15) {
-                        Box var19 = mc.player.getBoundingBox().offset(event.getX(),
-                                event.getY() + var13 + var17, event.getZ());
+                        AxisAlignedBB var19 = mc.player.getBoundingBox().offset(event.getX(), event.getY() + var13 + var17, event.getZ());
                         if (mc.world.getCollisionShapes(mc.player, var19).count() != 0L) {
                             var13 -= 1.0E-5;
                             event.setY(event.getY() + var13);
@@ -81,7 +90,40 @@ public class NoFall extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate packet) {
+    @SuppressWarnings("unused")
+    public void onSendPacket(EventSendPacket event) {
+        if (
+                !this.isEnabled() ||
+                !this.getStringSettingValueByName("Mode").equals("Cancel") ||
+                event.cancelled
+        ) return;
+        if (event.getPacket() instanceof CPlayerPacket) {
+            if (mc.player.fallDistance > 3f) {
+                falling = true;
+                event.cancelled = true;
+                return;
+            }
+            falling = false;
+        }
+    }
+    @EventTarget
+    @SuppressWarnings("unused")
+    public void onReceivePacket(EventReceivePacket event) {
+        if (event.getPacket() instanceof SPlayerPositionLookPacket packet && falling) {
+            mc.getConnection().sendPacket(
+                    new CPlayerPacket.PositionRotationPacket(
+                            packet.getX(), packet.getY(),
+                            packet.getZ(), packet.getYaw(),
+                            packet.getPitch(), true
+                    )
+            );
+            falling = false;
+        }
+
+    }
+
+    @EventTarget
+    public void onUpdate(EventUpdateWalkingPlayer packet) {
         if (this.isEnabled() && mc.player != null) {
             if (!(mc.player.getPosY() < 2.0)) {
                 String var4 = this.getStringSettingValueByName("Mode");
@@ -92,10 +134,10 @@ public class NoFall extends Module {
                 switch (var4) {
                     case "OldHypixel":
                         if (packet.isPre()) {
-                            // if (MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
-                            // this.field23509 = 0.0;
-                            // return;
-                            // }
+//                            if (MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
+//                                this.field23509 = 0.0;
+//                                return;
+//                            }
 
                             if (mc.player.getMotion().y < -0.1) {
                                 this.field23509 = this.field23509 - mc.player.getMotion().y;
@@ -108,26 +150,22 @@ public class NoFall extends Module {
                         }
                         break;
                     case "Hypixel":
-                        if (packet.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.isOnGround()/*
-                                                                                                       * &&
-                                                                                                       * MultiUtilities.
-                                                                                                       * isHypixel()
-                                                                                                       */) {
-                            // TODO
-                            // for (double var10 : MovementUtil.method17747()) {
-                            // if ((double) ((int) packet.getY()) - packet.getY() + var10 == 0.0) {
-                            // packet.setGround(true);
-                            // break;
-                            // }
-                            // }
+                        if (packet.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.isOnGround()/* && MultiUtilities.isHypixel()*/) {
+//                            TODO
+//                            for (double var10 : MovementUtil.method17747()) {
+//                                if ((double) ((int) packet.getY()) - packet.getY() + var10 == 0.0) {
+//                                    packet.setGround(true);
+//                                    break;
+//                                }
+//                            }
                         }
                         break;
                     case "Hypixel2":
                         if (packet.isPre()) {
-                            // if (MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
-                            // this.field23509 = 0.0;
-                            // return;
-                            // }
+//                            if (MultiUtilities.isAboveBounds(mc.player, 1.0E-4F)) {
+//                                this.field23509 = 0.0;
+//                                return;
+//                            }
 
                             if (mc.player.getMotion().y < -0.1 && mc.player.fallDistance > 3.0F) {
                                 this.field23509++;
@@ -145,11 +183,9 @@ public class NoFall extends Module {
                                 this.field23507 = false;
                             }
 
-                            if (!this.field23507 && mc.player.fallDistance > 3.0F
-                                    && this.getStringSettingValueByName("Mode").equals("AAC")) {
+                            if (!this.field23507 && mc.player.fallDistance > 3.0F && this.getStringSettingValueByName("Mode").equals("AAC")) {
                                 this.field23507 = !this.field23507;
-                                CPlayerPacket.PositionPacket var7 = new CPlayerPacket.PositionPacket(
-                                        mc.player.getPosX(), Double.NaN, mc.player.getPosZ(), true);
+                                CPlayerPacket.PositionPacket var7 = new CPlayerPacket.PositionPacket(mc.player.getPosX(), Double.NaN, mc.player.getPosZ(), true);
                                 mc.getConnection().sendPacket(var7);
                             }
                         }
@@ -172,8 +208,7 @@ public class NoFall extends Module {
                             double var12 = mc.player.getPosX();
                             double var14 = mc.player.getPosY();
                             double var16 = mc.player.getPosZ();
-                            mc.getConnection()
-                                    .sendPacket(new CPlayerPacket.PositionPacket(var12, var14 + 3.01, var16, false));
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14 + 3.01, var16, false));
                             mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, false));
                             mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, true));
                             this.field23510 = false;
@@ -185,9 +220,7 @@ public class NoFall extends Module {
                                 this.field23508 = true;
                             }
 
-                            if (this.field23508
-                                    /* && Client.getInstance().playerTracker.getgroundTicks() == 0 */ && mc.player
-                                            .isOnGround()) {
+                            if (this.field23508 /*&& Client.getInstance().playerTracker.getgroundTicks() == 0*/ && mc.player.isOnGround()) {
                                 packet.setY(packet.getY() - 11.0);
                                 this.field23508 = false;
                             }

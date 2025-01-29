@@ -22,8 +22,8 @@ public class Class4252 extends UIBase {
       this.addToList(this.field20620 = new Class4367(this, "block", 10, 10, var5 - 20, var6 - 50, var12[0], var12[1], var12[2]));
       this.addToList(this.field20621 = new Class4264(this, "slider", 14, var6 - 25, var5 - 65, 8, var12[0]));
       this.addToList(this.field20622 = new Class4371(this, "bubble", var5 - 40, var6 - 32, 25, 25, var11.getRGB()));
-      this.field20620.addUIHandler(var1x -> this.method13050());
-      this.field20621.addUIHandler(var1x -> this.method13050());
+      this.field20620.onPress(var1x -> this.method13050());
+      this.field20621.onPress(var1x -> this.method13050());
       this.field20622.doThis((var1x, var2x) -> this.method13045(!this.method13047()));
       this.field20619 = var8;
    }
@@ -85,12 +85,12 @@ public class Class4252 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       if (this.field20619) {
          this.field20621.method13098((float)(System.currentTimeMillis() % 4000L) / 4000.0F, false);
          this.method13051();
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

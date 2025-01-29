@@ -1,13 +1,13 @@
 package com.mentalfrostbyte.jello.managers;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.Account;
-import com.mentalfrostbyte.jello.managers.impl.account.microsoft.BanListener;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.Account;
+import com.mentalfrostbyte.jello.managers.util.account.microsoft.BanListener;
 import com.mentalfrostbyte.jello.util.FileUtil;
-import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
+import com.mojang.realmsclient.RealmsMainScreen;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.Session;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Session;
 import team.sdhq.eventBus.EventBus;
 import totalcross.json.JSONArray;
 import totalcross.json.JSONException2;
@@ -85,8 +85,8 @@ public class AccountManager {
      */
     public boolean login(Account account) {
         try {
-//            RealmsMainScreen.realmsGenericErrorScreen = null; // ?????
-            Session session = MinecraftClient.getInstance().getSession();
+            RealmsMainScreen.field_224000_H = null; // ?????
+            Session session = Minecraft.getInstance().getSession();
             Session newSession = account.login();
             session.username = newSession.getUsername();
             session.playerID = newSession.getPlayerID();
@@ -153,9 +153,9 @@ public class AccountManager {
         return this.email;
     }
 
-    public boolean method36779(Account var1) {
+    public boolean isCurrentAccount(Account account) {
         return this.getEmail() != null
-                ? var1.getEmail().equals(this.getEmail())
-                : var1.getKnownName().equals(MinecraftClient.getInstance().getSession().getUsername());
+                ? account.getEmail().equals(this.getEmail())
+                : account.getKnownName().equals(Minecraft.getInstance().getSession().getUsername());
     }
 }

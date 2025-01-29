@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.gui.jello;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.EventRender;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2DOffset;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
@@ -16,8 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MusicParticles extends Module {
-    public long field23676 = 0L;
-    private final List<Class5968> field23677 = new ArrayList<>();
+    public long lastRenderTime = 0L;
+    private final List<MusicParticle> particles = new ArrayList<>();
 
     public MusicParticles() {
         super(ModuleCategory.GUI, "MusicParticles", "Shows nice particles when music is playing");
@@ -25,101 +25,98 @@ public class MusicParticles extends Module {
     }
 
     @EventTarget
-    public void onRender(EventRender event) {
+    public void onRender(EventRender2DOffset event) {
         if (this.isEnabled() && mc.player != null) {
-            if (Client.getInstance().musicManager.method24319()
-                    && !Client.getInstance().musicManager.field32163.isEmpty()) {
-                long var4 = System.nanoTime() - this.field23676;
-                float var6 = Math.min(10.0F, Math.max(0.0F, (float) var4 / 1.810361E7F));
-                double var7 = 0.0;
-                double var9 = 4750;
-                if (Client.getInstance().musicManager.field32165.isEmpty()) {
+            if (Client.getInstance().musicManager.isPlayingSong() && !Client.getInstance().musicManager.visualizerData.isEmpty()) {
+                long timeElapsed = System.nanoTime() - this.lastRenderTime;
+                float particleIntensity = Math.min(10.0F, Math.max(0.0F, (float) timeElapsed / 1.810361E7F));
+                double maxAmplitude = 0.0;
+                double maxThreshold = 4750;
+                if (Client.getInstance().musicManager.amplitudes.isEmpty()) {
                     return;
                 }
 
-                for (int var10 = 0; var10 < 3; var10++) {
-                    var7 = Math.max(var7, Math.sqrt(Client.getInstance().musicManager.field32165.get(var10)) - 1000.0);
+                for (int i = 0; i < 3; i++) {
+                    maxAmplitude = Math.max(maxAmplitude, Math.sqrt(Client.getInstance().musicManager.amplitudes.get(i)) - 1000.0);
                 }
 
-                float var14 = 0.7F + (float) (var7 / (double) (var9 - 1000)) * 8.14F;
-                var14 *= var6;
-                int var11 = 0;
+                float particleCount = 0.7F + (float) (maxAmplitude / (double) (maxThreshold - 1000)) * 8.14F;
+                particleCount *= particleIntensity;
+                int particleIndex = 0;
 
-                while (this.field23677.size() < 40) {
-                    this.method16464();
-                    if ((float) (var11++) > var14) {
+                while (this.particles.size() < 40) {
+                    this.addParticle();
+                    if ((float) (particleIndex++) > particleCount) {
                         break;
                     }
                 }
 
-                this.method16465(var14);
+                this.updateParticles(particleCount);
 
-                for (Class5968 var13 : this.field23677) {
-                    var13.method18498();
+                for (MusicParticle particle : this.particles) {
+                    particle.render();
                 }
             }
 
-            this.field23676 = System.nanoTime();
+            this.lastRenderTime = System.nanoTime();
         }
     }
 
     @Override
     public void onEnable() {
-        this.field23676 = System.nanoTime();
+        this.lastRenderTime = System.nanoTime();
     }
 
-    private void method16464() {
-        this.field23677.add(new Class5968());
+    private void addParticle() {
+        this.particles.add(new MusicParticle());
     }
 
-    private void method16465(float var1) {
-        Iterator<Class5968> var4 = this.field23677.iterator();
+    private void updateParticles(float var1) {
+        Iterator<MusicParticle> iterator = this.particles.iterator();
 
-        while (var4.hasNext()) {
-            Class5968 var5 = var4.next();
-            var5.method18497(var1);
-            if (var5.method18499()) {
-                var4.remove();
+        while (iterator.hasNext()) {
+            MusicParticle particle = iterator.next();
+            particle.update(var1);
+            if (particle.isExpired()) {
+                iterator.remove();
             }
         }
     }
 
-    public static class Class5968 {
-        public final float field26020 = (float) (0.1F + Math.random() * 0.9F);
-        public final float field26021 = (float) (0.5 + Math.random() * 0.5);
-        public final int field26022 = (int) ((double) mc.getWindow().getWidth() * Math.random());
-        public final int field26023 = (int) ((double) mc.getWindow().getHeight() * Math.random());
-        public float field26024;
+    public static class MusicParticle {
+        public final float speedFactor = (float)(0.1F + Math.random() * 0.9F);
+        public final float sizeFactor = (float)(0.5 + Math.random() * 0.5);
+        public final int startX = (int)((double) mc.getMainWindow().getWidth() * Math.random());
+        public final int startY = (int)((double) mc.getMainWindow().getHeight() * Math.random());
+        public float lifeProgress;
 
-        public void method18497(float var1) {
-            this.field26024 = this.field26024 + 0.02F * var1 * this.field26020;
+        public void update(float var1) {
+            this.lifeProgress = this.lifeProgress + 0.02F * var1 * this.speedFactor;
         }
 
-        public void method18498() {
-            float var3 = 0.3F + this.field26024 * 0.7F;
-            float var4 = 1.0F;
-            if (!(this.field26024 < 0.1F)) {
-                if (this.field26024 > 0.75F) {
-                    var4 = 1.0F - (this.field26024 - 0.75F) / 0.25F;
+        public void render() {
+            float scale = 0.3F + this.lifeProgress * 0.7F;
+            float alpha = 1.0F;
+            if (!(this.lifeProgress < 0.1F)) {
+                if (this.lifeProgress > 0.75F) {
+                    alpha = 1.0F - (this.lifeProgress - 0.75F) / 0.25F;
                 }
             } else {
-                var4 = this.field26024 / 0.1F;
+                alpha = this.lifeProgress / 0.1F;
             }
 
             GL11.glPushMatrix();
-            GL11.glTranslatef((float) (mc.getWindow().getWidth() / 2), (float) (mc.getWindow().getHeight() / 2), 0.0F);
-            GL11.glScalef(var3, var3, 1.0F);
-            GL11.glTranslatef((float) (-mc.getWindow().getWidth() / 2), (float) (-mc.getWindow().getHeight() / 2),
-                    0.0F);
-            int var5 = Color.getHSBColor((float) (System.currentTimeMillis() % 4000L) / 4000.0F, 0.3F, 1.0F).getRGB();
-            float var6 = 60.0F * this.field26021;
-            RenderUtil.drawImage((float) this.field26022 - var6 / 2.0F, (float) this.field26023 - var6 / 2.0F, var6,
-                    var6, Resources.particlePNG, ColorUtils.applyAlpha(var5, var4 * 0.9F));
+            GL11.glTranslatef((float)(mc.getMainWindow().getWidth() / 2), (float)(mc.getMainWindow().getHeight() / 2), 0.0F);
+            GL11.glScalef(scale, scale, 1.0F);
+            GL11.glTranslatef((float)(-mc.getMainWindow().getWidth() / 2), (float)(-mc.getMainWindow().getHeight() / 2), 0.0F);
+            int color = Color.getHSBColor((float)(System.currentTimeMillis() % 4000L) / 4000.0F, 0.3F, 1.0F).getRGB();
+            float size = 60.0F * this.sizeFactor;
+            RenderUtil.drawImage((float)this.startX - size / 2.0F, (float)this.startY - size / 2.0F, size, size, Resources.particlePNG, ColorUtils.applyAlpha(color, alpha * 0.9F));
             GL11.glPopMatrix();
         }
 
-        public boolean method18499() {
-            return this.field26024 >= 1.0F;
+        public boolean isExpired() {
+            return this.lifeProgress >= 1.0F;
         }
     }
 }

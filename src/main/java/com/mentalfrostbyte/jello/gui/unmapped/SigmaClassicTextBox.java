@@ -18,7 +18,7 @@ public class SigmaClassicTextBox extends UIInput {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.setFont(ResourceRegistry.DefaultClientFont);
       RenderUtil.drawRoundedRect(
          (float)this.xA,
@@ -35,6 +35,6 @@ public class SigmaClassicTextBox extends UIInput {
          2,
          ColorUtils.method17690(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor(), 625.0F)
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

@@ -1,7 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
@@ -73,7 +76,7 @@ public class OmegaCraftTestFly extends Module {
     }
 
     @EventTarget
-    public void method16701(EventUpdate var1) {
+    public void method16701(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             this.field23854++;
             if (this.field23854 != 3) {
@@ -88,12 +91,12 @@ public class OmegaCraftTestFly extends Module {
                 var1.setY(1000.0);
             }
 
-            var1.method13908(true);
+            var1.setMoving(true);
         }
     }
 
     @EventTarget
-    public void method16702(ReceivePacketEvent event) {
+    public void method16702(EventReceivePacket event) {
         if (this.isEnabled()) {
             Packet<?> packet = event.getPacket();
             if (packet instanceof SPlayerPositionLookPacket) {
@@ -114,7 +117,7 @@ public class OmegaCraftTestFly extends Module {
     }
 
     @EventTarget
-    public void method16703(SendPacketEvent event) {
+    public void method16703(EventSendPacket event) {
         if (this.isEnabled()) {
             Packet<?> packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {

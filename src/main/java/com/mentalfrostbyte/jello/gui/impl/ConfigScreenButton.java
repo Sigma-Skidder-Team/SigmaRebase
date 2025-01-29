@@ -12,8 +12,8 @@ public class ConfigScreenButton extends ButtonPanel {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       this.method13260().get(0).setWidth(this, this.parent);
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

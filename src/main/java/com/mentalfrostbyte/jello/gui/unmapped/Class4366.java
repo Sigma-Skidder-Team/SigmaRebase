@@ -96,7 +96,7 @@ public class Class4366 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawRoundedRect(
          (float)this.getXA(),
          (float)this.getYA(),
@@ -144,7 +144,7 @@ public class Class4366 extends UIBase {
             (float)(this.getXA() + 7),
             (float)(this.getYA() + (this.getHeightA() - this.getFont().getHeight()) / 2),
             this.getTypedText(),
-            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * 0.5F)
+            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks * 0.5F)
          );
          RenderUtil.endScissor();
       }
@@ -153,7 +153,7 @@ public class Class4366 extends UIBase {
          RenderUtil.method11415(this);
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
       if (!this.method13673()) {
          RenderUtil.endScissor();
       }

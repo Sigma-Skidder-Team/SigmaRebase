@@ -43,7 +43,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     public boolean field20907;
     public boolean field20908;
     public boolean field20909;
-    public boolean field20910;
+    public boolean listening;
     public boolean field20911;
     public String typedText;
     public TrueTypeFont font;
@@ -95,7 +95,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         this.font = font;
         this.field20903 = true;
         this.field20904 = true;
-        this.field20910 = true;
+        this.listening = true;
         this.field20911 = false;
     }
 
@@ -168,10 +168,14 @@ public class CustomGuiScreen implements IGuiEventListener {
         this.field20908 = this.method13289() && this.method13229(newHeight, newWidth);
 
 
-        for (Runnable runnable : this.runOnDimensionUpdate) {
-            if (runnable != null) {
-                runnable.run();
+        try {
+            for (Runnable runnable : this.runOnDimensionUpdate) {
+                if (runnable != null) {
+                    runnable.run();
+                }
             }
+        } catch (ConcurrentModificationException e) {
+            Client.getInstance().getLogger().info("kys concurrent modification exception go away");
         }
 
         this.runOnDimensionUpdate.clear();
@@ -181,8 +185,8 @@ public class CustomGuiScreen implements IGuiEventListener {
             for (CustomGuiScreen iconPanel : this.children) {
                 iconPanel.updatePanelDimensions(newHeight, newWidth);
             }
-        } catch (ConcurrentModificationException var7) {
-            var7.printStackTrace();
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
         }
 
         this.field20909 = this.field20909 & this.field20908;
@@ -207,19 +211,19 @@ public class CustomGuiScreen implements IGuiEventListener {
         GL11.glTranslatef((float) this.method13280(), (float) this.method13282(), 0.0F);
     }
 
-    public void draw(float var1) {
-        this.method13226(var1);
+    public void draw(float partialTicks) {
+        this.method13226(partialTicks);
     }
 
-    public final void method13226(float var1) {
+    public final void method13226(float partialTicks) {
         GlStateManager.enableAlphaTest();
         GL11.glAlphaFunc(519, 0.0F);
         GL11.glTranslatef((float) this.getXA(), (float) this.getYA(), 0.0F);
 
-        for (CustomGuiScreen var5 : this.children) {
-            if (var5.isVisible()) {
+        for (CustomGuiScreen child : this.children) {
+            if (child.isVisible()) {
                 GL11.glPushMatrix();
-                var5.draw(var1);
+                child.draw(partialTicks);
                 GL11.glPopMatrix();
             }
         }
@@ -260,9 +264,9 @@ public class CustomGuiScreen implements IGuiEventListener {
 
     @Override
     public void keyPressed(int keyCode) {
-        for (CustomGuiScreen var5 : this.children) {
-            if (var5.isHovered() && var5.isVisible()) {
-                var5.keyPressed(keyCode);
+        for (CustomGuiScreen child : this.children) {
+            if (child.isHovered() && child.isVisible()) {
+                child.keyPressed(keyCode);
             }
         }
 
@@ -271,29 +275,29 @@ public class CustomGuiScreen implements IGuiEventListener {
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int mouseButton) {
-        boolean handled = false;
+        boolean var6 = false;
 
-        for (int i = this.children.size() - 1; i >= 0; i--) {
-            CustomGuiScreen child = this.children.get(i);
-            boolean var9 = child.getParent() != null
-                    && child.getParent() instanceof Class4339
-                    && child.getParent().method13114(mouseX, mouseY)
-                    && child.getParent().isVisible()
-                    && child.getParent().isHovered();
-            if (handled || !child.isHovered() || !child.isVisible() || !child.method13114(mouseX, mouseY) && !var9) {
-                child.method13145(false);
-                if (child != null) {
-                    for (CustomGuiScreen var12 : child.getChildren()) {
+        for (int var7 = this.children.size() - 1; var7 >= 0; var7--) {
+            CustomGuiScreen var8 = this.children.get(var7);
+            boolean var9 = var8.getParent() != null
+                    && var8.getParent() instanceof MusicTabs
+                    && var8.getParent().method13114(mouseX, mouseY)
+                    && var8.getParent().isVisible()
+                    && var8.getParent().isHovered();
+            if (var6 || !var8.isHovered() || !var8.isVisible() || !var8.method13114(mouseX, mouseY) && !var9) {
+                var8.method13145(false);
+                if (var8 != null) {
+                    for (CustomGuiScreen var12 : var8.getChildren()) {
                         var12.method13145(false);
                     }
                 }
             } else {
-                child.onClick(mouseX, mouseY, mouseButton);
-                handled = !var9;
+                var8.onClick(mouseX, mouseY, mouseButton);
+                var6 = !var9;
             }
         }
 
-        if (!handled) {
+        if (!var6) {
             this.field20909 = this.field20908 = true;
             this.method13242();
             this.method13248(mouseButton);
@@ -327,10 +331,10 @@ public class CustomGuiScreen implements IGuiEventListener {
     }
 
     @Override
-    public void onScrolling(float scroll) {
+    public void voidEvent3(float scroll) {
         for (CustomGuiScreen var5 : this.children) {
             if (var5.isHovered() && var5.isVisible()) {
-                var5.onScrolling(scroll);
+                var5.voidEvent3(scroll);
             }
         }
     }
@@ -395,7 +399,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         }
     }
 
-    public boolean method13231(String var1) {
+    public boolean isntQueue(String var1) {
         for (CustomGuiScreen var5 : this.getChildren()) {
             if (var5.getName().equals(var1)) {
                 return true;
@@ -418,7 +422,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         }
     }
 
-    public void method13233(CustomGuiScreen var1) {
+    public void showAlert(CustomGuiScreen var1) {
         if (var1 != null) {
             for (CustomGuiScreen var5 : this.getChildren()) {
                 if (var5.getName().equals(var1.getName())) {
@@ -495,7 +499,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     }
 
     public JSONObject toConfigWithExtra(JSONObject config) {
-        if (this.method13299()) {
+        if (this.isListening()) {
             config.put("id", this.getName());
             config.put("x", this.getXA());
             config.put("y", this.getYA());
@@ -515,7 +519,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         JSONArray children = new JSONArray();
 
         for (CustomGuiScreen child : this.children) {
-            if (child.method13299()) {
+            if (child.isListening()) {
                 JSONObject var7 = child.toConfigWithExtra(new JSONObject());
                 if (var7.length() > 0) {
                     children.put(var7);
@@ -528,7 +532,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     }
 
     public void loadConfig(JSONObject config) {
-        if (this.method13299()) {
+        if (this.isListening()) {
             this.xA = CJsonUtils.getIntOrDefault(config, "x", this.xA);
             this.yA = CJsonUtils.getIntOrDefault(config, "y", this.yA);
             if (this.method13301()) {
@@ -736,7 +740,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         this.field20902 = var1;
     }
 
-    public void method13286(int var1, int var2) {
+    public void draw(int var1, int var2) {
         this.field20901 = var1;
         this.field20902 = var2;
     }
@@ -793,12 +797,12 @@ public class CustomGuiScreen implements IGuiEventListener {
         return this.field20909;
     }
 
-    public boolean method13299() {
-        return this.field20910;
+    public boolean isListening() {
+        return this.listening;
     }
 
-    public void method13300(boolean var1) {
-        this.field20910 = var1;
+    public void setListening(boolean listening) {
+        this.listening = listening;
     }
 
     public boolean method13301() {

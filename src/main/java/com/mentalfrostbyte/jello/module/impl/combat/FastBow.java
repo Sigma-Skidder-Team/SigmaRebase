@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.item.BowItem;
@@ -17,7 +17,7 @@ public class FastBow extends Module {
     }
 
     @EventTarget
-    public void TickEvent(TickEvent event) {
+    public void TickEvent(EventPlayerTick event) {
         if (this.isEnabled()) {
             if (mc.player.getHeldItemMainhand() != null
                     && mc.player.getHeldItemMainhand().getItem() instanceof BowItem

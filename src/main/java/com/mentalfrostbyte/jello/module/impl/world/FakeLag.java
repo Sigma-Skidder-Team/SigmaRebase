@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.world;
 
-import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
-import com.mentalfrostbyte.jello.event.impl.WorldLoadEvent;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.game.world.EventLoadWorld;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 
@@ -44,7 +44,7 @@ public class FakeLag extends Module {
     }
 
     @EventTarget
-    public void onWorldLoad(WorldLoadEvent event) {
+    public void onWorldLoad(EventLoadWorld event) {
         if (this.isEnabled()) {
             this.packets.clear();
             this.isLagging = false;
@@ -53,7 +53,7 @@ public class FakeLag extends Module {
     }
 
     @EventTarget
-    public void onSendPacket(SendPacketEvent event) {
+    public void onSendPacket(EventSendPacket event) {
         if (!this.isEnabled() || mc.getConnection() == null) {
             return;
         }

@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.EntityUtil;
@@ -19,7 +19,7 @@ public class AutoClicker extends Module {
     }
 
     @EventTarget
-    public void onTick(TickEvent event) {
+    public void onTick(EventPlayerTick event) {
         if (this.isEnabled()) {
             this.tickCounter++;
 

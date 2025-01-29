@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
-import com.mentalfrostbyte.jello.event.impl.EventStep;
-import com.mentalfrostbyte.jello.event.impl.JumpEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventStep;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 //import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
@@ -20,7 +20,7 @@ public class MinisCriticals extends Module {
     }
 
     @EventTarget
-    public void onJump(JumpEvent var1) {
+    public void onJump(EventJump var1) {
         if (this.isEnabled()) {
             // TODO: uncomment if statement when KillAura is ported
             if (true/*KillAura.field23937*/) {

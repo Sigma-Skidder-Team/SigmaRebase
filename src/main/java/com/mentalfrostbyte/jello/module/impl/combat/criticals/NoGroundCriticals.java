@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.module.impl.combat.criticals;
 
-import com.mentalfrostbyte.jello.event.impl.EventStep;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.JumpEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventStep;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.movement.Jesus;
@@ -46,7 +46,7 @@ public class NoGroundCriticals extends Module {
     }
 
     @EventTarget
-    public void method16035(JumpEvent var1) {
+    public void method16035(EventJump var1) {
         if (this.isEnabled()) {
             if (this.field23410 == 1) {
                 var1.setCancelled(true);
@@ -57,7 +57,7 @@ public class NoGroundCriticals extends Module {
 
     @EventTarget
     @HigherPriority
-    public void method16036(EventUpdate var1) {
+    public void method16036(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled()) {
             if (mc.player.isOnGround()) {
                 this.field23413 = false;
@@ -78,7 +78,7 @@ public class NoGroundCriticals extends Module {
                 if (!var8 && !Jesus.isWalkingOnLiquid()) {
                     switch (this.field23410) {
                         case 0:
-                            var1.method13908(true);
+                            var1.setMoving(true);
                             this.field23410--;
                             break;
                         case 1:
@@ -86,7 +86,7 @@ public class NoGroundCriticals extends Module {
                             this.field23410--;
                             break;
                         case 2:
-                            var1.method13908(true);
+                            var1.setMoving(true);
                             var4 = 0.065;
                             this.field23410--;
                             if (!this.field23411) {
@@ -95,7 +95,7 @@ public class NoGroundCriticals extends Module {
                             }
                             break;
                         case 3:
-                            var1.method13908(true);
+                            var1.setMoving(true);
                             var4 = 0.0;
                             var6 = true;
                             this.field23410--;

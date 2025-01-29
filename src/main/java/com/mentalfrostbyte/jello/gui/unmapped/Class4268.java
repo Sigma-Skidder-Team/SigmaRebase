@@ -40,7 +40,7 @@ public class Class4268 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.method11474(
          (float)this.xA,
          (float)(this.yA + 5),
@@ -166,7 +166,7 @@ public class Class4268 extends UIBase {
          );
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    @Override

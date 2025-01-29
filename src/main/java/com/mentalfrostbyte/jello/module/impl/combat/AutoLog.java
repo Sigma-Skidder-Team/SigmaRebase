@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 
@@ -9,7 +9,6 @@ import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -24,7 +23,7 @@ public class AutoLog extends Module {
     }
 
     @EventTarget
-    public void method16498(TickEvent var1) {
+    public void method16498(EventPlayerTick var1) {
         if (this.isEnabled() && mc.player.ticksExisted > 10 && mc.getIntegratedServer() == null && mc.getCurrentServerData() != null) {
             float var4 = mc.player.getHealth() / mc.player.getMaxHealth() * 10.0F;
             if (var4 < this.getNumberValueBySettingName("Min Health") || Items.TOTEM_OF_UNDYING == null) {

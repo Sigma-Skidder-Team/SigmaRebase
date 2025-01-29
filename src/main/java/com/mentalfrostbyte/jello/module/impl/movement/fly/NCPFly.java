@@ -1,7 +1,11 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.*;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
@@ -61,7 +65,7 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16801(EventUpdate var1) {
+    public void method16801(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             this.field23919++;
             if (this.field23919 != 3) {
@@ -72,12 +76,12 @@ public class NCPFly extends Module {
                 var1.setY(-150.0 - Math.random() * 150.0);
             }
 
-            var1.method13908(true);
+            var1.setMoving(true);
         }
     }
 
     @EventTarget
-    public void method16802(ReceivePacketEvent event) {
+    public void method16802(EventReceivePacket event) {
         if (this.isEnabled()) {
             Packet packet = event.getPacket();
             if (packet instanceof SPlayerPositionLookPacket) {
@@ -94,7 +98,7 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16803(SendPacketEvent event) {
+    public void method16803(EventSendPacket event) {
         if (this.isEnabled()) {
             Packet packet = event.getPacket();
             if (packet instanceof CPlayerPacket) {
@@ -107,7 +111,7 @@ public class NCPFly extends Module {
     }
 
     @EventTarget
-    public void method16804(Render2DEvent var1) {
+    public void method16804(EventRender2D var1) {
         if (this.isEnabled()) {
             double var4 = this.field23920;
             mc.player.setPosition(mc.player.getPosX(), var4, mc.player.getPosZ());

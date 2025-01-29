@@ -1,10 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.movement.fly;
 
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import com.mentalfrostbyte.jello.util.TimerUtil;
 import team.sdhq.eventBus.annotations.EventTarget;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.StopUseItemEvent;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
+import com.mentalfrostbyte.jello.event.impl.player.action.EventStopUseItem;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 //import com.mentalfrostbyte.jello.module.impl.item.InvManager;
@@ -18,8 +18,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
 public class BowFly extends Module {
-    private int field23504;
-    private final TimerUtil timerUtil = new TimerUtil();
+    public int field23504;
+    public final TimerUtil timerUtil = new TimerUtil();
 
     public BowFly() {
         super(ModuleCategory.MOVEMENT, "Bow", "Fly for Bow");
@@ -37,7 +37,7 @@ public class BowFly extends Module {
     }
 
     @EventTarget
-    public void onStopuseItem(StopUseItemEvent var1) {
+    public void onStopuseItem(EventStopUseItem var1) {
         if (this.isEnabled()) {
             if (mc.player.getHeldItem(Hand.MAIN_HAND).getItem() == Items.BOW && this.field23504 >= 1) {
                 var1.cancelled = true;
@@ -71,7 +71,7 @@ public class BowFly extends Module {
     }
 
     @EventTarget
-    public void method16180(EventUpdate var1) {
+    public void method16180(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
             if (!this.timerUtil.isEnabled()) {
                 this.timerUtil.start();
@@ -135,7 +135,7 @@ public class BowFly extends Module {
         }
     }
 
-    private int method16181() {
+    public int method16181() {
         for (int var3 = 36; var3 < 45; var3++) {
             if (mc.player.container.getSlot(var3).getHasStack()) {
                 ItemStack var4 = mc.player.container.getSlot(var3).getStack();
@@ -149,7 +149,7 @@ public class BowFly extends Module {
             if (mc.player.container.getSlot(var5).getHasStack()) {
                 ItemStack var6 = mc.player.container.getSlot(var5).getStack();
                 if (var6.getItem() == Items.BOW) {
-//                    InvManagerUtils.moveItemToHotbar(var5, 7);
+//                    InvManagerUtil.moveItemToHotbar(var5, 7);
                     return 7;
                 }
             }

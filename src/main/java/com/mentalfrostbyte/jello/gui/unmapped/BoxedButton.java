@@ -32,7 +32,7 @@ public class BoxedButton extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       float var4 = MathUtils.lerp(this.field20630.calcPercent(), 0.68, 2.32, 0.06, 0.48);
       if (this.field20630.getDirection() == Direction.BACKWARDS) {
          var4 = MathUtils.lerp(this.field20630.calcPercent(), 0.81, 0.38, 0.32, -1.53);
@@ -47,6 +47,6 @@ public class BoxedButton extends UIBase {
       RenderUtil.drawString(Resources.regular20, (float)var5, (float)(var6 + 1), this.name, ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F));
       RenderUtil.drawString(Resources.regular20, (float)var5, (float)var6, this.name, ClientColors.LIGHT_GREYISH_BLUE.getColor());
       GL11.glAlphaFunc(519, 0.0F);
-      super.method13226(var1);
+      super.method13226(partialTicks);
    }
 }

@@ -41,7 +41,7 @@ public class Class4253 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       if (this.field20627 != null) {
          float var4 = Animation.calculateProgress(this.field20627, 150.0F);
          var4 = QuadraticEasing.easeOutQuad(var4, 0.0F, 1.0F, 1.0F);
@@ -66,17 +66,17 @@ public class Class4253 extends UIBase {
          (float)(this.xA + 25),
          (float)this.yA + (float)this.heightA / 2.0F - 17.5F,
          this.field20624.method21596(),
-         ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.6F * var1)
+         ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.6F * partialTicks)
       );
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont12,
          (float)(this.xA + 25),
          (float)this.yA + (float)this.heightA / 2.0F + 7.5F,
          this.field20624.method21597(),
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.6F * var1)
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.6F * partialTicks)
       );
       this.field20628.setYA((int)((float)this.heightA / 2.0F - 7.5F));
-      super.draw(var1);
+      super.draw(partialTicks);
       RenderUtil.endScissor();
    }
 }

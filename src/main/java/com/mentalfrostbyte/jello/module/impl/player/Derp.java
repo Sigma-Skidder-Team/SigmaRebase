@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 
@@ -26,7 +26,7 @@ public class Derp extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate event) { // meh
+    public void onUpdate(EventUpdateWalkingPlayer event) { // meh
         if (this.isEnabled() && event.isPre()) {
             if (this.getBooleanValueFromSettingName("Sneak")) {
                 if (this.releaseShift) {

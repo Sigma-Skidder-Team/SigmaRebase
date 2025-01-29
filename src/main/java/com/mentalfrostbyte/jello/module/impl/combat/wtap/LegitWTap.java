@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat.wtap;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,7 @@ public class LegitWTap extends Module {
     }
 
     @EventTarget
-    public void TickEvent(TickEvent event) {
+    public void TickEvent(EventPlayerTick event) {
         if (this.isEnabled()) {
             mc.gameSettings.keyBindSprint.setPressed(true);
             if (mc.player.swingProgressInt != 1) {

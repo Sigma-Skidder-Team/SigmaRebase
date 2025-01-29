@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.util;
 
-import com.mentalfrostbyte.jello.managers.impl.music.YoutubeJPGThumbnail;
+import com.mentalfrostbyte.jello.managers.util.music.YoutubeJPGThumbnail;
 import org.apache.http.ParseException;
 import totalcross.json.JSONArray;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -17,6 +17,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,15 +44,14 @@ public class ThumbnailUtil {
             }
         }
 
-        ArrayList thumbnails = new ArrayList();
-        String regex = "r\":\\{\"videoId\":\"(.{11})\"(.*?)\"text\":\"(.{1,100})\"\\}]";
+        List<YoutubeJPGThumbnail> thumbnails = new ArrayList<>();
         Pattern pattern = Pattern.compile("r\":\\{\"videoId\":\"(.{11})\"(.*?)\"text\":\"(.{1,100})\"\\}]", 8);
         Matcher matcher = pattern.matcher(htmlContent.replace("\n", "").replace("\r", ""));
 
         label36:
         while (matcher.find()) {
-            for (Object var8 : thumbnails) {
-                if (var8 instanceof YoutubeJPGThumbnail && ((YoutubeJPGThumbnail) var8).videoID.equals(matcher.group(1))) {
+            for (YoutubeJPGThumbnail thumbnail : thumbnails) {
+                if (thumbnail != null && thumbnail.videoID.equals(matcher.group(1))) {
                     continue label36;
                 }
             }
@@ -59,7 +59,7 @@ public class ThumbnailUtil {
             thumbnails.add(new YoutubeJPGThumbnail(matcher.group(1), decodeAndUnescapeUrl(StringEscapeUtils.unescapeJava(matcher.group(3)))));
         }
 
-        return (YoutubeJPGThumbnail[]) thumbnails.<YoutubeJPGThumbnail>toArray(new YoutubeJPGThumbnail[0]);
+        return thumbnails.toArray(new YoutubeJPGThumbnail[0]);
     }
 
     public static YoutubeJPGThumbnail[] extractYoutubeThumbnailsFromHtml(String htmlContent) {
@@ -73,7 +73,6 @@ public class ThumbnailUtil {
         }
 
         ArrayList thumbnails = new ArrayList();
-        String regexPattern = "<a(.*?)watch%3Fv%3D(.{11})[\\\"&](.*?)><div (.*?)>(.{1,100}) - YouTube<\\/div><\\/h3>";
         Pattern pattern = Pattern.compile("<a(.*?)watch%3Fv%3D(.{11})[\\\"&](.*?)><div (.*?)>(.{1,100}) - YouTube<\\/div><\\/h3>", 8);
         Matcher matcher = pattern.matcher(htmlContent.replace("\n", "").replace("\r", ""));
 

@@ -10,7 +10,7 @@ public class SearchBar extends Screen {
 
    public SearchBar() {
       super("Spotlight");
-      this.method13300(false);
+      this.setListening(false);
       int var3 = (this.getWidthA() - 675) / 2;
       this.addToList(this.field21108 = new SpotlightDialog(this, "search", var3, (int) ((float) this.heightA * 0.25F),
             675, 60, true));

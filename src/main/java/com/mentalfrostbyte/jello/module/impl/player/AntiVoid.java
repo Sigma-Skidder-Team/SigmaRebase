@@ -1,9 +1,9 @@
 package com.mentalfrostbyte.jello.module.impl.player;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.EventMove;
-import com.mentalfrostbyte.jello.event.impl.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPlayer;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.movement.Fly;
@@ -92,14 +92,14 @@ public class AntiVoid extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate event) {
+    public void onUpdate(EventUpdateWalkingPlayer event) {
         if (this.isEnabled() && event.isPre() && this.disableTimer != 0) {
             event.setCancelled(true);
         }
     }
 
     @EventTarget
-    public void onPacketReceive(ReceivePacketEvent event) {
+    public void onPacketReceive(EventReceivePacket event) {
         if (this.isEnabled() && this.disableTimer != 0) {
             if (event.getPacket() instanceof SPlayerPositionLookPacket) {
                 this.disableTimer = 0;

@@ -7,148 +7,141 @@ import com.mentalfrostbyte.jello.gui.base.Direction;
 import com.mentalfrostbyte.jello.gui.base.QuadraticEasing;
 import com.mentalfrostbyte.jello.gui.unmapped.*;
 import com.mentalfrostbyte.jello.managers.MusicManager;
-import com.mentalfrostbyte.jello.managers.impl.music.MusicPlayerInstance;
-import com.mentalfrostbyte.jello.managers.impl.music.MusicPlayerVideo;
-import com.mentalfrostbyte.jello.managers.impl.music.YoutubeType;
-import com.mentalfrostbyte.jello.managers.impl.music.YoutubeVideoData;
+import com.mentalfrostbyte.jello.managers.util.music.MusicPlayerInstance;
+import com.mentalfrostbyte.jello.managers.MusicVideoManager;
+import com.mentalfrostbyte.jello.managers.util.music.YoutubeContentType;
+import com.mentalfrostbyte.jello.managers.util.music.YoutubeVideoData;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
+import com.mentalfrostbyte.jello.util.YoutubeUtil;
 import com.mentalfrostbyte.jello.util.render.*;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MusicPlayer extends AnimatedIconPanelWrap {
-    private int field20845 = 250;
-    private int field20846 = 40;
+    private int width = 250;
+    private int height = 40;
     private int field20847 = 64;
     private int field20848 = 94;
     private String field20849 = "Music Player";
-    public static URL field20850;
-    private Class4339 field20851;
-    private Class4339 field20852;
-    private CustomGuiScreen pngButtons;
-    private MusicManager field20854 = Client.getInstance().musicManager;
-    public static Map<String, MusicPlayerVideo> field20855 = new LinkedHashMap<String, MusicPlayerVideo>();
-    public static String field20856;
-    public static MusicPlayerVideo field20857;
+    private MusicTabs musicTabs;
+    private MusicTabs field20852;
+    private CustomGuiScreen musicControls;
+    private MusicManager musicManager = Client.getInstance().musicManager;
+    public static Map<String, MusicVideoManager> videoMap = new LinkedHashMap<>();
     private ButtonPanel play;
     private ButtonPanel pause;
     private ButtonPanel forwards;
     private ButtonPanel backwards;
     private VolumeSlider volumeSlider;
     private int field20863;
-    private Texture field20864;
+    private Texture texture;
     private CustomGuiScreen field20865;
     public SearchBoxButton searchBox;
     public Class4359 field20867;
-    public static MusicPlayerVideo[] videos;
-    private static CookieManager field20869 = new CookieManager();
-    public static long field20870 = 0L;
+    public static List<MusicVideoManager> videos = new ArrayList<>();
+    public static long time = 0L;
     public float field20871 = 0.0F;
     public float field20872 = 0.0F;
-    private Animation field20873 = new Animation(80, 150, Direction.BACKWARDS);
+    private final Animation field20873 = new Animation(80, 150, Direction.BACKWARDS);
     public boolean field20874 = false;
 
-    public MusicPlayer(CustomGuiScreen var1, String var2) {
-        super(var1, var2, 875, 55, 800, 600, false);
+    public JelloClickGUI parent;
 
-        if (videos == null) {
-            MusicPlayerVideo[] var4 = new MusicPlayerVideo[]{
-                    new MusicPlayerVideo("Trap Nation", "UUa10nxShhzNrCE1o2ZOPztg", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("Chill Nation", "UUM9KEEuzacwVlkt9JfJad7g", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("VEVO", "PL9tY0BWXOZFu8MzzbNVtUvHs0cQ_gZ03m", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("Rap Nation", "UU8QfB1wbfrNwNFHQxfyNJsw", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("MrSuicideSheep", "UU5nc_ZtjKW1htCVZVRxlQAQ", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("Trap City", "UU65afEgL62PGFWXY7n6CUbA", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("CloudKid", "UUSa8IUd1uEjlREMa21I3ZPQ", YoutubeType.PLAYLIST),
-                    new MusicPlayerVideo("NCS", "PLRBp0Fe2Gpgm_u2w2a2isHw29SugZ34cD", YoutubeType.PLAYLIST)
-            };
-            videos = var4;
+    public MusicPlayer(JelloClickGUI parent, String var2) {
+        super(parent, var2, 875, 55, 800, 600, false);
+        this.parent = parent;
+
+        if (videos.size() != 8) {
+            videos.clear();
+            videos.add(new MusicVideoManager("Trap Nation", "PLC1og_v3eb4hrv4wsqG1G5dsNZh9bIscJ", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("Chill Nation", "PL3EfCK9aCbkptFjtgWYJ8wiXgJQw5k3M3", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("VEVO", "PL9tY0BWXOZFu8MzzbNVtUvHs0cQ_gZ03m", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("Rap Nation", "PLayVKgoNNljOZifkJNtvwfmrmh2OglYzx", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("MrSuicideSheep", "PLyqoPTKp-zlrI_PEqytQ7J9FgPhptcC64", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("Trap City", "PLU_bQfSFrM2PemIeyVUSjZjJhm6G7auOY", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("CloudKid", "PLejelFTZDTZM1yOroUyveJkjE7IY9Zj73", YoutubeContentType.PLAYLIST));
+            videos.add(new MusicVideoManager("NCS", "PLRBp0Fe2Gpgm_u2w2a2isHw29SugZ34cD", YoutubeContentType.PLAYLIST));
         }
 
-        field20870 = System.nanoTime();
+        time = System.nanoTime();
         this.setWidthA(800);
         this.setHeightA(600);
         this.setXA(Math.abs(this.getXA()));
         this.setYA(Math.abs(this.getYA()));
-        this.addToList(this.field20851 = new Class4339(this, "musictabs", 0, this.field20847 + 14, this.field20845, this.getHeightA() - 64 - this.field20848));
+        this.addToList(this.musicTabs = new MusicTabs(this, "musictabs", 0, this.field20847 + 14, this.width, this.getHeightA() - 64 - this.field20848));
         this.addToList(
-                this.pngButtons = new Class4339(
-                        this, "musiccontrols", this.field20845, this.getHeightA() - this.field20848, this.getWidthA() - this.field20845, this.field20848
+                this.musicControls = new MusicTabs(
+                        this, "musiccontrols", this.width, this.getHeightA() - this.field20848, this.getWidthA() - this.width, this.field20848
                 )
         );
         this.addToList(this.field20865 = new CustomGuiScreen(this, "reShowView", 0, 0, 1, this.getHeightA()));
         Class4265 var5;
-        this.addToList(var5 = new Class4265(this, "spectrumButton", 15, this.heightA - 140, 40, 40, this.field20854.method24313()));
+        this.addToList(var5 = new Class4265(this, "spectrumButton", 15, this.heightA - 140, 40, 40, this.musicManager.isSpectrum()));
         var5.method13292(true);
         var5.doThis((var1x, var2x) -> {
-            this.field20854.method24312(!this.field20854.method24313());
-            ((Class4265) var1x).method13099(this.field20854.method24313());
+            this.musicManager.setSpectrum(!this.musicManager.isSpectrum());
+            ((Class4265) var1x).method13099(this.musicManager.isSpectrum());
         });
-        this.field20851.method13300(false);
-        var5.method13300(false);
-        this.pngButtons.method13300(false);
-        this.field20865.method13300(false);
-        ColorHelper var6 = new ColorHelper(1250067, -15329770).method19410(ClientColors.LIGHT_GREYISH_BLUE.getColor()).method19414(Class2218.field14492);
-        ArrayList var7 = new ArrayList();
+        this.musicTabs.setListening(false);
+        var5.setListening(false);
+        this.musicControls.setListening(false);
+        this.field20865.setListening(false);
+        ColorHelper color = new ColorHelper(1250067, -15329770).method19410(ClientColors.LIGHT_GREYISH_BLUE.getColor()).method19414(Class2218.field14492);
+        List<Thread> threads = new ArrayList<>();
         MusicPlayer player = this;
 
-        for (MusicPlayerVideo video : videos) {
-            var7.add(new Thread(() -> {
-                if (!field20855.containsKey(video.id) && !video.field44779) {
-                    video.field44779 = true;
-                    video.updateVideos();
+        for (MusicVideoManager video : videos) {
+            threads.add(new Thread(() -> {
+                if (!videoMap.containsKey(video.videoId) && !video.isUpdated) {
+                    video.isUpdated = true;
+                    video.refreshVideoList();
 
-                    field20855.put(video.id, video);
+                    videoMap.put(video.videoId, video);
                 }
 
-                this.runThisOnDimensionUpdate(new MusicPlayerInstance(this, video, var6, player));
+                this.runThisOnDimensionUpdate(new MusicPlayerInstance(this, video, color, player));
             }));
-            ((Thread) var7.get(var7.size() - 1)).start();
+            threads.get(threads.size() - 1).start();
         }
 
-        int var15 = (this.getWidthA() - this.field20845 - 38) / 2;
-        this.pngButtons
+        int var15 = (this.getWidthA() - this.width - 38) / 2;
+        this.musicControls
                 .addToList(
                         this.play = new PNGIconButton(
-                                this.pngButtons, "play", var15, 27, 38, 38, Resources.playPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
+                                this.musicControls, "play", var15, 27, 38, 38, Resources.playPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
                         )
                 );
-        this.pngButtons
+        this.musicControls
                 .addToList(
                         this.pause = new PNGIconButton(
-                                this.pngButtons, "pause", var15, 27, 38, 38, Resources.pausePNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
+                                this.musicControls, "pause", var15, 27, 38, 38, Resources.pausePNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
                         )
                 );
-        this.pngButtons
+        this.musicControls
                 .addToList(
                         this.forwards = new PNGIconButton(
-                                this.pngButtons, "forwards", var15 + 114, 23, 46, 46, Resources.forwardsPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
+                                this.musicControls, "forwards", var15 + 114, 23, 46, 46, Resources.forwardsPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
                         )
                 );
-        this.pngButtons
+        this.musicControls
                 .addToList(
                         this.backwards = new PNGIconButton(
-                                this.pngButtons, "backwards", var15 - 114, 23, 46, 46, Resources.backwardsPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
+                                this.musicControls, "backwards", var15 - 114, 23, 46, 46, Resources.backwardsPNG, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), null
                         )
                 );
-        this.pngButtons.addToList(this.volumeSlider = new VolumeSlider(this.pngButtons, "volume", this.getWidthA() - this.field20845 - 19, 14, 4, 40));
+        this.musicControls.addToList(this.volumeSlider = new VolumeSlider(this.musicControls, "volume", this.getWidthA() - this.width - 19, 14, 4, 40));
         PNGButtonChanging repeat;
-        this.pngButtons.addToList(repeat = new PNGButtonChanging(this.pngButtons, "repeat", 14, 34, 27, 20, this.field20854.method24304()));
-        repeat.addUIHandler(var2x -> this.field20854.method24303(repeat.method13038()));
-        this.addToList(this.field20867 = new Class4359(this, "progress", this.field20845, this.getHeightA() - 5, this.getWidthA() - this.field20845, 5));
+        this.musicControls.addToList(repeat = new PNGButtonChanging(this.musicControls, "repeat", 14, 34, 27, 20, this.musicManager.getRepeatMode()));
+        repeat.onPress(var2x -> this.musicManager.setRepeat(repeat.getRepeatMode()));
+        this.addToList(this.field20867 = new Class4359(this, "progress", this.width, this.getHeightA() - 5, this.getWidthA() - this.width, 5));
         this.field20867.method13292(true);
-        this.field20867.method13300(false);
+        this.field20867.setListening(false);
         this.field20865.method13292(true);
         this.field20865.method13247((var1x, var2x) -> {
             this.field20874 = true;
@@ -157,22 +150,22 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         });
         this.pause.setEnabled(false);
         this.play.setEnabled(false);
-        this.play.doThis((var1x, var2x) -> this.field20854.method24310(true));
-        this.pause.doThis((var1x, var2x) -> this.field20854.method24310(false));
-        this.forwards.doThis((var1x, var2x) -> this.field20854.method24316());
-        this.backwards.doThis((var1x, var2x) -> this.field20854.method24315());
-        this.volumeSlider.method13709(var1x -> this.field20854.method24311((int) ((1.0F - this.volumeSlider.getVolume()) * 100.0F)));
-        this.volumeSlider.setVolume(1.0F - (float) this.field20854.method24314() / 100.0F);
+        this.play.doThis((var1x, var2x) -> this.musicManager.setPlaying(true));
+        this.pause.doThis((var1x, var2x) -> this.musicManager.setPlaying(false));
+        this.forwards.doThis((var1x, var2x) -> this.musicManager.playNextSong());
+        this.backwards.doThis((var1x, var2x) -> this.musicManager.playPreviousSong());
+        this.volumeSlider.method13709(var1x -> this.musicManager.setVolume((int) ((1.0F - this.volumeSlider.getVolume()) * 100.0F)));
+        this.volumeSlider.setVolume(1.0F - (float) this.musicManager.getVolume() / 100.0F);
         this.addToList(
                 this.searchBox = new SearchBoxButton(
-                        this, "search", this.field20845, 0, this.getWidthA() - this.field20845, this.getHeightA() - this.field20848, "Search..."
+                        this, "search", this.width, 0, this.getWidthA() - this.width, this.getHeightA() - this.field20848, "Search..."
                 )
         );
         this.searchBox.setEnabled(true);
-        this.searchBox.method13300(false);
+        this.searchBox.setListening(false);
     }
 
-    private void method13189(Class4339 var1) {
+    private void method13189(MusicTabs var1) {
         if (this.field20852 != null) {
             this.field20852.setEnabled(false);
         }
@@ -184,20 +177,17 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         this.field20852.field21207 = 65;
     }
 
-    private void method13190(MusicPlayerVideo var1, YoutubeVideoData var2) {
-        if (!((JelloClickGUI) this.getParent()).hasJelloMusicRequirements()) {
-            this.field20854.method24317(var1, var2);
-            field20857 = var1;
-        }
+    private void playSong(MusicVideoManager manager, YoutubeVideoData video) {
+        this.musicManager.playSong(manager, video);
     }
 
     @Override
     public void updatePanelDimensions(int newHeight, int newWidth) {
-        long var5 = System.nanoTime() - field20870;
+        long var5 = System.nanoTime() - time;
         float var7 = Math.min(10.0F, Math.max(0.0F, (float) var5 / 1.810361E7F));
-        field20870 = System.nanoTime();
+        time = System.nanoTime();
         super.updatePanelDimensions(newHeight, newWidth);
-        if (this.parent instanceof JelloClickGUI) {
+        if (this.parent != null) {
             if (!this.method13216()) {
                 if ((this.field20909 || this.field20874) && !this.method13214() && !this.method13216()) {
                     this.field20874 = true;
@@ -271,14 +261,14 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
     }
 
     @Override
-    public void draw(float var1) {
+    public void draw(float partialTicks) {
         super.method13224();
         super.method13225();
         this.field20865.setWidthA(this.getXA() + this.getWidthA() <= this.parent.getWidthA() ? 0 : 41);
         this.field20873
                 .changeDirection(this.getXA() + this.getWidthA() > this.parent.getWidthA() && !this.field20874 ? Direction.FORWARDS : Direction.BACKWARDS);
-        var1 *= 0.5F + (1.0F - this.field20873.calcPercent()) * 0.5F;
-        if (this.field20854.method24319()) {
+        partialTicks *= 0.5F + (1.0F - this.field20873.calcPercent()) * 0.5F;
+        if (this.musicManager.isPlayingSong()) {
             this.play.setEnabled(false);
             this.pause.setEnabled(true);
         } else {
@@ -287,66 +277,66 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         }
 
         RenderUtil.drawRoundedRect(
-                (float) (this.getXA() + this.field20845),
+                (float) (this.getXA() + this.width),
                 (float) this.getYA(),
                 (float) (this.getXA() + this.getWidthA()),
                 (float) (this.getYA() + this.getHeightA() - this.field20848),
-                ColorUtils.applyAlpha(-14277082, var1 * 0.8F)
+                ColorUtils.applyAlpha(-14277082, partialTicks * 0.8F)
         );
         RenderUtil.drawRoundedRect(
                 (float) this.getXA(),
                 (float) this.getYA(),
-                (float) (this.getXA() + this.field20845),
+                (float) (this.getXA() + this.width),
                 (float) (this.getYA() + this.getHeightA() - this.field20848),
-                ColorUtils.applyAlpha(-16777216, var1 * 0.95F)
+                ColorUtils.applyAlpha(-16777216, partialTicks * 0.95F)
         );
-        this.method13193(var1);
-        this.method13194(var1);
-        this.method13192(var1);
+        this.method13193(partialTicks);
+        this.method13194(partialTicks);
+        this.method13192(partialTicks);
         float var4 = 55;
         RenderUtil.drawString(
                 ResourceRegistry.JelloLightFont40,
                 var4 + this.getXA(),
                 (float) (this.getYA() + 20),
                 "Jello",
-                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
         );
         RenderUtil.drawString(
                 ResourceRegistry.JelloLightFont20,
                 var4 + this.getXA() + 80,
                 (float) (this.getYA() + 40),
                 "music",
-                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
         );
-        RenderUtil.drawRoundedRect((float) this.getXA(), (float) this.getYA(), (float) this.getWidthA(), (float) this.getHeightA(), 14.0F, var1);
-        super.draw(var1);
+        RenderUtil.drawRoundedRect((float) this.getXA(), (float) this.getYA(), (float) this.getWidthA(), (float) this.getHeightA(), 14.0F, partialTicks);
+        super.draw(partialTicks);
         if (this.field20852 != null) {
-            this.method13196(var1);
+            this.method13196(partialTicks);
         }
     }
 
     private void method13192(float var1) {
-        int var4 = (int) this.field20854.method24321();
-        int var5 = this.field20854.method24327();
+        int var4 = (int) this.musicManager.getDuration();
+        int var5 = this.musicManager.getDurationInt();
         RenderUtil.drawString(
                 ResourceRegistry.JelloLightFont14,
-                (float) (this.getXA() + this.field20845 + 14),
+                (float) (this.getXA() + this.width + 14),
                 (float) (this.getYA() + this.getHeightA() - 10) - 22.0F * var1,
-                Class9275.method34955(var4),
+                YoutubeUtil.method34955(var4),
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * var1)
         );
         RenderUtil.drawString(
                 ResourceRegistry.JelloLightFont14,
-                (float) (this.getXA() + this.getWidthA() - 14 - ResourceRegistry.JelloLightFont14.getWidth(Class9275.method34955(var5))),
+                (float) (this.getXA() + this.getWidthA() - 14 - ResourceRegistry.JelloLightFont14.getWidth(YoutubeUtil.method34955(var5))),
                 (float) (this.getYA() + this.getHeightA() - 10) - 22.0F * var1,
-                Class9275.method34955(var5),
+                YoutubeUtil.method34955(var5),
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * var1)
         );
     }
 
     private void method13193(float var1) {
-        Texture var4 = this.field20854.method24326();
-        Texture var5 = this.field20854.method24325();
+        Texture var4 = this.musicManager.getNotificationImage();
+        Texture var5 = this.musicManager.getSongThumbnail();
         if (var4 != null && var5 != null) {
             RenderUtil.drawImage(
                     (float) this.getXA(),
@@ -366,12 +356,12 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
             RenderUtil.drawRoundedRect(
                     (float) this.getXA(),
                     (float) (this.getYA() + this.getHeightA() - 5),
-                    (float) (this.getXA() + this.field20845),
+                    (float) (this.getXA() + this.width),
                     (float) (this.getYA() + this.getHeightA()),
                     ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.43F * var1)
             );
             RenderUtil.drawImage(
-                    (float) (this.getXA() + (this.field20845 - 114) / 2),
+                    (float) (this.getXA() + (this.width - 114) / 2),
                     (float) (this.getYA() + this.getHeightA() - 170),
                     114.0F,
                     114.0F,
@@ -379,7 +369,7 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
                     ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
             );
             RenderUtil.drawRoundedRect(
-                    (float) (this.getXA() + (this.field20845 - 114) / 2), (float) (this.getYA() + this.getHeightA() - 170), 114.0F, 114.0F, 14.0F, var1
+                    (float) (this.getXA() + (this.width - 114) / 2), (float) (this.getYA() + this.getHeightA() - 170), 114.0F, 114.0F, 14.0F, var1
             );
         } else {
             RenderUtil.drawImage(
@@ -400,12 +390,12 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
             RenderUtil.drawRoundedRect(
                     (float) this.getXA(),
                     (float) (this.getYA() + this.getHeightA() - 5),
-                    (float) (this.getXA() + this.field20845),
+                    (float) (this.getXA() + this.width),
                     (float) (this.getYA() + this.getHeightA()),
                     ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.43F * var1)
             );
             RenderUtil.drawImage(
-                    (float) (this.getXA() + (this.field20845 - 114) / 2),
+                    (float) (this.getXA() + (this.width - 114) / 2),
                     (float) (this.getYA() + this.getHeightA() - 170),
                     114.0F,
                     114.0F,
@@ -413,25 +403,25 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
                     ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
             );
             RenderUtil.drawRoundedRect(
-                    (float) (this.getXA() + (this.field20845 - 114) / 2), (float) (this.getYA() + this.getHeightA() - 170), 114.0F, 114.0F, 14.0F, var1
+                    (float) (this.getXA() + (this.width - 114) / 2), (float) (this.getYA() + this.getHeightA() - 170), 114.0F, 114.0F, 14.0F, var1
             );
         }
     }
 
     private void method13194(float var1) {
-        if (this.field20854.method24324() != null) {
-            String[] var4 = this.field20854.method24324().split(" - ");
+        if (this.musicManager.getSongTitle() != null) {
+            String[] var4 = this.musicManager.getSongTitle().split(" - ");
             int var5 = 30;
             if (var4.length <= 1) {
-                this.method13195(var1, !var4[0].isEmpty() ? var4[0] : "Jello Music", this.field20845 - var5 * 2, 12, 0);
+                this.drawString(var1, !var4[0].isEmpty() ? var4[0] : "Jello Music", this.width - var5 * 2, 12, 0);
             } else {
-                this.method13195(var1, var4[1], this.field20845 - var5 * 2, 0, 0);
-                this.method13195(var1, var4[0], this.field20845 - var5 * 2, 20, -1000);
+                this.drawString(var1, var4[1], this.width - var5 * 2, 0, 0);
+                this.drawString(var1, var4[0], this.width - var5 * 2, 20, -1000);
             }
         }
     }
 
-    private void method13195(float var1, String var2, int var3, int var4, int var5) {
+    private void drawString(float var1, String text, int var3, int var4, int var5) {
         Date var8 = new Date();
         float var9 = (float) ((var8.getTime() + (long) var5) % 8500L) / 8500.0F;
         if (!(var9 < 0.4F)) {
@@ -442,10 +432,10 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         }
 
         var9 = QuadraticEasing.easeInOutQuad(var9, 0.0F, 1.0F, 1.0F);
-        int var10 = ResourceRegistry.JelloLightFont14.getWidth(var2);
+        int var10 = ResourceRegistry.JelloLightFont14.getWidth(text);
         int var11 = Math.min(var3, var10);
         int var12 = ResourceRegistry.JelloLightFont14.getHeight();
-        int var13 = this.getXA() + (this.field20845 - var11) / 2;
+        int var13 = this.getXA() + (this.width - var11) / 2;
         int var14 = this.getYA() + this.getHeightA() - 50 + var4;
         int var15 = Math.max(0, var10 - var11) * 2;
         if (var10 <= var3) {
@@ -457,7 +447,7 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
                 ResourceRegistry.JelloLightFont14,
                 (float) var13 - (float) var10 * var9 - 50.0F * var9,
                 (float) var14,
-                var2,
+                text,
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * var1 * Math.min(1.0F, Math.max(0.0F, 1.0F - var9 * 0.75F)))
         );
         if (var9 > 0.0F) {
@@ -465,7 +455,7 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
                     ResourceRegistry.JelloLightFont14,
                     (float) var13 - (float) var10 * var9 + (float) var10,
                     (float) var14,
-                    var2,
+                    text,
                     ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * var1)
             );
         }
@@ -477,13 +467,13 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         this.field20852.method13292(false);
         if (this.field20863 != this.field20852.method13513()) {
             try {
-                if (this.field20864 != null) {
-                    this.field20864.release();
+                if (this.texture != null) {
+                    this.texture.release();
                 }
 
-                this.field20864 = BufferedImageUtil.getTexture(
+                this.texture = BufferedImageUtil.getTexture(
                         "blur",
-                        ImageUtil.method35037(this.getXA() + this.field20845, this.getYA(), this.getWidthA() - this.field20845, this.field20847, 10, 10)
+                        ImageUtil.method35037(this.getXA() + this.width, this.getYA(), this.getWidthA() - this.width, this.field20847, 10, 10)
                 );
             } catch (IOException var5) {
                 var5.printStackTrace();
@@ -491,19 +481,19 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         }
 
         float var4 = this.field20863 < 50 ? (float) this.field20863 / 50.0F : 1.0F;
-        if (this.field20864 != null) {
+        if (this.texture != null) {
             RenderUtil.drawTexture(
-                    (float) this.field20845,
+                    (float) this.width,
                     0.0F,
-                    (float) (this.getWidthA() - this.field20845),
+                    (float) (this.getWidthA() - this.width),
                     (float) this.field20847,
-                    this.field20864,
+                    this.texture,
                     ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var4 * var1)
             );
         }
 
         RenderUtil.drawRoundedRect(
-                (float) this.field20845,
+                (float) this.width,
                 0.0F,
                 (float) this.getWidthA(),
                 (float) this.field20847,
@@ -511,22 +501,22 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         );
         RenderUtil.drawString(
                 ResourceRegistry.JelloLightFont25,
-                (float) ((this.getWidthA() - ResourceRegistry.JelloLightFont25.getWidth(this.field20849) + this.field20845) / 2),
+                (float) ((this.getWidthA() - ResourceRegistry.JelloLightFont25.getWidth(this.field20849) + this.width) / 2),
                 16.0F + (1.0F - var4) * 14.0F,
                 this.field20849,
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var4)
         );
         RenderUtil.drawString(
                 ResourceRegistry.JelloMediumFont25,
-                (float) ((this.getWidthA() - ResourceRegistry.JelloMediumFont25.getWidth(this.field20849) + this.field20845) / 2),
+                (float) ((this.getWidthA() - ResourceRegistry.JelloMediumFont25.getWidth(this.field20849) + this.width) / 2),
                 16.0F + (1.0F - var4) * 14.0F,
                 this.field20849,
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 1.0F - var4)
         );
         RenderUtil.drawImage(
-                (float) this.field20845,
+                (float) this.width,
                 (float) this.field20847,
-                (float) (this.getWidthA() - this.field20845),
+                (float) (this.getWidthA() - this.width),
                 20.0F,
                 Resources.shadowBottomPNG,
                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var4 * var1 * 0.5F)
@@ -534,33 +524,27 @@ public class MusicPlayer extends AnimatedIconPanelWrap {
         this.field20863 = this.field20852.method13513();
     }
 
-    // $VF: synthetic method
-    public static Class4339 method13206(MusicPlayer var0) {
-        return var0.field20851;
+    public static MusicTabs getTabs(MusicPlayer player) {
+        return player.musicTabs;
     }
 
-    // $VF: synthetic method
-    public static int method13207(MusicPlayer var0) {
-        return var0.field20846;
+    public static int getHeight(MusicPlayer player) {
+        return player.height;
     }
 
-    // $VF: synthetic method
-    public static int method13208(MusicPlayer var0) {
-        return var0.field20845;
+    public static int getWidth(MusicPlayer player) {
+        return player.width;
     }
 
-    // $VF: synthetic method
-    public static int method13209(MusicPlayer var0) {
-        return var0.field20848;
+    public static int method13209(MusicPlayer player) {
+        return player.field20848;
     }
 
-    // $VF: synthetic method
-    public static void method13210(MusicPlayer var0, Class4339 var1) {
-        var0.method13189(var1);
+    public static void method13210(MusicPlayer player, MusicTabs tabs) {
+        player.method13189(tabs);
     }
 
-    // $VF: synthetic method
-    public static void method13211(MusicPlayer var0, MusicPlayerVideo var1, YoutubeVideoData var2) {
-        var0.method13190(var1, var2);
+    public static void playSong(MusicPlayer player, MusicVideoManager videoManager, YoutubeVideoData video) {
+        player.playSong(videoManager, video);
     }
 }

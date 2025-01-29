@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.module.impl.combat.aimbot;
 
-import com.mentalfrostbyte.jello.event.impl.Render3DEvent;
+import com.mentalfrostbyte.jello.event.impl.game.render.EventRender3D;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.combat.Aimbot;
@@ -16,7 +16,7 @@ public class BasicAimbot extends Module {
    }
 
    @EventTarget
-   public void Render3DEvent(Render3DEvent event) {
+   public void Render3DEvent(EventRender3D event) {
       if (this.isEnabled()) {
          Entity range = ((Aimbot)this.access()).getTarget(this.getNumberValueBySettingName("Range"));
          if (range != null) {

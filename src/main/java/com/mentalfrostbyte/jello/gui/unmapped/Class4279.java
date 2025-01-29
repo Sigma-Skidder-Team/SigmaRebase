@@ -39,13 +39,13 @@ public class Class4279 extends AnimatedIconPanelWrap {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawCircle(
          (float)(this.xA + 5),
          (float)(this.yA + 5),
          10.0F,
-         ColorUtils.applyAlpha(!this.method13216() ? ClientColors.DARK_GREEN.getColor() : ClientColors.DARK_BLUE_GREY.getColor(), var1)
+         ColorUtils.applyAlpha(!this.method13216() ? ClientColors.DARK_GREEN.getColor() : ClientColors.DARK_BLUE_GREY.getColor(), partialTicks)
       );
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

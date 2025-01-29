@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.gui.impl;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.gui.base.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.unmapped.*;
-import com.mentalfrostbyte.jello.managers.impl.account.Class9507;
+import com.mentalfrostbyte.jello.managers.util.account.Class9507;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
@@ -74,11 +74,11 @@ public class AccountSignUpScreen extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       super.method13224();
       super.method13225();
       int var4 = 28;
-      RenderUtil.drawImage((float)(this.xA + var4), (float)(this.yA + var4 + 10), 160.0F, 160.0F, Resources.sigmaPNG, var1);
+      RenderUtil.drawImage((float)(this.xA + var4), (float)(this.yA + var4 + 10), 160.0F, 160.0F, Resources.sigmaPNG, partialTicks);
       int var5 = 305;
       int var6 = 316;
       Class9507 var7 = Client.getInstance().networkManager.method30452();
@@ -97,7 +97,7 @@ public class AccountSignUpScreen extends UIBase {
          }
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    public void method13126() {

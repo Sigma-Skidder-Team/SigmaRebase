@@ -89,7 +89,7 @@ public class JelloClickGUIPanels extends AnimatedIconPanel {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       super.method13224();
       super.method13225();
       int var4 = (int)(1.0F + 10.0F * (1.0F - this.field21195));
@@ -99,21 +99,21 @@ public class JelloClickGUIPanels extends AnimatedIconPanel {
          (float)(this.getWidthA() - (var4 - 1) * 2),
          (float)(this.getHeightA() - (var4 - 1) * 2),
          (float)this.field21199 + (1.0F - this.field21195) * (float)var4,
-         var1
+              partialTicks
       );
       RenderUtil.drawRoundedRect(
          (float)this.getXA(),
          (float)this.getYA(),
          (float)(this.getXA() + this.getWidthA()),
          (float)(this.getYA() + 60),
-         ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, var1 * 0.9F * this.field21195))
+         ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, partialTicks * 0.9F * this.field21195))
       );
       RenderUtil.drawRoundedRect2(
          (float)this.getXA(),
          (float)this.getYA() + 60.0F * this.field21195,
          (float)this.getWidthA(),
          (float)this.getHeightA() - 60.0F * this.field21195,
-              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1)
+              ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
       );
       if (!(this.field21195 > 0.8F)) {
          if (this.field21195 < 0.2F) {
@@ -123,18 +123,18 @@ public class JelloClickGUIPanels extends AnimatedIconPanel {
          this.field21199 = 20;
       }
 
-      String categoryName = this.getCategory().getName();
+      String categoryName = this.getCategory().name();
       RenderUtil.drawString(
          ResourceRegistry.JelloLightFont25,
          (float)(this.getXA() + 20),
          (float)(this.getYA() + 30),
          categoryName,
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), var1 * 0.5F * this.field21195),
+              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.5F * this.field21195),
          Class2218.field14488,
          Class2218.field14492
       );
       GL11.glPushMatrix();
-      super.draw(var1 * var1);
+      super.draw(partialTicks * partialTicks);
       GL11.glPopMatrix();
       if (this.modListView.method13513() > 0) {
          RenderUtil.drawImage(
@@ -143,7 +143,7 @@ public class JelloClickGUIPanels extends AnimatedIconPanel {
             (float)this.getWidthA(),
             18.0F,
             Resources.shadowBottomPNG,
-                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var1 * this.field21195 * 0.5F)
+                 ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks * this.field21195 * 0.5F)
          );
       }
    }

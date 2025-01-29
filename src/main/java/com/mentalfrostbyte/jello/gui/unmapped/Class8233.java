@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.managers.impl.profile.Configuration;
+import com.mentalfrostbyte.jello.managers.util.profile.Configuration;
 import com.mentalfrostbyte.jello.module.Module;
 import totalcross.json.JSONException;
 import totalcross.json.JSONObject;

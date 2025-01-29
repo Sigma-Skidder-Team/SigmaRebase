@@ -1,8 +1,8 @@
 package com.mentalfrostbyte.jello.managers;
 
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
-import com.mentalfrostbyte.jello.event.impl.WorldLoadEvent;
-import com.mentalfrostbyte.jello.managers.impl.combat.Class7249;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
+import com.mentalfrostbyte.jello.event.impl.game.world.EventLoadWorld;
+import com.mentalfrostbyte.jello.managers.util.combat.AntiBotBase;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CombatManager {
     private static String[] field35945;
-    public Class7249 antiBot;
+    public AntiBotBase antiBot;
     public List<Entity> bots = new CopyOnWriteArrayList<Entity>();
 
     public void init() {
@@ -26,27 +26,27 @@ public class CombatManager {
         return this.bots.contains(var1);
     }
 
-    public void method29347() {
+    public void clearBots() {
         this.bots.clear();
     }
 
     @EventTarget
     @HighestPriority
-    public void method29348(WorldLoadEvent var1) {
+    public void onLoadWorld(EventLoadWorld var1) {
         this.bots.clear();
     }
 
     @EventTarget
     @HighestPriority
-    public void method29349(TickEvent var1) {
+    public void onPlayerTick(EventPlayerTick var1) {
         if (this.antiBot != null) {
-            for (PlayerEntity var5 : ColorUtils.method17680()) {
-                if (!this.antiBot.method22751(var5)) {
-                    if (this.antiBot.method22758(var5)) {
-                        this.bots.remove(var5);
+            for (PlayerEntity entity : ColorUtils.getPlayerEntities()) {
+                if (!this.antiBot.isBot(entity)) {
+                    if (this.antiBot.isNotBot(entity)) {
+                        this.bots.remove(entity);
                     }
-                } else if (!this.bots.contains(var5)) {
-                    this.bots.add(var5);
+                } else if (!this.bots.contains(entity)) {
+                    this.bots.add(entity);
                 }
             }
         }

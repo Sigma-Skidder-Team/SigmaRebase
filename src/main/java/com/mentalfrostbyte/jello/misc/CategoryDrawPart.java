@@ -3,129 +3,132 @@ package com.mentalfrostbyte.jello.misc;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.util.List;
 
 public class CategoryDrawPart extends CategoryDrawPartBackground {
-   private List<String> categoryList;
-   private int field32401;
-   public int index;
-   public int field32403;
+    private List<String> categories;
+    private int maxCategoryWidth;
+    public int currentOffset;
+    public int scrollOffset;
 
-   public CategoryDrawPart(List<String> categoryList, int var2) {
-      super(var2);
-      this.categoryList = categoryList;
-      this.method24729();
-   }
+    public CategoryDrawPart(List<String> categoryList, int priority) {
+        super(priority);
+        this.categories = categoryList;
+        this.calculateMaxCategoryWidth();
+    }
 
-   public void method24727(int var1, String var2) {
-      if (var1 < this.categoryList.size()) {
-         this.categoryList.set(var1, var2);
-      }
-   }
+    public void updateCategory(int index, String newCategory) {
+        if (index < this.categories.size()) {
+            this.categories.set(index, newCategory);
+        }
+    }
 
-   public void method24728(List<String> var1) {
-      this.categoryList = var1;
-      if (this.index < 0) {
-         this.index = 0;
-      }
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+        if (this.currentOffset < 0) {
+            this.currentOffset = 0;
+        }
 
-      if (this.index > this.categoryList.size()) {
-         this.index = this.categoryList.size();
-      }
+        if (this.currentOffset > this.categories.size()) {
+            this.currentOffset = this.categories.size();
+        }
 
-      this.method24729();
-   }
+        this.calculateMaxCategoryWidth();
+    }
 
-   private void method24729() {
-      this.field32401 = 0;
+    private void calculateMaxCategoryWidth() {
+        this.maxCategoryWidth = 0;
 
-      for (String category : this.categoryList) {
-         this.field32401 = Math.max(this.field32401, this.fontRenderer.getWidth(category));
-      }
-   }
+        for (String category : this.categories) {
+            this.maxCategoryWidth = Math.max(this.maxCategoryWidth, this.font.getWidth(category));
+        }
+    }
 
-   @Override
-   public void method24718(float partialTicks) {
-      RenderUtil.drawRoundedRect2(
-            (float) this.getStartX(),
-            (float) this.getStartY(),
-            (float) this.getWidth(),
-            (float) this.method24725(),
-            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
-      this.field32403 = this.field32403 + this.method24733();
-      int var4 = this.getStartX() + 4;
-      int var5 = this.getStartY() + this.field32403 + 4;
-      int var6 = this.getWidth() - 8;
-      int var8 = -15781024;
-      int var9 = -15626304;
-      RenderUtil.drawQuad(var4, var5, var4 + var6, var5 + 25, var8, var9, var9, var8);
-      float var10 = 6;
+    @Override
+    public void drawContent(float partialTicks) {
+        RenderUtil.drawRoundedRect2(
+                (float) this.getStartX(),
+                (float) this.getStartY(),
+                (float) this.getWidth(),
+                (float) this.getHeight(),
+                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
+        );
+        this.scrollOffset += calculateScrollOffset();
+        int startX = this.getStartX() + 4;
+        int startY = this.getStartY() + this.scrollOffset + 4;
+        int width = this.getWidth() - 8;
+        int gradientStart = -15781024;
+        int gradientEnd = -15626304;
+        RenderUtil.drawQuad(startX, startY, startX + width, startY + 25, gradientStart, gradientEnd, gradientEnd, gradientStart);
 
-      for (String categoryName : this.categoryList) {
-         int color = ClientColors.LIGHT_GREYISH_BLUE.getColor();
-         if (categoryName.startsWith("§7")) {
-            categoryName = categoryName.substring("§7".length());
-            color = ClientColors.MID_GREY.getColor();
-         }
+        float categoryOffsetY = 6;
+        for (String categoryName : this.categories) {
+            int color = ClientColors.LIGHT_GREYISH_BLUE.getColor();
 
-         RenderUtil.drawString(
-               this.fontRenderer,
-               (float) (7 + this.getStartX()),
-               this.getStartY() + var10,
-               categoryName,
-               ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F)));
-         var10 += 25;
-      }
-   }
+            if (categoryName.startsWith("§7")) {
+                categoryName = categoryName.substring("§7".length());
+                color = ClientColors.MID_GREY.getColor();
+            }
 
-   @Override
-   public int getWidth() {
-      return Math.max(super.getWidth(), this.field32401 + 14);
-   }
+            RenderUtil.drawString(
+                    this.font,
+                    (float) (7 + this.getStartX()),
+                    this.getStartY() + categoryOffsetY,
+                    categoryName,
+                    ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F))
+            );
+            categoryOffsetY += 25;
+        }
+    }
 
-   @Override
-   public int method24725() {
-      return this.categoryList.size() * 25 + 8;
-   }
+    @Override
+    public int getWidth() {
+        return Math.max(super.getWidth(), this.maxCategoryWidth + 14);
+    }
 
-   public void method24730() {
-      this.index--;
-      if (this.index < 0) {
-         this.index = this.categoryList.size() - 1;
-      }
-   }
+    @Override
+    public int getHeight() {
+        return this.categories.size() * 25 + 8;
+    }
 
-   public void method24731() {
-      this.index++;
-      if (this.index > this.categoryList.size() - 1) {
-         this.index = 0;
-      }
-   }
+    public void scrollUp() {
+        this.currentOffset--;
+        if (this.currentOffset < 0) {
+            this.currentOffset = this.categories.size() - 1;
+        }
+    }
 
-   public boolean isAnimating() {
-      return this.field32398.calcPercent() == 1.0F;
-   }
+    public void scrollDown() {
+        this.currentOffset++;
+        if (this.currentOffset > this.categories.size() - 1) {
+            this.currentOffset = 0;
+        }
+    }
 
-   public int method24733() {
-      float var3 = (float) (this.index * 25);
-      float var4 = Math.abs(var3 - (float) this.field32403);
-      boolean var5 = var3 - (float) this.field32403 != var4;
-      float var6 = 60.0F / (float) MinecraftClient.getFps();
-      float var7 = Math.min(var4 * 0.8F, var4 * 0.3F * var6);
-      if (var5) {
-         var7 *= -1.0F;
-      }
+    public boolean isAnimating() {
+        return this.animation.calcPercent() == 1.0F;
+    }
 
-      if (var7 > 0.0F && var7 < 1.0F) {
-         var7 = 1.0F;
-      }
+    public int calculateScrollOffset() {
+        float targetOffset = (float) (this.currentOffset * 25);
+        float delta = Math.abs(targetOffset - (float) this.scrollOffset);
+        boolean isNegative = targetOffset - (float) this.scrollOffset != delta;
+        float frameFactor = 60.0F / (float) Minecraft.getFps();
+        float adjustment = Math.min(delta * 0.8F, delta * 0.3F * frameFactor);
+        if (isNegative) {
+            adjustment *= -1.0F;
+        }
 
-      if (var7 < 0.0F && var7 > -1.0F) {
-         var7 = -1.0F;
-      }
+        if (adjustment > 0.0F && adjustment < 1.0F) {
+            adjustment = 1.0F;
+        }
 
-      return Math.round(var7);
-   }
+        if (adjustment < 0.0F && adjustment > -1.0F) {
+            adjustment = -1.0F;
+        }
+
+        return Math.round(adjustment);
+    }
 }

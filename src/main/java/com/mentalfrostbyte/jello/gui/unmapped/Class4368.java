@@ -16,7 +16,7 @@ public class Class4368 extends UIBase {
       Class4262 var10;
       this.addToList(var10 = new Class4262(this, "enable", 114, 9, 40, 18));
       var10.method13093(var7.isEnabled());
-      var10.addUIHandler(var2x -> var7.setEnabled(var10.method13092()));
+      var10.onPress(var2x -> var7.setEnabled(var10.method13092()));
       if (var7.getSettingMap().size() > 0) {
          Class4364 var11;
          this.addToList(var11 = new Class4364(this, "gear", 132, 32));
@@ -25,7 +25,7 @@ public class Class4368 extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
+   public void draw(float partialTicks) {
       RenderUtil.drawString(
               Resources.regular17,
          (float)(this.xA + 10),
@@ -57,6 +57,6 @@ public class Class4368 extends UIBase {
          );
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 }

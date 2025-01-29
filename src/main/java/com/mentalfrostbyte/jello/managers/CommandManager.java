@@ -2,11 +2,12 @@ package com.mentalfrostbyte.jello.managers;
 
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.ClientMode;
-import com.mentalfrostbyte.jello.event.impl.SendPacketEvent;
-import com.mentalfrostbyte.jello.event.impl.TickEvent;
-import com.mentalfrostbyte.jello.managers.impl.command.ChatCommandArguments;
-import com.mentalfrostbyte.jello.managers.impl.command.Command;
-import com.mentalfrostbyte.jello.managers.impl.command.CommandException;
+import com.mentalfrostbyte.jello.command.impl.*;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
+import com.mentalfrostbyte.jello.managers.util.command.ChatCommandArguments;
+import com.mentalfrostbyte.jello.command.Command;
+import com.mentalfrostbyte.jello.managers.util.command.CommandException;
 import com.mentalfrostbyte.jello.util.MinecraftUtil;
 import net.minecraft.network.play.client.CChatMessagePacket;
 import net.minecraft.network.play.client.CTabCompletePacket;
@@ -23,33 +24,33 @@ public class CommandManager {
     public List<Command> commands = new ArrayList<>();
     private boolean field38298 = true;
 
-    public static void method30238(Runnable var0) {
-        runnableList.add(var0);
+    public static void runRunnable(Runnable runnable) {
+        runnableList.add(runnable);
     }
 
     public void init() {
         EventBus.register(this);
-//        this.register(new VClip());
-//        this.register(new HClip());
-//        this.register(new Damage());
-//        this.register(new ClearChat());
-//        this.register(new EntityDesync());
-//        this.register(new Peek());
-//        this.register(new Insult());
-//        this.register(new Bind());
-//        this.register(new Help());
-//        this.register(new Friend());
-//        this.register(new Enemy());
-//        this.register(new Toggle());
-//        this.register(new Config());
-//        this.register(new Panic());
-//        this.register(new HighDPI());
-//        this.register(new KillPotion());
-//        this.register(new Enchant());
-//        this.register(new TP());
+        this.register(new VClip());
+        this.register(new HClip());
+        this.register(new Damage());
+        this.register(new ClearChat());
+        this.register(new EntityDesync());
+        this.register(new Peek());
+        this.register(new Insult());
+        this.register(new Bind());
+        this.register(new Help());
+        this.register(new Friend());
+        this.register(new Enemy());
+        this.register(new Toggle());
+        this.register(new Config());
+        this.register(new Panic());
+        this.register(new HighDPI());
+        this.register(new KillPotion());
+        this.register(new Enchant());
+        this.register(new TP());
     }
 
-    public Command method30231(String var1) {
+    public Command getCommandByName(String var1) {
         for (Command var5 : this.commands) {
             if (var5.getName().equals(var1)) {
                 return var5;
@@ -71,12 +72,12 @@ public class CommandManager {
         return this.commands;
     }
 
-    private void register(Command var1) {
-        this.commands.add(var1);
+    private void register(Command command) {
+        this.commands.add(command);
     }
 
-    public void method30234(String var1) {
-        MinecraftUtil.addChatMessage(this.getPrefix() + " Invalid command \"" + "." + var1 + "\"");
+    public void invalidCommandMessage(String name) {
+        MinecraftUtil.addChatMessage(this.getPrefix() + " Invalid command \"" + "." + name + "\"");
         MinecraftUtil.addChatMessage(this.getPrefix() + " Use \"" + "." + "help\" for a list of commands.");
     }
 
@@ -85,10 +86,10 @@ public class CommandManager {
             this.field38298 = false;
             return "§f[§6Sigma§f]§7";
         } else {
-            String var3 = "";
+            StringBuilder var3 = new StringBuilder();
 
             for (int var4 = 0; var4 < 8; var4++) {
-                var3 = var3 + " ";
+                var3.append(" ");
             }
 
             return var3 + "§7";
@@ -100,7 +101,7 @@ public class CommandManager {
     }
 
     @EventTarget
-    public void method30237(TickEvent var1) {
+    public void method30237(EventPlayerTick var1) {
         for (Runnable var5 : runnableList) {
             var5.run();
         }
@@ -109,7 +110,7 @@ public class CommandManager {
     }
 
     @EventTarget
-    public void onSendPacket(SendPacketEvent var1) {
+    public void onSendPacket(EventSendPacket var1) {
         if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
             if (var1.getPacket() instanceof CChatMessagePacket) {
                 CChatMessagePacket var4 = (CChatMessagePacket) var1.getPacket();
@@ -123,9 +124,9 @@ public class CommandManager {
                     var1.setCancelled(true);
                     this.method30236();
                     String[] var6 = var5.substring(".".length()).split(" ");
-                    Command var7 = this.method30231(var6[0]);
+                    Command var7 = this.getCommandByName(var6[0]);
                     if (var7 == null) {
-                        this.method30234(var6[0]);
+                        this.invalidCommandMessage(var6[0]);
                         return;
                     }
 
@@ -144,7 +145,7 @@ public class CommandManager {
                             MinecraftUtil.addChatMessage(this.getPrefix() + " Error: " + exception.reason);
                         }
 
-                        MinecraftUtil.addChatMessage(this.getPrefix() + " Usage: " + "." + var7.getName() + " " + var7.method18326());
+                        MinecraftUtil.addChatMessage(this.getPrefix() + " Usage: " + "." + var7.getName() + " " + var7.getOptions());
                     }
 
                     MinecraftUtil.addChatMessage(" ");

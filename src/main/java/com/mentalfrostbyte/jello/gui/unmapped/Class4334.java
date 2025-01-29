@@ -42,7 +42,7 @@ public class Class4334 extends Class4333 {
       this.field21155.doThis((var1x, var2x) -> var8.method13418("Player", ModuleCategory.PLAYER));
       this.field21156.doThis((var1x, var2x) -> var8.method13418("Visuals", ModuleCategory.RENDER, ModuleCategory.GUI));
       this.field21154.doThis((var1x, var2x) -> var8.method13418("Others", ModuleCategory.MISC));
-      this.method13300(false);
+      this.setListening(false);
    }
 
    @Override

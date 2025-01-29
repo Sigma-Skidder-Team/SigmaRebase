@@ -8,25 +8,24 @@ import com.mentalfrostbyte.jello.util.unmapped.Class2218;
 import org.newdawn.slick.TrueTypeFont;
 
 public class ButtonPanel extends UIBase {
-   private static String[] field20583;
    public float field20584;
    private int field20585 = 0;
    public int field20586 = 0;
 
-   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6) {
-      super(var1, var2, var3, var4, var5, var6, false);
+   public ButtonPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height) {
+      super(screen, iconName, x, y, width, height, false);
    }
 
-   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7) {
-      super(var1, var2, var3, var4, var5, var6, var7, false);
+   public ButtonPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int var6, ColorHelper var7) {
+      super(screen, iconName, x, y, width, var6, var7, false);
    }
 
-   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8) {
-      super(var1, var2, var3, var4, var5, var6, var7, var8, false);
+   public ButtonPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int var6, ColorHelper var7, String var8) {
+      super(screen, iconName, x, y, width, var6, var7, var8, false);
    }
 
-   public ButtonPanel(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, ColorHelper var7, String var8, TrueTypeFont var9) {
-      super(var1, var2, var3, var4, var5, var6, var7, var8, var9, false);
+   public ButtonPanel(CustomGuiScreen screen, String iconName, int x, int y, int width, int height, ColorHelper var7, String var8, TrueTypeFont font) {
+      super(screen, iconName, x, y, width, height, var7, var8, font, false);
    }
 
    @Override
@@ -37,11 +36,11 @@ public class ButtonPanel extends UIBase {
    }
 
    @Override
-   public void draw(float var1) {
-      float var4 = !this.isHovered() ? 0.3F : (!this.method13216() ? (!this.method13212() ? Math.max(var1 * this.field20584, 0.0F) : 1.5F) : 0.0F);
+   public void draw(float partialTicks) {
+      float var4 = !this.isHovered() ? 0.3F : (!this.method13216() ? (!this.method13212() ? Math.max(partialTicks * this.field20584, 0.0F) : 1.5F) : 0.0F);
       int var5 = ColorUtils.applyAlpha(
               ColorUtils.method17690(this.textColor.method19405(), this.textColor.method19403(), 1.0F - var4),
-         (float)(this.textColor.method19405() >> 24 & 0xFF) / 255.0F * var1
+         (float)(this.textColor.method19405() >> 24 & 0xFF) / 255.0F * partialTicks
       );
       int var6 = var5 >> 24 & 0xFF;
       int var7 = var5 >> 16 & 0xFF;
@@ -79,13 +78,13 @@ public class ButtonPanel extends UIBase {
             (float)(this.field20585 + var10),
             (float)var11,
             this.getTypedText(),
-            ColorUtils.applyAlpha(this.textColor.getTextColor(), var1),
+            ColorUtils.applyAlpha(this.textColor.getTextColor(), partialTicks),
             this.textColor.method19411(),
             this.textColor.method19413()
          );
       }
 
-      super.draw(var1);
+      super.draw(partialTicks);
    }
 
    public void method13034(int var1) {
