@@ -8,13 +8,8 @@ import team.sdhq.eventBus.EventBus;
 import java.util.List;
 import java.util.UUID;
 
-<<<<<<<< HEAD:src/main/java/com/mentalfrostbyte/jello/managers/impl/combat/Class7249.java
-public abstract class Class7249 implements Class7251 {
-    public static final MinecraftClient field31119 = MinecraftClient.getInstance();
-========
 public abstract class AntiBotBase implements IBotDetector {
-    public static final Minecraft mc = Minecraft.getInstance();
->>>>>>>> d57481e640c641fa8f5a34328b34f3c523118347:src/main/java/com/mentalfrostbyte/jello/managers/util/combat/AntiBotBase.java
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
     private boolean field31120 = true;
     public String name;
     public String description;

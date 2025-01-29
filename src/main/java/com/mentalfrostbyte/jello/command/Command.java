@@ -1,13 +1,9 @@
 package com.mentalfrostbyte.jello.command;
 
-<<<<<<<< HEAD:src/main/java/com/mentalfrostbyte/jello/managers/impl/command/Command.java
 import net.minecraft.client.MinecraftClient;
-========
 import com.mentalfrostbyte.jello.managers.util.command.ChatCommandArguments;
 import com.mentalfrostbyte.jello.managers.util.command.ChatCommandExecutor;
 import com.mentalfrostbyte.jello.managers.util.command.CommandException;
-import net.minecraft.client.Minecraft;
->>>>>>>> d57481e640c641fa8f5a34328b34f3c523118347:src/main/java/com/mentalfrostbyte/jello/command/Command.java
 
 import java.util.ArrayList;
 import java.util.Collections;

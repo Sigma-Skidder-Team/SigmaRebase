@@ -1,21 +1,12 @@
 package com.mentalfrostbyte.jello.managers.util.account.microsoft;
 
 import com.mentalfrostbyte.Client;
-<<<<<<<< HEAD:src/main/java/com/mentalfrostbyte/jello/managers/impl/account/microsoft/BanListener.java
-import com.mentalfrostbyte.jello.event.impl.ReceivePacketEvent;
+import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.s2c.login.LoginDisconnectS2CPacket;
 import net.minecraft.network.packet.s2c.login.LoginSuccessS2CPacket;
 import net.minecraft.network.packet.s2c.play.DisconnectS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-========
-import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.login.server.SDisconnectLoginPacket;
-import net.minecraft.network.login.server.SLoginSuccessPacket;
-import net.minecraft.network.play.server.SDisconnectPacket;
-import net.minecraft.network.play.server.SChatPacket;
->>>>>>>> d57481e640c641fa8f5a34328b34f3c523118347:src/main/java/com/mentalfrostbyte/jello/managers/util/account/microsoft/BanListener.java
 import team.sdhq.eventBus.annotations.EventTarget;
 
 import java.util.ArrayList;
@@ -29,17 +20,10 @@ public class BanListener {
     public MinecraftClient mc = MinecraftClient.getInstance();
 
     @EventTarget
-<<<<<<<< HEAD:src/main/java/com/mentalfrostbyte/jello/managers/impl/account/microsoft/BanListener.java
-    public void onPacketReceive(ReceivePacketEvent event) {
+    public void onPacketReceive(EventReceivePacket event) {
         if (this.mc.getCurrentServerEntry() != null) {
             if (event.getPacket() instanceof GameMessageS2CPacket) {
                 GameMessageS2CPacket packet = (GameMessageS2CPacket) event.getPacket();
-========
-    public void onPacketReceive(EventReceivePacket event) {
-        if (this.mc.getCurrentServerData() != null) {
-            if (event.getPacket() instanceof SChatPacket) {
-                SChatPacket packet = (SChatPacket) event.getPacket();
->>>>>>>> d57481e640c641fa8f5a34328b34f3c523118347:src/main/java/com/mentalfrostbyte/jello/managers/util/account/microsoft/BanListener.java
                 ArrayList<String> var5 = new ArrayList<>(
                         Arrays.asList(
                                 "You are permanently banned from MinemenClub. ",
