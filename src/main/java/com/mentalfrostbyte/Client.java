@@ -15,7 +15,7 @@ import com.mentalfrostbyte.jello.util.FileUtil;
 import org.newdawn.slick.opengl.Texture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Client {
 
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static int currentVersionIndex = 28;
 
     public static final String VERSION = "5.0.0b15";
@@ -132,7 +132,8 @@ public class Client {
 
     public void method19926() {
         GL11.glPushMatrix();
-        double var3 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
+        double var3 = mc.getMainWindow().getGuiScaleFactor()
+                / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
         GL11.glScaled(var3, var3, var3);
         GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, GuiManager.scaleFactor);
         GL11.glDisable(2912);
@@ -142,7 +143,9 @@ public class Client {
         RenderSystem.enableBlend();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO);
         EventBus.call(new EventRender2DCustom());
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableCull();
@@ -182,7 +185,8 @@ public class Client {
         }
 
         if (getInstance().clientMode != ClientMode.NOADDONS) {
-            double var5 = mc.getMainWindow().getGuiScaleFactor() / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
+            double var5 = mc.getMainWindow().getGuiScaleFactor()
+                    / (double) ((float) Math.pow(mc.getMainWindow().getGuiScaleFactor(), 2.0));
             GL11.glScaled(var5, var5, 1.0);
             GL11.glScaled(GuiManager.scaleFactor, GuiManager.scaleFactor, 1.0);
             RenderSystem.disableDepthTest();

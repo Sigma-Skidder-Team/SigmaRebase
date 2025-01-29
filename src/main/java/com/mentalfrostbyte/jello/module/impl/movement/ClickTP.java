@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.module.impl.movement.clicktp.SpartanClickTP;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -20,13 +20,15 @@ public class ClickTP extends ModuleWithModuleSettings {
         super(ModuleCategory.MOVEMENT, "ClickTP", "TP's you when you click", new BasicClickTP(), new SpartanClickTP());
         this.registerSetting(new BooleanSetting("Sneak", "Allows teleport only when sneaking", true));
         this.registerSetting(new BooleanSetting("Auto Disable", "Disable ClickTP after teleporting", true));
-        this.registerSetting(new NumberSetting<Float>("Maximum range", "Maximum range of the teleport", 100.0F, Float.class, 10.0F, 300.0F, 1.0F));
+        this.registerSetting(new NumberSetting<Float>("Maximum range", "Maximum range of the teleport", 100.0F,
+                Float.class, 10.0F, 300.0F, 1.0F));
     }
 
     @EventTarget
     public void method16752(EventRender3D var1) {
         if (this.isEnabled() && (mc.player.isSneaking() || !this.getBooleanValueFromSettingName("Sneak"))) {
-            BlockRayTraceResult var4 = BlockUtil.rayTrace(mc.player.rotationYaw, mc.player.rotationPitch, this.getNumberValueBySettingName("Maximum range"));
+            BlockRayTraceResult var4 = BlockUtil.rayTrace(mc.player.rotationYaw, mc.player.rotationPitch,
+                    this.getNumberValueBySettingName("Maximum range"));
             BlockPos var5 = null;
             if (var4 != null) {
                 var5 = var4.getPos();
@@ -34,10 +36,12 @@ public class ClickTP extends ModuleWithModuleSettings {
 
             this.method16754(
                     this.method16753(),
-                    (double) var5.getX() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
-                    (double) (var5.getY() + 1) - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
-                    (double) var5.getZ() + 0.5 - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ()
-            );
+                    (double) var5.getX() + 0.5
+                            - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
+                    (double) (var5.getY() + 1)
+                            - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
+                    (double) var5.getZ() + 0.5
+                            - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ());
         }
     }
 

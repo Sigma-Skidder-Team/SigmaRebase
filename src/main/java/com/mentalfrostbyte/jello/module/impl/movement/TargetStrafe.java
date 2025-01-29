@@ -1,6 +1,5 @@
 package com.mentalfrostbyte.jello.module.impl.movement;
 
-
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
@@ -8,11 +7,10 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 
-
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
@@ -27,20 +25,21 @@ public class TargetStrafe extends Module {
     public TargetStrafe() {
         super(ModuleCategory.MOVEMENT, "TargetStrafe", "Allows you to strafe arround targets with speed");
         this.registerSetting(new ModeSetting("Mode", "Mode", 0, "Basic", "Ninja", "Random"));
-        this.registerSetting(new NumberSetting<Float>("Radius", "Radius of the circle", 2.0F, Float.class, 1.0F, 6.0F, 0.01F));
+        this.registerSetting(
+                new NumberSetting<Float>("Radius", "Radius of the circle", 2.0F, Float.class, 1.0F, 6.0F, 0.01F));
         this.registerSetting(new BooleanSetting("Only speed", "Use target strafe only when speed is enabled", true));
         this.registerSetting(
-                new ModeSetting("AntiVoid", "The way you will avoid the void", 0, "Smart", "Halt", "Command", "None").addObserver(var1 -> this.field23496 = false)
-        );
+                new ModeSetting("AntiVoid", "The way you will avoid the void", 0, "Smart", "Halt", "Command", "None")
+                        .addObserver(var1 -> this.field23496 = false));
     }
 
     // $VF: synthetic method
-    public static Minecraft method16156() {
+    public static MinecraftClient method16156() {
         return mc;
     }
 
     // $VF: synthetic method
-    public static Minecraft method16157() {
+    public static MinecraftClient method16157() {
         return mc;
     }
 
@@ -49,7 +48,8 @@ public class TargetStrafe extends Module {
     public void method16151(EventMove var1) {
         if (this.isEnabled()) {
             Entity var4 = null;
-            if (Client.getInstance().moduleManager.getModuleByClass(Speed.class).isEnabled2() || !this.getBooleanValueFromSettingName("Only speed")) {
+            if (Client.getInstance().moduleManager.getModuleByClass(Speed.class).isEnabled2()
+                    || !this.getBooleanValueFromSettingName("Only speed")) {
                 if (KillAura.currentTimedEntity != null) {
                     var4 = KillAura.currentTimedEntity.getEntity();
                 } else if (KillAura.currentTarget != null) {
@@ -115,11 +115,11 @@ public class TargetStrafe extends Module {
         Vector3d var26 = new Vector3d(
                 mc.player.getPositionVec().x + var6.getX(),
                 mc.player.getPositionVec().y + var6.getY(),
-                mc.player.getPositionVec().z + var6.getZ()
-        );
+                mc.player.getPositionVec().z + var6.getZ());
         String var27 = this.getStringSettingValueByName("AntiVoid");
         if (!var27.equals("None")) {
-            if (!this.field23496 && this.method16153(var26) && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
+            if (!this.field23496 && this.method16153(var26)
+                    && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
                 this.field23495 *= -1;
                 this.field23496 = true;
             } else if (this.field23496 && !this.method16153(var26)) {
@@ -134,9 +134,9 @@ public class TargetStrafe extends Module {
                     var26 = new Vector3d(
                             mc.player.getPositionVec().x + var6.getX(),
                             mc.player.getPositionVec().y + var6.getY(),
-                            mc.player.getPositionVec().z + var6.getZ()
-                    );
-                    if (this.method16153(var26) && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
+                            mc.player.getPositionVec().z + var6.getZ());
+                    if (this.method16153(var26)
+                            && !Client.getInstance().moduleManager.getModuleByClass(Fly.class).isEnabled()) {
                         MovementUtil.setSpeed(var6, 0.0);
                     }
                 }
@@ -148,7 +148,8 @@ public class TargetStrafe extends Module {
 
     public boolean method16153(Vector3d var1) {
         if (!(mc.player.getPositionVec().y < 1.0)) {
-            AxisAlignedBB var4 = new AxisAlignedBB(var1.add(-0.15, 0.0, -0.15), var1.add(0.15, (double) mc.player.getHeight(), 0.15));
+            AxisAlignedBB var4 = new AxisAlignedBB(var1.add(-0.15, 0.0, -0.15),
+                    var1.add(0.15, (double) mc.player.getHeight(), 0.15));
             var4 = var4.expand(0.0, -mc.player.getPositionVec().y, 0.0);
             return mc.world.getCollisionShapes(mc.player, var4).count() == 0L;
         } else {
@@ -157,6 +158,7 @@ public class TargetStrafe extends Module {
     }
 
     public boolean method16154(double var1, double var3, double var5) {
-        return mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(var1, var3, var5)).count() == 0L;
+        return mc.world.getCollisionShapes(mc.player, mc.player.getBoundingBox().offset(var1, var3, var5))
+                .count() == 0L;
     }
 }

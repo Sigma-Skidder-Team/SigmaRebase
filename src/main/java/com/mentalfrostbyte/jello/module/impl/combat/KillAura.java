@@ -33,7 +33,7 @@ import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import com.mentalfrostbyte.jello.util.player.Rotations;
 import com.mentalfrostbyte.jello.util.player.Rots;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.SwordItem;
 import net.minecraft.network.IPacket;
@@ -473,7 +473,7 @@ public class KillAura extends Module {
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glLineWidth(1.4F);
 
-        double partialTicks = Minecraft.getInstance().timer.renderPartialTicks;
+        double partialTicks = MinecraftClient.getInstance().timer.renderPartialTicks;
         double interpolatedX = targetEntity.lastTickPosX
                 + (targetEntity.getPosX() - targetEntity.lastTickPosX) * partialTicks;
         double interpolatedY = targetEntity.lastTickPosY

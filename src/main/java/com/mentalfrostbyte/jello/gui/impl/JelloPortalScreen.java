@@ -63,7 +63,8 @@ public class JelloPortalScreen extends MultiplayerScreen {
         this.renderBackground(matrices);
         RenderUtil.endScissor();
         this.versionSelectorWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, Text.of(this.getTitle().getString()), this.width / 2 - 146, 13, 16777215);
+        drawCenteredText(matrices, this.textRenderer, Text.of(this.getTitle().getString()), this.width / 2 - 146, 13,
+                16777215);
         client.textRenderer.drawWithShadow(matrices, "Jello Portal:", (float) this.width / 2 - 30, 13, -1);
     }
 

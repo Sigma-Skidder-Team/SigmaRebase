@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,8 +46,8 @@ public class Class4296 extends AnimatedIconPanelWrap {
          for (Ban var9 : var11) {
             if (var9.method31736() != null && var9.method31736().getBase64EncodedIconData() != null) {
                Class4348 var10 = new Class4348(
-                  this, ((Ban)var11.get(var13)).getServerIP(), 40, 100 + var13 * (var14 + var7), this.widthA - 90, var14, var9
-               );
+                     this, ((Ban) var11.get(var13)).getServerIP(), 40, 100 + var13 * (var14 + var7), this.widthA - 90,
+                     var14, var9);
                this.addToList(var10);
                this.field20814.add(var10);
                var13++;
@@ -61,29 +61,28 @@ public class Class4296 extends AnimatedIconPanelWrap {
    @Override
    public void draw(float partialTicks) {
       this.method13225();
-      this.field20815 = (float)((double)this.field20815 + (this.isVisible() ? 0.33 : -0.33));
+      this.field20815 = (float) ((double) this.field20815 + (this.isVisible() ? 0.33 : -0.33));
       this.field20815 = Math.min(1.0F, Math.max(0.0F, this.field20815));
       if (this.field20813 == null) {
          int var4 = this.widthA - 30;
          int var5 = this.xA + 5;
          RenderUtil.drawImage(
-            (float)var5,
-            (float)((Minecraft.getInstance().getMainWindow().getHeight() - var4 * 342 / 460) / 2 - 60),
-            (float)var4,
-            (float)(var4 * 342 / 460),
-            Resources.imgPNG
-         );
+               (float) var5,
+               (float) ((MinecraftClient.getInstance().getMainWindow().getHeight() - var4 * 342 / 460) / 2 - 60),
+               (float) var4,
+               (float) (var4 * 342 / 460),
+               Resources.imgPNG);
       }
 
       if (this.field20813 != null) {
          int var7 = ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.7F);
          RenderUtil.drawString(
-            ResourceRegistry.JelloLightFont36,
-            (float)(this.xA + (this.widthA - ResourceRegistry.JelloLightFont36.getWidth(this.field20813.getKnownName())) / 2),
-            (float)this.yA,
-            this.field20813.getKnownName(),
-            var7
-         );
+               ResourceRegistry.JelloLightFont36,
+               (float) (this.xA
+                     + (this.widthA - ResourceRegistry.JelloLightFont36.getWidth(this.field20813.getKnownName())) / 2),
+               (float) this.yA,
+               this.field20813.getKnownName(),
+               var7);
          super.draw(partialTicks);
       }
    }

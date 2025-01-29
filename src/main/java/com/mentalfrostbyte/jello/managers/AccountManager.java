@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.managers.util.account.microsoft.BanListener;
 import com.mentalfrostbyte.jello.util.FileUtil;
 import com.mojang.realmsclient.RealmsMainScreen;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Session;
 import team.sdhq.eventBus.EventBus;
 import totalcross.json.JSONArray;
@@ -86,7 +86,7 @@ public class AccountManager {
     public boolean login(Account account) {
         try {
             RealmsMainScreen.field_224000_H = null; // ?????
-            Session session = Minecraft.getInstance().getSession();
+            Session session = MinecraftClient.getInstance().getSession();
             Session newSession = account.login();
             session.username = newSession.getUsername();
             session.playerID = newSession.getPlayerID();
@@ -156,6 +156,6 @@ public class AccountManager {
     public boolean isCurrentAccount(Account account) {
         return this.getEmail() != null
                 ? account.getEmail().equals(this.getEmail())
-                : account.getKnownName().equals(Minecraft.getInstance().getSession().getUsername());
+                : account.getKnownName().equals(MinecraftClient.getInstance().getSession().getUsername());
     }
 }

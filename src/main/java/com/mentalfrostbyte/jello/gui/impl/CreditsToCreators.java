@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.ColorHelper;
 import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -32,31 +32,29 @@ public class CreditsToCreators extends Screen {
 
       for (String var12 : var8) {
          var5.addToList(
-            new UITextDisplay(
-               var5,
-               "lbl" + var6,
-               40,
-               40 + var7 * var6++,
-               0,
-               0,
-               ColorHelper.field27961,
-               var12,
-               var12.startsWith("*") ? ResourceRegistry.JelloMediumFont20 : ResourceRegistry.JelloLightFont20
-            )
-         );
+               new UITextDisplay(
+                     var5,
+                     "lbl" + var6,
+                     40,
+                     40 + var7 * var6++,
+                     0,
+                     0,
+                     ColorHelper.field27961,
+                     var12,
+                     var12.startsWith("*") ? ResourceRegistry.JelloMediumFont20 : ResourceRegistry.JelloLightFont20));
       }
    }
 
    @Override
    public void draw(float partialTicks) {
       RenderUtil.drawRoundedRect2(
-         0.0F,
-         0.0F,
-         (float)this.widthA,
-         (float)this.heightA,
-         ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), this.field21076.calcPercent() * 0.95F)
-      );
-      RenderUtil.drawString(ResourceRegistry.JelloMediumFont40, 40.0F, 40.0F, "Credits and third party licensing information", ClientColors.LIGHT_GREYISH_BLUE.getColor());
+            0.0F,
+            0.0F,
+            (float) this.widthA,
+            (float) this.heightA,
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), this.field21076.calcPercent() * 0.95F));
+      RenderUtil.drawString(ResourceRegistry.JelloMediumFont40, 40.0F, 40.0F,
+            "Credits and third party licensing information", ClientColors.LIGHT_GREYISH_BLUE.getColor());
       super.draw(this.field21076.calcPercent());
    }
 
@@ -64,7 +62,7 @@ public class CreditsToCreators extends Screen {
    public void keyPressed(int keyCode) {
       super.keyPressed(keyCode);
       if (keyCode == 256) {
-         Minecraft.getInstance().displayGuiScreen(new InGameOptionsScreen());
+         MinecraftClient.getInstance().displayGuiScreen(new InGameOptionsScreen());
       }
    }
 }

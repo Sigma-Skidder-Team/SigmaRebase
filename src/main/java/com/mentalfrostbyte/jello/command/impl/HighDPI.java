@@ -6,7 +6,7 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.managers.util.command.ChatCommandArguments;
 import com.mentalfrostbyte.jello.managers.util.command.ChatCommandExecutor;
 import com.mentalfrostbyte.jello.managers.util.command.CommandException;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 public class HighDPI extends Command {
     public HighDPI() {
@@ -16,7 +16,7 @@ public class HighDPI extends Command {
     @Override
     public void run(String var1, ChatCommandArguments[] var2, ChatCommandExecutor var3) throws CommandException {
         if (var2.length <= 0) {
-            if (Minecraft.IS_RUNNING_ON_MAC) {
+            if (MinecraftClient.IS_RUNNING_ON_MAC) {
                 if (!Client.getInstance().guiManager.getHidpiCocoa()) {
                     var3.send("HighDPI was enabled!");
                 } else {

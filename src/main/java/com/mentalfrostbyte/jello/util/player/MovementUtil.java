@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.util.player;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.impl.movement.NoSlow;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.potion.Effects;
@@ -16,32 +16,37 @@ import net.minecraft.util.math.MathHelper;
  * including speed adjustments, strafing, and motion control.
  */
 public class MovementUtil {
-    protected static Minecraft mc = Minecraft.getInstance();
+    protected static MinecraftClient mc = MinecraftClient.getInstance();
 
     /**
      * Gets the current speed boost level of the player.
      *
-     * @return The amplifier of the speed effect plus one, or 0 if the player doesn't have a speed effect.
+     * @return The amplifier of the speed effect plus one, or 0 if the player
+     *         doesn't have a speed effect.
      */
     public static int getSpeedBoost() {
-        return !mc.player.isPotionActive(Effects.SPEED) ? 0 : mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1;
+        return !mc.player.isPotionActive(Effects.SPEED) ? 0
+                : mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1;
     }
 
     /**
      * Gets the current jump boost level of the player.
      *
-     * @return The amplifier of the jump boost effect plus one, or 0 if the player doesn't have a jump boost effect.
+     * @return The amplifier of the jump boost effect plus one, or 0 if the player
+     *         doesn't have a jump boost effect.
      */
     public static int getJumpBoost() {
-        return !mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0 : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1;
+        return !mc.player.isPotionActive(Effects.JUMP_BOOST) ? 0
+                : mc.player.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1;
     }
 
     public static double getJumpValue() {
-        return 0.42F + (double)getJumpBoost() * 0.1;
+        return 0.42F + (double) getJumpBoost() * 0.1;
     }
 
     /**
-     * Calculates the player's current movement speed, taking into account various factors such as sprinting, potion effects, sneaking, and being in water.
+     * Calculates the player's current movement speed, taking into account various
+     * factors such as sprinting, potion effects, sneaking, and being in water.
      *
      * @return The calculated movement speed as a double value.
      */
@@ -49,16 +54,18 @@ public class MovementUtil {
         double speed = 0.2873;
         float multiplier = 1.0F;
         ModifiableAttributeInstance var5 = mc.player.getAttribute(Attributes.MOVEMENT_SPEED);
-        multiplier = (float)((double)multiplier * ((var5.getValue() / (double) mc.player.abilities.getWalkSpeed() + 1.0) / 2.0));
+        multiplier = (float) ((double) multiplier
+                * ((var5.getValue() / (double) mc.player.abilities.getWalkSpeed() + 1.0) / 2.0));
         if (mc.player.isSprinting()) {
-            multiplier = (float)((double)multiplier - 0.15);
+            multiplier = (float) ((double) multiplier - 0.15);
         }
 
         if (mc.player.isPotionActive(Effects.SPEED) && mc.player.isSprinting()) {
-            multiplier = (float)((double)multiplier - 0.03000002 * (double)(mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1));
+            multiplier = (float) ((double) multiplier
+                    - 0.03000002 * (double) (mc.player.getActivePotionEffect(Effects.SPEED).getAmplifier() + 1));
         }
 
-        NoSlow noSlow = (NoSlow)Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
+        NoSlow noSlow = (NoSlow) Client.getInstance().moduleManager.getModuleByClass(NoSlow.class);
         if (mc.player.isSneaking() && !noSlow.sneak.currentValue) {
             speed *= 0.25;
         }
@@ -67,17 +74,18 @@ public class MovementUtil {
             speed *= 0.3;
         }
 
-        return speed * (double)multiplier;
+        return speed * (double) multiplier;
     }
 
     public static double method37076() {
-        double var2 = 0.2873 + (double)getSpeedBoost() * 0.057;
+        double var2 = 0.2873 + (double) getSpeedBoost() * 0.057;
         if (mc.player.isSneaking()) {
             var2 *= 0.25;
         }
 
         return var2;
     }
+
     public static void method37095(double var0) {
         double forward = (double) mc.player.movementInput.moveForward;
         double strafe = (double) mc.player.movementInput.moveStrafe;
@@ -85,10 +93,10 @@ public class MovementUtil {
         if (forward != 0.0) {
             if (!(strafe > 0.0)) {
                 if (strafe < 0.0) {
-                    yaw += (float)(!(forward > 0.0) ? -45 : 45);
+                    yaw += (float) (!(forward > 0.0) ? -45 : 45);
                 }
             } else {
-                yaw += (float)(!(forward > 0.0) ? 45 : -45);
+                yaw += (float) (!(forward > 0.0) ? 45 : -45);
             }
 
             strafe = 0.0;
@@ -104,18 +112,23 @@ public class MovementUtil {
         double var9 = mc.player.getPosX();
         double var11 = mc.player.getPosY();
         double var13 = mc.player.getPosZ();
-        double var15 = forward * var0 * Math.cos(Math.toRadians((double)(yaw + 90.0F))) + strafe * var0 * Math.sin(Math.toRadians((double)(yaw + 90.0F)));
-        double var17 = forward * var0 * Math.sin(Math.toRadians((double)(yaw + 90.0F))) - strafe * var0 * Math.cos(Math.toRadians((double)(yaw + 90.0F)));
+        double var15 = forward * var0 * Math.cos(Math.toRadians((double) (yaw + 90.0F)))
+                + strafe * var0 * Math.sin(Math.toRadians((double) (yaw + 90.0F)));
+        double var17 = forward * var0 * Math.sin(Math.toRadians((double) (yaw + 90.0F)))
+                - strafe * var0 * Math.cos(Math.toRadians((double) (yaw + 90.0F)));
         mc.player.setPosition(var9 + var15, var11, var13 + var17);
     }
 
-
     /**
-     * Calculates movement angles and directions based on input forward and strafe values.
-     * This method adjusts the player's yaw and movement direction for smooth motion.
+     * Calculates movement angles and directions based on input forward and strafe
+     * values.
+     * This method adjusts the player's yaw and movement direction for smooth
+     * motion.
      *
-     * @param forward The forward movement input (-1.0 to 1.0, where negative is backwards)
-     * @param strafe The strafe movement input (-1.0 to 1.0, where negative is left)
+     * @param forward The forward movement input (-1.0 to 1.0, where negative is
+     *                backwards)
+     * @param strafe  The strafe movement input (-1.0 to 1.0, where negative is
+     *                left)
      * @return A float array containing:
      *         [0] - Adjusted yaw angle
      *         [1] - Normalized forward movement (-1.0, 0.0, or 1.0)
@@ -123,18 +136,18 @@ public class MovementUtil {
      */
     public static float[] getAdjustedStrafe(float forward, float strafe) {
         float yaw = mc.player.rotationYaw + 90.0F;
-//        if (Client.getInstance().getOrientation().getAdjustedYaw() != -999.0F) {
-//            yaw = Client.getInstance().getOrientation().getAdjustedYaw() + 90.0F;
-//        }
+        // if (Client.getInstance().getOrientation().getAdjustedYaw() != -999.0F) {
+        // yaw = Client.getInstance().getOrientation().getAdjustedYaw() + 90.0F;
+        // }
 
         if (forward != 0.0F) {
             if (!(strafe >= 1.0F)) {
                 if (strafe <= -1.0F) {
-                    yaw += (float)(!(forward > 0.0F) ? -45 : 45);
+                    yaw += (float) (!(forward > 0.0F) ? -45 : 45);
                     strafe = 0.0F;
                 }
             } else {
-                yaw += (float)(!(forward > 0.0F) ? 45 : -45);
+                yaw += (float) (!(forward > 0.0F) ? 45 : -45);
                 strafe = 0.0F;
             }
 
@@ -147,13 +160,16 @@ public class MovementUtil {
             }
         }
 
-        return new float[]{yaw, forward, strafe};
+        return new float[] { yaw, forward, strafe };
     }
+
     public static boolean isMovingHorizontally() {
         return mc.player.moveStrafing != 0.0F || mc.player.moveForward != 0.0F;
     }
+
     /**
-     * Calculates adjusted strafe values based on the player's current movement input.
+     * Calculates adjusted strafe values based on the player's current movement
+     * input.
      *
      * @return A float array containing adjusted yaw, forward, and strafe values.
      */
@@ -223,7 +239,7 @@ public class MovementUtil {
     /**
      * Sets the player's movement speed for a given event.
      *
-     * @param moveEvent The movement event to modify.
+     * @param moveEvent   The movement event to modify.
      * @param motionSpeed The desired motion speed.
      */
     public static void setSpeed(EventMove moveEvent, double motionSpeed) {
@@ -262,9 +278,9 @@ public class MovementUtil {
 
         if (var2 != 0.0F) {
             if (var3 != 0.0F && var3 > 0.0F) {
-                var4 -= (float)(!(var2 > 0.0F) ? 45 : -45);
+                var4 -= (float) (!(var2 > 0.0F) ? 45 : -45);
             } else if (var3 != 0.0F && var3 < 0.0F) {
-                var4 -= (float)(!(var2 > 0.0F) ? -45 : 45);
+                var4 -= (float) (!(var2 > 0.0F) ? -45 : 45);
             }
         }
 
@@ -284,7 +300,7 @@ public class MovementUtil {
         }
 
         float yawRadians = (targetYaw - 90.0F) * (float) (Math.PI / 180.0);
-        MovementUtil.setPlayerXMotion((double)(-MathHelper.sin(yawRadians)) * speed);
+        MovementUtil.setPlayerXMotion((double) (-MathHelper.sin(yawRadians)) * speed);
         MovementUtil.setPlayerZMotion((double) MathHelper.cos(yawRadians) * speed);
         return targetYaw;
     }
@@ -298,7 +314,7 @@ public class MovementUtil {
         }
 
         float yawRadians = (targetYaw - 90.0F) * (float) (Math.PI / 180.0);
-        event.setX((double)(-MathHelper.sin(yawRadians)) * speed);
+        event.setX((double) (-MathHelper.sin(yawRadians)) * speed);
         event.setZ((double) MathHelper.cos(yawRadians) * speed);
 
         MovementUtil.setPlayerXMotion(event.getX());
@@ -333,17 +349,17 @@ public class MovementUtil {
         float var4 = mc.player.rotationYaw + 90.0F;
         if (var0 == 0.0F) {
             if (var1 != 0.0F) {
-                var4 += (float)(!(var1 > 0.0F) ? 90 : -90);
+                var4 += (float) (!(var1 > 0.0F) ? 90 : -90);
                 var1 = 0.0F;
             }
         } else {
             if (!(var1 >= 1.0F)) {
                 if (var1 <= -1.0F) {
-                    var4 += (float)(!(var0 > 0.0F) ? -45 : 45);
+                    var4 += (float) (!(var0 > 0.0F) ? -45 : 45);
                     var1 = 0.0F;
                 }
             } else {
-                var4 += (float)(!(var0 > 0.0F) ? 45 : -45);
+                var4 += (float) (!(var0 > 0.0F) ? 45 : -45);
                 var1 = 0.0F;
             }
 
@@ -357,7 +373,7 @@ public class MovementUtil {
             }
         }
 
-        return new float[]{var4, var0, var1};
+        return new float[] { var4, var0, var1 };
     }
 
     public static float[] otherStrafe() {

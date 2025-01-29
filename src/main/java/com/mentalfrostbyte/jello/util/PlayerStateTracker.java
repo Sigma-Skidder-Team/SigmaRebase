@@ -1,13 +1,12 @@
 package com.mentalfrostbyte.jello.util;
 
-
 import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
 import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.util.player.MovementUtil;
 import net.minecraft.network.play.server.SKeepAlivePacket;
 import net.minecraft.network.play.client.CClickWindowPacket;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class PlayerStateTracker {
@@ -19,8 +18,7 @@ public class PlayerStateTracker {
     private boolean alive = false;
     private long lastMilis = System.currentTimeMillis();
     private float ping = 1.0F;
-    private final Minecraft mc = Minecraft.getInstance();
-
+    private final MinecraftClient mc = MinecraftClient.getInstance();
 
     @EventTarget
     public void method31324(EventPlayerTick var1) {
@@ -57,7 +55,7 @@ public class PlayerStateTracker {
     public void method31326(EventReceivePacket var1) {
         if (var1.getPacket() instanceof SKeepAlivePacket) {
             long var4 = System.currentTimeMillis() - this.lastMilis;
-            this.ping = Math.min(1.05F, Math.max(0.0F, 15000.0F / (float)var4));
+            this.ping = Math.min(1.05F, Math.max(0.0F, 15000.0F / (float) var4));
             this.lastMilis = System.currentTimeMillis();
         }
     }

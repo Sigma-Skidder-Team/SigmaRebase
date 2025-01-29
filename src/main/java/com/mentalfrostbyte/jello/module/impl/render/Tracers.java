@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.ColorSetting;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.render.PositionUtils;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3d;
 import org.lwjgl.opengl.GL11;
@@ -56,8 +56,8 @@ public class Tracers extends Module {
         double y = PositionUtils.getRelativePosition(entity).y + (double) (entity.getHeight() / 2.0F);
         double z = PositionUtils.getRelativePosition(entity).z;
         Vector3d offset = new Vector3d(0.0, 0.0, 10.0)
-                .rotatePitch(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
-                .rotateYaw(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
+                .rotatePitch(-((float) Math.toRadians(MinecraftClient.getInstance().player.rotationPitch)))
+                .rotateYaw(-((float) Math.toRadians(MinecraftClient.getInstance().player.rotationYaw)));
         int color = this.parseSettingValueToIntBySettingName("Color");
         GL11.glBegin(1);
         GL11.glColor4fv(MultiUtilities.method17709(MultiUtilities.applyAlpha(color, 0.45F)));

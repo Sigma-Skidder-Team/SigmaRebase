@@ -10,8 +10,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mojang.datafixers.util.Pair;
 
-
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -46,7 +45,8 @@ public class Murderer extends Module {
                         Entity var7 = mc.world.getEntityByID(entityEquipmentPacket.getEntityID());
                         if (!this.field23833.equalsIgnoreCase(var7.getName().getString())) {
                             if (this.getBooleanValueFromSettingName("Chat Message")) {
-                                mc.player.sendChatMessage("Murderer is " + var7.getName() + ", detected by Jello client");
+                                mc.player.sendChatMessage(
+                                        "Murderer is " + var7.getName() + ", detected by Jello client");
                             }
 
                             this.field23833 = var7.getName().getUnformattedComponentText();
@@ -71,20 +71,21 @@ public class Murderer extends Module {
             if (this.field23836) {
                 if (this.getBooleanValueFromSettingName("GUI")) {
                     TrueTypeFont var4 = ResourceRegistry.JelloLightFont20;
-                    int width = Minecraft.getInstance().getMainWindow().getWidth();
-                    int height = Minecraft.getInstance().getMainWindow().getHeight();
+                    int width = MinecraftClient.getInstance().getMainWindow().getWidth();
+                    int height = MinecraftClient.getInstance().getMainWindow().getHeight();
                     if (this.field23835 && this.field23834 != null) {
                         this.field23835 = false;
                     }
 
                     if (this.field23834 != null) {
                         RenderUtil.drawRoundedRect(
-                                (float) (width - var4.getWidth(this.field23833) - 90), (float) (height - 130), (float) (width - 10), (float) (height - 10), 1342177280
-                        );
-                        RenderUtil.drawImage((float) (width - var4.getWidth(this.field23833) - 80), (float) (height - 120), 50.0F, 100.0F, this.field23834);
+                                (float) (width - var4.getWidth(this.field23833) - 90), (float) (height - 130),
+                                (float) (width - 10), (float) (height - 10), 1342177280);
+                        RenderUtil.drawImage((float) (width - var4.getWidth(this.field23833) - 80),
+                                (float) (height - 120), 50.0F, 100.0F, this.field23834);
                         RenderUtil.drawString(
-                                var4, (float) (width - var4.getWidth(this.field23833) - 20), (float) (height - var4.getHeight(this.field23833) - 60), this.field23833, -1
-                        );
+                                var4, (float) (width - var4.getWidth(this.field23833) - 20),
+                                (float) (height - var4.getHeight(this.field23833) - 60), this.field23833, -1);
                     }
                 }
             }

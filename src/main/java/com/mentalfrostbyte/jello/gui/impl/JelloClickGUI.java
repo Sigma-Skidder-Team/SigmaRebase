@@ -12,7 +12,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Util;
 import totalcross.json.JSONObject;
 
@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class JelloClickGUI extends Screen {
     public ClickGUIBlurOverlay blurOverlay;
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     private static Animation animationProgress;
     private static boolean animationStarted;
     private static boolean animationCompleted;
@@ -44,7 +44,9 @@ public class JelloClickGUI extends Screen {
 
         for (Module module : Client.getInstance().moduleManager.getModuleMap().values()) {
             if (!this.categoryPanels.containsKey(module.getAdjustedCategoryBasedOnClientMode())) {
-                JelloClickGUIPanels clickGUIPanels = new JelloClickGUIPanels(this, module.getAdjustedCategoryBasedOnClientMode().name(), x, y, module.getAdjustedCategoryBasedOnClientMode());
+                JelloClickGUIPanels clickGUIPanels = new JelloClickGUIPanels(this,
+                        module.getAdjustedCategoryBasedOnClientMode().name(), x, y,
+                        module.getAdjustedCategoryBasedOnClientMode());
                 this.categoryPanels.put(module.getAdjustedCategoryBasedOnClientMode(), clickGUIPanels);
                 this.addToList(clickGUIPanels);
 
@@ -55,7 +57,8 @@ public class JelloClickGUI extends Screen {
                 }
 
                 clickGUIPanels.method13507(var2 -> this.runThisOnDimensionUpdate(() -> {
-                    this.addToList(this.moduleSettingUI = new ModuleSettingUI(this, "settings", 0, 0, this.widthA, this.heightA, var2));
+                    this.addToList(this.moduleSettingUI = new ModuleSettingUI(this, "settings", 0, 0, this.widthA,
+                            this.heightA, var2));
                     this.moduleSettingUI.method13292(true);
                 }));
             }
@@ -64,7 +67,8 @@ public class JelloClickGUI extends Screen {
         this.addToList(this.musicPlayer = new MusicPlayer(this, "musicPlayer"));
         this.musicPlayer.method13215(true);
         PNGIconButton moreButton;
-        this.addToList(moreButton = new PNGIconButton(this, "more", this.getWidthA() - 69, this.getHeightA() - 55, 55, 41, Resources.optionsPNG1));
+        this.addToList(moreButton = new PNGIconButton(this, "more", this.getWidthA() - 69, this.getHeightA() - 55, 55,
+                41, Resources.optionsPNG1));
 
         moreButton.getTextColor().method19406(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.3F));
         moreButton.setListening(false);
@@ -74,7 +78,8 @@ public class JelloClickGUI extends Screen {
             if (this.configButton != null && this.hasChild(this.configButton)) {
                 this.method13234(this.configButton);
             } else {
-                this.addToList(this.configButton = new ConfigButtonOnClickGui(this, "morepopover", this.getWidthA() - 14, this.getHeightA() - 14));
+                this.addToList(this.configButton = new ConfigButtonOnClickGui(this, "morepopover",
+                        this.getWidthA() - 14, this.getHeightA() - 14));
                 this.configButton.method13292(true);
             }
         }));
@@ -103,7 +108,8 @@ public class JelloClickGUI extends Screen {
                 }
 
                 alerts.add(new MiniAlert(AlertType.BUTTON, "Download", 55));
-                this.showAlert(this.dependenciesAlert = new AlertPanel(this, "music", true, "Dependencies.", alerts.toArray(new MiniAlert[0])));
+                this.showAlert(this.dependenciesAlert = new AlertPanel(this, "music", true, "Dependencies.",
+                        alerts.toArray(new MiniAlert[0])));
 
                 this.dependenciesAlert.onPress(thread -> {
                     if (!Client.getInstance().musicManager.hasPython()) {
@@ -138,7 +144,8 @@ public class JelloClickGUI extends Screen {
 
     @Override
     public void updatePanelDimensions(int newHeight, int newWidth) {
-        this.musicPlayer.setEnabled(this.musicPlayer.getWidthA() < this.getWidthA() && this.musicPlayer.getHeightA() < this.getHeightA());
+        this.musicPlayer.setEnabled(
+                this.musicPlayer.getWidthA() < this.getWidthA() && this.musicPlayer.getHeightA() < this.getHeightA());
         super.updatePanelDimensions(newHeight, newWidth);
         ColorUtils.setShaderParamsRounded(Math.min(1.0F, animationProgress.calcPercent() * 4.0F));
         this.brainFreeze.setEnabled(Client.getInstance().moduleManager.getModuleByClass(BrainFreeze.class).isEnabled());
@@ -156,11 +163,13 @@ public class JelloClickGUI extends Screen {
             this.configButton = null;
         }
 
-        if (animationProgress.getDirection() == Direction.BACKWARDS && this.moduleSettingUI != null && !this.moduleSettingUI.field20671) {
+        if (animationProgress.getDirection() == Direction.BACKWARDS && this.moduleSettingUI != null
+                && !this.moduleSettingUI.field20671) {
             this.moduleSettingUI.field20671 = true;
         }
 
-        if (this.moduleSettingUI != null && this.moduleSettingUI.field20671 && this.moduleSettingUI.animation1.calcPercent() == 0.0F) {
+        if (this.moduleSettingUI != null && this.moduleSettingUI.field20671
+                && this.moduleSettingUI.animation1.calcPercent() == 0.0F) {
             this.runThisOnDimensionUpdate(() -> {
                 this.method13236(this.moduleSettingUI);
                 this.moduleSettingUI = null;
@@ -187,7 +196,7 @@ public class JelloClickGUI extends Screen {
 
     @Override
     public int getFPS() {
-        return Minecraft.getFps();
+        return MinecraftClient.getFps();
     }
 
     @Override
@@ -234,7 +243,8 @@ public class JelloClickGUI extends Screen {
 
     public float method13317(float var1, float var2) {
         return animationProgress.getDirection() != Direction.BACKWARDS
-                ? (float) (Math.pow(2.0, (double) (-10.0F * var1)) * Math.sin((double) (var1 - var2 / 4.0F) * (Math.PI * 2) / (double) var2) + 1.0)
+                ? (float) (Math.pow(2.0, (double) (-10.0F * var1))
+                        * Math.sin((double) (var1 - var2 / 4.0F) * (Math.PI * 2) / (double) var2) + 1.0)
                 : QuadraticEasing.easeOutQuad(var1, 0.0F, 1.0F, 1.0F);
     }
 
@@ -249,33 +259,36 @@ public class JelloClickGUI extends Screen {
                 (float) this.yA,
                 (float) (this.xA + this.widthA),
                 (float) (this.yA + this.heightA),
-                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), alpha)
-        );
+                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), alpha));
         float fadeAmount = 1.0F;
         if (this.moduleSettingUI != null) {
             float var8 = EasingFunctions.easeOutBack(this.moduleSettingUI.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
             if (this.moduleSettingUI.animation.getDirection() == Direction.BACKWARDS) {
-                var8 = MathHelper.calculateBackwardTransition(this.moduleSettingUI.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+                var8 = MathHelper.calculateBackwardTransition(this.moduleSettingUI.animation.calcPercent(), 0.0F, 1.0F,
+                        1.0F);
             }
 
             fadeAmount -= this.moduleSettingUI.animation.calcPercent() * 0.1F;
             alphaFactor *= 1.0F + var8 * 0.2F;
         }
 
-        if (Client.getInstance().moduleManager.getConfigurationManager().getCurrentConfig() != null && !Client.getInstance().notificationManager.isRenderingNotification()) {
+        if (Client.getInstance().moduleManager.getConfigurationManager().getCurrentConfig() != null
+                && !Client.getInstance().notificationManager.isRenderingNotification()) {
             String configName = Client.getInstance().moduleManager.getConfigurationManager().getCurrentConfig().getName;
             RenderUtil.drawString(
                     ResourceRegistry.JelloLightFont20,
                     (float) (this.widthA - ResourceRegistry.JelloLightFont20.getWidth(configName) - 80),
                     (float) (this.heightA - 47),
                     configName,
-                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.5F * Math.max(0.0F, Math.min(1.0F, alphaFactor)))
-            );
+                    ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                            0.5F * Math.max(0.0F, Math.min(1.0F, alphaFactor))));
         }
 
         for (CustomGuiScreen child : this.getChildren()) {
-            float x = (float) (child.getXA() + child.getWidthA() / 2 - mc.getMainWindow().getWidth() / 2) * (1.0F - alphaFactor) * 0.5F;
-            float y = (float) (child.getYA() + child.getHeightA() / 2 - mc.getMainWindow().getHeight() / 2) * (1.0F - alphaFactor) * 0.5F;
+            float x = (float) (child.getXA() + child.getWidthA() / 2 - mc.getMainWindow().getWidth() / 2)
+                    * (1.0F - alphaFactor) * 0.5F;
+            float y = (float) (child.getYA() + child.getHeightA() / 2 - mc.getMainWindow().getHeight() / 2)
+                    * (1.0F - alphaFactor) * 0.5F;
             child.draw((int) x, (int) y);
             child.method13279(1.5F - alphaFactor * 0.5F, 1.5F - alphaFactor * 0.5F);
         }

@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.module.impl.combat.wtap;
 import com.mentalfrostbyte.jello.event.impl.player.EventPlayerTick;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputMappings;
 import team.sdhq.eventBus.annotations.EventTarget;
 
@@ -19,8 +19,8 @@ public class LegitWTap extends Module {
             if (mc.player.swingProgressInt != 1) {
                 if (mc.player.swingProgressInt == 0) {
                     mc.gameSettings.keyBindForward.setPressed(InputMappings.isKeyDown(
-                            Minecraft.getInstance().getMainWindow().getHandle(), mc.gameSettings.keyBindForward.keyCode.getKeyCode()
-                    ));
+                            MinecraftClient.getInstance().getMainWindow().getHandle(),
+                            mc.gameSettings.keyBindForward.keyCode.getKeyCode()));
                 }
             } else {
                 mc.gameSettings.keyBindForward.setPressed(false);

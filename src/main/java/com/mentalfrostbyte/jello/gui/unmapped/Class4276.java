@@ -10,7 +10,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.vector.Vector3i;
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +32,7 @@ public class Class4276 extends UIBase {
    public Class4276(CustomGuiScreen var1, String var2, int var3, int var4, Vector3i var5) {
       super(var1, var2, var3 - 107, var4 + 10, 214, 170, ColorHelper.field27961, "", false);
       this.field20727 = var5;
-      if (this.yA + this.heightA <= Minecraft.getInstance().getMainWindow().getHeight()) {
+      if (this.yA + this.heightA <= MinecraftClient.getInstance().getMainWindow().getHeight()) {
          this.yA += 10;
       } else {
          this.yA = this.yA - (this.heightA + 27);
@@ -44,36 +44,34 @@ public class Class4276 extends UIBase {
       this.setListening(false);
       UIButton var8;
       this.addToList(
-         var8 = new UIButton(
-            this,
-            "addButton",
-            this.widthA - 66,
-            this.heightA - 60,
-            ResourceRegistry.JelloLightFont25.getWidth("Add"),
-            50,
-            ColorHelper.field27961,
-            "Add",
-            ResourceRegistry.JelloLightFont25
-         )
-      );
-      var8.doThis((var1x, var2x) -> this.method13132(this.field20729.getTypedText(), this.method13130(), this.field20730.field21296));
-      this.addToList(this.field20729 = new UIInput(this, "Name", 20, 7, this.widthA - 40, 60, UIInput.field20741, "My waypoint", "My waypoint"));
+            var8 = new UIButton(
+                  this,
+                  "addButton",
+                  this.widthA - 66,
+                  this.heightA - 60,
+                  ResourceRegistry.JelloLightFont25.getWidth("Add"),
+                  50,
+                  ColorHelper.field27961,
+                  "Add",
+                  ResourceRegistry.JelloLightFont25));
+      var8.doThis((var1x, var2x) -> this.method13132(this.field20729.getTypedText(), this.method13130(),
+            this.field20730.field21296));
+      this.addToList(this.field20729 = new UIInput(this, "Name", 20, 7, this.widthA - 40, 60, UIInput.field20741,
+            "My waypoint", "My waypoint"));
       this.field20729.method13148();
       this.field20729.method13156(false);
       this.addToList(this.field20730 = new Class4356(this, "badgeSelect", 0, 86));
       this.addToList(
-         this.field20728 = new UIInput(
-            this,
-            "Coords",
-            20,
-            this.heightA - 44,
-            this.widthA - 100,
-            20,
-            UIInput.field20741,
-            var5.getX() + " " + var5.getZ(),
-            var5.getX() + " " + var5.getZ()
-         )
-      );
+            this.field20728 = new UIInput(
+                  this,
+                  "Coords",
+                  20,
+                  this.heightA - 44,
+                  this.widthA - 100,
+                  20,
+                  UIInput.field20741,
+                  var5.getX() + " " + var5.getZ(),
+                  var5.getX() + " " + var5.getZ()));
       this.field20728.method13156(false);
       this.field20728.setFont(ResourceRegistry.JelloLightFont18);
    }
@@ -96,46 +94,43 @@ public class Class4276 extends UIBase {
       partialTicks = Animation.calculateProgressWithReverse(this.field20724, this.field20726, 250.0F, 120.0F);
       float var4 = EasingFunctions.easeOutBack(partialTicks, 0.0F, 1.0F, 1.0F);
       this.method13279(0.8F + var4 * 0.2F, 0.8F + var4 * 0.2F);
-      this.method13284((int)((float)this.widthA * 0.2F * (1.0F - var4)) * (!this.field20725 ? 1 : -1));
+      this.method13284((int) ((float) this.widthA * 0.2F * (1.0F - var4)) * (!this.field20725 ? 1 : -1));
       super.method13224();
       int var5 = 10;
       int var6 = ColorUtils.applyAlpha(-723724, QuadraticEasing.easeOutQuad(partialTicks, 0.0F, 1.0F, 1.0F));
       RenderUtil.drawRoundedRect(
-         (float)(this.xA + var5 / 2),
-         (float)(this.yA + var5 / 2),
-         (float)(this.widthA - var5),
-         (float)(this.heightA - var5),
-         35.0F,
-              partialTicks
-      );
+            (float) (this.xA + var5 / 2),
+            (float) (this.yA + var5 / 2),
+            (float) (this.widthA - var5),
+            (float) (this.heightA - var5),
+            35.0F,
+            partialTicks);
       RenderUtil.drawRoundedRect(
-         (float)(this.xA + var5 / 2),
-         (float)(this.yA + var5 / 2),
-         (float)(this.xA - var5 / 2 + this.widthA),
-         (float)(this.yA - var5 / 2 + this.heightA),
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.25F)
-      );
-      RenderUtil.drawRoundedRect((float)this.xA, (float)this.yA, (float)this.widthA, (float)this.heightA, (float)var5, var6);
+            (float) (this.xA + var5 / 2),
+            (float) (this.yA + var5 / 2),
+            (float) (this.xA - var5 / 2 + this.widthA),
+            (float) (this.yA - var5 / 2 + this.heightA),
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.25F));
+      RenderUtil.drawRoundedRect((float) this.xA, (float) this.yA, (float) this.widthA, (float) this.heightA,
+            (float) var5, var6);
       GL11.glPushMatrix();
-      GL11.glTranslatef((float)this.xA, (float)this.yA, 0.0F);
+      GL11.glTranslatef((float) this.xA, (float) this.yA, 0.0F);
       GL11.glRotatef(!this.field20725 ? -90.0F : 90.0F, 0.0F, 0.0F, 1.0F);
-      GL11.glTranslatef((float)(-this.xA), (float)(-this.yA), 0.0F);
+      GL11.glTranslatef((float) (-this.xA), (float) (-this.yA), 0.0F);
       RenderUtil.drawImage(
-         (float)(this.xA + (!this.field20725 ? 0 : this.heightA)),
-         (float)this.yA + (float)((this.widthA - 47) / 2) * (!this.field20725 ? 1.0F : -1.58F),
-         18.0F,
-         47.0F,
-         Resources.selectPNG,
-         var6
-      );
+            (float) (this.xA + (!this.field20725 ? 0 : this.heightA)),
+            (float) this.yA + (float) ((this.widthA - 47) / 2) * (!this.field20725 ? 1.0F : -1.58F),
+            18.0F,
+            47.0F,
+            Resources.selectPNG,
+            var6);
       GL11.glPopMatrix();
       RenderUtil.drawRoundedRect(
-         (float)(this.xA + 25),
-         (float)(this.yA + 68),
-         (float)(this.xA + this.widthA - 25),
-         (float)(this.yA + 69),
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.05F * partialTicks)
-      );
+            (float) (this.xA + 25),
+            (float) (this.yA + 68),
+            (float) (this.xA + this.widthA - 25),
+            (float) (this.yA + 69),
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.05F * partialTicks));
       super.draw(partialTicks);
    }
 

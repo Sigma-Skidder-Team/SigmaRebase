@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.misc;
 import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.List;
 
@@ -53,15 +53,15 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
                 (float) this.getStartY(),
                 (float) this.getWidth(),
                 (float) this.getHeight(),
-                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
-        );
+                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
         this.scrollOffset += calculateScrollOffset();
         int startX = this.getStartX() + 4;
         int startY = this.getStartY() + this.scrollOffset + 4;
         int width = this.getWidth() - 8;
         int gradientStart = -15781024;
         int gradientEnd = -15626304;
-        RenderUtil.drawQuad(startX, startY, startX + width, startY + 25, gradientStart, gradientEnd, gradientEnd, gradientStart);
+        RenderUtil.drawQuad(startX, startY, startX + width, startY + 25, gradientStart, gradientEnd, gradientEnd,
+                gradientStart);
 
         float categoryOffsetY = 6;
         for (String categoryName : this.categories) {
@@ -77,8 +77,7 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
                     (float) (7 + this.getStartX()),
                     this.getStartY() + categoryOffsetY,
                     categoryName,
-                    ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F))
-            );
+                    ColorUtils.applyAlpha(color, Math.min(1.0F, partialTicks * 1.7F)));
             categoryOffsetY += 25;
         }
     }
@@ -115,7 +114,7 @@ public class CategoryDrawPart extends CategoryDrawPartBackground {
         float targetOffset = (float) (this.currentOffset * 25);
         float delta = Math.abs(targetOffset - (float) this.scrollOffset);
         boolean isNegative = targetOffset - (float) this.scrollOffset != delta;
-        float frameFactor = 60.0F / (float) Minecraft.getFps();
+        float frameFactor = 60.0F / (float) MinecraftClient.getFps();
         float adjustment = Math.min(delta * 0.8F, delta * 0.3F * frameFactor);
         if (isNegative) {
             adjustment *= -1.0F;

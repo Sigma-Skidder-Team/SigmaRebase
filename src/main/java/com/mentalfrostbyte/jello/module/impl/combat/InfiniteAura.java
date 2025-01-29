@@ -13,7 +13,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.EntityUtil;
 import com.mentalfrostbyte.jello.util.player.TeamUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
@@ -53,18 +53,14 @@ public class InfiniteAura extends Module {
                         Float.class,
                         8.0F,
                         120.0F,
-                        1.0F
-                )
-        );
+                        1.0F));
         this.registerSetting(new NumberSetting<>("CPS", "CPS value", 8.0F, Float.class, 1.0F, 20.0F, 1.0F));
         this.registerSetting(new NumberSetting<>("Targets", "Number of targets", 4.0F, Float.class, 1.0F, 10.0F, 1.0F));
         this.registerSetting(
                 pathfind = new BooleanSetting(
                         "Pathfind",
                         "Pathfind to targets or teleport directly to targets?",
-                        true
-                )
-        );
+                        true));
         this.registerSetting(new BooleanSetting("Players", "Hit players", true));
         this.registerSetting(new BooleanSetting("Animals/Monsters", "Hit animals and monsters", false));
         this.registerSetting(new BooleanSetting("Anti-Bot", "Doesn't hit bots", true));
@@ -74,7 +70,7 @@ public class InfiniteAura extends Module {
     }
 
     // $VF: synthetic method
-    public static Minecraft getMinecraft() {
+    public static MinecraftClient getMinecraft() {
         return mc;
     }
 
@@ -99,7 +95,8 @@ public class InfiniteAura extends Module {
             List<TimedEntity> var4 = this.getTimedEntities((float) ((int) this.getNumberValueBySettingName("Range")));
             if (var4 != null && !var4.isEmpty()) {
                 if (this.attacksPerTickF < 1.0F) {
-                    this.attacksPerTickF = this.attacksPerTickF + 20.0F / this.access().getNumberValueBySettingName("CPS");
+                    this.attacksPerTickF = this.attacksPerTickF
+                            + 20.0F / this.access().getNumberValueBySettingName("CPS");
                 }
 
                 this.attacksPerTick++;
@@ -125,7 +122,8 @@ public class InfiniteAura extends Module {
                                         : new ArrayList<>(List.of(location));
                                 this.renderPositions.add(path);
                                 Collections.reverse(path);
-                                this.moveToThingy(path, Client.getInstance().moduleManager.getModuleByClass(Criticals.class).isEnabled());
+                                this.moveToThingy(path, Client.getInstance().moduleManager
+                                        .getModuleByClass(Criticals.class).isEnabled());
                                 EntityUtil.swing(target, !this.getBooleanValueFromSettingName("No Swing"));
                                 Collections.reverse(path);
                                 this.moveToThingy(path, false);
@@ -152,11 +150,13 @@ public class InfiniteAura extends Module {
         for (Vector3d pos : steps) {
             lastPos = pos;
             if (var5 == null) {
-                mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(pos.getX(), pos.getY(), pos.getZ(), true));
+                mc.getConnection()
+                        .sendPacket(new CPlayerPacket.PositionPacket(pos.getX(), pos.getY(), pos.getZ(), true));
             } else {
                 var5.setPosition(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                 mc.getConnection().sendPacket(new CSteerBoatPacket(false, false));
-                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(mc.player.rotationYaw, mc.player.rotationPitch, false));
+                mc.getConnection().sendPacket(
+                        new CPlayerPacket.RotationPacket(mc.player.rotationYaw, mc.player.rotationPitch, false));
                 mc.getConnection().sendPacket(new CInputPacket(0.0F, 1.0F, false, false));
                 BoatEntity var9 = new BoatEntity(mc.world, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
                 var9.rotationYaw = var5.rotationYaw;
@@ -166,8 +166,10 @@ public class InfiniteAura extends Module {
         }
 
         if (criticalsEnabled && lastPos != null) {
-            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(lastPos.getX(), lastPos.getY() + 1.0E-14, lastPos.getZ(), false));
-            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(lastPos.getX(), lastPos.getY(), lastPos.getZ(), false));
+            mc.getConnection().sendPacket(
+                    new CPlayerPacket.PositionPacket(lastPos.getX(), lastPos.getY() + 1.0E-14, lastPos.getZ(), false));
+            mc.getConnection().sendPacket(
+                    new CPlayerPacket.PositionPacket(lastPos.getX(), lastPos.getY(), lastPos.getZ(), false));
         }
     }
 
@@ -190,8 +192,7 @@ public class InfiniteAura extends Module {
                     GL11.glVertex3d(
                             pos.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
                             pos.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                            pos.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
-                    );
+                            pos.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ());
                 }
 
                 GL11.glEnd();
@@ -199,8 +200,7 @@ public class InfiniteAura extends Module {
                 GL11.glTranslated(
                         mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
                         mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                        mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
-                );
+                        mc.gameRenderer.getActiveRenderInfo().getPos().getZ());
                 GL11.glPopMatrix();
                 GL11.glDisable(3042);
                 GL11.glEnable(3553);
@@ -230,20 +230,26 @@ public class InfiniteAura extends Module {
                             if (!(mc.player.getDistance(var8) > range)) {
                                 if (mc.player.canAttack((LivingEntity) var8)) {
                                     if (!(var8 instanceof ArmorStandEntity)) {
-                                        if (!this.getBooleanValueFromSettingName("Players") && var8 instanceof PlayerEntity) {
+                                        if (!this.getBooleanValueFromSettingName("Players")
+                                                && var8 instanceof PlayerEntity) {
                                             iter.remove();
-                                        } else if (var8 instanceof PlayerEntity && Client.getInstance().combatManager.isTargetABot(var8)) {
+                                        } else if (var8 instanceof PlayerEntity
+                                                && Client.getInstance().combatManager.isTargetABot(var8)) {
                                             iter.remove();
-                                        } else if (!this.getBooleanValueFromSettingName("Invisible") && var8.isInvisible()) {
+                                        } else if (!this.getBooleanValueFromSettingName("Invisible")
+                                                && var8.isInvisible()) {
                                             iter.remove();
-                                        } else if (!this.getBooleanValueFromSettingName("Animals/Monsters") && !(var8 instanceof PlayerEntity)) {
+                                        } else if (!this.getBooleanValueFromSettingName("Animals/Monsters")
+                                                && !(var8 instanceof PlayerEntity)) {
                                             iter.remove();
-                                        } else if (mc.player.getRidingEntity() != null && mc.player.getRidingEntity().equals(var8)) {
+                                        } else if (mc.player.getRidingEntity() != null
+                                                && mc.player.getRidingEntity().equals(var8)) {
                                             iter.remove();
                                         } else if (!var8.isInvulnerable()) {
                                             if (var8 instanceof PlayerEntity
                                                     && TeamUtil.method31662((PlayerEntity) var8)
-                                                    && Client.getInstance().moduleManager.getModuleByClass(Teams.class).isEnabled()) {
+                                                    && Client.getInstance().moduleManager.getModuleByClass(Teams.class)
+                                                            .isEnabled()) {
                                                 iter.remove();
                                             }
                                         } else {
@@ -278,8 +284,8 @@ public class InfiniteAura extends Module {
 
     public boolean hasSword() {
         return this.alwaysFalse
-                && Minecraft.getInstance().player.getHeldItemMainhand() != null
-                && Minecraft.getInstance().player.getHeldItemMainhand().getItem() instanceof SwordItem;
+                && MinecraftClient.getInstance().player.getHeldItemMainhand() != null
+                && MinecraftClient.getInstance().player.getHeldItemMainhand().getItem() instanceof SwordItem;
     }
 
     @Override

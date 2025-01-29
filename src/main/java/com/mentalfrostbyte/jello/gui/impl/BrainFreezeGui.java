@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.gui.unmapped.RandomIntGenerator;
 import com.mentalfrostbyte.jello.gui.unmapped.AnimatedIconPanelWrap;
 import com.mentalfrostbyte.jello.gui.unmapped.ParticleEffect;
 import com.mentalfrostbyte.jello.gui.unmapped.AnimationManager;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,8 @@ public class BrainFreezeGui extends AnimatedIconPanelWrap {
     public RandomIntGenerator random = new RandomIntGenerator();
 
     public BrainFreezeGui(CustomGuiScreen parentScreen, String name) {
-        super(parentScreen, name, 0, 0, Minecraft.getInstance().getMainWindow().getWidth(), Minecraft.getInstance().getMainWindow().getHeight(), false);
+        super(parentScreen, name, 0, 0, MinecraftClient.getInstance().getMainWindow().getWidth(),
+                MinecraftClient.getInstance().getMainWindow().getHeight(), false);
         this.method13145(false);
         this.method13296(false);
         this.method13292(false);
@@ -36,13 +37,14 @@ public class BrainFreezeGui extends AnimatedIconPanelWrap {
 
     @Override
     public void draw(float partialTicks) {
-        int scaledWidth = Minecraft.getInstance().getMainWindow().getScaledWidth();
-        int scaledHeight = Minecraft.getInstance().getMainWindow().getScaledHeight();
+        int scaledWidth = MinecraftClient.getInstance().getMainWindow().getScaledWidth();
+        int scaledHeight = MinecraftClient.getInstance().getMainWindow().getScaledHeight();
         int halfScreenWidth = scaledWidth / 2;
 
         boolean shouldUpdate;
         for (shouldUpdate = false; this.particles.size() < halfScreenWidth; shouldUpdate = true) {
-            this.particles.add(new ParticleEffect((float) this.random.nextInt(scaledWidth), (float) this.random.nextInt(scaledHeight)));
+            this.particles.add(new ParticleEffect((float) this.random.nextInt(scaledWidth),
+                    (float) this.random.nextInt(scaledHeight)));
         }
 
         while (this.particles.size() > halfScreenWidth) {

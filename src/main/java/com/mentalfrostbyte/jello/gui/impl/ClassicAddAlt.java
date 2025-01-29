@@ -12,7 +12,7 @@ import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 
 public class ClassicAddAlt extends Screen {
@@ -31,16 +31,20 @@ public class ClassicAddAlt extends Screen {
       int var4 = 114;
       int var5 = (this.getWidthA() - var3) / 2;
       this.addToList(
-         this.field21116 = new SigmaClassicTextBox(this, "username", var5, var4, var3, 45, SigmaClassicTextBox.field20741, "", "Username / E-Mail", ResourceRegistry.DefaultClientFont)
-      );
+            this.field21116 = new SigmaClassicTextBox(this, "username", var5, var4, var3, 45,
+                  SigmaClassicTextBox.field20741, "", "Username / E-Mail", ResourceRegistry.DefaultClientFont));
       var4 += 80;
-      this.addToList(this.field21117 = new SigmaClassicTextBox(this, "password", var5, var4, var3, 45, SigmaClassicTextBox.field20741, "", "Password", ResourceRegistry.DefaultClientFont));
+      this.addToList(this.field21117 = new SigmaClassicTextBox(this, "password", var5, var4, var3, 45,
+            SigmaClassicTextBox.field20741, "", "Password", ResourceRegistry.DefaultClientFont));
       var4 += 190;
-      this.addToList(this.field21118 = new Class4300(this, "login", var5, var4, var3, 40, "Login", ClientColors.MID_GREY.getColor()));
+      this.addToList(this.field21118 = new Class4300(this, "login", var5, var4, var3, 40, "Login",
+            ClientColors.MID_GREY.getColor()));
       var4 += 50;
-      this.addToList(this.field21119 = new Class4300(this, "back", var5, var4, var3, 40, "Back", ClientColors.MID_GREY.getColor()));
+      this.addToList(this.field21119 = new Class4300(this, "back", var5, var4, var3, 40, "Back",
+            ClientColors.MID_GREY.getColor()));
       var4 += 50;
-      this.addToList(this.field21120 = new Class4300(this, "import", var5, var4, var3, 40, "Import user:pass", ClientColors.MID_GREY.getColor()));
+      this.addToList(this.field21120 = new Class4300(this, "import", var5, var4, var3, 40, "Import user:pass",
+            ClientColors.MID_GREY.getColor()));
       this.field21117.method13155(true);
       this.field21117.method13147("*");
       this.field21118.doThis((var1, var2) -> {
@@ -51,16 +55,18 @@ public class ClassicAddAlt extends Screen {
                this.field21122 = "§cAlt failed!";
             } else {
                this.field21121.updateAccount(var3x);
-               this.field21122 = "Alt added. (" + var3x.getEmail() + (!var3x.isEmailAValidEmailFormat() ? "" : " - offline name") + ")";
+               this.field21122 = "Alt added. (" + var3x.getEmail()
+                     + (!var3x.isEmailAValidEmailFormat() ? "" : " - offline name") + ")";
             }
          }).start();
       });
-      this.field21119.doThis((var0, var1) -> Client.getInstance().guiManager.handleScreen(new SigmaClassicAltManager()));
+      this.field21119
+            .doThis((var0, var1) -> Client.getInstance().guiManager.handleScreen(new SigmaClassicAltManager()));
       this.field21120.doThis((var1, var2) -> {
          String var5x = "";
 
          try {
-            var5x = GLFW.glfwGetClipboardString(Minecraft.getInstance().getMainWindow().getHandle());
+            var5x = GLFW.glfwGetClipboardString(MinecraftClient.getInstance().getMainWindow().getHandle());
          } catch (Exception var7x) {
          }
 
@@ -76,22 +82,24 @@ public class ClassicAddAlt extends Screen {
 
    @Override
    public void draw(float partialTicks) {
-      RenderUtil.drawImage(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), Resources.mainmenubackground);
-      RenderUtil.drawRoundedRect(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), ColorUtils.applyAlpha(ClientColors.PALE_RED.getColor(), 0.1F));
-      RenderUtil.drawRoundedRect(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.95F));
+      RenderUtil.drawImage(0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
+            Resources.mainmenubackground);
+      RenderUtil.drawRoundedRect(0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
+            ColorUtils.applyAlpha(ClientColors.PALE_RED.getColor(), 0.1F));
+      RenderUtil.drawRoundedRect(0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.95F));
       RenderUtil.drawString(
-         ResourceRegistry.DefaultClientFont, (float)(this.getWidthA() / 2), 38.0F, "Add Alt", ClientColors.LIGHT_GREYISH_BLUE.getColor(), Class2218.field14492, Class2218.field14488
-      );
+            ResourceRegistry.DefaultClientFont, (float) (this.getWidthA() / 2), 38.0F, "Add Alt",
+            ClientColors.LIGHT_GREYISH_BLUE.getColor(), Class2218.field14492, Class2218.field14488);
       RenderUtil.drawString(
-         ResourceRegistry.DefaultClientFont,
-         (float)(this.getWidthA() / 2),
-         58.0F,
-         this.field21122,
-         ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-         Class2218.field14492,
-         Class2218.field14488,
-         true
-      );
+            ResourceRegistry.DefaultClientFont,
+            (float) (this.getWidthA() / 2),
+            58.0F,
+            this.field21122,
+            ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+            Class2218.field14492,
+            Class2218.field14488,
+            true);
       super.draw(partialTicks);
    }
 

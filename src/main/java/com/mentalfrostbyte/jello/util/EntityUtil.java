@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.util;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.FallingBlockEntity;
@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
 import static com.mentalfrostbyte.jello.util.player.RotationHelper.getLookVector;
 
 public class EntityUtil {
-    private static Minecraft mc = Minecraft.getInstance();
+    private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static void swing(Entity target, boolean swing) {
         if (target == null) {
@@ -47,23 +47,27 @@ public class EntityUtil {
         mc.playerController.attackEntity(mc.player, target);
     }
 
-    public static Entity getEntityFromRayTrace(float yaw, float pitch, float reachDistanceModifier, double boundingBoxExpansion) {
-        EntityRayTraceResult rayTraceResult = rayTraceFromPlayer(yaw, pitch, reachDistanceModifier, boundingBoxExpansion);
+    public static Entity getEntityFromRayTrace(float yaw, float pitch, float reachDistanceModifier,
+            double boundingBoxExpansion) {
+        EntityRayTraceResult rayTraceResult = rayTraceFromPlayer(yaw, pitch, reachDistanceModifier,
+                boundingBoxExpansion);
         return rayTraceResult == null ? null : rayTraceResult.getEntity();
     }
-    public static EntityRayTraceResult method17714(Entity var0, float var1, float var2, Predicate<Entity> var3, double var4) {
+
+    public static EntityRayTraceResult method17714(Entity var0, float var1, float var2, Predicate<Entity> var3,
+            double var4) {
         double var8 = var4 * var4;
         Entity var10 = null;
         Vector3d var11 = null;
         Vector3d var12 = new Vector3d(
-                mc.player.getPosX(), mc.player.getPosY() + (double) mc.player.getEyeHeight(), mc.player.getPosZ()
-        );
+                mc.player.getPosX(), mc.player.getPosY() + (double) mc.player.getEyeHeight(), mc.player.getPosZ());
         Vector3d var13 = getLookVector(var2, var1);
         Vector3d var14 = var12.add(var13.x * var8, var13.y * var8, var13.z * var8);
 
         assert mc.world != null;
         for (Entity var16 : mc.world
-                .getEntitiesInAABBexcluding(mc.player, mc.player.getBoundingBox().expand(var13.scale(var8)).grow(1.0, 1.0, 1.0), var3)) {
+                .getEntitiesInAABBexcluding(mc.player,
+                        mc.player.getBoundingBox().expand(var13.scale(var8)).grow(1.0, 1.0, 1.0), var3)) {
             AxisAlignedBB var17 = var16.getBoundingBox();
             Optional<Vector3d> var18 = var17.rayTrace(var12, var14);
             if (var18.isPresent()) {
@@ -81,13 +85,13 @@ public class EntityUtil {
 
     public static <T extends Entity> List<T> getEntitesInWorld(Predicate<T> filter) {
         return StreamSupport.stream(mc.world.getAllEntities().spliterator(), true)
-                .filter((Predicate<Entity>)filter).map(entity -> (T)entity).toList();
+                .filter((Predicate<Entity>) filter).map(entity -> (T) entity).toList();
     }
 
-    public static EntityRayTraceResult rayTraceFromPlayer(float yaw, float pitch, float reachDistanceModifier, double boundingBoxExpansion) {
+    public static EntityRayTraceResult rayTraceFromPlayer(float yaw, float pitch, float reachDistanceModifier,
+            double boundingBoxExpansion) {
         Vector3d playerEyesPos = new Vector3d(
-                mc.player.getPosX(), mc.player.getPosY() + (double) mc.player.getEyeHeight(), mc.player.getPosZ()
-        );
+                mc.player.getPosX(), mc.player.getPosY() + (double) mc.player.getEyeHeight(), mc.player.getPosZ());
         Entity renderViewEntity = mc.getRenderViewEntity();
 
         if (renderViewEntity != null && mc.world != null) {
@@ -97,14 +101,15 @@ public class EntityUtil {
             }
 
             Vector3d lookVector = getLookVector(pitch, yaw);
-            Vector3d rayEndPos = playerEyesPos.add(lookVector.x * reachDistance, lookVector.y * reachDistance, lookVector.z * reachDistance);
-            AxisAlignedBB searchBox = renderViewEntity.getBoundingBox().expand(lookVector.scale(reachDistance)).grow(1.0, 1.0, 1.0);
+            Vector3d rayEndPos = playerEyesPos.add(lookVector.x * reachDistance, lookVector.y * reachDistance,
+                    lookVector.z * reachDistance);
+            AxisAlignedBB searchBox = renderViewEntity.getBoundingBox().expand(lookVector.scale(reachDistance))
+                    .grow(1.0, 1.0, 1.0);
 
             return traceEntityRay(
                     mc.world, renderViewEntity, playerEyesPos, rayEndPos, searchBox,
                     entity -> entity instanceof LivingEntity || entity instanceof FallingBlockEntity,
-                    (double) (reachDistanceModifier * reachDistanceModifier), boundingBoxExpansion
-            );
+                    (double) (reachDistanceModifier * reachDistanceModifier), boundingBoxExpansion);
         } else {
             return null;
         }
@@ -121,8 +126,7 @@ public class EntityUtil {
 
     public static EntityRayTraceResult traceEntityRay(
             World world, Entity sourceEntity, Vector3d startPos, Vector3d endPos, AxisAlignedBB searchBox,
-            Predicate<Entity> entityFilter, double maxDistance, double boundingBoxExpansion
-    ) {
+            Predicate<Entity> entityFilter, double maxDistance, double boundingBoxExpansion) {
         double closestDistance = maxDistance;
         Entity closestEntity = null;
 
@@ -147,7 +151,6 @@ public class EntityUtil {
         return closestEntity != null ? new EntityRayTraceResult(closestEntity) : null;
     }
 
-
     public static Vector3d getCenteredPosition(AxisAlignedBB var0) {
         double var3 = var0.getCenter().x;
         double var5 = var0.minY;
@@ -162,13 +165,14 @@ public class EntityUtil {
     }
 
     public static boolean rayTraceEntity(PlayerEntity player, Entity entity) {
-        Minecraft mc = Minecraft.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
 
         Vector3d playerEyesPos = player.getEyePosition(1.0F);
         Vector3d lookDirection = player.getLook(1.0F);
 
         double reachDistance = mc.playerController.getBlockReachDistance();
-        Vector3d endPos = playerEyesPos.add(lookDirection.x * reachDistance, lookDirection.y * reachDistance, lookDirection.z * reachDistance);
+        Vector3d endPos = playerEyesPos.add(lookDirection.x * reachDistance, lookDirection.y * reachDistance,
+                lookDirection.z * reachDistance);
 
         AxisAlignedBB entityBoundingBox = entity.getBoundingBox().grow(0.3D);
 
@@ -177,8 +181,7 @@ public class EntityUtil {
                 endPos,
                 RayTraceContext.BlockMode.COLLIDER,
                 RayTraceContext.FluidMode.NONE,
-                player
-        );
+                player);
         RayTraceResult rayTraceResult = mc.world.rayTraceBlocks(context);
 
         if (rayTraceResult.getType() == RayTraceResult.Type.MISS) {

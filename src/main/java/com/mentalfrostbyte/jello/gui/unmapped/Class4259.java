@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3i;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Class4259 extends UIBase {
-    public Class4266 field20647;
+   public Class4266 field20647;
    public ChunkPos chunkPos;
    public int field20649 = 8;
    public float field20650 = 0.0F;
@@ -39,7 +39,8 @@ public class Class4259 extends UIBase {
       int var11 = var5 - var10 - 10;
       int var12 = var6 - var9 - 10;
       this.addToList(this.field20647 = new Class4266(this, "zoom", var11, var12, var10, var9));
-      this.chunkPos = Minecraft.getInstance().world.getChunk(Minecraft.getInstance().player.getPosition()).getPos();
+      this.chunkPos = MinecraftClient.getInstance().world.getChunk(MinecraftClient.getInstance().player.getPosition())
+            .getPos();
       this.setListening(false);
    }
 
@@ -54,10 +55,10 @@ public class Class4259 extends UIBase {
       if (this.field20909) {
          int var5 = newHeight - this.field20652;
          int var6 = newWidth - this.field20653;
-         float var7 = ((float)this.field20649 - 1.0F) / (float)this.field20649;
-         float var8 = (float)this.widthA / ((float)this.field20649 * 2.0F * var7);
-         this.field20651 += (float)var5 / var8;
-         this.field20650 += (float)var6 / var8;
+         float var7 = ((float) this.field20649 - 1.0F) / (float) this.field20649;
+         float var8 = (float) this.widthA / ((float) this.field20649 * 2.0F * var7);
+         this.field20651 += (float) var5 / var8;
+         this.field20650 += (float) var6 / var8;
       }
 
       this.field20652 = newHeight;
@@ -75,13 +76,14 @@ public class Class4259 extends UIBase {
    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
       if (this.method13298() && mouseButton == 1) {
          int var6 = Math.max(this.widthA, this.heightA);
-         float var7 = (float)(this.widthA - var6) / 2.0F;
-         float var8 = (float)(this.heightA - var6) / 2.0F;
-         float var9 = (float) mouseX - ((float)this.method13271() + var8 + (float)(var6 / 2));
-         float var10 = (float)(Minecraft.getInstance().getMainWindow().getHeight() - mouseY) - ((float)this.method13272() + var7 + (float)(var6 / 2));
-         float var11 = (float)var6 / ((float)(this.field20649 - 1) * 2.0F);
-         float var12 = (float)(this.chunkPos.x * 16) - this.field20651 * 16.0F;
-         float var13 = (float)(this.chunkPos.z * 16) - this.field20650 * 16.0F;
+         float var7 = (float) (this.widthA - var6) / 2.0F;
+         float var8 = (float) (this.heightA - var6) / 2.0F;
+         float var9 = (float) mouseX - ((float) this.method13271() + var8 + (float) (var6 / 2));
+         float var10 = (float) (MinecraftClient.getInstance().getMainWindow().getHeight() - mouseY)
+               - ((float) this.method13272() + var7 + (float) (var6 / 2));
+         float var11 = (float) var6 / ((float) (this.field20649 - 1) * 2.0F);
+         float var12 = (float) (this.chunkPos.x * 16) - this.field20651 * 16.0F;
+         float var13 = (float) (this.chunkPos.z * 16) - this.field20650 * 16.0F;
          float var14 = var12 + var9 / var11 * 16.0F;
          float var15 = var13 - var10 / var11 * 16.0F;
          this.method13081(mouseX, mouseY, new Vector3i(Math.round(var14), 0, Math.round(var15)));
@@ -96,17 +98,17 @@ public class Class4259 extends UIBase {
    public void voidEvent3(float scroll) {
       super.voidEvent3(scroll);
       if (this.method13298()) {
-         this.field20649 = Math.round(Math.max(3.0F, Math.min(33.0F, (float)this.field20649 + scroll / 10.0F)));
+         this.field20649 = Math.round(Math.max(3.0F, Math.min(33.0F, (float) this.field20649 + scroll / 10.0F)));
          this.method13083();
       }
    }
 
    @Override
    public void draw(float partialTicks) {
-      Minecraft var4 = Minecraft.getInstance();
+      Minecraft var4 = MinecraftClient.getInstance();
       ChunkPos var5 = new ChunkPos(this.chunkPos.x, this.chunkPos.z);
-      var5.x = (int)((double)var5.x - Math.floor((double)this.field20651));
-      var5.z = (int)((double)var5.z - Math.floor((double)this.field20650));
+      var5.x = (int) ((double) var5.x - Math.floor((double) this.field20651));
+      var5.z = (int) ((double) var5.z - Math.floor((double) this.field20650));
       if (partialTicks != 1.0F) {
          this.field20647.field20687 = true;
       }
@@ -115,69 +117,67 @@ public class Class4259 extends UIBase {
          this.field20654 = Client.getInstance().waypointsManager.method30003(var5, this.field20649 * 2);
       }
 
-      if (this.field20654 == null || this.field20649 != this.field20655 || this.field20651 != this.field20657 || this.field20650 != this.field20656) {
+      if (this.field20654 == null || this.field20649 != this.field20655 || this.field20651 != this.field20657
+            || this.field20650 != this.field20656) {
          this.field20647.field20687 = true;
       }
 
       int var6 = Math.max(this.widthA, this.heightA);
       int var7 = (this.widthA - var6) / 2;
       int var8 = (this.heightA - var6) / 2;
-      float var9 = (float)this.field20649 / ((float)this.field20649 - 1.0F);
-      float var10 = (float)var6 / ((float)this.field20649 * 2.0F);
-      double var11 = ((double)this.field20650 - Math.floor((double)this.field20650)) * (double)var10;
-      double var13 = ((double)this.field20651 - Math.floor((double)this.field20651)) * (double)var10;
+      float var9 = (float) this.field20649 / ((float) this.field20649 - 1.0F);
+      float var10 = (float) var6 / ((float) this.field20649 * 2.0F);
+      double var11 = ((double) this.field20650 - Math.floor((double) this.field20650)) * (double) var10;
+      double var13 = ((double) this.field20651 - Math.floor((double) this.field20651)) * (double) var10;
       TextureManager textureManager = var4.getTextureManager();
       textureManager.bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
       RenderUtil.drawPortalBackground(this.xA, this.yA, this.xA + this.widthA, this.yA + this.heightA, true);
       GL11.glPushMatrix();
-      GL11.glTranslatef((float)(this.xA + this.widthA / 2), (float)(this.yA + this.heightA / 2), 0.0F);
+      GL11.glTranslatef((float) (this.xA + this.widthA / 2), (float) (this.yA + this.heightA / 2), 0.0F);
       GL11.glScalef(var9, var9, 0.0F);
       GL11.glRotatef(-90.0F, 0.0F, 0.0F, 1.0F);
-      GL11.glTranslatef((float)(-this.xA - this.widthA / 2), (float)(-this.yA - this.heightA / 2), 0.0F);
+      GL11.glTranslatef((float) (-this.xA - this.widthA / 2), (float) (-this.yA - this.heightA / 2), 0.0F);
       GL11.glTranslated(-var11, var13, 0.0);
       RenderUtil.method11453(
-         (float)(this.xA + var7),
-         (float)(this.yA + var8),
-         (float)var6,
-         (float)var6,
-         this.field20654.field30546,
-         ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-         0.0F,
-         0.0F,
-         (float)this.field20654.field30544,
-         (float)this.field20654.field30545,
-         true,
-         false
-      );
+            (float) (this.xA + var7),
+            (float) (this.yA + var8),
+            (float) var6,
+            (float) var6,
+            this.field20654.field30546,
+            ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+            0.0F,
+            0.0F,
+            (float) this.field20654.field30544,
+            (float) this.field20654.field30545,
+            true,
+            false);
       GL11.glPopMatrix();
 
       for (Class8351 var16 : Client.getInstance().waypointsManager.method29989()) {
-         float var17 = (float)(this.chunkPos.x * 16) - this.field20651 * 16.0F;
-         float var18 = (float)(this.chunkPos.z * 16) - this.field20650 * 16.0F;
-         float var19 = (float)var16.field35890 - var17 + 1.0F;
-         float var20 = (float)var16.field35891 - var18 + 1.0F;
-         float var21 = (float)var6 / ((float)(this.field20649 - 1) * 2.0F);
+         float var17 = (float) (this.chunkPos.x * 16) - this.field20651 * 16.0F;
+         float var18 = (float) (this.chunkPos.z * 16) - this.field20650 * 16.0F;
+         float var19 = (float) var16.field35890 - var17 + 1.0F;
+         float var20 = (float) var16.field35891 - var18 + 1.0F;
+         float var21 = (float) var6 / ((float) (this.field20649 - 1) * 2.0F);
          RenderUtil.drawImage(
-            (float)(this.xA + Math.round(var19 * var21 / 16.0F) + this.widthA / 2 - 16),
-            (float)(this.yA + Math.round(var20 * var21 / 16.0F) + this.heightA / 2 - 42),
-            32.0F,
-            46.0F,
-            Resources.waypointPNG,
-            var16.field35892
-         );
+               (float) (this.xA + Math.round(var19 * var21 / 16.0F) + this.widthA / 2 - 16),
+               (float) (this.yA + Math.round(var20 * var21 / 16.0F) + this.heightA / 2 - 42),
+               32.0F,
+               46.0F,
+               Resources.waypointPNG,
+               var16.field35892);
       }
 
       RenderUtil.endScissor();
-      int var22 = Math.round((float)(this.chunkPos.x * 16) - this.field20651 * 16.0F);
-      int var23 = Math.round((float)(this.chunkPos.z * 16) - this.field20650 * 16.0F);
+      int var22 = Math.round((float) (this.chunkPos.x * 16) - this.field20651 * 16.0F);
+      int var23 = Math.round((float) (this.chunkPos.z * 16) - this.field20650 * 16.0F);
       String var24 = var22 + "  " + var23;
       RenderUtil.drawString(
-         ResourceRegistry.JelloLightFont14,
-         (float)(this.xA - ResourceRegistry.JelloLightFont14.getWidth(var24) - 23),
-         (float)(this.yA + 35),
-         var24,
-              ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.4F)
-      );
+            ResourceRegistry.JelloLightFont14,
+            (float) (this.xA - ResourceRegistry.JelloLightFont14.getWidth(var24) - 23),
+            (float) (this.yA + 35),
+            var24,
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.4F));
       this.field20656 = this.field20650;
       this.field20657 = this.field20651;
       this.field20655 = this.field20649;

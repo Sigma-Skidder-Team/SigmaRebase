@@ -2,7 +2,7 @@ package com.mentalfrostbyte.jello.misc;
 
 import com.mentalfrostbyte.jello.managers.util.combat.BotRecognitionTechnique;
 import com.mentalfrostbyte.jello.managers.util.combat.IBotDetector;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Class7249 implements IBotDetector {
-    public static final Minecraft field31119 = Minecraft.getInstance();
+    public static final MinecraftClient field31119 = MinecraftClient.getInstance();
     private boolean field31120 = true;
     public String field31121;
     public String field31122;
@@ -20,7 +20,7 @@ public abstract class Class7249 implements IBotDetector {
         this.field31121 = var1;
         this.field31122 = var2;
         this.field31123 = var3;
-      //  Client.getInstance().getEventManager().register(this);
+        // Client.getInstance().getEventManager().register(this);
     }
 
     public String method22759() {

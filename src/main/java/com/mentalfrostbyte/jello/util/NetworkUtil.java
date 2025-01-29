@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.util;
 
 import com.mentalfrostbyte.Client;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.util.Util;
 
@@ -16,8 +16,9 @@ public class NetworkUtil {
 
     // from MultiUtilities.method17705()
     public static int getPlayerResponseTime() {
-        for (NetworkPlayerInfo networkPlayer : Minecraft.getInstance().getConnection().getPlayerInfoMap()) {
-            if (networkPlayer.getGameProfile().getId().equals(Minecraft.getInstance().player.getUniqueID()) && !Minecraft.getInstance().isIntegratedServerRunning()) {
+        for (NetworkPlayerInfo networkPlayer : MinecraftClient.getInstance().getConnection().getPlayerInfoMap()) {
+            if (networkPlayer.getGameProfile().getId().equals(MinecraftClient.getInstance().player.getUniqueID())
+                    && !MinecraftClient.getInstance().isIntegratedServerRunning()) {
                 return networkPlayer.getResponseTime();
             }
         }
@@ -40,7 +41,7 @@ public class NetworkUtil {
                 // Determine the file name based on the OS
                 String fileName = osType == Util.OS.WINDOWS ? "yt-dlp.exe"
                         : osType == Util.OS.LINUX ? "yt-dlp_linux"
-                        : "yt-dlp_macos";
+                                : "yt-dlp_macos";
 
                 File targetFile = new File(musicDir, fileName);
 
@@ -51,7 +52,7 @@ public class NetworkUtil {
 
                     // Download the file
                     try (BufferedInputStream in = new BufferedInputStream(new URL(urlString).openStream());
-                         FileOutputStream fileOutputStream = new FileOutputStream(targetFile)) {
+                            FileOutputStream fileOutputStream = new FileOutputStream(targetFile)) {
                         byte[] dataBuffer = new byte[1024];
                         int bytesRead;
                         while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {

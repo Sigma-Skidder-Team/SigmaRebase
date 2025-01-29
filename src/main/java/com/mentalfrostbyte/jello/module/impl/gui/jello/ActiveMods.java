@@ -17,7 +17,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.TrueTypeFont;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -72,7 +72,8 @@ public class ActiveMods extends Module {
                 this.animations.put(module, new Animation(150, 150, Direction.BACKWARDS));
 
                 if (this.getBooleanValueFromSettingName("Animations")) {
-                    this.animations.get(module).changeDirection(!module.isEnabled() ? Direction.BACKWARDS : Direction.FORWARDS);
+                    this.animations.get(module)
+                            .changeDirection(!module.isEnabled() ? Direction.BACKWARDS : Direction.FORWARDS);
                 }
             }
         }
@@ -97,7 +98,8 @@ public class ActiveMods extends Module {
                     }
                 }
 
-                ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
+                ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective
+                        : scoreboard.getObjectiveInDisplaySlot(1);
                 Collection<Score> scores = scoreboard.getSortedScores(scoreobjective1);
                 int offset = 0;
 
@@ -110,7 +112,7 @@ public class ActiveMods extends Module {
                 int y = 23 + offset * (this.font.getHeight() + 1);
                 int totalScores = scores.size();
 
-                int windowHeight = Minecraft.getInstance().getMainWindow().getHeight();
+                int windowHeight = MinecraftClient.getInstance().getMainWindow().getHeight();
                 int windowCenterY = windowHeight / 2 - (9 + 5) * (totalScores - 3 + 2);
 
                 if (y <= windowCenterY) {
@@ -128,22 +130,24 @@ public class ActiveMods extends Module {
         if (mc.player != null) {
             for (Module module : this.animations.keySet()) {
                 if (this.getBooleanValueFromSettingName("Animations")) {
-                    this.animations.get(module).changeDirection(!module.isEnabled() ? Direction.BACKWARDS : Direction.FORWARDS);
+                    this.animations.get(module)
+                            .changeDirection(!module.isEnabled() ? Direction.BACKWARDS : Direction.FORWARDS);
                 }
             }
 
-            if (!Minecraft.getInstance().gameSettings.hideGUI) {
+            if (!MinecraftClient.getInstance().gameSettings.hideGUI) {
                 int margin = 10;
                 float scale = 1;
-                int screenWidth = Minecraft.getInstance().getMainWindow().getWidth();
+                int screenWidth = MinecraftClient.getInstance().getMainWindow().getWidth();
                 int screenHeight = margin - 4;
 
                 if (this.font == ResourceRegistry.JelloLightFont14) {
                     margin -= 3;
                 }
 
-                if (Minecraft.getInstance().gameSettings.showDebugInfo) {
-                    screenHeight = (int) ((double) (mc.ingameGUI.overlayDebug.debugInfoRight.size() * 9) * mc.getMainWindow().getGuiScaleFactor() + 7.0);
+                if (MinecraftClient.getInstance().gameSettings.showDebugInfo) {
+                    screenHeight = (int) ((double) (mc.ingameGUI.overlayDebug.debugInfoRight.size() * 9)
+                            * mc.getMainWindow().getGuiScaleFactor() + 7.0);
                 }
 
                 int color = ColorUtils.applyAlpha(-1, 0.95F);
@@ -184,13 +188,15 @@ public class ActiveMods extends Module {
                             (float) this.font.getWidth(suffix) * 3.0F,
                             this.font.getHeight() + scale + 40,
                             Resources.shadowPNG,
-                            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.36F * transparency * scaleFactor)
-                    );
+                            ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                    0.36F * transparency * scaleFactor));
                     RenderUtil.drawString(
-                            this.font, (float) (screenWidth - margin - this.font.getWidth(suffix)), (float) screenHeight, suffix, transparency != 1.0F ? ColorUtils.applyAlpha(-1, transparency * 0.95F) : color
-                    );
+                            this.font, (float) (screenWidth - margin - this.font.getWidth(suffix)),
+                            (float) screenHeight, suffix,
+                            transparency != 1.0F ? ColorUtils.applyAlpha(-1, transparency * 0.95F) : color);
                     GL11.glPopMatrix();
-                    screenHeight = (int) ((float) screenHeight + (float) (this.font.getHeight() + scale) * QuadraticEasing.easeInOutQuad(transparency, 0.0F, 1.0F, 1.0F));
+                    screenHeight = (int) ((float) screenHeight + (float) (this.font.getHeight() + scale)
+                            * QuadraticEasing.easeInOutQuad(transparency, 0.0F, 1.0F, 1.0F));
                 }
 
                 this.offsetY = screenHeight;

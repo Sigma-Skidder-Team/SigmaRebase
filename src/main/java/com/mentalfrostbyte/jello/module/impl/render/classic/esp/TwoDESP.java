@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -45,8 +45,8 @@ public class TwoDESP extends Module {
         } else {
             int[] var6 = method16517(var0, var2);
             if (var6[0] >= 0 && var6[0] < var0.length && var6[1] >= 0 && var6[1] < var0.length) {
-                float[] var7 = new float[]{var0[var6[0]], var0[var6[1]]};
-                Color[] var8 = new Color[]{var1[var6[0]], var1[var6[1]]};
+                float[] var7 = new float[] { var0[var6[0]], var0[var6[1]] };
+                Color[] var8 = new Color[] { var1[var6[0]], var1[var6[1]] };
                 float var9 = var7[1] - var7[0];
                 float var10 = var2 - var7[0];
                 float var11 = var10 / var9;
@@ -134,7 +134,8 @@ public class TwoDESP extends Module {
                 double[] var9 = field23729.get(var7);
                 if (var8[3] > 0.0 || var8[3] <= 1.0) {
                     RenderSystem.pushMatrix();
-                    if ((var4 || !var7.isInvisible()) && var7 instanceof PlayerEntity && !(var7 instanceof ClientPlayerEntity)) {
+                    if ((var4 || !var7.isInvisible()) && var7 instanceof PlayerEntity
+                            && !(var7 instanceof ClientPlayerEntity)) {
                         this.method16520(var7);
 
                         try {
@@ -158,7 +159,8 @@ public class TwoDESP extends Module {
                                 var15 = -256;
                             }
 
-                            RenderUtil.method11430(var13, var10, var14, var11, 2.25, Class7211.method22645(0, 0, 0, 0), var15);
+                            RenderUtil.method11430(var13, var10, var14, var11, 2.25, Class7211.method22645(0, 0, 0, 0),
+                                    var15);
                             RenderUtil.method11430(
                                     (double) var13 - 0.5,
                                     (double) var10 - 0.5,
@@ -166,8 +168,7 @@ public class TwoDESP extends Module {
                                     (double) var11 + 0.5,
                                     0.9,
                                     Class7211.method22643(0, 0),
-                                    Class7211.method22642(0)
-                            );
+                                    Class7211.method22642(0));
                             RenderUtil.method11430(
                                     (double) var13 + 2.5,
                                     (double) var10 + 2.5,
@@ -175,8 +176,7 @@ public class TwoDESP extends Module {
                                     (double) var11 - 2.5,
                                     0.9,
                                     Class7211.method22643(0, 0),
-                                    Class7211.method22642(0)
-                            );
+                                    Class7211.method22642(0));
                             RenderUtil.method11430(
                                     var13 - 5.0F,
                                     var10 - 1.0F,
@@ -184,11 +184,10 @@ public class TwoDESP extends Module {
                                     var11,
                                     1.0,
                                     Class7211.method22643(0, 100),
-                                    Class7211.method22643(0, 255)
-                            );
+                                    Class7211.method22643(0, 255));
                             float var16 = ((PlayerEntity) var7).getHealth();
-                            float[] var17 = new float[]{0.0F, 0.5F, 1.0F};
-                            Color[] var18 = new Color[]{Color.RED, Color.YELLOW, Color.GREEN};
+                            float[] var17 = new float[] { 0.0F, 0.5F, 1.0F };
+                            Color[] var18 = new Color[] { Color.RED, Color.YELLOW, Color.GREEN };
                             float var19 = var16 * 5.0F * 0.01F;
                             Color var20 = method16516(var17, var18, var19).brighter();
                             float var21 = var11 + (var10 - var11) * var16 * 5.0F * 0.01F;
@@ -226,27 +225,30 @@ public class TwoDESP extends Module {
             if (var11 instanceof PlayerEntity && !(var11 instanceof ClientPlayerEntity)) {
                 PlayerEntity var12 = (PlayerEntity) var11;
                 double var13 = var12.lastTickPosY + (var12.getPosY() - var12.lastTickPosY) * (double) var9 - var5;
-                double var15 = var12.lastTickPosX + (var12.getPosX() + 10.0 - (var12.lastTickPosX + 10.0)) * (double) var9 - var3;
-                double var17 = var12.lastTickPosZ + (var12.getPosZ() + 10.0 - (var12.lastTickPosZ + 10.0)) * (double) var9 - var7;
+                double var15 = var12.lastTickPosX
+                        + (var12.getPosX() + 10.0 - (var12.lastTickPosX + 10.0)) * (double) var9 - var3;
+                double var17 = var12.lastTickPosZ
+                        + (var12.getPosZ() + 10.0 - (var12.lastTickPosZ + 10.0)) * (double) var9 - var7;
                 var13 += (double) var12.getHeight() + 0.2;
                 double[] var19 = RenderUtil.worldToScreen(var15, var13, var17);
-                double var20 = Math.abs(RenderUtil.worldToScreen(var15, var13 + 1.0, var17)[1] - RenderUtil.worldToScreen(var15, var13, var17)[1]);
+                double var20 = Math.abs(RenderUtil.worldToScreen(var15, var13 + 1.0, var17)[1]
+                        - RenderUtil.worldToScreen(var15, var13, var17)[1]);
                 if (!field23730 && var19 == null) {
                     throw new AssertionError();
                 }
 
                 if (var19[2] >= 0.0 && var19[2] < 1.0) {
-                    field23728.put(var12, new double[]{var19[0], var19[1], var20, var19[2]});
-                    var13 = var12.lastTickPosY + (var12.getPosY() - 2.2 - (var12.lastTickPosY - 2.2)) * (double) var9 - var5;
+                    field23728.put(var12, new double[] { var19[0], var19[1], var20, var19[2] });
+                    var13 = var12.lastTickPosY + (var12.getPosY() - 2.2 - (var12.lastTickPosY - 2.2)) * (double) var9
+                            - var5;
                     field23729.put(
                             var12,
-                            new double[]{
+                            new double[] {
                                     RenderUtil.worldToScreen(var15, var13, var17)[0],
                                     RenderUtil.worldToScreen(var15, var13, var17)[1],
                                     var20,
                                     RenderUtil.worldToScreen(var15, var13, var17)[2]
-                            }
-                    );
+                            });
                 }
             }
         }
@@ -259,7 +261,8 @@ public class TwoDESP extends Module {
             this.field23727 = var5;
         }
 
-        this.field23727 = this.field23727 + ((double) var5 - this.field23727) / ((double) Minecraft.getFps() * 0.7);
+        this.field23727 = this.field23727
+                + ((double) var5 - this.field23727) / ((double) MinecraftClient.getFps() * 0.7);
         var4 = (float) ((double) var4 * this.field23727);
         RenderSystem.scalef(var4, var4, var4);
     }

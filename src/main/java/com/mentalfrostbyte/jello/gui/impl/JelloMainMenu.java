@@ -13,7 +13,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.TrueTypeFont;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.OptionsScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.realms.RealmsBridgeScreen;
@@ -52,9 +52,8 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         128,
                         Resources.singleplayerPNG,
-                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor())
-                )
-        );
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                ClientColors.DEEP_TEAL.getColor())));
         this.addToList(
                 this.multiplayerButton = new Class4236(
                         this,
@@ -64,9 +63,8 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         128,
                         Resources.multiplayerPNG,
-                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor())
-                )
-        );
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                ClientColors.DEEP_TEAL.getColor())));
         this.addToList(
                 this.realmsButton = new Class4236(
                         this,
@@ -76,9 +74,8 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         128,
                         Resources.shopPNG,
-                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor())
-                )
-        );
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                ClientColors.DEEP_TEAL.getColor())));
         this.addToList(
                 this.optionsButton = new Class4236(
                         this,
@@ -88,9 +85,8 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         128,
                         Resources.optionsPNG,
-                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor())
-                )
-        );
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                ClientColors.DEEP_TEAL.getColor())));
         this.addToList(
                 this.altManagerButton = new Class4236(
                         this,
@@ -100,14 +96,12 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         128,
                         Resources.altPNG,
-                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor())
-                )
-        );
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                ClientColors.DEEP_TEAL.getColor())));
         this.addToList(
                 this.field21130 = new UITextDisplay(
-                        this, "Copyright", 10, this.getHeightA() - 31, var15.getWidth(var20), 128, new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var20, var15
-                )
-        );
+                        this, "Copyright", 10, this.getHeightA() - 31, var15.getWidth(var20), 128,
+                        new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()), var20, var15));
         this.addToList(
                 this.field21129 = new UITextDisplay(
                         this,
@@ -118,29 +112,27 @@ public class JelloMainMenu extends CustomGuiScreen {
                         128,
                         new ColorHelper(ClientColors.LIGHT_GREYISH_BLUE.getColor()),
                         var21,
-                        var15
-                )
-        );
+                        var15));
         this.field21130.field20779 = true;
         this.field21129.field20779 = true;
         this.addToList(
                 this.changelogButton = new UIButton(
-                        this, "changelog", 432, 24, 110, 50, new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F)), "Changelog", ResourceRegistry.JelloLightFont20
-                )
-        );
+                        this, "changelog", 432, 24, 110, 50,
+                        new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F)),
+                        "Changelog", ResourceRegistry.JelloLightFont20));
         this.addToList(
                 this.field21133 = new UIButton(
-                        this, "quit", 30, 24, 50, 50, new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.4F)), "Exit", ResourceRegistry.JelloLightFont20
-                )
-        );
+                        this, "quit", 30, 24, 50, 50,
+                        new ColorHelper(ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.4F)),
+                        "Exit", ResourceRegistry.JelloLightFont20));
         this.field21133.doThis((var1x, var2x) -> {
             ((JelloMainMenuManager) this.getParent()).method13341();
             new Thread(() -> {
                 try {
                     Thread.sleep(2000L);
-                    Minecraft.getInstance().shutdown();
+                    MinecraftClient.getInstance().shutdown();
                 } catch (InterruptedException e) {
-                    Minecraft.getInstance().shutdown();
+                    MinecraftClient.getInstance().shutdown();
                 }
             }).start();
         });
@@ -154,9 +146,13 @@ public class JelloMainMenu extends CustomGuiScreen {
             }
         });
         this.changelogButton.doThis((var1x, var2x) -> ((JelloMainMenuManager) this.getParent()).animateIn());
-        this.singleplayerButton.doThis((var1x, var2x) -> this.displayGUI(new WorldSelectionScreen(Minecraft.getInstance().currentScreen)));
-        this.multiplayerButton.doThis((var1x, var2x) -> this.displayGUI(new JelloPortalScreen(Minecraft.getInstance().currentScreen)));
-        this.optionsButton.doThis((var1x, var2x) -> this.displayGUI(new OptionsScreen(Minecraft.getInstance().currentScreen, Minecraft.getInstance().gameSettings)));
+        this.singleplayerButton.doThis((var1x, var2x) -> this
+                .displayGUI(new WorldSelectionScreen(MinecraftClient.getInstance().currentScreen)));
+        this.multiplayerButton.doThis(
+                (var1x, var2x) -> this.displayGUI(new JelloPortalScreen(MinecraftClient.getInstance().currentScreen)));
+        this.optionsButton
+                .doThis((var1x, var2x) -> this.displayGUI(new OptionsScreen(MinecraftClient.getInstance().currentScreen,
+                        MinecraftClient.getInstance().gameSettings)));
         this.altManagerButton.doThis((var1x, var2x) -> this.displayScreen(new AltManagerScreen()));
         this.realmsButton.doThis((var1x, var2x) -> this.method13443());
         this.loginButton.doThis((var1x, var2x) -> {
@@ -175,7 +171,7 @@ public class JelloMainMenu extends CustomGuiScreen {
 
     public void method13443() {
         RealmsBridgeScreen var3 = new RealmsBridgeScreen();
-        var3.func_231394_a_(Minecraft.getInstance().currentScreen);
+        var3.func_231394_a_(MinecraftClient.getInstance().currentScreen);
         this.playClickSound();
     }
 
@@ -195,8 +191,7 @@ public class JelloMainMenu extends CustomGuiScreen {
                 (float) imageWidth,
                 (float) imageHeight,
                 Resources.logoLargePNG,
-                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks)
-        );
+                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), partialTicks));
         super.draw(partialTicks);
     }
 
@@ -215,7 +210,7 @@ public class JelloMainMenu extends CustomGuiScreen {
     }
 
     public void displayGUI(net.minecraft.client.gui.screen.Screen var1) {
-        Minecraft.getInstance().displayGuiScreen(var1);
+        MinecraftClient.getInstance().displayGuiScreen(var1);
         this.playClickSound();
     }
 

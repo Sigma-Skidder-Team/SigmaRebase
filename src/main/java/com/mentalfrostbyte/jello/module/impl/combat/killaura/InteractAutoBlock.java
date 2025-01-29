@@ -11,7 +11,7 @@ import com.mentalfrostbyte.jello.util.MultiUtilities;
 import com.mentalfrostbyte.jello.util.player.RotationHelper;
 import com.mentalfrostbyte.jello.util.player.Rotations;
 import com.mentalfrostbyte.jello.util.player.TeamUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ArmorStandEntity;
@@ -33,7 +33,7 @@ public class InteractAutoBlock {
     private float[] field44344;
     public final int field44345 = 3;
     private Module parent;
-    public Minecraft mc = Minecraft.getInstance();
+    public MinecraftClient mc = MinecraftClient.getInstance();
     public boolean blocking;
     public HashMap<Entity, List<Pair<Vector3d, Long>>> field44349 = new HashMap<>();
 

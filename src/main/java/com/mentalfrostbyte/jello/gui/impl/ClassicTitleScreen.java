@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.gui.unmapped.BoxedButton;
 import com.mentalfrostbyte.jello.managers.util.sound.CustomSoundPlayer;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.LanguageScreen;
 import net.minecraft.client.gui.screen.OptionsScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
@@ -25,30 +25,40 @@ public class ClassicTitleScreen extends CustomGuiScreen {
    public ClassicTitleScreen(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6) {
       super(var1, var2, var3, var4, var5, var6);
       int clicks = 0;
-      this.addToList(this.singlePlayerButton = new BoxedButton(this, "Singleplayer", this.method13497(clicks++), this.method13496(), 114, 140, Resources.singlePlayer));
-      this.addToList(this.multiplayerButton = new BoxedButton(this, "Multiplayer", this.method13497(clicks++), this.method13496(), 114, 140, Resources.multiplayer));
-      this.addToList(this.optionsButton = new BoxedButton(this, "Options", this.method13497(clicks++), this.method13496(), 114, 140, Resources.options));
-      this.addToList(this.languageButton = new BoxedButton(this, "Language", this.method13497(clicks++), this.method13496(), 114, 140, Resources.language));
+      this.addToList(this.singlePlayerButton = new BoxedButton(this, "Singleplayer", this.method13497(clicks++),
+            this.method13496(), 114, 140, Resources.singlePlayer));
+      this.addToList(this.multiplayerButton = new BoxedButton(this, "Multiplayer", this.method13497(clicks++),
+            this.method13496(), 114, 140, Resources.multiplayer));
+      this.addToList(this.optionsButton = new BoxedButton(this, "Options", this.method13497(clicks++),
+            this.method13496(), 114, 140, Resources.options));
+      this.addToList(this.languageButton = new BoxedButton(this, "Language", this.method13497(clicks++),
+            this.method13496(), 114, 140, Resources.language));
       this.addToList(
-         this.accountsButton = new BoxedButton(this, "Accounts", this.method13497(clicks++), this.method13496() + 140 + 10, 114, 140, Resources.accounts)
-      );
-      this.addToList(this.agoraButton = new BoxedButton(this, "Agora", this.method13497(clicks++), this.method13496() + 140 + 10, 114, 140, Resources.agora));
-      this.addToList(this.exitButton = new BoxedButton(this, "Exit", this.method13497(clicks++), this.method13496() + 140 + 10, 114, 140, Resources.exit));
-      this.singlePlayerButton.doThis((var1x, var2x) -> this.displayMcScreen(new WorldSelectionScreen(Minecraft.getInstance().currentScreen)));
-      this.multiplayerButton.doThis((var1x, var2x) -> this.displayMcScreen(new JelloPortalScreen(Minecraft.getInstance().currentScreen)));
-      this.optionsButton.doThis((var1x, var2x) -> this.displayMcScreen(new OptionsScreen(Minecraft.getInstance().currentScreen, Minecraft.getInstance().gameSettings)));
+            this.accountsButton = new BoxedButton(this, "Accounts", this.method13497(clicks++),
+                  this.method13496() + 140 + 10, 114, 140, Resources.accounts));
+      this.addToList(this.agoraButton = new BoxedButton(this, "Agora", this.method13497(clicks++),
+            this.method13496() + 140 + 10, 114, 140, Resources.agora));
+      this.addToList(this.exitButton = new BoxedButton(this, "Exit", this.method13497(clicks++),
+            this.method13496() + 140 + 10, 114, 140, Resources.exit));
+      this.singlePlayerButton.doThis((var1x, var2x) -> this
+            .displayMcScreen(new WorldSelectionScreen(MinecraftClient.getInstance().currentScreen)));
+      this.multiplayerButton.doThis(
+            (var1x, var2x) -> this.displayMcScreen(new JelloPortalScreen(MinecraftClient.getInstance().currentScreen)));
+      this.optionsButton.doThis(
+            (var1x, var2x) -> this.displayMcScreen(new OptionsScreen(MinecraftClient.getInstance().currentScreen,
+                  MinecraftClient.getInstance().gameSettings)));
       this.accountsButton.doThis((var1x, var2x) -> this.handleScreenAndPlayClick(new SigmaClassicAltManager()));
       this.languageButton
-         .doThis(
-            (var1x, var2x) -> this.displayMcScreen(
-                  new LanguageScreen(Minecraft.getInstance().currentScreen, Minecraft.getInstance().gameSettings, Minecraft.getInstance().getLanguageManager())
-               )
-         );
-      this.exitButton.doThis((var0, var1x) -> Minecraft.getInstance().shutdown());
+            .doThis(
+                  (var1x, var2x) -> this.displayMcScreen(
+                        new LanguageScreen(MinecraftClient.getInstance().currentScreen,
+                              MinecraftClient.getInstance().gameSettings,
+                              MinecraftClient.getInstance().getLanguageManager())));
+      this.exitButton.doThis((var0, var1x) -> MinecraftClient.getInstance().shutdown());
    }
 
    public void displayMcScreen(net.minecraft.client.gui.screen.Screen screen) {
-      Minecraft.getInstance().displayGuiScreen(screen);
+      MinecraftClient.getInstance().displayGuiScreen(screen);
       this.playClick();
    }
 
@@ -58,7 +68,8 @@ public class ClassicTitleScreen extends CustomGuiScreen {
    }
 
    public void playClick() {
-      Minecraft.getInstance().getSoundHandler().play(CustomSoundPlayer.playSoundWithCustomPitch(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+      MinecraftClient.getInstance().getSoundHandler()
+            .play(CustomSoundPlayer.playSoundWithCustomPitch(SoundEvents.UI_BUTTON_CLICK, 1.0F));
    }
 
    private int method13496() {
@@ -83,7 +94,8 @@ public class ClassicTitleScreen extends CustomGuiScreen {
    @Override
    public void draw(float partialTicks) {
       this.method13225();
-      RenderUtil.drawImage((float)(this.xA + (this.getWidthA() - 300) / 2), (float)(this.yA + 30), 300.0F, 97.0F, Resources.big);
+      RenderUtil.drawImage((float) (this.xA + (this.getWidthA() - 300) / 2), (float) (this.yA + 30), 300.0F, 97.0F,
+            Resources.big);
       super.draw(partialTicks);
    }
 }

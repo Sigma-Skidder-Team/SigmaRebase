@@ -1,6 +1,6 @@
 package com.mentalfrostbyte.jello.misc;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.ArrayList;
@@ -15,9 +15,10 @@ public class Class8901 {
    private ArrayList<Class8534> field40288 = new ArrayList<>();
    private double field40289 = 9.0;
    private boolean field40290 = true;
-   private static Minecraft field40291 = Minecraft.getInstance();
-   private static Vector3d[] field40292 = new Vector3d[]{
-      new Vector3d(1.0, 0.0, 0.0), new Vector3d(-1.0, 0.0, 0.0), new Vector3d(0.0, 0.0, 1.0), new Vector3d(0.0, 0.0, -1.0)
+   private static MinecraftClient field40291 = MinecraftClient.getInstance();
+   private static Vector3d[] field40292 = new Vector3d[] {
+         new Vector3d(1.0, 0.0, 0.0), new Vector3d(-1.0, 0.0, 0.0), new Vector3d(0.0, 0.0, 1.0),
+         new Vector3d(0.0, 0.0, -1.0)
    };
 
    public Class8901(Vector3d var1, Vector3d var2) {
@@ -38,10 +39,10 @@ public class Class8901 {
       this.field40288.clear();
       ArrayList var5 = new ArrayList();
       var5.add(this.field40284);
-      this.field40288.add(new Class8534(this.field40284, null, var5, this.field40284.method29881(this.field40285), 0.0, 0.0));
+      this.field40288
+            .add(new Class8534(this.field40284, null, var5, this.field40284.method29881(this.field40285), 0.0, 0.0));
 
-      label72:
-      for (int var6 = 0; var6 < var1; var6++) {
+      label72: for (int var6 = 0; var6 < var1; var6++) {
          Collections.sort(this.field40288, new Class3604(this));
          int var7 = 0;
          if (this.field40288.size() == 0) {
@@ -93,7 +94,7 @@ public class Class8901 {
       for (Vector3d var12 : var10) {
          if (var6 != 0 && var6 != var10.size() - 1) {
             boolean var13 = true;
-            if (!(var12.method29881(var8) > (double)(var5 * var5))) {
+            if (!(var12.method29881(var8) > (double) (var5 * var5))) {
                double var14 = Math.min(var8.getX(), var12.getX());
                double var16 = Math.min(var8.getY(), var12.getY());
                double var18 = Math.min(var8.getZ(), var12.getZ());
@@ -101,10 +102,9 @@ public class Class8901 {
                double var22 = Math.max(var8.getY(), var12.getY());
                double var24 = Math.max(var8.getZ(), var12.getZ());
 
-               label62:
-               for (int var26 = (int)var14; (double)var26 <= var20; var26++) {
-                  for (int var27 = (int)var16; (double)var27 <= var22; var27++) {
-                     for (int var28 = (int)var18; (double)var28 <= var24; var28++) {
+               label62: for (int var26 = (int) var14; (double) var26 <= var20; var26++) {
+                  for (int var27 = (int) var16; (double) var27 <= var22; var27++) {
+                     for (int var28 = (int) var18; (double) var28 <= var24; var28++) {
                         if (!method32449(var26, var27, var28, false)) {
                            var13 = false;
                            break label62;
@@ -137,35 +137,36 @@ public class Class8901 {
    }
 
    public static boolean method32448(Vector3d var0, boolean var1) {
-      return method32449((int)var0.getX(), (int)var0.getY(), (int)var0.getZ(), var1);
+      return method32449((int) var0.getX(), (int) var0.getY(), (int) var0.getZ(), var1);
    }
 
    public static boolean method32449(int var0, int var1, int var2, boolean var3) {
-      AxisAlignedBB var6 = field40291.player.getRidingEntity() != null ? field40291.player.getRidingEntity().getBoundingBox() : field40291.player.getBoundingBox();
+      AxisAlignedBB var6 = field40291.player.getRidingEntity() != null
+            ? field40291.player.getRidingEntity().getBoundingBox()
+            : field40291.player.getBoundingBox();
       AxisAlignedBB var7 = new AxisAlignedBB(
-         (double)((float)var0 + 0.5F) - var6.getXSize() / 2.0,
-         (double)var1,
-         (double)((float)var2 + 0.5F) - var6.getZSize() / 2.0,
-         (double)((float)var0 + 0.5F) + var6.getXSize() / 2.0,
-         (double)var1 + var6.getYSize(),
-         (double)((float)var2 + 0.5F) + var6.getZSize() / 2.0
-      );
+            (double) ((float) var0 + 0.5F) - var6.getXSize() / 2.0,
+            (double) var1,
+            (double) ((float) var2 + 0.5F) - var6.getZSize() / 2.0,
+            (double) ((float) var0 + 0.5F) + var6.getXSize() / 2.0,
+            (double) var1 + var6.getYSize(),
+            (double) ((float) var2 + 0.5F) + var6.getZSize() / 2.0);
       return field40291.world.getCollisionShapes(field40291.player, var7).count() == 0L;
    }
 
    public Class8534 method32450(Vector3d var1) {
       for (Class8534 var5 : this.field40287) {
          if (var5.method30354().getX() == var1.getX()
-            && var5.method30354().getY() == var1.getY()
-            && var5.method30354().getZ() == var1.getZ()) {
+               && var5.method30354().getY() == var1.getY()
+               && var5.method30354().getZ() == var1.getZ()) {
             return var5;
          }
       }
 
       for (Class8534 var7 : this.field40288) {
          if (var7.method30354().getX() == var1.getX()
-            && var7.method30354().getY() == var1.getY()
-            && var7.method30354().getZ() == var1.getZ()) {
+               && var7.method30354().getY() == var1.getY()
+               && var7.method30354().getZ() == var1.getZ()) {
             return var7;
          }
       }
@@ -195,7 +196,7 @@ public class Class8901 {
          if (var2.getX() == this.field40285.getX()
                && var2.getY() == this.field40285.getY()
                && var2.getZ() == this.field40285.getZ()
-            || this.field40289 != 0.0 && var2.method29881(this.field40285) <= this.field40289) {
+               || this.field40289 != 0.0 && var2.method29881(this.field40285) <= this.field40289) {
             this.field40286.clear();
             this.field40286 = var1.method30356();
             this.field40286.add(var2);

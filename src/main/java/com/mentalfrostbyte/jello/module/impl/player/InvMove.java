@@ -9,7 +9,7 @@ import com.mentalfrostbyte.jello.misc.Class1144;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.inventory.*;
 import net.minecraft.client.settings.KeyBinding;
@@ -38,7 +38,8 @@ public class InvMove extends Module {
     @EventTarget
     public void method16584(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (this.field23757 && var1.getPacket() instanceof CEntityActionPacket && this.getBooleanValueFromSettingName("AACP")) {
+            if (this.field23757 && var1.getPacket() instanceof CEntityActionPacket
+                    && this.getBooleanValueFromSettingName("AACP")) {
                 CEntityActionPacket var4 = (CEntityActionPacket) var1.getPacket();
                 if (var4.getAction() == CEntityActionPacket.Action.START_SPRINTING) {
                     var1.setCancelled(true);
@@ -50,24 +51,30 @@ public class InvMove extends Module {
     @EventTarget
     public void method16585(EventPlayerTick var1) {
         if (this.isEnabled()) {
-            boolean isInventoryScreen = mc.currentScreen instanceof InventoryScreen || mc.currentScreen instanceof ChestScreen;
+            boolean isInventoryScreen = mc.currentScreen instanceof InventoryScreen
+                    || mc.currentScreen instanceof ChestScreen;
             if (this.getBooleanValueFromSettingName("AACP")) {
-                boolean var4 = !(mc.currentScreen instanceof InventoryScreen) || !(mc.currentScreen instanceof ChestScreen);
+                boolean var4 = !(mc.currentScreen instanceof InventoryScreen)
+                        || !(mc.currentScreen instanceof ChestScreen);
                 if (this.field23757 && !var4) {
                     this.field23757 = !this.field23757;
                     if (mc.player.isSprinting()) {
-                        mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.START_SPRINTING));
+                        mc.getConnection().sendPacket(
+                                new CEntityActionPacket(mc.player, CEntityActionPacket.Action.START_SPRINTING));
                     }
                 } else if (!this.field23757 && var4) {
                     this.field23757 = !this.field23757;
                     if (mc.player.isSprinting()) {
-                        mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.STOP_SPRINTING));
+                        mc.getConnection().sendPacket(
+                                new CEntityActionPacket(mc.player, CEntityActionPacket.Action.STOP_SPRINTING));
                     }
                 }
             }
 
-            if (mc.currentScreen instanceof ContainerScreen || Client.getInstance().playerTracker.focusGameTicks() <= 1) {
-                if (mc.currentScreen instanceof ChatScreen || mc.currentScreen instanceof AnvilScreen || mc.currentScreen instanceof Class1144) {
+            if (mc.currentScreen instanceof ContainerScreen
+                    || Client.getInstance().playerTracker.focusGameTicks() <= 1) {
+                if (mc.currentScreen instanceof ChatScreen || mc.currentScreen instanceof AnvilScreen
+                        || mc.currentScreen instanceof Class1144) {
                     return;
                 }
 
@@ -78,8 +85,9 @@ public class InvMove extends Module {
                     }
                 }
 
-                if (Client.getInstance().guiManager.method33480() != null && Client.getInstance().guiManager.method33480().method13227()) {
-                    for (KeyBinding var14 : Minecraft.getInstance().gameSettings.keyBindings) {
+                if (Client.getInstance().guiManager.method33480() != null
+                        && Client.getInstance().guiManager.method33480().method13227()) {
+                    for (KeyBinding var14 : MinecraftClient.getInstance().gameSettings.keyBindings) {
                         var14.setPressed(false);
                     }
 

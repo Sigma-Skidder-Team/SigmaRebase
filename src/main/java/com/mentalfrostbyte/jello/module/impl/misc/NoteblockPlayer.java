@@ -14,7 +14,7 @@ import com.mentalfrostbyte.jello.util.render.Resources;
 import com.mentalfrostbyte.jello.util.world.BlockUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NoteBlock;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.play.client.CPlayerDiggingPacket;
 import net.minecraft.network.play.client.CPlayerPacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemOnBlockPacket;
@@ -61,11 +61,11 @@ public class NoteblockPlayer extends Module {
 
     public static void handlerRenderingAt(BlockPos var0) {
         double var3 = (double) ((float) var0.getX() + 0.5F)
-                - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX();
+                - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX();
         double var5 = (double) ((float) var0.getY() + 1.0F)
-                - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY();
+                - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY();
         double var7 = (double) ((float) var0.getZ() + 0.5F)
-                - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ();
+                - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ();
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(3042);
         GL11.glEnable(2848);
@@ -75,8 +75,8 @@ public class NoteblockPlayer extends Module {
         GL11.glDepthMask(false);
         GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
         Vector3d var9 = new Vector3d(0.0, 0.0, 1.0)
-                .rotatePitch(-((float) Math.toRadians(Minecraft.getInstance().player.rotationPitch)))
-                .rotateYaw(-((float) Math.toRadians(Minecraft.getInstance().player.rotationYaw)));
+                .rotatePitch(-((float) Math.toRadians(MinecraftClient.getInstance().player.rotationPitch)))
+                .rotateYaw(-((float) Math.toRadians(MinecraftClient.getInstance().player.rotationYaw)));
         GL11.glBegin(1);
         GL11.glVertex3d(var9.x, var9.y, var9.z);
         GL11.glVertex3d(var3, var5, var7);
@@ -123,10 +123,10 @@ public class NoteblockPlayer extends Module {
                                         if ((var6.method28780() != 3 && this.method16414(var8) == 0
                                                 || var8.method19640() == var6.method28780())
                                                 && Class2121.method8807(
-                                                var8.field28402) == (float) (var6.method28782() - 33)
+                                                        var8.field28402) == (float) (var6.method28782() - 33)
                                                 && Math.sqrt(mc.player.getPosition()
-                                                .distanceSq(var8.field28401)) < (double) mc.playerController
-                                                .getBlockReachDistance()) {
+                                                        .distanceSq(var8.field28401)) < (double) mc.playerController
+                                                                .getBlockReachDistance()) {
                                             float[] var9 = BlockUtil.method34542(var8.field28401, Direction.UP);
                                             if ((double) var8.field28401.getY() > mc.player.getPosY() + 1.0) {
                                                 var9 = BlockUtil.method34542(var8.field28401, Direction.DOWN);
@@ -165,7 +165,7 @@ public class NoteblockPlayer extends Module {
         for (Class6463 var5 : var1) {
             if ((var5.field28402 == -1.0F || this.method16411(var5.field28402, var5.instrument))
                     && Math.sqrt(mc.player.getPosition().distanceSq(var5.field28401)) < (double) mc.playerController
-                    .getBlockReachDistance()) {
+                            .getBlockReachDistance()) {
                 return false;
             }
         }
@@ -208,7 +208,8 @@ public class NoteblockPlayer extends Module {
                 Rots.rotating = true;
                 Rots.prevYaw = var6[0];
                 Rots.prevPitch = var6[1];
-                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
+                mc.getConnection()
+                        .sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
                 Rots.yaw = var6[0];
                 Rots.pitch = var6[1];
 
@@ -229,13 +230,14 @@ public class NoteblockPlayer extends Module {
         for (Class6463 var5 : var1) {
             if (this.method16411(var5.field28402, var5.instrument)
                     && Math.sqrt(mc.player.getPosition().distanceSq(var5.field28401)) < (double) mc.playerController
-                    .getBlockReachDistance()) {
+                            .getBlockReachDistance()) {
                 float[] var6 = BlockUtil.method34542(var5.field28401, Direction.UP);
                 mc.player.swingArm(Hand.MAIN_HAND);
                 Rots.rotating = true;
                 Rots.prevYaw = var6[0];
                 Rots.prevPitch = var6[1];
-                mc.getConnection().sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
+                mc.getConnection()
+                        .sendPacket(new CPlayerPacket.RotationPacket(var6[0], var6[1], mc.player.isOnGround()));
                 Rots.yaw = var6[0];
                 Rots.pitch = var6[1];
 
@@ -256,7 +258,7 @@ public class NoteblockPlayer extends Module {
         for (Class6463 var5 : var1) {
             if (this.method16411(var5.field28402, var5.instrument)
                     && Math.sqrt(mc.player.getPosition().distanceSq(var5.field28401)) < (double) mc.playerController
-                    .getBlockReachDistance()) {
+                            .getBlockReachDistance()) {
                 float[] var6 = BlockUtil.method34542(var5.field28401, Direction.UP);
                 mc.player.swingArm(Hand.MAIN_HAND);
                 Rots.rotating = true;

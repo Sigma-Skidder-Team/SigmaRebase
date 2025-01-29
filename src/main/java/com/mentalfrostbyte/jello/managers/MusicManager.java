@@ -17,7 +17,7 @@ import com.sapher.youtubedl.YoutubeDLResponse;
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.WinReg;
 import com.tagtraum.jipes.math.FFTFactory;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Util;
 import net.sourceforge.jaad.aac.Decoder;
 import net.sourceforge.jaad.aac.SampleBuffer;
@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicManager {
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public BufferedImage scaledThumbnail;
     public String songTitle = "";
     public List<double[]> visualizerData = new ArrayList<>();
@@ -127,12 +127,13 @@ public class MusicManager {
                     }
                 }
 
-                float fpsRatio = 60.0F / (float) Minecraft.getFps();
+                float fpsRatio = 60.0F / (float) MinecraftClient.getFps();
 
                 for (int i = 0; i < visualizers.length; i++) {
                     double var7 = this.amplitudes.get(i) - visualizers[i];
                     boolean var9 = !(this.amplitudes.get(i) < Double.MAX_VALUE);
-                    this.amplitudes.set(i, Math.min(2.256E7, Math.max(0.0, this.amplitudes.get(i) - var7 * (double) Math.min(0.335F * fpsRatio, 1.0F))));
+                    this.amplitudes.set(i, Math.min(2.256E7,
+                            Math.max(0.0, this.amplitudes.get(i) - var7 * (double) Math.min(0.335F * fpsRatio, 1.0F))));
                     if (var9) {
                         this.amplitudes.set(i, 0.0);
                     }
@@ -158,8 +159,7 @@ public class MusicManager {
                                 (float) mc.getMainWindow().getHeight() - height,
                                 width,
                                 height,
-                                ColorUtils.applyAlpha(ClientColors.MID_GREY.getColor(), 0.2F * alphaValue)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.MID_GREY.getColor(), 0.2F * alphaValue));
                     }
 
                     RenderUtil.initStencilBuffer();
@@ -167,12 +167,14 @@ public class MusicManager {
                     for (int i = 0; (float) i < maxWidth; i++) {
                         float heightRatio = (float) mc.getMainWindow().getHeight() / 1080.0F;
                         float height = ((float) (Math.sqrt(this.amplitudes.get(i)) / 12.0) - 5.0F) * heightRatio;
-                        RenderUtil.drawRoundedRect2((float) i * width, (float) mc.getMainWindow().getHeight() - height, width, height, ClientColors.LIGHT_GREYISH_BLUE.getColor());
+                        RenderUtil.drawRoundedRect2((float) i * width, (float) mc.getMainWindow().getHeight() - height,
+                                width, height, ClientColors.LIGHT_GREYISH_BLUE.getColor());
                     }
 
                     RenderUtil.configureStencilTest(StencilMode.NOTEQUAL);
                     if (this.notificationImage != null && this.songThumbnail != null) {
-                        RenderUtil.drawImage(0.0F, 0.0F, (float) mc.getMainWindow().getWidth(), (float) mc.getMainWindow().getHeight(), this.songThumbnail, 0.4F);
+                        RenderUtil.drawImage(0.0F, 0.0F, (float) mc.getMainWindow().getWidth(),
+                                (float) mc.getMainWindow().getHeight(), this.songThumbnail, 0.4F);
                     }
 
                     RenderUtil.restorePreviousStencilBuffer();
@@ -183,13 +185,16 @@ public class MusicManager {
                         var9 = Math.max(var9, Math.sqrt(this.amplitudes.get(i)) - 1000.0);
                     }
 
-                    float scale = 1.0F + (float) Math.round((float) (var9 / (double) (var16 - 1000)) * 0.14F * 75.0F) / 75.0F;
+                    float scale = 1.0F
+                            + (float) Math.round((float) (var9 / (double) (var16 - 1000)) * 0.14F * 75.0F) / 75.0F;
                     GL11.glPushMatrix();
                     GL11.glTranslated(60.0, mc.getMainWindow().getHeight() - 55, 0.0);
                     GL11.glScalef(scale, scale, 0.0F);
                     GL11.glTranslated(-60.0, -(mc.getMainWindow().getHeight() - 55), 0.0);
-                    RenderUtil.drawImage(10.0F, (float) (mc.getMainWindow().getHeight() - 110), 100.0F, 100.0F, this.notificationImage);
-                    RenderUtil.drawRoundedRect(10.0F, (float) (mc.getMainWindow().getHeight() - 110), 100.0F, 100.0F, 14.0F, 0.3F);
+                    RenderUtil.drawImage(10.0F, (float) (mc.getMainWindow().getHeight() - 110), 100.0F, 100.0F,
+                            this.notificationImage);
+                    RenderUtil.drawRoundedRect(10.0F, (float) (mc.getMainWindow().getHeight() - 110), 100.0F, 100.0F,
+                            14.0F, 0.3F);
                     GL11.glPopMatrix();
                     String[] titleSplit = this.songTitle.split(" - ");
                     if (titleSplit.length <= 1) {
@@ -198,44 +203,38 @@ public class MusicManager {
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 70),
                                 titleSplit[0],
-                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F));
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloLightFont18,
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 70),
                                 titleSplit[0],
-                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F));
                     } else {
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloMediumFont20_1,
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 81),
                                 titleSplit[0],
-                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.4F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.4F));
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloLightFont18_1,
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 56),
                                 titleSplit[1],
-                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.5F));
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloLightFont18,
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 56),
                                 titleSplit[1],
-                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.7F));
                         RenderUtil.drawString(
                                 ResourceRegistry.JelloMediumFont20,
                                 130.0F,
                                 (float) (mc.getMainWindow().getHeight() - 81),
                                 titleSplit[0],
-                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F)
-                        );
+                                ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.6F));
                     }
                 }
             }
@@ -282,7 +281,8 @@ public class MusicManager {
         }
 
         try {
-            if (this.isThumbnailProcessing && this.thumbnailImage != null && this.scaledThumbnail != null && this.currentVideo == null && !mc.isGamePaused()) {
+            if (this.isThumbnailProcessing && this.thumbnailImage != null && this.scaledThumbnail != null
+                    && this.currentVideo == null && !mc.isGamePaused()) {
                 if (this.songThumbnail != null) {
                     this.songThumbnail.release();
                 }
@@ -293,7 +293,8 @@ public class MusicManager {
 
                 this.songThumbnail = BufferedImageUtil.getTexture("picture", this.thumbnailImage);
                 this.notificationImage = BufferedImageUtil.getTexture("picture", this.scaledThumbnail);
-                Client.getInstance().notificationManager.send(new Notification("Now Playing", this.songTitle, 7000, this.notificationImage));
+                Client.getInstance().notificationManager
+                        .send(new Notification("Now Playing", this.songTitle, 7000, this.notificationImage));
                 this.isThumbnailProcessing = false;
             }
         } catch (IOException ex) {
@@ -322,7 +323,8 @@ public class MusicManager {
             this.audioThread = new Thread(
                     () -> {
                         byte[] pcmBufferData;
-                        if (this.currentVideoIndex < 0 || this.currentVideoIndex >= this.videoManager.videoList.size()) {
+                        if (this.currentVideoIndex < 0
+                                || this.currentVideoIndex >= this.videoManager.videoList.size()) {
                             this.currentVideoIndex = 0;
                         }
 
@@ -344,7 +346,8 @@ public class MusicManager {
                             try {
                                 System.out.println(videoURL);
                                 URL audioStreamURL = this.resolveAudioStream(videoURL);
-                                Client.getInstance().getLogger().setThreadName(audioStreamURL == null ? "No stream" : audioStreamURL.toString());
+                                Client.getInstance().getLogger().setThreadName(
+                                        audioStreamURL == null ? "No stream" : audioStreamURL.toString());
                                 if (audioStreamURL != null) {
                                     MusicStream stream = getMusicStream(audioStreamURL);
                                     MP4Container mp4Container = new MP4Container(stream);
@@ -355,14 +358,16 @@ public class MusicManager {
                                     }
 
                                     AudioTrack audioTrack = (AudioTrack) movie.getTracks().get(1);
-                                    AudioFormat audioFormat = new AudioFormat((float) audioTrack.getSampleRate(), audioTrack.getSampleSize(), audioTrack.getChannelCount(), true, true);
+                                    AudioFormat audioFormat = new AudioFormat((float) audioTrack.getSampleRate(),
+                                            audioTrack.getSampleSize(), audioTrack.getChannelCount(), true, true);
                                     this.sourceDataLine = AudioSystem.getSourceDataLine(audioFormat);
                                     this.sourceDataLine.open();
                                     this.sourceDataLine.start();
                                     this.duration = (long) movie.getDuration();
                                     if (this.duration > 1300L) {
                                         stream.close();
-                                        Client.getInstance().notificationManager.send(new Notification("Now Playing", "Music is too long."));
+                                        Client.getInstance().notificationManager
+                                                .send(new Notification("Now Playing", "Music is too long."));
                                     }
 
                                     Decoder decoder = new Decoder(audioTrack.getDecoderSpecificInfo());
@@ -380,8 +385,10 @@ public class MusicManager {
                                         Frame nextFrame = audioTrack.readNextFrame();
                                         decoder.decodeFrame(nextFrame.getData(), sampleBuffer);
                                         pcmBufferData = sampleBuffer.getData();
-                                        this.sourceDataLine.write((byte[]) pcmBufferData, 0, ((byte[]) pcmBufferData).length);
-                                        float[] var29 = MathUtils.convertToPCMFloatArray(sampleBuffer.getData(), audioFormat);
+                                        this.sourceDataLine.write((byte[]) pcmBufferData, 0,
+                                                ((byte[]) pcmBufferData).length);
+                                        float[] var29 = MathUtils.convertToPCMFloatArray(sampleBuffer.getData(),
+                                                audioFormat);
                                         FFTFactory.JavaFFT var19 = new FFTFactory.JavaFFT(var29.length);
                                         float[][] var20 = var19.transform(var29);
                                         float[] var21 = var20[0];
@@ -404,7 +411,9 @@ public class MusicManager {
                                         }
 
                                         if (!audioTrack.hasMoreFrames()
-                                                && (this.repeatMode == AudioRepeatMode.LOOP_CURRENT || this.repeatMode == AudioRepeatMode.REPEAT && this.videoManager.videoList.size() == 1)) {
+                                                && (this.repeatMode == AudioRepeatMode.LOOP_CURRENT
+                                                        || this.repeatMode == AudioRepeatMode.REPEAT
+                                                                && this.videoManager.videoList.size() == 1)) {
                                             audioTrack.seek(0.0);
                                             this.totalDuration = 0L;
                                         }
@@ -429,7 +438,8 @@ public class MusicManager {
 
                             if (this.repeatMode == AudioRepeatMode.LOOP_CURRENT) {
                                 i--;
-                            } else if (this.repeatMode == AudioRepeatMode.REPEAT && i == this.videoManager.videoList.size() - 1) {
+                            } else if (this.repeatMode == AudioRepeatMode.REPEAT
+                                    && i == this.videoManager.videoList.size() - 1) {
                                 i = -1;
                             } else if (this.repeatMode == AudioRepeatMode.NO_REPEAT) {
                                 return;
@@ -439,8 +449,7 @@ public class MusicManager {
                                 i = 0;
                             }
                         }
-                    }
-            );
+                    });
             this.audioThread.start();
         }
     }
@@ -472,7 +481,8 @@ public class MusicManager {
             BufferedImage image = ImageIO.read(new URL(video.fullUrl));
             this.thumbnailImage = ImageUtil.applyBlur(image, 15);
             this.thumbnailImage = this.thumbnailImage
-                    .getSubimage(0, (int) ((float) this.thumbnailImage.getHeight() * 0.75F), this.thumbnailImage.getWidth(), (int) ((float) this.thumbnailImage.getHeight() * 0.2F));
+                    .getSubimage(0, (int) ((float) this.thumbnailImage.getHeight() * 0.75F),
+                            this.thumbnailImage.getWidth(), (int) ((float) this.thumbnailImage.getHeight() * 0.2F));
             this.songTitle = video.title;
             if (image.getHeight() != image.getWidth()) {
                 if (this.songTitle.contains("[NCS Release]")) {
@@ -671,9 +681,8 @@ public class MusicManager {
     }
 
     public String prepareYtDlpExecutable() {
-        String fileName =
-                Util.getOSType() == Util.OS.WINDOWS ? "yt-dlp.exe"
-                        : Util.getOSType() == Util.OS.LINUX ? "yt-dlp_linux"
+        String fileName = Util.getOSType() == Util.OS.WINDOWS ? "yt-dlp.exe"
+                : Util.getOSType() == Util.OS.LINUX ? "yt-dlp_linux"
                         : "yt-dlp_macos";
         String ytDlpFile = Client.getInstance().file.getAbsolutePath() + "/music/" + fileName;
         if (Util.getOSType() != Util.OS.WINDOWS) {
@@ -687,9 +696,9 @@ public class MusicManager {
     public boolean hasPython() {
         String[] commands;
         if (Util.getOSType() == Util.OS.WINDOWS) {
-            commands = new String[]{"python --version || py --version || python3 --version"};
+            commands = new String[] { "python --version || py --version || python3 --version" };
         } else {
-            commands = new String[]{"python3 --version || python --version"};
+            commands = new String[] { "python3 --version || python --version" };
         }
 
         for (String command : commands) {
@@ -699,10 +708,10 @@ public class MusicManager {
                 String output = reader.readLine();
                 while (output != null) {
                     if (
-                        // Windows / command prompt
-                            output.contains("is not recognized as an internal or external command")
-                                    // bash
-                                    || output.contains("command not found")) {
+                    // Windows / command prompt
+                    output.contains("is not recognized as an internal or external command")
+                            // bash
+                            || output.contains("command not found")) {
                         break; // Move to the next command
                     }
                     if (output.toLowerCase().contains("python")) {
@@ -722,9 +731,9 @@ public class MusicManager {
 
     private String[] getCommandArray(String command) {
         if (Util.getOSType() == Util.OS.WINDOWS) {
-            return new String[]{"cmd", "/c", command};
+            return new String[] { "cmd", "/c", command };
         } else {
-            return new String[]{"bash", "-c", command};
+            return new String[] { "bash", "-c", command };
         }
     }
 
@@ -735,8 +744,10 @@ public class MusicManager {
         for (int i = 0; i < length; i++) {
             int actualPart = i < actualParts.length ? Integer.parseInt(actualParts[i]) : 0;
             int requiredPart = i < requiredParts.length ? Integer.parseInt(requiredParts[i]) : 0;
-            if (actualPart > requiredPart) return true;
-            if (actualPart < requiredPart) return false;
+            if (actualPart > requiredPart)
+                return true;
+            if (actualPart < requiredPart)
+                return false;
         }
         return true;
     }
@@ -749,16 +760,16 @@ public class MusicManager {
 
             try {
                 hasRedist = Advapi32Util.registryGetIntValue(
-                        WinReg.HKEY_LOCAL_MACHINE, "SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x86", "Installed"
-                )
-                        == 1;
+                        WinReg.HKEY_LOCAL_MACHINE,
+                        "SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x86", "Installed") == 1;
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
 
             try {
                 hasRedist = hasRedist
-                        || Advapi32Util.registryGetIntValue(WinReg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x86", "Installed") == 1;
+                        || Advapi32Util.registryGetIntValue(WinReg.HKEY_LOCAL_MACHINE,
+                                "SOFTWARE\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x86", "Installed") == 1;
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }

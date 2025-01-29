@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.module.impl.combat.Criticals;
 import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
 import com.mentalfrostbyte.jello.util.EntityUtil;
 import com.mentalfrostbyte.jello.util.MultiUtilities;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ public class KillAuraAttackLambda implements Runnable {
         this.field1477 = var2;
     }
 
-    private void handleAnimationAndAttack(Minecraft mc, Entity entity, boolean isOnePointEight) {
+    private void handleAnimationAndAttack(MinecraftClient mc, Entity entity, boolean isOnePointEight) {
         if (EnchantmentHelper.getEnchantmentLevel(Enchantment.getEnchantmentByID(12),
                 mc.player.getHeldItem(Hand.MAIN_HAND)) > 0) {
             mc.particles.addParticleEmitter(entity, ParticleTypes.ENCHANTED_HIT);
@@ -94,7 +94,7 @@ public class KillAuraAttackLambda implements Runnable {
                 }
 
                 boolean noSwing = this.killauraModule.getBooleanValueFromSettingName("No swing");
-                Minecraft mc = KillAura.mc;
+                MinecraftClient mc = KillAura.mc;
                 boolean isOnePointEight = false; // Potential check for 1.8 version
 
                 boolean raytrace = this.killauraModule.getBooleanValueFromSettingName("Raytrace");

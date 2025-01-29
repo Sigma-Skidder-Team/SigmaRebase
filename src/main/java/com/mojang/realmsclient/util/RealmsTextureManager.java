@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
@@ -30,139 +30,104 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RealmsTextureManager
-{
+public class RealmsTextureManager {
     private static final Map<String, RealmsTextureManager.RealmsTexture> field_225209_a = Maps.newHashMap();
     private static final Map<String, Boolean> field_225210_b = Maps.newHashMap();
     private static final Map<String, String> field_225211_c = Maps.newHashMap();
     private static final Logger field_225212_d = LogManager.getLogger();
     private static final ResourceLocation field_238097_e_ = new ResourceLocation("textures/gui/presets/isles.png");
 
-    public static void func_225202_a(String p_225202_0_, @Nullable String p_225202_1_)
-    {
-        if (p_225202_1_ == null)
-        {
-            Minecraft.getInstance().getTextureManager().bindTexture(field_238097_e_);
-        }
-        else
-        {
+    public static void func_225202_a(String p_225202_0_, @Nullable String p_225202_1_) {
+        if (p_225202_1_ == null) {
+            MinecraftClient.getInstance().getTextureManager().bindTexture(field_238097_e_);
+        } else {
             int i = func_225203_b(p_225202_0_, p_225202_1_);
             RenderSystem.bindTexture(i);
         }
     }
 
-    public static void func_225205_a(String p_225205_0_, Runnable p_225205_1_)
-    {
+    public static void func_225205_a(String p_225205_0_, Runnable p_225205_1_) {
         RenderSystem.pushTextureAttributes();
 
-        try
-        {
+        try {
             func_225200_a(p_225205_0_);
             p_225205_1_.run();
-        }
-        finally
-        {
+        } finally {
             RenderSystem.popAttributes();
         }
     }
 
-    private static void func_225204_a(UUID p_225204_0_)
-    {
-        Minecraft.getInstance().getTextureManager().bindTexture(DefaultPlayerSkin.getDefaultSkin(p_225204_0_));
+    private static void func_225204_a(UUID p_225204_0_) {
+        MinecraftClient.getInstance().getTextureManager().bindTexture(DefaultPlayerSkin.getDefaultSkin(p_225204_0_));
     }
 
-    private static void func_225200_a(final String p_225200_0_)
-    {
+    private static void func_225200_a(final String p_225200_0_) {
         UUID uuid = UUIDTypeAdapter.fromString(p_225200_0_);
 
-        if (field_225209_a.containsKey(p_225200_0_))
-        {
+        if (field_225209_a.containsKey(p_225200_0_)) {
             RenderSystem.bindTexture((field_225209_a.get(p_225200_0_)).field_225198_b);
-        }
-        else if (field_225210_b.containsKey(p_225200_0_))
-        {
-            if (!field_225210_b.get(p_225200_0_))
-            {
+        } else if (field_225210_b.containsKey(p_225200_0_)) {
+            if (!field_225210_b.get(p_225200_0_)) {
                 func_225204_a(uuid);
-            }
-            else if (field_225211_c.containsKey(p_225200_0_))
-            {
+            } else if (field_225211_c.containsKey(p_225200_0_)) {
                 int i = func_225203_b(p_225200_0_, field_225211_c.get(p_225200_0_));
                 RenderSystem.bindTexture(i);
-            }
-            else
-            {
+            } else {
                 func_225204_a(uuid);
             }
-        }
-        else
-        {
+        } else {
             field_225210_b.put(p_225200_0_, false);
             func_225204_a(uuid);
-            Thread thread = new Thread("Realms Texture Downloader")
-            {
-                public void run()
-                {
+            Thread thread = new Thread("Realms Texture Downloader") {
+                public void run() {
                     Map<Type, MinecraftProfileTexture> map = RealmsUtil.func_225191_b(p_225200_0_);
 
-                    if (map.containsKey(Type.SKIN))
-                    {
+                    if (map.containsKey(Type.SKIN)) {
                         MinecraftProfileTexture minecraftprofiletexture = map.get(Type.SKIN);
                         String s = minecraftprofiletexture.getUrl();
                         HttpURLConnection httpurlconnection = null;
-                        RealmsTextureManager.field_225212_d.debug("Downloading http texture from {}", (Object)s);
+                        RealmsTextureManager.field_225212_d.debug("Downloading http texture from {}", (Object) s);
 
-                        try
-                        {
-                            httpurlconnection = (HttpURLConnection)(new URL(s)).openConnection(Minecraft.getInstance().getProxy());
+                        try {
+                            httpurlconnection = (HttpURLConnection) (new URL(s))
+                                    .openConnection(MinecraftClient.getInstance().getProxy());
                             httpurlconnection.setDoInput(true);
                             httpurlconnection.setDoOutput(false);
                             httpurlconnection.connect();
 
-                            if (httpurlconnection.getResponseCode() / 100 == 2)
-                            {
+                            if (httpurlconnection.getResponseCode() / 100 == 2) {
                                 BufferedImage bufferedimage;
 
-                                try
-                                {
+                                try {
                                     bufferedimage = ImageIO.read(httpurlconnection.getInputStream());
-                                }
-                                catch (Exception exception)
-                                {
+                                } catch (Exception exception) {
                                     RealmsTextureManager.field_225210_b.remove(p_225200_0_);
                                     return;
-                                }
-                                finally
-                                {
+                                } finally {
                                     IOUtils.closeQuietly(httpurlconnection.getInputStream());
                                 }
 
                                 bufferedimage = (new SkinProcessor()).func_225228_a(bufferedimage);
                                 ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
                                 ImageIO.write(bufferedimage, "png", bytearrayoutputstream);
-                                RealmsTextureManager.field_225211_c.put(p_225200_0_, (new Base64()).encodeToString(bytearrayoutputstream.toByteArray()));
+                                RealmsTextureManager.field_225211_c.put(p_225200_0_,
+                                        (new Base64()).encodeToString(bytearrayoutputstream.toByteArray()));
                                 RealmsTextureManager.field_225210_b.put(p_225200_0_, true);
                                 return;
                             }
 
                             RealmsTextureManager.field_225210_b.remove(p_225200_0_);
-                        }
-                        catch (Exception exception1)
-                        {
-                            RealmsTextureManager.field_225212_d.error("Couldn't download http texture", (Throwable)exception1);
+                        } catch (Exception exception1) {
+                            RealmsTextureManager.field_225212_d.error("Couldn't download http texture",
+                                    (Throwable) exception1);
                             RealmsTextureManager.field_225210_b.remove(p_225200_0_);
                             return;
-                        }
-                        finally
-                        {
-                            if (httpurlconnection != null)
-                            {
+                        } finally {
+                            if (httpurlconnection != null) {
                                 httpurlconnection.disconnect();
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         RealmsTextureManager.field_225210_b.put(p_225200_0_, true);
                     }
                 }
@@ -172,24 +137,19 @@ public class RealmsTextureManager
         }
     }
 
-    private static int func_225203_b(String p_225203_0_, String p_225203_1_)
-    {
+    private static int func_225203_b(String p_225203_0_, String p_225203_1_) {
         int i;
 
-        if (field_225209_a.containsKey(p_225203_0_))
-        {
+        if (field_225209_a.containsKey(p_225203_0_)) {
             RealmsTextureManager.RealmsTexture realmstexturemanager$realmstexture = field_225209_a.get(p_225203_0_);
 
-            if (realmstexturemanager$realmstexture.field_225197_a.equals(p_225203_1_))
-            {
+            if (realmstexturemanager$realmstexture.field_225197_a.equals(p_225203_1_)) {
                 return realmstexturemanager$realmstexture.field_225198_b;
             }
 
             RenderSystem.deleteTexture(realmstexturemanager$realmstexture.field_225198_b);
             i = realmstexturemanager$realmstexture.field_225198_b;
-        }
-        else
-        {
+        } else {
             i = GlStateManager.genTexture();
         }
 
@@ -197,17 +157,13 @@ public class RealmsTextureManager
         int j = 0;
         int k = 0;
 
-        try
-        {
+        try {
             InputStream inputstream = new ByteArrayInputStream((new Base64()).decode(p_225203_1_));
             BufferedImage bufferedimage;
 
-            try
-            {
+            try {
                 bufferedimage = ImageIO.read(inputstream);
-            }
-            finally
-            {
+            } finally {
                 IOUtils.closeQuietly(inputstream);
             }
 
@@ -217,10 +173,8 @@ public class RealmsTextureManager
             bufferedimage.getRGB(0, 0, j, k, lvt_8_1_, 0, j);
             intbuffer = ByteBuffer.allocateDirect(4 * j * k).order(ByteOrder.nativeOrder()).asIntBuffer();
             intbuffer.put(lvt_8_1_);
-            ((Buffer)intbuffer).flip();
-        }
-        catch (IOException ioexception)
-        {
+            ((Buffer) intbuffer).flip();
+        } catch (IOException ioexception) {
             ioexception.printStackTrace();
         }
 
@@ -231,13 +185,11 @@ public class RealmsTextureManager
         return i;
     }
 
-    public static class RealmsTexture
-    {
+    public static class RealmsTexture {
         private final String field_225197_a;
         private final int field_225198_b;
 
-        public RealmsTexture(String p_i51693_1_, int p_i51693_2_)
-        {
+        public RealmsTexture(String p_i51693_1_, int p_i51693_2_) {
             this.field_225197_a = p_i51693_1_;
             this.field_225198_b = p_i51693_2_;
         }

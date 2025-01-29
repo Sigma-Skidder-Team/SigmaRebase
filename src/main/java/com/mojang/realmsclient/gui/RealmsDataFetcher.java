@@ -15,12 +15,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RealmsDataFetcher
-{
+public class RealmsDataFetcher {
     private static final Logger field_225088_a = LogManager.getLogger();
     private final ScheduledExecutorService field_225089_b = Executors.newScheduledThreadPool(3);
     private volatile boolean field_225090_c = true;
@@ -41,98 +40,84 @@ public class RealmsDataFetcher
     private ScheduledFuture<?> field_225105_r;
     private ScheduledFuture<?> field_225106_s;
     private ScheduledFuture<?> field_225107_t;
-    private final Map<RealmsDataFetcher.Task, Boolean> field_225108_u = new ConcurrentHashMap<>(RealmsDataFetcher.Task.values().length);
+    private final Map<RealmsDataFetcher.Task, Boolean> field_225108_u = new ConcurrentHashMap<>(
+            RealmsDataFetcher.Task.values().length);
 
-    public boolean func_225065_a()
-    {
+    public boolean func_225065_a() {
         return this.field_225090_c;
     }
 
-    public synchronized void func_225086_b()
-    {
-        if (this.field_225090_c)
-        {
+    public synchronized void func_225086_b() {
+        if (this.field_225090_c) {
             this.field_225090_c = false;
             this.func_225084_n();
             this.func_225069_m();
         }
     }
 
-    public synchronized void func_237710_c_()
-    {
-        if (this.field_225090_c)
-        {
+    public synchronized void func_237710_c_() {
+        if (this.field_225090_c) {
             this.field_225090_c = false;
             this.func_225084_n();
             this.field_225108_u.put(RealmsDataFetcher.Task.PENDING_INVITE, false);
-            this.field_225104_q = this.field_225089_b.scheduleAtFixedRate(this.field_225092_e, 0L, 10L, TimeUnit.SECONDS);
+            this.field_225104_q = this.field_225089_b.scheduleAtFixedRate(this.field_225092_e, 0L, 10L,
+                    TimeUnit.SECONDS);
             this.field_225108_u.put(RealmsDataFetcher.Task.TRIAL_AVAILABLE, false);
-            this.field_225105_r = this.field_225089_b.scheduleAtFixedRate(this.field_225093_f, 0L, 60L, TimeUnit.SECONDS);
+            this.field_225105_r = this.field_225089_b.scheduleAtFixedRate(this.field_225093_f, 0L, 60L,
+                    TimeUnit.SECONDS);
             this.field_225108_u.put(RealmsDataFetcher.Task.UNREAD_NEWS, false);
-            this.field_225107_t = this.field_225089_b.scheduleAtFixedRate(this.field_225095_h, 0L, 300L, TimeUnit.SECONDS);
+            this.field_225107_t = this.field_225089_b.scheduleAtFixedRate(this.field_225095_h, 0L, 300L,
+                    TimeUnit.SECONDS);
         }
     }
 
-    public boolean func_225083_a(RealmsDataFetcher.Task p_225083_1_)
-    {
+    public boolean func_225083_a(RealmsDataFetcher.Task p_225083_1_) {
         Boolean obool = this.field_225108_u.get(p_225083_1_);
         return obool == null ? false : obool;
     }
 
-    public void func_225072_c()
-    {
-        for (RealmsDataFetcher.Task realmsdatafetcher$task : this.field_225108_u.keySet())
-        {
+    public void func_225072_c() {
+        for (RealmsDataFetcher.Task realmsdatafetcher$task : this.field_225108_u.keySet()) {
             this.field_225108_u.put(realmsdatafetcher$task, false);
         }
     }
 
-    public synchronized void func_225087_d()
-    {
+    public synchronized void func_225087_d() {
         this.func_225070_k();
         this.func_225086_b();
     }
 
-    public synchronized List<RealmsServer> func_225078_e()
-    {
+    public synchronized List<RealmsServer> func_225078_e() {
         return Lists.newArrayList(this.field_225097_j);
     }
 
-    public synchronized int func_225081_f()
-    {
+    public synchronized int func_225081_f() {
         return this.field_225099_l;
     }
 
-    public synchronized boolean func_225071_g()
-    {
+    public synchronized boolean func_225071_g() {
         return this.field_225100_m;
     }
 
-    public synchronized RealmsServerPlayerLists func_225079_h()
-    {
+    public synchronized RealmsServerPlayerLists func_225079_h() {
         return this.field_225098_k;
     }
 
-    public synchronized boolean func_225059_i()
-    {
+    public synchronized boolean func_225059_i() {
         return this.field_225101_n;
     }
 
-    public synchronized String func_225063_j()
-    {
+    public synchronized String func_225063_j() {
         return this.field_225102_o;
     }
 
-    public synchronized void func_225070_k()
-    {
+    public synchronized void func_225070_k() {
         this.field_225090_c = true;
         this.func_225084_n();
     }
 
-    private void func_225069_m()
-    {
-        for (RealmsDataFetcher.Task realmsdatafetcher$task : RealmsDataFetcher.Task.values())
-        {
+    private void func_225069_m() {
+        for (RealmsDataFetcher.Task realmsdatafetcher$task : RealmsDataFetcher.Task.values()) {
             this.field_225108_u.put(realmsdatafetcher$task, false);
         }
 
@@ -143,172 +128,130 @@ public class RealmsDataFetcher
         this.field_225107_t = this.field_225089_b.scheduleAtFixedRate(this.field_225095_h, 0L, 300L, TimeUnit.SECONDS);
     }
 
-    private void func_225084_n()
-    {
-        try
-        {
-            if (this.field_225103_p != null)
-            {
+    private void func_225084_n() {
+        try {
+            if (this.field_225103_p != null) {
                 this.field_225103_p.cancel(false);
             }
 
-            if (this.field_225104_q != null)
-            {
+            if (this.field_225104_q != null) {
                 this.field_225104_q.cancel(false);
             }
 
-            if (this.field_225105_r != null)
-            {
+            if (this.field_225105_r != null) {
                 this.field_225105_r.cancel(false);
             }
 
-            if (this.field_225106_s != null)
-            {
+            if (this.field_225106_s != null) {
                 this.field_225106_s.cancel(false);
             }
 
-            if (this.field_225107_t != null)
-            {
+            if (this.field_225107_t != null) {
                 this.field_225107_t.cancel(false);
             }
-        }
-        catch (Exception exception)
-        {
-            field_225088_a.error("Failed to cancel Realms tasks", (Throwable)exception);
+        } catch (Exception exception) {
+            field_225088_a.error("Failed to cancel Realms tasks", (Throwable) exception);
         }
     }
 
-    private synchronized void func_225080_b(List<RealmsServer> p_225080_1_)
-    {
+    private synchronized void func_225080_b(List<RealmsServer> p_225080_1_) {
         int i = 0;
 
-        for (RealmsServer realmsserver : this.field_225096_i)
-        {
-            if (p_225080_1_.remove(realmsserver))
-            {
+        for (RealmsServer realmsserver : this.field_225096_i) {
+            if (p_225080_1_.remove(realmsserver)) {
                 ++i;
             }
         }
 
-        if (i == 0)
-        {
+        if (i == 0) {
             this.field_225096_i.clear();
         }
 
         this.field_225097_j = p_225080_1_;
     }
 
-    public synchronized void func_225085_a(RealmsServer p_225085_1_)
-    {
+    public synchronized void func_225085_a(RealmsServer p_225085_1_) {
         this.field_225097_j.remove(p_225085_1_);
         this.field_225096_i.add(p_225085_1_);
     }
 
-    private boolean func_225068_o()
-    {
+    private boolean func_225068_o() {
         return !this.field_225090_c;
     }
 
-    class LiveStatsTask implements Runnable
-    {
-        private LiveStatsTask()
-        {
+    class LiveStatsTask implements Runnable {
+        private LiveStatsTask() {
         }
 
-        public void run()
-        {
-            if (RealmsDataFetcher.this.func_225068_o())
-            {
+        public void run() {
+            if (RealmsDataFetcher.this.func_225068_o()) {
                 this.func_225048_a();
             }
         }
 
-        private void func_225048_a()
-        {
-            try
-            {
+        private void func_225048_a() {
+            try {
                 RealmsClient realmsclient = RealmsClient.func_224911_a();
                 RealmsDataFetcher.this.field_225098_k = realmsclient.func_224915_f();
                 RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.LIVE_STATS, true);
-            }
-            catch (Exception exception)
-            {
-                RealmsDataFetcher.field_225088_a.error("Couldn't get live stats", (Throwable)exception);
+            } catch (Exception exception) {
+                RealmsDataFetcher.field_225088_a.error("Couldn't get live stats", (Throwable) exception);
             }
         }
     }
 
-    class PendingInviteUpdateTask implements Runnable
-    {
-        private PendingInviteUpdateTask()
-        {
+    class PendingInviteUpdateTask implements Runnable {
+        private PendingInviteUpdateTask() {
         }
 
-        public void run()
-        {
-            if (RealmsDataFetcher.this.func_225068_o())
-            {
+        public void run() {
+            if (RealmsDataFetcher.this.func_225068_o()) {
                 this.func_225051_a();
             }
         }
 
-        private void func_225051_a()
-        {
-            try
-            {
+        private void func_225051_a() {
+            try {
                 RealmsClient realmsclient = RealmsClient.func_224911_a();
                 RealmsDataFetcher.this.field_225099_l = realmsclient.func_224909_j();
                 RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.PENDING_INVITE, true);
-            }
-            catch (Exception exception)
-            {
-                RealmsDataFetcher.field_225088_a.error("Couldn't get pending invite count", (Throwable)exception);
+            } catch (Exception exception) {
+                RealmsDataFetcher.field_225088_a.error("Couldn't get pending invite count", (Throwable) exception);
             }
         }
     }
 
-    class ServerListUpdateTask implements Runnable
-    {
-        private ServerListUpdateTask()
-        {
+    class ServerListUpdateTask implements Runnable {
+        private ServerListUpdateTask() {
         }
 
-        public void run()
-        {
-            if (RealmsDataFetcher.this.func_225068_o())
-            {
+        public void run() {
+            if (RealmsDataFetcher.this.func_225068_o()) {
                 this.func_225053_a();
             }
         }
 
-        private void func_225053_a()
-        {
-            try
-            {
+        private void func_225053_a() {
+            try {
                 RealmsClient realmsclient = RealmsClient.func_224911_a();
                 List<RealmsServer> list = realmsclient.func_224902_e().field_230605_a_;
 
-                if (list != null)
-                {
-                    list.sort(new RealmsServer.ServerComparator(Minecraft.getInstance().getSession().getUsername()));
+                if (list != null) {
+                    list.sort(new RealmsServer.ServerComparator(
+                            MinecraftClient.getInstance().getSession().getUsername()));
                     RealmsDataFetcher.this.func_225080_b(list);
                     RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.SERVER_LIST, true);
-                }
-                else
-                {
+                } else {
                     RealmsDataFetcher.field_225088_a.warn("Realms server list was null or empty");
                 }
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.SERVER_LIST, true);
-                RealmsDataFetcher.field_225088_a.error("Couldn't get server list", (Throwable)exception);
+                RealmsDataFetcher.field_225088_a.error("Couldn't get server list", (Throwable) exception);
             }
         }
     }
 
-    public static enum Task
-    {
+    public static enum Task {
         SERVER_LIST,
         PENDING_INVITE,
         TRIAL_AVAILABLE,
@@ -316,72 +259,54 @@ public class RealmsDataFetcher
         UNREAD_NEWS;
     }
 
-    class TrialAvailabilityTask implements Runnable
-    {
-        private TrialAvailabilityTask()
-        {
+    class TrialAvailabilityTask implements Runnable {
+        private TrialAvailabilityTask() {
         }
 
-        public void run()
-        {
-            if (RealmsDataFetcher.this.func_225068_o())
-            {
+        public void run() {
+            if (RealmsDataFetcher.this.func_225068_o()) {
                 this.func_225055_a();
             }
         }
 
-        private void func_225055_a()
-        {
-            try
-            {
+        private void func_225055_a() {
+            try {
                 RealmsClient realmsclient = RealmsClient.func_224911_a();
                 RealmsDataFetcher.this.field_225100_m = realmsclient.func_224914_n();
                 RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.TRIAL_AVAILABLE, true);
-            }
-            catch (Exception exception)
-            {
-                RealmsDataFetcher.field_225088_a.error("Couldn't get trial availability", (Throwable)exception);
+            } catch (Exception exception) {
+                RealmsDataFetcher.field_225088_a.error("Couldn't get trial availability", (Throwable) exception);
             }
         }
     }
 
-    class UnreadNewsTask implements Runnable
-    {
-        private UnreadNewsTask()
-        {
+    class UnreadNewsTask implements Runnable {
+        private UnreadNewsTask() {
         }
 
-        public void run()
-        {
-            if (RealmsDataFetcher.this.func_225068_o())
-            {
+        public void run() {
+            if (RealmsDataFetcher.this.func_225068_o()) {
                 this.func_225057_a();
             }
         }
 
-        private void func_225057_a()
-        {
-            try
-            {
+        private void func_225057_a() {
+            try {
                 RealmsClient realmsclient = RealmsClient.func_224911_a();
                 RealmsNews realmsnews = null;
 
-                try
-                {
+                try {
                     realmsnews = realmsclient.func_224920_m();
-                }
-                catch (Exception exception)
-                {
+                } catch (Exception exception) {
                 }
 
-                RealmsPersistence.RealmsPersistenceData realmspersistence$realmspersistencedata = RealmsPersistence.func_225188_a();
+                RealmsPersistence.RealmsPersistenceData realmspersistence$realmspersistencedata = RealmsPersistence
+                        .func_225188_a();
 
-                if (realmsnews != null)
-                {
+                if (realmsnews != null) {
                     String s = realmsnews.field_230580_a_;
 
-                    if (s != null && !s.equals(realmspersistence$realmspersistencedata.field_225185_a))
-                    {
+                    if (s != null && !s.equals(realmspersistence$realmspersistencedata.field_225185_a)) {
                         realmspersistence$realmspersistencedata.field_225186_b = true;
                         realmspersistence$realmspersistencedata.field_225185_a = s;
                         RealmsPersistence.func_225187_a(realmspersistence$realmspersistencedata);
@@ -391,10 +316,8 @@ public class RealmsDataFetcher
                 RealmsDataFetcher.this.field_225101_n = realmspersistence$realmspersistencedata.field_225186_b;
                 RealmsDataFetcher.this.field_225102_o = realmspersistence$realmspersistencedata.field_225185_a;
                 RealmsDataFetcher.this.field_225108_u.put(RealmsDataFetcher.Task.UNREAD_NEWS, true);
-            }
-            catch (Exception exception1)
-            {
-                RealmsDataFetcher.field_225088_a.error("Couldn't get unread news", (Throwable)exception1);
+            } catch (Exception exception1) {
+                RealmsDataFetcher.field_225088_a.error("Couldn't get unread news", (Throwable) exception1);
             }
         }
     }

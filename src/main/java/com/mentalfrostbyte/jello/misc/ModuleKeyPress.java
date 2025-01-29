@@ -7,14 +7,14 @@ import com.mentalfrostbyte.ClientMode;
 import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
 import com.mentalfrostbyte.jello.gui.unmapped.Bound;
 import com.mentalfrostbyte.jello.managers.GuiManager;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import team.sdhq.eventBus.EventBus;
 
 public class ModuleKeyPress {
-    private static final Minecraft mc = Minecraft.getInstance();
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static void press(int key) {
         if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
@@ -27,12 +27,13 @@ public class ModuleKeyPress {
                                 try {
                                     Screen sigmaScreen = bindType.getScreenTarget()
                                             .getDeclaredConstructor(ITextComponent.class)
-                                            .newInstance(new StringTextComponent(GuiManager.screenToScreenName.get(bindType.getScreenTarget())));
+                                            .newInstance(new StringTextComponent(
+                                                    GuiManager.screenToScreenName.get(bindType.getScreenTarget())));
                                     if (Client.getInstance().guiManager.hasReplacement(sigmaScreen)) {
                                         mc.displayGuiScreen(sigmaScreen);
                                     }
-                                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException |
-                                         NoSuchMethodException | SecurityException | InstantiationException exc) {
+                                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                                        | NoSuchMethodException | SecurityException | InstantiationException exc) {
                                     exc.printStackTrace();
                                 }
                             }

@@ -20,17 +20,18 @@ package de.florianmichael.viamcp.fixes;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.RayTraceResult;
 
 public class AttackOrder {
-    private final static Minecraft mc = Minecraft.getInstance();
+    private final static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static void sendConditionalSwing(RayTraceResult ray, Hand enumHand) {
-        if (ray != null && ray.getType() != RayTraceResult.Type.ENTITY) mc.player.swingArm(enumHand);
+        if (ray != null && ray.getType() != RayTraceResult.Type.ENTITY)
+            mc.player.swingArm(enumHand);
     }
 
     public static void sendFixedAttack(PlayerEntity entityIn, Entity target, Hand enumHand) {

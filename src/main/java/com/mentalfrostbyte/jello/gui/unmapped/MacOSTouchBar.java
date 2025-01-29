@@ -12,7 +12,7 @@ import com.thizzer.jtouchbar.item.TouchBarItem;
 import com.thizzer.jtouchbar.item.view.TouchBarButton;
 import com.thizzer.jtouchbar.item.view.TouchBarButton$ButtonType;
 import com.thizzer.jtouchbar.item.view.TouchBarTextField;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import team.sdhq.eventBus.EventBus;
 import team.sdhq.eventBus.annotations.EventTarget;
@@ -58,7 +58,7 @@ public class MacOSTouchBar {
       Iterator var4 = this.boundables.iterator();
 
       while (var4.hasNext()) {
-         if (((Bound)var4.next()).getTarget().equals(var1)) {
+         if (((Bound) var4.next()).getTarget().equals(var1)) {
             var4.remove();
          }
       }
@@ -142,29 +142,28 @@ public class MacOSTouchBar {
 
    @EventTarget
    public void method13734(EventPlayerTick event) {
-      if (Minecraft.getInstance().world == null && this.field21388) {
+      if (MinecraftClient.getInstance().world == null && this.field21388) {
          this.init();
-      } else if (Minecraft.getInstance().world != null && !this.field21388) {
+      } else if (MinecraftClient.getInstance().world != null && !this.field21388) {
          this.displayKeybindsInfo();
       }
    }
 
    public boolean isValidMacOS() {
-      return Minecraft.IS_RUNNING_ON_MAC
-         && Client.getInstance().clientMode == ClientMode.JELLO
-         && (
-            System.getProperty("os.version").startsWith("10.14")
-               || System.getProperty("os.version").startsWith("10.15")
-               || System.getProperty("os.version").startsWith("10.16")
-               || System.getProperty("os.version").startsWith("10.17")
-               || System.getProperty("os.version").startsWith("11.")
-         );
+      return MinecraftClient.IS_RUNNING_ON_MAC
+            && Client.getInstance().clientMode == ClientMode.JELLO
+            && (System.getProperty("os.version").startsWith("10.14")
+                  || System.getProperty("os.version").startsWith("10.15")
+                  || System.getProperty("os.version").startsWith("10.16")
+                  || System.getProperty("os.version").startsWith("10.17")
+                  || System.getProperty("os.version").startsWith("11."));
    }
 
    public void displayKeybindsInfo() {
       if (this.isValidMacOS()) {
          if (this.touchBar != null) {
-            this.touchBar.hide(GLFWNativeCocoa.glfwGetCocoaWindow(Minecraft.getInstance().getMainWindow().getHandle()));
+            this.touchBar
+                  .hide(GLFWNativeCocoa.glfwGetCocoaWindow(MinecraftClient.getInstance().getMainWindow().getHandle()));
          }
 
          this.touchBar = new JTouchBar();
@@ -176,7 +175,8 @@ public class MacOSTouchBar {
             this.touchBar.addItem(new TouchBarItem("Jello", var3, true));
          }
 
-         this.touchBar.show(GLFWNativeCocoa.glfwGetCocoaWindow(Minecraft.getInstance().getMainWindow().getHandle()));
+         this.touchBar
+               .show(GLFWNativeCocoa.glfwGetCocoaWindow(MinecraftClient.getInstance().getMainWindow().getHandle()));
          this.field21388 = true;
       }
    }
@@ -185,11 +185,11 @@ public class MacOSTouchBar {
       if (this.touchBar != null) {
          for (TouchBarItem var5 : this.touchBar.getItems()) {
             if (var5.getView() instanceof TouchBarButton && var1.getName().equals(var5.getIdentifier())) {
-               ((TouchBarButton)var5.getView()).setBezelColor(this.method13740(var1));
+               ((TouchBarButton) var5.getView()).setBezelColor(this.method13740(var1));
                new Thread(() -> {
                   try {
                      Thread.sleep(200L);
-                     ((TouchBarButton)var5.getView()).setBezelColor(this.method13740(var1));
+                     ((TouchBarButton) var5.getView()).setBezelColor(this.method13740(var1));
                   } catch (InterruptedException ignored) {
                   }
                }).start();
@@ -201,7 +201,8 @@ public class MacOSTouchBar {
    public void init() {
       if (this.isValidMacOS()) {
          if (this.touchBar != null) {
-            this.touchBar.hide(GLFWNativeCocoa.glfwGetCocoaWindow(Minecraft.getInstance().getMainWindow().getHandle()));
+            this.touchBar
+                  .hide(GLFWNativeCocoa.glfwGetCocoaWindow(MinecraftClient.getInstance().getMainWindow().getHandle()));
          }
 
          this.touchBar = new JTouchBar();
@@ -209,7 +210,8 @@ public class MacOSTouchBar {
          TouchBarTextField textField = new TouchBarTextField();
          textField.setStringValue(" Jello for Sigma 5.0   -   © SIGMA Prod");
          this.touchBar.addItem(new TouchBarItem("Jello", textField, true));
-         this.touchBar.show(GLFWNativeCocoa.glfwGetCocoaWindow(Minecraft.getInstance().getMainWindow().getHandle()));
+         this.touchBar
+               .show(GLFWNativeCocoa.glfwGetCocoaWindow(MinecraftClient.getInstance().getMainWindow().getHandle()));
          this.field21388 = false;
       }
    }
@@ -283,10 +285,10 @@ public class MacOSTouchBar {
       }
 
       int var12 = java.awt.Color.HSBtoRGB(var9, var10, var11);
-      float var13 = (float)(var12 >> 24 & 0xFF) / 255.0F;
-      float var14 = (float)(var12 >> 16 & 0xFF) / 255.0F;
-      float var15 = (float)(var12 >> 8 & 0xFF) / 255.0F;
-      float var16 = (float)(var12 & 0xFF) / 255.0F;
+      float var13 = (float) (var12 >> 24 & 0xFF) / 255.0F;
+      float var14 = (float) (var12 >> 16 & 0xFF) / 255.0F;
+      float var15 = (float) (var12 >> 8 & 0xFF) / 255.0F;
+      float var16 = (float) (var12 & 0xFF) / 255.0F;
       return new Color(var14, var15, var16, var13);
    }
 }

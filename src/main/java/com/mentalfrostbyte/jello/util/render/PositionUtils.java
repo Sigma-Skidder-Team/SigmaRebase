@@ -1,11 +1,11 @@
 package com.mentalfrostbyte.jello.util.render;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 
 public class PositionUtils {
-    public static final Minecraft mc = Minecraft.getInstance();
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static double calculateDistanceSquared(Entity entity) {
         double deltaX = getEntityPosition(mc.player).x - getEntityPosition(entity).x;
@@ -25,24 +25,24 @@ public class PositionUtils {
         return new Vector3D_(
                 entity.lastTickPosX + (entity.getPosX() - entity.lastTickPosX) * (double) mc.timer.renderPartialTicks,
                 entity.lastTickPosY + (entity.getPosY() - entity.lastTickPosY) * (double) mc.timer.renderPartialTicks,
-                entity.lastTickPosZ + (entity.getPosZ() - entity.lastTickPosZ) * (double) mc.timer.renderPartialTicks
-        );
+                entity.lastTickPosZ + (entity.getPosZ() - entity.lastTickPosZ) * (double) mc.timer.renderPartialTicks);
     }
 
     public static Vector3D_ getRelativePosition(Entity entity) {
         Vector3D_ entityPos = getEntityPosition(entity);
         return new Vector3D_(
-                entityPos.x - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
-                entityPos.y - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
-                entityPos.z - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ()
-        );
+                entityPos.x - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
+                entityPos.y - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
+                entityPos.z - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ());
     }
 
     public static Vector3D_ getRelativePosition(BlockPos blockPos) {
         return new Vector3D_(
-                (double)blockPos.getX() - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
-                (double)blockPos.getY() - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
-                (double)blockPos.getZ() - Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ()
-        );
+                (double) blockPos.getX()
+                        - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getX(),
+                (double) blockPos.getY()
+                        - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getY(),
+                (double) blockPos.getZ()
+                        - MinecraftClient.getInstance().gameRenderer.getActiveRenderInfo().getPos().getZ());
     }
 }

@@ -13,7 +13,7 @@ import com.mentalfrostbyte.jello.util.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.render.Resources;
 import org.newdawn.slick.opengl.Texture;
 import com.mentalfrostbyte.jello.util.unmapped.Class2218;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -50,7 +50,7 @@ public class SigmaClassicAltManager extends Screen {
       this.addToList(var3 = new ClassicParticleEngine(this, "particles"));
       var3.method13294(true);
       ArrayList var4 = new ArrayList();
-      ServerList var5 = new ServerList(Minecraft.getInstance());
+      ServerList var5 = new ServerList(MinecraftClient.getInstance());
       var5.loadServerList();
       int var6 = var5.countServers();
 
@@ -63,25 +63,23 @@ public class SigmaClassicAltManager extends Screen {
 
       int var9 = 790;
       this.addToList(
-         this.field21066 = new SigmaClassicTextBox(
-            this,
-            "textbox",
-            (Minecraft.getInstance().getMainWindow().getWidth() - var9) / 2 - 140,
-            this.getHeightA() - 40,
-            140,
-            32,
-            UIInput.field20741,
-            "",
-            "Search...",
-            ResourceRegistry.JelloLightFont18
-         )
-      );
+            this.field21066 = new SigmaClassicTextBox(
+                  this,
+                  "textbox",
+                  (MinecraftClient.getInstance().getMainWindow().getWidth() - var9) / 2 - 140,
+                  this.getHeightA() - 40,
+                  140,
+                  32,
+                  UIInput.field20741,
+                  "",
+                  "Search...",
+                  ResourceRegistry.JelloLightFont18));
       this.field21066.setFont(ResourceRegistry.DefaultClientFont);
       this.field21066.method13151(var1 -> this.method13402());
       this.method13403();
       this.addToList(
-         this.field21067 = new ClassicAltManager(this, "toolbar", (Minecraft.getInstance().getMainWindow().getWidth() - var9) / 2 + 16, this.getHeightA() - 94)
-      );
+            this.field21067 = new ClassicAltManager(this, "toolbar",
+                  (MinecraftClient.getInstance().getMainWindow().getWidth() - var9) / 2 + 16, this.getHeightA() - 94));
       this.field21067.method13296(false);
    }
 
@@ -89,9 +87,9 @@ public class SigmaClassicAltManager extends Screen {
       int var4 = 52;
       Class4349 var5;
       this.field21055
-         .addToList(
-            var5 = new Class4349(this.field21055, var1.getEmail(), 4, var4 * this.method13400() + 4, this.field21055.getWidthA() - 8, var4, var1)
-         );
+            .addToList(
+                  var5 = new Class4349(this.field21055, var1.getEmail(), 4, var4 * this.method13400() + 4,
+                        this.field21055.getWidthA() - 8, var4, var1));
       var5.doThis((var2, var3) -> {
          if (var3 == 0) {
             Class4349 var6 = this.method13406();
@@ -134,7 +132,8 @@ public class SigmaClassicAltManager extends Screen {
          if (!this.field21061.login(var1)) {
             this.status = "§cLogin Failed!";
          } else {
-            this.status = "§aLogged in. (" + var1.getName() + (!var1.isEmailAValidEmailFormat() ? "" : " - offline name") + ")";
+            this.status = "§aLogged in. (" + var1.getName()
+                  + (!var1.isEmailAValidEmailFormat() ? "" : " - offline name") + ")";
          }
       }).start();
    }
@@ -143,26 +142,25 @@ public class SigmaClassicAltManager extends Screen {
    public void draw(float partialTicks) {
       this.method13401();
       super.draw(partialTicks);
-      RenderUtil.drawString(ResourceRegistry.DefaultClientFont, 20.0F, 20.0F, Minecraft.getInstance().getSession().getUsername(), -2236963);
+      RenderUtil.drawString(ResourceRegistry.DefaultClientFont, 20.0F, 20.0F,
+            MinecraftClient.getInstance().getSession().getUsername(), -2236963);
       RenderUtil.drawString(
-         ResourceRegistry.DefaultClientFont,
-         (float)(this.getWidthA() / 2),
-         20.0F,
-         "Account Manager - " + this.method13400() + " alts",
-         ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-         Class2218.field14492,
-         Class2218.field14488
-      );
+            ResourceRegistry.DefaultClientFont,
+            (float) (this.getWidthA() / 2),
+            20.0F,
+            "Account Manager - " + this.method13400() + " alts",
+            ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+            Class2218.field14492,
+            Class2218.field14488);
       RenderUtil.drawString(
-         ResourceRegistry.DefaultClientFont,
-         (float)(this.getWidthA() / 2),
-         40.0F,
-         this.status,
-         ClientColors.LIGHT_GREYISH_BLUE.getColor(),
-         Class2218.field14492,
-         Class2218.field14488,
-         false
-      );
+            ResourceRegistry.DefaultClientFont,
+            (float) (this.getWidthA() / 2),
+            40.0F,
+            this.status,
+            ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+            Class2218.field14492,
+            Class2218.field14488,
+            false);
    }
 
    private int method13400() {
@@ -180,15 +178,17 @@ public class SigmaClassicAltManager extends Screen {
    }
 
    private void method13401() {
-      RenderUtil.drawImage(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), Resources.mainmenubackground);
-      RenderUtil.drawRoundedRect2(0.0F, 0.0F, (float)this.getWidthA(), (float)this.getHeightA(), ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.23F));
+      RenderUtil.drawImage(0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
+            Resources.mainmenubackground);
+      RenderUtil.drawRoundedRect2(0.0F, 0.0F, (float) this.getWidthA(), (float) this.getHeightA(),
+            ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), 0.23F));
    }
 
    @Override
    public void keyPressed(int keyCode) {
       super.keyPressed(keyCode);
       if (keyCode == 256) {
-         Minecraft.getInstance().displayGuiScreen(new MainMenuScreen());
+         MinecraftClient.getInstance().displayGuiScreen(new MainMenuScreen());
       }
    }
 
@@ -216,7 +216,8 @@ public class SigmaClassicAltManager extends Screen {
    }
 
    public void method13403() {
-      List<Account> var4 = Class8270.method28878(this.field21061.getAccounts(), Class2209.field14448, "", this.field21066.getTypedText());
+      List<Account> var4 = Class8270.method28878(this.field21061.getAccounts(), Class2209.field14448, "",
+            this.field21066.getTypedText());
       int var5 = 0;
       if (this.field21055 != null) {
          var5 = this.field21055.method13513();
@@ -228,9 +229,10 @@ public class SigmaClassicAltManager extends Screen {
          this.method13236(var6);
       }
 
-      int var7 = Minecraft.getInstance().getMainWindow().getWidth() - 200;
+      int var7 = MinecraftClient.getInstance().getMainWindow().getWidth() - 200;
       int var8 = this.getWidthA() - var7;
-      this.showAlert(this.field21055 = new Class4344(this, "alts", var8 / 2, 69, var7, Minecraft.getInstance().getMainWindow().getHeight() - 169));
+      this.showAlert(this.field21055 = new Class4344(this, "alts", var8 / 2, 69, var7,
+            MinecraftClient.getInstance().getMainWindow().getHeight() - 169));
 
       for (Account var10 : var4) {
          this.method13395(var10);
@@ -246,7 +248,8 @@ public class SigmaClassicAltManager extends Screen {
    }
 
    public int method13405() {
-      return Minecraft.getInstance().getMainWindow().getHeight() / 12 + 280 + Minecraft.getInstance().getMainWindow().getHeight() / 12;
+      return MinecraftClient.getInstance().getMainWindow().getHeight() / 12 + 280
+            + MinecraftClient.getInstance().getMainWindow().getHeight() / 12;
    }
 
    public Class4349 method13406() {
@@ -254,7 +257,7 @@ public class SigmaClassicAltManager extends Screen {
          if (!(var4 instanceof VerticalScrollBar)) {
             for (CustomGuiScreen var6 : var4.getChildren()) {
                if (var6 instanceof Class4349) {
-                  Class4349 var7 = (Class4349)var6;
+                  Class4349 var7 = (Class4349) var6;
                   if (var7.method13582()) {
                      return var7;
                   }

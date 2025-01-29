@@ -19,7 +19,7 @@ import com.mentalfrostbyte.jello.util.ClientColors;
 import com.mentalfrostbyte.jello.util.MathHelper;
 import com.mentalfrostbyte.jello.util.render.ColorUtils;
 import com.mentalfrostbyte.jello.util.render.RenderUtil;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.HighestPriority;
 
@@ -65,7 +65,8 @@ public class TabGUI extends Module {
                 this.animationCooldown = 80;
                 int categoryState = this.getCurrentCategoryState();
                 CategoryDrawPart category = categoryDrawParts.get(categoryState - 1);
-                if (action != KeyAction.EnterKey && (!this.isAnimationForwards() && action != KeyAction.RightArrowKey || categoryState != 3)) {
+                if (action != KeyAction.EnterKey
+                        && (!this.isAnimationForwards() && action != KeyAction.RightArrowKey || categoryState != 3)) {
                     this.secondAnimationProgress = new Animation(500, 200, Direction.BACKWARDS);
                 }
 
@@ -101,7 +102,8 @@ public class TabGUI extends Module {
                         } else if (categoryState == 2 && category != null) {
                             CategoryDrawPart drawPart = categoryDrawParts.get(0);
                             ModuleCategory modCategory = this.categories.get(drawPart.currentOffset);
-                            Module module = Client.getInstance().moduleManager.getModulesByCategory(modCategory).get(category.currentOffset);
+                            Module module = Client.getInstance().moduleManager.getModulesByCategory(modCategory)
+                                    .get(category.currentOffset);
                             this.updateModuleSettingsParts(module);
                         } else if (categoryState == 3) {
                             this.setAnimationDirection(true);
@@ -111,7 +113,8 @@ public class TabGUI extends Module {
                         if (categoryState == 2 && category != null) {
                             CategoryDrawPart drawPart = categoryDrawParts.get(0);
                             ModuleCategory modCat = this.categories.get(drawPart.currentOffset);
-                            Module mod = Client.getInstance().moduleManager.getModulesByCategory(modCat).get(category.currentOffset);
+                            Module mod = Client.getInstance().moduleManager.getModulesByCategory(modCat)
+                                    .get(category.currentOffset);
                             mod.setEnabled(!mod.isEnabled());
                         }
                         break;
@@ -125,7 +128,8 @@ public class TabGUI extends Module {
         CategoryDrawPart moduleIndex = categoryDrawParts.get(1);
         CategoryDrawPart settingIndex = categoryDrawParts.get(2);
         ModuleCategory category = this.categories.get(categoryIndex.currentOffset);
-        Module module = Client.getInstance().moduleManager.getModulesByCategory(category).get(moduleIndex.currentOffset);
+        Module module = Client.getInstance().moduleManager.getModulesByCategory(category)
+                .get(moduleIndex.currentOffset);
         Setting<?> setting = this.getModuleSettings(module).get(settingIndex.currentOffset);
         if (!(setting instanceof ModeSetting mode)) {
             if (!(setting instanceof BooleanSetting bool)) {
@@ -184,8 +188,8 @@ public class TabGUI extends Module {
     @HighestPriority
     public void onRender(EventRender2DOffset event) {
         if (this.isEnabled() && mc.player != null) {
-            if (!Minecraft.getInstance().gameSettings.showDebugInfo) {
-                if (!Minecraft.getInstance().gameSettings.hideGUI) {
+            if (!MinecraftClient.getInstance().gameSettings.showDebugInfo) {
+                if (!MinecraftClient.getInstance().gameSettings.hideGUI) {
                     this.refreshCategoryModules();
 
                     for (CategoryDrawPartBackground cat : categoryDrawParts) {
@@ -233,34 +237,45 @@ public class TabGUI extends Module {
                 }
 
                 ModuleCategory currentCategory = this.categories.get(firstCategoryPart.currentOffset);
-                Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory).get(secondCategoryPart.currentOffset);
+                Module currentModule = Client.getInstance().moduleManager.getModulesByCategory(currentCategory)
+                        .get(secondCategoryPart.currentOffset);
                 String description = currentModule.getDescription();
                 if (drawState == 3) {
-                    Setting<?> currentSetting = this.getModuleSettings(currentModule).get(thirdCategoryPart.currentOffset);
+                    Setting<?> currentSetting = this.getModuleSettings(currentModule)
+                            .get(thirdCategoryPart.currentOffset);
                     description = currentSetting.getDescription();
                 }
 
-                float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
+                float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(),
+                        0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
                 if (this.firstAnimationProgress.getDirection() == Direction.BACKWARDS) {
-                    animationProgressValue = MathHelper.calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+                    animationProgressValue = MathHelper
+                            .calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
                 }
 
                 RenderUtil.renderCategoryBox(
-                        (float) activeCategoryPart.getStartX() + (float) activeCategoryPart.getWidth() + 14.0F * animationProgressValue,
-                        (float) activeCategoryPart.getStartY() + 16.0F + (float) (25 * activeCategoryPart.currentOffset),
+                        (float) activeCategoryPart.getStartX() + (float) activeCategoryPart.getWidth()
+                                + 14.0F * animationProgressValue,
+                        (float) activeCategoryPart.getStartY() + 16.0F
+                                + (float) (25 * activeCategoryPart.currentOffset),
                         24.0F * animationProgressValue,
                         ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F),
-                        ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F)
-                );
-                int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4 + Math.round(animationProgressValue * 28.0F);
+                        ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
+                int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4
+                        + Math.round(animationProgressValue * 28.0F);
                 int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.currentOffset + 4;
                 int descriptionWidth = activeCategoryPart.font.getWidth(description) + 8;
-                float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
-                RenderUtil.drawRoundedRect2((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F, ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
-                RenderUtil.startScissor((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F);
+                float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(),
+                        0.0F, 1.0F, 1.0F);
+                RenderUtil.drawRoundedRect2((float) descriptionX, (float) descriptionY,
+                        (float) descriptionWidth * secondAnimationValue, 25.0F,
+                        ColorUtils.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
+                RenderUtil.startScissor((float) descriptionX, (float) descriptionY,
+                        (float) descriptionWidth * secondAnimationValue, 25.0F);
                 RenderUtil.drawString(
-                        activeCategoryPart.font, (float) (descriptionX + 4), (float) (descriptionY + 2), description, ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), Math.min(1.0F, partialTicks * 1.7F))
-                );
+                        activeCategoryPart.font, (float) (descriptionX + 4), (float) (descriptionY + 2), description,
+                        ColorUtils.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(),
+                                Math.min(1.0F, partialTicks * 1.7F)));
                 RenderUtil.endScissor();
             }
         } catch (IndexOutOfBoundsException e) {
