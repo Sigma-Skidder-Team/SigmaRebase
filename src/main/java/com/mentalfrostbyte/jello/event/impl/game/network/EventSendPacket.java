@@ -10,7 +10,7 @@ public class EventSendPacket extends CancellableEvent {
     private Packet packet;
     private final List<Packet> field21514 = new ArrayList<Packet>();
 
-    public SendPacketEvent(Packet var1) {
+    public EventSendPacket(Packet var1) {
         this.packet = var1;
         this.field21514.add(var1);
     }

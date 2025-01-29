@@ -6,7 +6,7 @@ import net.minecraft.network.Packet;
 public class EventReceivePacket extends CancellableEvent {
     private Packet<?> packet;
 
-    public ReceivePacketEvent(Packet<?> var1) {
+    public EventReceivePacket(Packet<?> var1) {
         this.packet = var1;
     }
 
