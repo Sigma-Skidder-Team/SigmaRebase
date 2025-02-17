@@ -34,6 +34,7 @@ import com.mentalfrostbyte.jello.util.game.world.EntityUtil;
 import com.mentalfrostbyte.jello.util.game.player.PlayerUtil;
 import com.mentalfrostbyte.jello.util.game.player.combat.RotationUtil;
 import com.mentalfrostbyte.jello.util.game.player.constructor.Rotation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.SwordItem;
@@ -51,7 +52,9 @@ import org.lwjgl.opengl.GL11;
 import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.LowestPriority;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
 
 import static com.mentalfrostbyte.jello.util.game.render.RenderUtil.drawCircle;
@@ -493,6 +496,8 @@ public class KillAura extends Module {
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glLineWidth(1.4F);
 
+        
+
         double partialTicks = Minecraft.getInstance().timer.renderPartialTicks;
         double interpolatedX = targetEntity.lastTickPosX + (targetEntity.getPosX() - targetEntity.lastTickPosX) * partialTicks;
         double interpolatedY = targetEntity.lastTickPosY + (targetEntity.getPosY() - targetEntity.lastTickPosY) * partialTicks;
@@ -526,6 +531,51 @@ public class KillAura extends Module {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+    public void drawCircle(boolean isFadingOut, float circleHeight, float radius, float glowStrength, float glowOpacity) {
+        RenderSystem.shadeModel(GL11.GL_SMOOTH);
+        GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glBegin(GL11.GL_QUAD_STRIP);
+
+        int angleStep = (int) (360.0F / (40.0F * radius));
+
+        Color espColor = new Color(this.parseSettingValueToIntBySettingName("ESP Color"));
+        float red = (float) espColor.getRed() / 255.0F;
+        float green = (float) espColor.getGreen() / 255.0F;
+        float blue = (float) espColor.getBlue() / 255.0F;
+
+        for (int angle = 0; angle <= 360 + angleStep; angle += angleStep) {
+            int effectiveAngle = angle > 360 ? 0 : angle;
+
+            double x = Math.sin(Math.toRadians(effectiveAngle)) * radius;
+            double z = Math.cos(Math.toRadians(effectiveAngle)) * radius;
+
+            GL11.glColor4f(red, green, blue, isFadingOut ? 0.0F : glowStrength * glowOpacity);
+            GL11.glVertex3d(x, 0.0, z);
+
+            GL11.glColor4f(red, green, blue, isFadingOut ? glowStrength * glowOpacity : 0.0F);
+            GL11.glVertex3d(x, circleHeight, z);
+        }
+
+        GL11.glEnd();
+
+        GL11.glLineWidth(2.2F);
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+
+        for (int angle = 0; angle <= 360 + angleStep; angle += angleStep) {
+            int effectiveAngle = angle > 360 ? 0 : angle;
+
+            double x = Math.sin(Math.toRadians(effectiveAngle)) * radius;
+            double z = Math.cos(Math.toRadians(effectiveAngle)) * radius;
+
+            GL11.glColor4f(red, green, blue, (0.5F + 0.5F * glowStrength) * glowOpacity);
+            GL11.glVertex3d(x, isFadingOut ? 0.0 : circleHeight, z);
+        }
+
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        RenderSystem.shadeModel(GL11.GL_FLAT);
     }
 
     public boolean isAutoBlockEnabled() {
