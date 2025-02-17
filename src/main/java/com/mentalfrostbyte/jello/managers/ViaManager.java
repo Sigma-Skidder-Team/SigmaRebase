@@ -16,11 +16,10 @@ import com.mentalfrostbyte.jello.gui.base.JelloPortal;
 import com.mentalfrostbyte.jello.module.impl.player.Blink;
 import com.mentalfrostbyte.jello.module.impl.player.OldHitting;
 import com.mentalfrostbyte.jello.module.impl.render.Freecam;
-import com.mentalfrostbyte.jello.util.client.Class9140;
+import com.mentalfrostbyte.jello.util.client.MovementHelper;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
 import com.mentalfrostbyte.jello.util.game.player.PlayerUtil;
 import com.mentalfrostbyte.jello.util.game.player.ServerUtil;
-import com.mentalfrostbyte.jello.util.game.player.constructor.Rotation;
 import com.mojang.datafixers.util.Pair;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.minecraft.block.Block;
@@ -272,7 +271,7 @@ public class ViaManager implements MinecraftUtil {
             if (mc.player.isInWater()) {
                 field31498 = true;
                 double var4 = mc.player.getPosY();
-                float var6 = Class9140.method34128();
+                float var6 = MovementHelper.method34128();
                 float var7 = 0.02F;
                 float var8 = (float) EnchantmentHelper.getDepthStriderModifier(mc.player);
                 if (var8 > 3.0F) {
@@ -297,39 +296,40 @@ public class ViaManager implements MinecraftUtil {
                 }
 
                 var7 *= !mc.player.isSprinting() ? 1.0F : (!mc.player.onGround ? 1.3F : 1.5F);
-                Class9140.method34123(mc.player.moveStrafing, mc.player.moveVertical, mc.player.moveForward, var7);
-                Class9140.method34126(Class9140.x, Class9140.y, Class9140.z);
-                Class9140.x *= (double) var6;
-                Class9140.y *= 0.8F;
-                Class9140.z *= (double) var6;
+                MovementHelper.applyMotion(mc.player.moveStrafing, mc.player.moveVertical, mc.player.moveForward, var7);
+                MovementHelper.method34126(MovementHelper.x, MovementHelper.y, MovementHelper.z);
+                MovementHelper.x *= (double) var6;
+                MovementHelper.y *= 0.8F;
+                MovementHelper.z *= (double) var6;
                 if (!mc.player.hasNoGravity()) {
-                    Class9140.y -= 0.02;
+                    MovementHelper.y -= 0.02;
                 }
 
-                if (mc.player.collidedHorizontally && mc.player.isOffsetPositionInLiquid(Class9140.x, Class9140.y + 0.6F - mc.player.getPosY() + var4, Class9140.z)) {
-                    Class9140.y = 0.3F;
+                if (mc.player.collidedHorizontally && mc.player.isOffsetPositionInLiquid(MovementHelper.x, MovementHelper.y + 0.6F - mc.player.getPosY() + var4, MovementHelper.z)) {
+                    MovementHelper.y = 0.3F;
                 }
 
                 if (mc.player.isJumping) {
-                    Class9140.method34127();
+                    MovementHelper.jump();
                 }
 
-                event.setX(Class9140.x);
-                event.setY(Class9140.y);
-                event.setZ(Class9140.z);
+                event.setX(MovementHelper.x);
+                event.setY(MovementHelper.y);
+                event.setZ(MovementHelper.z);
             } else {
-                Class9140.y = mc.player.getMotion().y;
-                if (field31498 && Class9140.method34129()) {
-                    Class9140.y = 0.2F;
-                    mc.player.setMotion(mc.player.getMotion().x, Class9140.y, mc.player.getMotion().z);
+                MovementHelper.y = mc.player.getMotion().y;
+                if (field31498 && MovementHelper.isPlayerInWater()) {
+                    MovementHelper.y = 0.2F;
+                    mc.player.setMotion(mc.player.getMotion().x, MovementHelper.y, mc.player.getMotion().z);
                 }
 
-                Class9140.x = mc.player.getMotion().x;
-                Class9140.z = mc.player.getMotion().z;
+                MovementHelper.x = mc.player.getMotion().x;
+                MovementHelper.z = mc.player.getMotion().z;
                 field31498 = false;
             }
         }
     }
+
     public boolean isOlderThan_v1_12_2() {
         return JelloPortal.getVersion().olderThanOrEqualTo(ProtocolVersion.v1_12_2);
     }

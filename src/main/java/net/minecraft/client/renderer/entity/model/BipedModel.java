@@ -1,11 +1,13 @@
 package net.minecraft.client.renderer.entity.model;
 
 import com.google.common.collect.ImmutableList;
+import com.mentalfrostbyte.jello.managers.ViaManager;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import java.util.function.Function;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelHelper;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
@@ -251,6 +253,11 @@ public class BipedModel<T extends LivingEntity> extends AgeableModel<T> implemen
             float f5 = 0.33333334F;
             this.bipedLeftLeg.rotateAngleX = MathHelper.lerp(this.swimAnimation, this.bipedLeftLeg.rotateAngleX, 0.3F * MathHelper.cos(limbSwing * 0.33333334F + (float)Math.PI));
             this.bipedRightLeg.rotateAngleX = MathHelper.lerp(this.swimAnimation, this.bipedRightLeg.rotateAngleX, 0.3F * MathHelper.cos(limbSwing * 0.33333334F));
+        }
+        
+        if (entityIn instanceof Entity && ViaManager.entities.contains(entityIn)) {
+            this.bipedRightArm.rotateAngleX = this.bipedRightArm.rotateAngleX * 0.5F - (float) (Math.PI * 3.0 / 10.0);
+            this.bipedRightArm.rotateAngleY = (float) (-Math.PI / 6);
         }
 
         this.bipedHeadwear.copyModelAngles(this.bipedHead);

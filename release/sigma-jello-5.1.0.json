@@ -255,28 +255,6 @@
     {
       "downloads": {
         "artifact": {
-          "path": "com/mentalfrostbyte/socket.io-client/2.1.0/socket.io-client-2.1.0.jar",
-          "sha1": "d49d37d8c62bddec4d7d0a65add9859fab666d0e",
-          "size": 65628,
-          "url": "https://github.com/MarkGG8181/cloud/raw/refs/heads/main/sigma/socket.io-client-2.1.0.jar"
-        }
-      },
-      "name": "com.mentalfrostbyte:socket.io-client:2.1.0"
-    },
-    {
-      "downloads": {
-        "artifact": {
-          "path": "com/mentalfrostbyte/engine.io-client/2.1.0/engine.io-client-2.1.0.jar",
-          "sha1": "fb421e5575e69e1181e5fed3eea351929017f08e",
-          "size": 102014,
-          "url": "https://github.com/MarkGG8181/cloud/raw/refs/heads/main/sigma/engine.io-client-2.1.0.jar"
-        }
-      },
-      "name": "com.mentalfrostbyte:engine.io-client:2.1.0"
-    },
-    {
-      "downloads": {
-        "artifact": {
           "path": "com/mentalfrostbyte/youtubedl/1.1/youtubedl-1.1.jar",
           "sha1": "77827f97d4035da7bece2001c081294eae4bdbc6",
           "size": 11268,
