@@ -158,6 +158,7 @@ public class ModuleManager {
         this.register(new OldHitting());
         this.register(new InvMove());
         this.register(new FastEat());
+        this.register(new XCarry());
         // ITEM
         this.register(new AutoArmor());
         this.register(new AutoMLG());
