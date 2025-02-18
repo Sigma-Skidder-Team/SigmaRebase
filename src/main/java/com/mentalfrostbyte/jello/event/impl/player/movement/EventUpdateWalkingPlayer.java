@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventUpdateWalkingPlayer extends CancellableEvent {
-    public static float PITCH;
-    public static float YAW;
-    public static float PREVPITCH;
-    public static float PREVYAW;
+    public static float prevPitch;
+    public static float prevYaw;
+    public static float postPitch;
+    public static float postYaw;
     public boolean pre;
     private double x;
     private double y;
@@ -32,10 +32,10 @@ public class EventUpdateWalkingPlayer extends CancellableEvent {
     }
 
     public void postUpdate() {
-        PREVPITCH = PITCH;
-        PREVYAW = YAW;
-        PITCH = this.pitch;
-        YAW = this.yaw;
+        postPitch = prevPitch;
+        postYaw = prevYaw;
+        prevPitch = this.yaw;
+        prevYaw = this.pitch;
         this.pre = false;
     }
 

@@ -116,14 +116,14 @@ public class CookieLoginUtil {
     }
 
     public static class LoginData {
-        public String mcToken;
+        public String token;
         public String newRefreshToken;
-        public String uuid, username;
+        public String playerID, username;
 
-        public LoginData(final String mcToken, final String newRefreshToken, final String uuid, final String username) {
-            this.mcToken = mcToken;
+        public LoginData(final String token, final String newRefreshToken, final String playerID, final String username) {
+            this.token = token;
             this.newRefreshToken = newRefreshToken;
-            this.uuid = uuid;
+            this.playerID = playerID;
             this.username = username;
         }
     }

@@ -11,6 +11,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.game.player.combat.RotationUtil;
+import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.minecraft.network.play.client.CClientStatusPacket;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -168,7 +169,7 @@ public class AutoMLG extends PremiumModule {
             VoxelShape var13 = (VoxelShape) var11.next();
             AxisAlignedBB var14 = var13.getBoundingBox();
             BlockPos var15 = new BlockPos(var14.getCenter());
-            if (true/*BlockUtil.method34578(var15)
+            if (BlockUtil.isValidBlockPosition(var15)
                     && (double) (var15.getY() + 1) < mc.player.getPosY()
                     && (
                     var12 == null
@@ -176,7 +177,7 @@ public class AutoMLG extends PremiumModule {
                             .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
                             > mc.player
                             .getDistanceSq((double) var15.getX() + 0.5 - var3, var15.getY() + 1, (double) var15.getZ() + 0.5 - var7)
-            )*/) {
+            )) {
                 var12 = var15;
             }
         }
@@ -193,8 +194,7 @@ public class AutoMLG extends PremiumModule {
                 VoxelShape var20 = (VoxelShape) var11.next();
                 AxisAlignedBB var21 = var20.getBoundingBox();
                 BlockPos var22 = new BlockPos(var21.getCenter());
-                // TODO
-                if (true/*BlockUtil.method34578(var22)
+                if (BlockUtil.isValidBlockPosition(var22)
                         && (double) (var22.getY() + 1) < mc.player.getPosY()
                         && (
                         var12 == null
@@ -202,7 +202,7 @@ public class AutoMLG extends PremiumModule {
                                 .getDistanceSq((double) var12.getX() + 0.5 - var3, var12.getY() + 1, (double) var12.getZ() + 0.5 - var7)
                                 > mc.player
                                 .getDistanceSq((double) var22.getX() + 0.5 - var3, var22.getY() + 1, (double) var22.getZ() + 0.5 - var7)
-                )*/) {
+                )) {
                     var12 = var22;
                 }
             }

@@ -94,10 +94,10 @@ public class Dropdown extends Element {
             );
             button.method13034(10);
             button.doThis((var2, var3x) -> {
-                int var6x = this.method13655();
+                int var6x = this.getIndex();
                 this.method13656(this.values.indexOf(mode));
                 this.method13658(false);
-                if (var6x != this.method13655()) {
+                if (var6x != this.getIndex()) {
                     this.callUIHandlers();
                 }
             });
@@ -244,7 +244,7 @@ public class Dropdown extends Element {
         this.addButtons();
     }
 
-    public int method13655() {
+    public int getIndex() {
         return this.selectedIdx;
     }
 
@@ -263,7 +263,7 @@ public class Dropdown extends Element {
 
     @Override
     public String getText() {
-        return this.method13651().size() <= 0 ? null : this.method13651().get(this.method13655());
+        return this.method13651().size() <= 0 ? null : this.method13651().get(this.getIndex());
     }
 
     @Override

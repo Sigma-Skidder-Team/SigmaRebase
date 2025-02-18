@@ -1,5 +1,6 @@
 package com.mentalfrostbyte.jello.module.settings;
 
+import org.jetbrains.annotations.NotNull;
 import totalcross.json.JSONException;
 import totalcross.json.JSONObject;
 
@@ -11,10 +12,12 @@ public abstract class Setting<T> {
     public final String name;
     public final String description;
     private final List<SettingObserver> observers = new ArrayList<>();
+    @NotNull
     public T currentValue;
+    @NotNull
     public T defaultValue;
 
-    public Setting(String name, String description, SettingType settingType, T defaultValue) {
+    public Setting(String name, String description, SettingType settingType, @NotNull T defaultValue) {
         this.settingType = settingType;
         this.currentValue = this.defaultValue = defaultValue;
         this.name = name;
@@ -52,7 +55,7 @@ public abstract class Setting<T> {
         return this.settingType;
     }
 
-    public T getCurrentValue() {
+    public @NotNull T getCurrentValue() {
         return this.currentValue;
     }
 
@@ -69,7 +72,7 @@ public abstract class Setting<T> {
         }
     }
 
-    public T getDefaultValue() {
+    public @NotNull T getDefaultValue() {
         return this.defaultValue;
     }
 

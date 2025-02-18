@@ -113,7 +113,7 @@ public class ElytraFly extends Module {
     }
 
     @EventTarget
-    public void method16223(EventUpdateWalkingPlayer var1) {
+    public void method16223(EventUpdateWalkingPlayer event) {
         if (this.isEnabled()) {
             int var4 = 65;
             if (this.field23533 != var4 - 1) {
@@ -135,7 +135,7 @@ public class ElytraFly extends Module {
             }
 
             if (this.field23533 > 0) {
-                var1.setYaw(-90.0F);
+                event.setPitch(-90.0F);
             }
 
             if (!mc.player.isJumping) {

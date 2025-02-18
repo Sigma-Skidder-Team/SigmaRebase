@@ -83,16 +83,8 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
             }
 
             this.entityModel.isChild = entityIn.isChild();
-            float f;
-            float f1;
-
-            if(entityIn == Minecraft.getInstance().player){
-                f = MathHelper.interpolateAngle(partialTicks, EventUpdateWalkingPlayer.PREVYAW, EventUpdateWalkingPlayer.YAW);
-                f1 = MathHelper.interpolateAngle(partialTicks, EventUpdateWalkingPlayer.PREVYAW, EventUpdateWalkingPlayer.YAW);
-            }else{
-                f = MathHelper.interpolateAngle(partialTicks, entityIn.prevRenderYawOffset, entityIn.renderYawOffset);
-                f1 = MathHelper.interpolateAngle(partialTicks, entityIn.prevRotationYawHead, entityIn.rotationYawHead);
-            }
+            float f = MathHelper.interpolateAngle(partialTicks, entityIn.prevRenderYawOffset, entityIn.renderYawOffset);
+            float f1 = MathHelper.interpolateAngle(partialTicks, entityIn.prevRotationYawHead, entityIn.rotationYawHead);
 
             float f2 = f1 - f;
 
@@ -123,9 +115,7 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
                 f2 = f1 - f;
             }
 
-            float f7 = entityIn instanceof ClientPlayerEntity ?
-                    MathHelper.lerp(partialTicks, EventUpdateWalkingPlayer.PREVPITCH, EventUpdateWalkingPlayer.PITCH) :
-                    MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch);
+            float f7 = MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch);
 
             EventRenderEntity eventRenderEntity = new EventRenderEntity(f, f1, f2, f7, partialTicks, entityIn);
             EventBus.call(eventRenderEntity);
@@ -134,6 +124,11 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
                 matrixStackIn.pop();
                 return;
             }
+
+            f = eventRenderEntity.getYawOffset();
+            f1 = eventRenderEntity.getHeadYaw();
+            f2 = eventRenderEntity.getYaw();
+            f7 = eventRenderEntity.getPitch();
 
             if (entityIn.getPose() == Pose.SLEEPING)
             {

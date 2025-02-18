@@ -11,7 +11,6 @@ import com.mentalfrostbyte.jello.module.impl.movement.fly.MineplexFly;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.util.game.player.combat.RotationUtil;
 import net.minecraft.block.CakeBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CAnimateHandPacket;
 import net.minecraft.network.play.client.CPlayerTryUseItemOnBlockPacket;
 import net.minecraft.network.play.server.SChatPacket;
@@ -35,16 +34,6 @@ public class CakeEater extends Module {
         super(ModuleCategory.WORLD, "CakeEater", "Automatically eats cake");
         this.registerSetting(new BooleanSetting("No Swing", "Removes the swing animation.", true));
         this.registerSetting(new BooleanSetting("Mineplex", "Mineplex mode.", true));
-    }
-
-    // $VF: synthetic method
-    public static Minecraft method16322() {
-        return mc;
-    }
-
-    // $VF: synthetic method
-    public static Minecraft method16323() {
-        return mc;
     }
 
     @Override
@@ -108,8 +97,8 @@ public class CakeEater extends Module {
                                 (double) field23588.getX() + 0.5, (double) field23588.getZ() + 0.5, field23588.getY()
                         );
 
-                        event.setPitch(rots[0]);
-                        event.setYaw(rots[1]);
+                        event.setYaw(rots[0]);
+                        event.setPitch(rots[1]);
                     }
                 }
             }
@@ -152,14 +141,14 @@ public class CakeEater extends Module {
         public int compare(BlockPos var1, BlockPos var2) {
             return !(
                     Math.sqrt(
-                            method16322()
+                            mc
                                     .player
-                                    .getDistanceSq((double)var1.getX() + 0.5, (double)var1.getY() + 0.5, (double)var1.getZ() + 0.5)
+                                    .getDistanceSq((double) var1.getX() + 0.5, (double) var1.getY() + 0.5, (double) var1.getZ() + 0.5)
                     )
                             > Math.sqrt(
-                            method16323()
+                            mc
                                     .player
-                                    .getDistanceSq((double)var2.getX() + 0.5, (double)var2.getY() + 0.5, (double)var2.getZ() + 0.5)
+                                    .getDistanceSq((double) var2.getX() + 0.5, (double) var2.getY() + 0.5, (double) var2.getZ() + 0.5)
                     )
             )
                     ? -1

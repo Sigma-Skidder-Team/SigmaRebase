@@ -13,7 +13,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
 import java.util.Random;
 
 public class Derp extends Module {
-    private Random random = new Random();
+    private final Random random = new Random();
     private boolean releaseShift;
     private int hitCounter;
     private int spinCounter;
@@ -47,8 +47,8 @@ public class Derp extends Module {
             String rotationMode = this.getStringSettingValueByName("Rotation Mode");
             switch (rotationMode) {
                 case "Random":
-                    event.setPitch(this.random.nextFloat() * 360.0F);
-                    event.setYaw(this.random.nextFloat() * 180.0F - 90.0F);
+                    event.setYaw(this.random.nextFloat() * 360.0F);
+                    event.setPitch(this.random.nextFloat() * 180.0F - 90.0F);
                     break;
                 case "Spin":
                     this.spinCounter += 20;
@@ -57,7 +57,8 @@ public class Derp extends Module {
                         this.spinCounter -= 360;
                     }
 
-                    event.setPitch((float) this.spinCounter + this.random.nextFloat());
+                    event.setYaw((float) this.spinCounter + this.random.nextFloat());
+                    break;
             }
         }
     }

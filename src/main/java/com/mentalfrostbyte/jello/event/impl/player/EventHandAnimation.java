@@ -24,7 +24,7 @@ public class EventHandAnimation extends CancellableEvent {
         this.blocking = true;
     }
 
-    public float method13924() {
+    public float getSwingProgress() {
         return this.field21506;
     }
 

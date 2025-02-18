@@ -9,10 +9,9 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
-import com.mentalfrostbyte.jello.util.game.world.BoundingBox;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
+import com.mentalfrostbyte.jello.util.game.world.BoundingBox;
 import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.ContainerType;
@@ -232,8 +231,8 @@ public class Auto32k extends Module {
                             if (this.field23873 == 1) {
                                 float yaw = BlockUtil.method34543(this.field23870.up(), Direction.UP)[0];
                                 float pitch = BlockUtil.method34543(this.field23870.up(), Direction.UP)[1];
-                                event.setPitch(yaw);
-                                event.setYaw(pitch);
+                                event.setPitch(pitch);
+                                event.setYaw(yaw);
 
                                 mc.player.inventory.currentItem = this.field23871;
                                 net.minecraft.util.math.vector.Vector3d var7 = BlockUtil.method34572(Direction.UP, this.field23870);
@@ -257,8 +256,8 @@ public class Auto32k extends Module {
                         } else {
                             float yaw = BlockUtil.method34543(this.field23870, Direction.UP)[0];
                             float pitch = BlockUtil.method34543(this.field23870, Direction.UP)[1];
-                            event.setPitch(yaw);
-                            event.setYaw(pitch);
+                            event.setPitch(pitch);
+                            event.setYaw(yaw);
 
                             this.field23873++;
                         }

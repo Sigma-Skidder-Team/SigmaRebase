@@ -37,12 +37,14 @@ public class Account {
     private final long dateAdded;
     private int useCount;
     private BufferedImage skin;
-    private BufferedImage skinImg;
     private Texture skinTexture;
     private Thread skinUpdateThread;
 
+    private String token = "";
+
     public Account(String email, String password, ArrayList<Ban> bans, String knownName) {
         this.email = email;
+        this.token = "";
         this.password = password;
         this.dateAdded = System.currentTimeMillis();
         this.lastUsed = 0L;
@@ -54,6 +56,11 @@ public class Account {
         if (knownName != null) {
             this.knownName = knownName;
         }
+    }
+
+    public Account(String username, String playerID, String token) {
+        this(username, playerID, null, null);
+        this.token = token;
     }
 
     public Account(String email, String password, ArrayList<Ban> bans) {
@@ -71,6 +78,10 @@ public class Account {
 
         if (json.has("password")) {
             this.password = decodeBase64(json.getString("password"));
+        }
+
+        if (json.has("token")) {
+            this.token = decodeBase64(json.getString("token"));
         }
 
         if (json.has("bans")) {
@@ -109,33 +120,6 @@ public class Account {
             } catch (IOException var6) {
                 var6.printStackTrace();
             }
-        }
-    }
-
-    /**
-     * Seems to be unused. Maybe for a prototype of a clipboard login or smth
-     *
-     * @param email    Email
-     * @param password Password
-     * @return Returns the session ig
-     * @throws MicrosoftAuthenticationException if the authentication fails horribly
-     */
-    public static Session fastLogin(String email, String password) throws MicrosoftAuthenticationException {
-        return alternativeLogin(new Account(email, password));
-    }
-
-    public static Session alternativeLogin(Account account) throws MicrosoftAuthenticationException {
-        if (!account.isEmailAValidEmailFormat()) {
-            MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-            MicrosoftAuthResult result = authenticator.loginWithCredentials("email", "password");
-
-            System.out.printf("Logged in with '%s'%n", result.getProfile().getName());
-            account.updateUsedCount();
-            return new Session(
-                    result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), account.getAccountType().name()
-            );
-        } else {
-            return new Session(account.getEmail(), "", "", "mojang");
         }
     }
 
@@ -226,42 +210,18 @@ public class Account {
         }
     }
 
-    public BufferedImage getSkinImg() {
-        if (this.skinImg == null && this.skin != null) {
-            Rectangle var3 = new Rectangle(64, 64);
-            this.skinImg = new BufferedImage((int) var3.getWidth(), (int) var3.getHeight(), 3);
-            Graphics2D skinImg = this.skinImg.createGraphics();
-            skinImg.drawImage(this.skin, 0, 0, null);
-            if (this.skin.getHeight() == 32) {
-                BufferedImage skinSubImage1 = this.skin.getSubimage(0, 16, 16, 16);
-                BufferedImage skinSubImage2 = this.skin.getSubimage(40, 16, 16, 16);
-                skinImg.drawImage(skinSubImage1, 16, 48, null);
-                skinImg.drawImage(skinSubImage2, 32, 48, null);
-            }
-
-            skinImg.dispose();
-        }
-
-        return this.skinImg;
-    }
-
     public void updateSkin() {
         if (!this.getKnownUUID().contains("steve") && this.skinUpdateThread == null) {
             this.skinUpdateThread = new Thread(() -> {
                 try {
                     this.skin = ImageIO.read(new URL(ImageUtil.getSkinUrlByID(this.getKnownUUID().replaceAll("-", ""))));
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
             });
             this.skinUpdateThread.start();
         }
     }
 
-    /**
-     * Maybe a cracked account check??
-     *
-     * @return Session Type
-     */
     public Session.Type getAccountType() {
         return this.email.contains("@") ? Session.Type.MOJANG : Session.Type.LEGACY;
     }
@@ -278,10 +238,28 @@ public class Account {
             return new Session(
                     result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), getAccountType().name()
             );
+        } else if (isPossibleRefreshToken(this.token)) {
+            this.setName(this.getEmail());
+            this.setKnownUUID(fixUUID(this.getPassword()));
+            this.updateSkin();
+            this.lastUsed = System.currentTimeMillis();
+            System.out.println("Logged in with refresh token");
+            System.out.println("Username: " + this.getEmail());
+            System.out.println("UUID: " + this.getPassword());
+            return new Session(this.getEmail(), this.getPassword(), this.token, "mojang");
         } else {
             this.setName(this.getEmail());
+            this.lastUsed = System.currentTimeMillis();
             return new Session(this.getEmail(), "", "", "mojang");
         }
+    }
+
+    public boolean isPossibleRefreshToken(String token) {
+        if (token.length() > 100) {
+            return true;
+        }
+
+        return token.matches("^[A-Za-z0-9+/=]+$");
     }
 
     /**
@@ -299,6 +277,7 @@ public class Account {
         obj.put("bans", this.makeBanJSONArray());
         obj.put("email", this.email);
         obj.put("password", encodeBase64(this.password));
+        obj.put("token", encodeBase64(this.token));
         obj.put("knownName", this.knownName);
         obj.put("knownUUID", this.knownUUID);
         obj.put("useCount", this.useCount);
@@ -358,14 +337,10 @@ public class Account {
         return null;
     }
 
-    /**
-     * This is definitely used for a cracked account check!!
-     *
-     * @return if the input email is a valid email
-     */
     public boolean isEmailAValidEmailFormat() {
         if (this.getPassword().isEmpty())
             return true;
+
         Pattern var3 = Pattern.compile("[a-zA-Z0-9_]{2,16}");
         return var3.matcher(this.getEmail()).matches();
     }

@@ -2,6 +2,7 @@ package com.mentalfrostbyte.jello.module.settings.impl;
 
 import com.mentalfrostbyte.jello.module.settings.Setting;
 import com.mentalfrostbyte.jello.module.settings.SettingType;
+import org.jetbrains.annotations.NotNull;
 import totalcross.json.CJsonUtils;
 import totalcross.json.JSONObject;
 
@@ -14,7 +15,7 @@ public class BooleanSetting extends Setting<Boolean> {
       super.updateCurrentValue(value, notify);
    }
 
-   public Boolean getCurrentValue() {
+   public @NotNull Boolean getCurrentValue() {
       return this.currentValue;
    }
 

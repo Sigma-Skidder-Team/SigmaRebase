@@ -2,6 +2,7 @@ package com.mentalfrostbyte.jello.module.settings.impl;
 
 import com.mentalfrostbyte.jello.module.settings.Setting;
 import com.mentalfrostbyte.jello.module.settings.SettingType;
+import org.jetbrains.annotations.NotNull;
 import totalcross.json.CJsonUtils;
 import totalcross.json.JSONObject;
 
@@ -22,7 +23,7 @@ public class ModeSetting extends Setting<String> {
 
    private final List<String> modes;
 
-   public String getCurrentValue() {
+   public @NotNull String getCurrentValue() {
       return this.currentValue;
    }
 

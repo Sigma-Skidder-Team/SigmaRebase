@@ -14,16 +14,14 @@ import com.mentalfrostbyte.jello.util.game.render.RenderUtil2;
 
 public class AccountUI extends AnimatedIconPanel {
     public Account selectedAccount;
-    //   private BufferedImage field20799;
-//   private Texture field20800;
-    private LoadingIndicator loadingIndicator;
-    private boolean field20802 = false;
+    private final LoadingIndicator loadingIndicator;
+    private boolean refreshing = false;
 
-    private Animation field20803 = new Animation(814, 114, Animation.Direction.BACKWARDS);
-    private float field20804 = 0.0F;
+    private final Animation field20803 = new Animation(814, 114, Animation.Direction.BACKWARDS);
+    private float loadingProgress    = 0.0F;
     public Animation field20805 = new Animation(800, 300, Animation.Direction.BACKWARDS);
-    private int field20806 = 0;
-    private int field20807 = 0;
+    private int errorState = 0;
+    private int lastErrorState = 0;
     private int color = RenderUtil2.shiftTowardsOther(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor(), 20.0F);
 
     public AccountUI(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, Account var7) {
@@ -109,7 +107,7 @@ public class AccountUI extends AnimatedIconPanel {
     }
 
     public void method13170() {
-        if (this.selectedAccount.isEmailAValidEmailFormat()) {
+        if (this.selectedAccount.getPassword().isEmpty()) {
             RenderUtil.drawString(
                     ResourceRegistry.JelloLightFont25, (float) (this.xA + 110), (float) (this.yA + 18), this.selectedAccount.getEmail(), ClientColors.DEEP_TEAL.getColor()
             );
@@ -127,13 +125,25 @@ public class AccountUI extends AnimatedIconPanel {
             RenderUtil.drawString(
                     ResourceRegistry.JelloLightFont25, (float) (this.xA + 110), (float) (this.yA + 18), this.selectedAccount.getKnownName(), ClientColors.DEEP_TEAL.getColor()
             );
-            RenderUtil.drawString(
-                    ResourceRegistry.JelloLightFont14,
-                    (float) (this.xA + 110),
-                    (float) (this.yA + 50),
-                    "Email: " + this.selectedAccount.getEmail(),
-                    ClientColors.MID_GREY.getColor()
-            );
+            boolean isEmail = this.selectedAccount.getEmail().contains("@");
+            if (isEmail) {
+                RenderUtil.drawString(
+                        ResourceRegistry.JelloLightFont14,
+                        (float) (this.xA + 110),
+                        (float) (this.yA + 50),
+                        "Email: " + this.selectedAccount.getEmail(),
+                        ClientColors.MID_GREY.getColor()
+                );
+            } else {
+                RenderUtil.drawString(
+                        ResourceRegistry.JelloLightFont14,
+                        (float) (this.xA + 110),
+                        (float) (this.yA + 50),
+                        "Token: " + "asdddddddddddddddddddddddddddddddddddddddddddd".replaceAll(".", Character.toString('·')),
+                        ClientColors.MID_GREY.getColor()
+                );
+            }
+
             RenderUtil.drawString(
                     ResourceRegistry.JelloLightFont14,
                     (float) (this.xA + 110),
@@ -145,11 +155,11 @@ public class AccountUI extends AnimatedIconPanel {
     }
 
     public void method13171(float var1) {
-        this.field20804 = this.field20804 + (this.field20802 ? 0.33333334F : -0.33333334F);
-        this.field20804 = Math.min(1.0F, Math.max(0.0F, this.field20804));
-        this.field20806 = Math.max(0, this.field20806 - 1);
-        float var4 = this.field20806 <= 20 ? 20.0F : -20.0F;
-        float var5 = (float) this.field20806 >= var4 && (float) this.field20806 <= (float) this.field20807 - var4 ? 1.0F : (float) this.field20806 % var4 / var4;
+        this.loadingProgress = this.loadingProgress + (this.refreshing ? 0.33333334F : -0.33333334F);
+        this.loadingProgress = Math.min(1.0F, Math.max(0.0F, this.loadingProgress));
+        this.errorState = Math.max(0, this.errorState - 1);
+        float var4 = this.errorState <= 20 ? 20.0F : -20.0F;
+        float var5 = (float) this.errorState >= var4 && (float) this.errorState <= (float) this.lastErrorState - var4 ? 1.0F : (float) this.errorState % var4 / var4;
         RenderUtil.drawImage(
                 (float) (this.xA + this.widthA - 45),
                 (float) (this.yA + 42),
@@ -164,20 +174,20 @@ public class AccountUI extends AnimatedIconPanel {
                 17.0F,
                 13.0F,
                 Resources.activePNG,
-                RenderUtil2.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.field20804 * var1)
+                RenderUtil2.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), this.loadingProgress * var1)
         );
     }
 
-    public void method13172(boolean var1) {
-        this.field20802 = var1;
+    public void setAccountListRefreshing(boolean refreshing) {
+        this.refreshing = refreshing;
     }
 
-    public void method13173(int var1) {
-        this.field20806 = var1;
-        this.field20807 = var1;
+    public void setErrorState(int errorCode) {
+        this.errorState = errorCode;
+        this.lastErrorState = errorCode;
     }
 
-    public void method13174(boolean notInThread) {
-        this.loadingIndicator.setHovered(notInThread);
+    public void setLoadingIndicator(boolean isLoading) {
+        this.loadingIndicator.setHovered(isLoading);
     }
 }

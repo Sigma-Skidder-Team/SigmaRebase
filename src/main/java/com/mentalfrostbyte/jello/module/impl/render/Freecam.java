@@ -245,8 +245,8 @@ public class Freecam extends Module {
     @EventTarget
     public void method16646(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
-            var1.setPitch(this.field23821 % 360.0F);
-            var1.setYaw(this.field23822);
+            var1.setYaw(this.field23821 % 360.0F);
+            var1.setPitch(this.field23822);
             mc.player.lastReportedYaw = this.field23821;
             mc.player.lastReportedPitch = this.field23822;
             float[] var4 = MovementUtil.getDirectionArray(this.field23825, this.field23824);
@@ -272,23 +272,22 @@ public class Freecam extends Module {
     }
 
     @EventTarget
-    public void method16647(EventReceivePacket var1) {
+    public void method16647(EventReceivePacket event) {
         if (this.isEnabled()) {
             if (mc.player != null) {
-                if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
-                    SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
-                    this.field23821 = var4.yaw;
-                    this.field23822 = var4.pitch;
-                    var4.yaw = mc.player.rotationYaw;
-                    var4.pitch = mc.player.rotationPitch;
-                    double var5 = var4.x;
-                    double var7 = var4.y;
-                    double var9 = var4.z;
+                if (event.getPacket() instanceof SPlayerPositionLookPacket packet) {
+                    this.field23821 = packet.yaw;
+                    this.field23822 = packet.pitch;
+                    packet.yaw = mc.player.rotationYaw;
+                    packet.pitch = mc.player.rotationPitch;
+                    double var5 = packet.x;
+                    double var7 = packet.y;
+                    double var9 = packet.z;
                     float var11 = PlayerEntity.STANDING_SIZE.width;
                     float var12 = PlayerEntity.STANDING_SIZE.height;
                     mc.player
                             .setBoundingBox(new AxisAlignedBB(var5 - (double) var11, var7, var9 - (double) var11, var5 + (double) var11, var7 + (double) var12, var9 + (double) var11));
-                    var1.cancelled = true;
+                    event.cancelled = true;
                     player.setMotion(0.0, 0.0, 0.0);
                 }
             }

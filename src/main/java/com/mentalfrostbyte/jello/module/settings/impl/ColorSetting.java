@@ -2,6 +2,7 @@ package com.mentalfrostbyte.jello.module.settings.impl;
 
 import com.mentalfrostbyte.jello.module.settings.Setting;
 import com.mentalfrostbyte.jello.module.settings.SettingType;
+import org.jetbrains.annotations.NotNull;
 import totalcross.json.CJsonUtils;
 import totalcross.json.JSONObject;
 
@@ -42,7 +43,7 @@ public class ColorSetting extends Setting<Integer> {
       return jsonObject;
    }
 
-   public Integer getCurrentValue() {
+   public @NotNull Integer getCurrentValue() {
       if (!this.isRainbowEnabled) {
          return this.currentValue;
       } else {

@@ -31,11 +31,6 @@ public class AccountManager {
         EventBus.register(this.banListener);
     }
 
-    @Deprecated
-    public void addAccount(Account account) {
-        this.accounts.add(account);
-    }
-
     public void updateAccount(Account account) {
         for (int i = 0; i < this.accounts.size(); i++) {
             if (this.accounts.get(i).getEmail().equals(account.getEmail())) {

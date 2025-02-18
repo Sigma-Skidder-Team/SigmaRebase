@@ -30,49 +30,43 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuHolder;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import org.newdawn.slick.opengl.Texture;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import totalcross.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AltManagerScreen extends Screen {
-    private static final Logger log = LoggerFactory.getLogger(AltManagerScreen.class);
     private int field21005;
     private float field21006;
-    private float field21007 = 0.75F;
     private boolean field21008 = true;
-    public TextButton field21009;
-    private ScrollableContentPanel field21010;
-    private ScrollableContentPanel field21011;
+    private ScrollableContentPanel alts;
+    private final ScrollableContentPanel altView;
     private Alert loginDialog;
     private Alert deleteAlert;
-    private float field21014 = 0.65F;
-    private float field21015 = 1.0F - this.field21014;
-    private int titleOffset = 30;
-    private Head field21017;
-    private Info field21018;
+    private final float field21014 = 0.65F;
+    private final float field21015 = 1.0F - this.field21014;
+    private final int titleOffset = 30;
+    private final Head head;
+    private final Info info;
     public AccountManager accountManager = Client.getInstance().accountManager;
-    private Texture field21020;
-    private float field21021;
-    private TextButton field21022;
-    private AccountCompareType field21023 = AccountCompareType.DateAdded;
-    private String field21024 = "";
-    private boolean field21025 = false;
-    private TextField field21026;
+    private AccountCompareType accountSortType = AccountCompareType.DateAdded;
+    private String accountFilter = "";
+    private final TextField searchBox;
+
+    public static AltManagerScreen instance;
 
     public AltManagerScreen() {
         super("Alt Manager");
+        instance = this;
         this.setListening(false);
-        ArrayList<String> sortingOptions = new ArrayList<>();
+        List<String> sortingOptions = new ArrayList<>();
         sortingOptions.add("Alphabetical");
         sortingOptions.add("Bans");
         sortingOptions.add("Date Added");
         sortingOptions.add("Last Used");
         sortingOptions.add("Use count");
-        ArrayList<String> servers = new ArrayList();
+        List<String> servers = new ArrayList<>();
         ServerList serverList = new ServerList(Minecraft.getInstance());
         serverList.loadServerList();
         int serverListSize = serverList.countServers();
@@ -85,9 +79,9 @@ public class AltManagerScreen extends Screen {
         }
 
         this.getLoginDialog();
-        this.deleteAlert();
+        this.deleteAltAlert();
         this.addToList(
-                this.field21010 = new ScrollableContentPanel(
+                this.alts = new ScrollableContentPanel(
                         this,
                         "alts",
                         0,
@@ -97,7 +91,7 @@ public class AltManagerScreen extends Screen {
                 )
         );
         this.addToList(
-                this.field21011 = new ScrollableContentPanel(
+                this.altView = new ScrollableContentPanel(
                         this,
                         "altView",
                         (int) ((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014),
@@ -106,13 +100,13 @@ public class AltManagerScreen extends Screen {
                         Minecraft.getInstance().getMainWindow().getHeight() - 119 - this.titleOffset
                 )
         );
-        this.field21010.setListening(false);
-        this.field21011.setListening(false);
-        this.field21010.method13515(false);
-        this.field21011
+        this.alts.setListening(false);
+        this.altView.setListening(false);
+        this.alts.method13515(false);
+        this.altView
                 .addToList(
-                        this.field21017 = new Head(
-                                this.field21011,
+                        this.head = new Head(
+                                this.altView,
                                 "",
                                 (int) (
                                         (float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21015
@@ -126,10 +120,10 @@ public class AltManagerScreen extends Screen {
                                 "steve"
                         )
                 );
-        this.field21011
+        this.altView
                 .addToList(
-                        this.field21018 = new Info(
-                                this.field21011,
+                        this.info = new Info(
+                                this.altView,
                                 "info",
                                 (int) (
                                         (float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21015
@@ -142,33 +136,33 @@ public class AltManagerScreen extends Screen {
                                 500
                         )
                 );
-        Dropdown var9 = new Dropdown(this, "drop", (int) ((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014) - 220, 44, 200, 32, sortingOptions, 0);
-        var9.method13643(servers, 1);
-        var9.method13656(2);
-        this.addToList(var9);
-        var9.onPress(var2 -> {
-            switch (var9.method13655()) {
+        Dropdown filterDropdown = new Dropdown(this, "drop", (int) ((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014) - 220, 44, 200, 32, sortingOptions, 0);
+        filterDropdown.method13643(servers, 1);
+        filterDropdown.method13656(2);
+        this.addToList(filterDropdown);
+        filterDropdown.onPress(var2 -> {
+            switch (filterDropdown.getIndex()) {
                 case 0:
-                    this.field21023 = AccountCompareType.Alphabetical;
+                    this.accountSortType = AccountCompareType.Alphabetical;
                     break;
                 case 1:
-                    this.field21023 = AccountCompareType.Bans;
-                    this.field21024 = var9.method13645(1).method13636().get(var9.method13645(1).method13640());
+                    this.accountSortType = AccountCompareType.Bans;
+                    this.accountFilter = filterDropdown.method13645(1).method13636().get(filterDropdown.method13645(1).method13640());
                     break;
                 case 2:
-                    this.field21023 = AccountCompareType.DateAdded;
+                    this.accountSortType = AccountCompareType.DateAdded;
                     break;
                 case 3:
-                    this.field21023 = AccountCompareType.LastUsed;
+                    this.accountSortType = AccountCompareType.LastUsed;
                     break;
                 case 4:
-                    this.field21023 = AccountCompareType.UseCount;
+                    this.accountSortType = AccountCompareType.UseCount;
             }
 
-            this.method13372(false);
+            this.updateAccountList(false);
         });
         this.addToList(
-                this.field21026 = new TextField(
+                this.searchBox = new TextField(
                         this,
                         "textbox",
                         (int) ((float) Minecraft.getInstance().getMainWindow().getWidth() * this.field21014),
@@ -181,60 +175,60 @@ public class AltManagerScreen extends Screen {
                         ResourceRegistry.JelloLightFont18
                 )
         );
-        this.field21026.setFont(ResourceRegistry.JelloLightFont18);
-        this.field21026.method13151(var1 -> this.method13372(false));
-        this.addToList(this.field21022 = new TextButton(this, "btnt", this.getWidthA() - 90, 43, 70, 30, ColorHelper.field27961, "Add +", ResourceRegistry.JelloLightFont25));
-        this.field21010.method13242();
-        this.field21022.doThis((var1, var2) -> {
+        this.searchBox.setFont(ResourceRegistry.JelloLightFont18);
+        this.searchBox.method13151(var1 -> this.updateAccountList(false));
+        TextButton addButton;
+        this.addToList(addButton = new TextButton(this, "btnt", this.getWidthA() - 90, 43, 70, 30, ColorHelper.field27961, "Add +", ResourceRegistry.JelloLightFont25));
+        this.alts.method13242();
+        addButton.doThis((var1, var2) -> {
             if (this.method13369()) {
                 this.loginDialog.method13603(!this.loginDialog.isHovered());
             }
         });
     }
 
-    private void method13360(Account var1, boolean var2) {
-        AccountUI var5;
-        this.field21010
-                .addToList(
-                        var5 = new AccountUI(
-                                this.field21010,
-                                var1.getEmail(),
+    private void method13360(Account acc, boolean var2) {
+        AccountUI accountUI;
+        this.alts.addToList(
+                        accountUI = new AccountUI(
+                                this.alts,
+                                acc.getEmail(),
                                 this.titleOffset,
                                 (100 + this.titleOffset / 2) * this.method13370(),
-                                this.field21010.getWidthA() - this.titleOffset * 2 + 4,
+                                this.alts.getWidthA() - this.titleOffset * 2 + 4,
                                 100,
-                                var1
+                                acc
                         )
                 );
         if (!var2) {
-            var5.field20805 = new Animation(0, 0);
+            accountUI.field20805 = new Animation(0, 0);
         }
 
-        if (this.accountManager.isCurrentAccount(var1)) {
-            var5.method13172(true);
+        if (this.accountManager.isCurrentAccount(acc)) {
+            accountUI.setAccountListRefreshing(true);
         }
 
-        var5.method13247((var2x, var3) -> {
+        accountUI.method13247((var2x, var3) -> {
             if (var3 != 0) {
                 this.deleteAlert.onPress(element -> {
-                    this.accountManager.removeAccountDirectly(var5.selectedAccount);
-                    this.field21018.handleSelectedAccount(null);
-                    this.field21017.handleSelectedAccount(null);
-                    this.method13372(false);
+                    this.accountManager.removeAccountDirectly(accountUI.selectedAccount);
+                    this.info.handleSelectedAccount(null);
+                    this.head.handleSelectedAccount(null);
+                    this.updateAccountList(false);
                 });
                 this.deleteAlert.method13145(true);
                 this.deleteAlert.method13603(true);
             } else {
-                if (this.field21017.account == var5.selectedAccount && var5.method13168()) {
-                    this.loginToAccount(var5);
+                if (this.head.account == accountUI.selectedAccount && accountUI.method13168()) {
+                    this.loginToAccount(accountUI);
                 } else {
-                    this.field21011.method13512(0);
+                    this.altView.method13512(0);
                 }
 
-                this.field21017.handleSelectedAccount(var5.selectedAccount);
-                this.field21018.handleSelectedAccount(var5.selectedAccount);
+                this.head.handleSelectedAccount(accountUI.selectedAccount);
+                this.info.handleSelectedAccount(accountUI.selectedAccount);
 
-                for (CustomGuiScreen var7 : this.field21010.getChildren()) {
+                for (CustomGuiScreen var7 : this.alts.getChildren()) {
                     if (!(var7 instanceof VerticalScrollBar)) {
                         for (CustomGuiScreen var9 : var7.getChildren()) {
                             ((AccountUI) var9).method13166(false);
@@ -242,30 +236,33 @@ public class AltManagerScreen extends Screen {
                     }
                 }
 
-                var5.method13166(true);
+                accountUI.method13166(true);
             }
         });
-        if (Client.getInstance().accountManager.isCurrentAccount(var1)) {
-            this.field21017.handleSelectedAccount(var5.selectedAccount);
-            this.field21018.handleSelectedAccount(var5.selectedAccount);
-            var5.method13167(true, true);
+        if (Client.getInstance().accountManager.isCurrentAccount(acc)) {
+            this.head.handleSelectedAccount(accountUI.selectedAccount);
+            this.info.handleSelectedAccount(accountUI.selectedAccount);
+            accountUI.method13167(true, true);
         }
     }
 
-    private void loginToAccount(AccountUI account) {
-        account.method13174(true);
+    public static void login() {
+
+    }
+
+    public void loginToAccount(AccountUI account) {
+        account.setLoadingIndicator(true);
         new Thread(() -> {
             if (!this.accountManager.login(account.selectedAccount)) {
-                account.method13173(114);
+                account.setErrorState(114);
                 Client.getInstance().soundManager.play("error");
             } else {
                 this.method13368();
-                account.method13172(true);
+                account.setAccountListRefreshing(true);
                 Client.getInstance().soundManager.play("connect");
-                this.method13372(false);
+                this.updateAccountList(false);
             }
-
-            account.method13174(false);
+            account.setLoadingIndicator(false);
         }).start();
     }
 
@@ -278,7 +275,7 @@ public class AltManagerScreen extends Screen {
         AlertComponent button = new AlertComponent(ComponentType.BUTTON, "Add alt", 50);
         AlertComponent button2 = new AlertComponent(ComponentType.BUTTON, "Cookie login", 50);
         AlertComponent button3 = new AlertComponent(ComponentType.BUTTON, "Web login", 50);
-        this.addToList(this.loginDialog = new Alert(this, "Testt", true, "Add Alt", header, firstline1, firstline2, emailInput, passwordInput, button, button2, button3));
+        this.addToList(this.loginDialog = new Alert(this, "Add alt dialog", true, "Add Alt", header, firstline1, firstline2, emailInput, passwordInput, button, button2, button3));
 
         this.loginDialog.onPress(element -> {
             if (!this.loginDialog.getInputMap().get("Email").contains(":")) {
@@ -287,7 +284,7 @@ public class AltManagerScreen extends Screen {
                     this.accountManager.updateAccount(account);
                 }
 
-                this.method13372(false);
+                this.updateAccountList(false);
             } else {
                 String[] emails = this.loginDialog.getInputMap().get("Email").replace("\r", "\n").replace("\n\n", "\n").split("\n");
 
@@ -301,12 +298,12 @@ public class AltManagerScreen extends Screen {
                     }
                 }
 
-                this.method13372(false);
+                this.updateAccountList(false);
             }
         });
     }
 
-    private void deleteAlert() {
+    private void deleteAltAlert() {
         AlertComponent title = new AlertComponent(ComponentType.HEADER, "Delete?", 50);
         AlertComponent firstLine = new AlertComponent(ComponentType.FIRST_LINE, "Are you sure you want", 15);
         AlertComponent secondLine = new AlertComponent(ComponentType.FIRST_LINE, "to delete this alt?", 40);
@@ -329,12 +326,6 @@ public class AltManagerScreen extends Screen {
         super.draw(partialTicks);
     }
 
-    /**
-     * Hell yeah
-     */
-    private void emptyMethod() {
-    }
-
     private void drawTitle() {
         int xPos = this.xA + this.titleOffset;
         int yPos = this.yA + this.titleOffset;
@@ -346,22 +337,21 @@ public class AltManagerScreen extends Screen {
     private void method13367() {
         float var3 = 1.0F;
 
-        for (CustomGuiScreen var5 : this.field21010.getChildren()) {
+        for (CustomGuiScreen var5 : this.alts.getChildren()) {
             if (!(var5 instanceof VerticalScrollBar)) {
                 for (CustomGuiScreen var7 : var5.getChildren()) {
-                    if (var7 instanceof AccountUI) {
-                        AccountUI var8 = (AccountUI) var7;
-                        if (var7.getYA() <= Minecraft.getInstance().getMainWindow().getHeight() && this.field21010.method13513() == 0) {
+                    if (var7 instanceof AccountUI accountUI) {
+                        if (var7.getYA() <= Minecraft.getInstance().getMainWindow().getHeight() && this.alts.method13513() == 0) {
                             if (var3 > 0.2F) {
-                                var8.field20805.changeDirection(Animation.Direction.FORWARDS);
+                                accountUI.field20805.changeDirection(Animation.Direction.FORWARDS);
                             }
 
-                            float var9 = MathUtil.lerp(var8.field20805.calcPercent(), 0.51, 0.82, 0.0, 0.99);
-                            var8.method13284((int) (-((1.0F - var9) * (float) (var7.getWidthA() + 30))));
-                            var3 = var8.field20805.calcPercent();
+                            float var9 = MathUtil.lerp(accountUI.field20805.calcPercent(), 0.51, 0.82, 0.0, 0.99);
+                            accountUI.method13284((int) (-((1.0F - var9) * (float) (var7.getWidthA() + 30))));
+                            var3 = accountUI.field20805.calcPercent();
                         } else {
-                            var8.method13284(0);
-                            var8.field20805.changeDirection(Animation.Direction.FORWARDS);
+                            accountUI.method13284(0);
+                            accountUI.field20805.changeDirection(Animation.Direction.FORWARDS);
                         }
                     }
                 }
@@ -370,22 +360,18 @@ public class AltManagerScreen extends Screen {
     }
 
     private void method13368() {
-        boolean var3 = false;
-
-        for (CustomGuiScreen var5 : this.field21010.getChildren()) {
-            if (!(var5 instanceof VerticalScrollBar)) {
-                for (CustomGuiScreen var7 : var5.getChildren()) {
-                    AccountUI var8 = (AccountUI) var7;
-                    var8.method13172(false);
+        for (CustomGuiScreen screen : this.alts.getChildren()) {
+            if (!(screen instanceof VerticalScrollBar)) {
+                for (CustomGuiScreen child : screen.getChildren()) {
+                    AccountUI accountUI = (AccountUI) child;
+                    accountUI.setAccountListRefreshing(false);
                 }
             }
         }
     }
 
     private boolean method13369() {
-        boolean var3 = false;
-
-        for (CustomGuiScreen var5 : this.field21010.getChildren()) {
+        for (CustomGuiScreen var5 : this.alts.getChildren()) {
             if (!(var5 instanceof VerticalScrollBar)) {
                 for (CustomGuiScreen var7 : var5.getChildren()) {
                     if (var7.method13280() != 0 && var7.getXA() > this.widthA) {
@@ -401,9 +387,9 @@ public class AltManagerScreen extends Screen {
     private int method13370() {
         int var3 = 0;
 
-        for (CustomGuiScreen var5 : this.field21010.getChildren()) {
+        for (CustomGuiScreen var5 : this.alts.getChildren()) {
             if (!(var5 instanceof VerticalScrollBar)) {
-                for (CustomGuiScreen var7 : var5.getChildren()) {
+                for (CustomGuiScreen ignored : var5.getChildren()) {
                     var3++;
                 }
             }
@@ -452,23 +438,20 @@ public class AltManagerScreen extends Screen {
 
     @Override
     public void loadConfig(JSONObject config) {
-        for (CustomGuiScreen var5 : this.field21010.getChildren()) {
+        for (CustomGuiScreen var5 : this.alts.getChildren()) {
             if (!(var5 instanceof VerticalScrollBar)) {
                 for (CustomGuiScreen var7 : var5.getChildren()) {
-                    this.field21010.method13234(var7);
+                    this.alts.method13234(var7);
                 }
             }
         }
 
-        this.method13372(true);
+        this.updateAccountList(true);
     }
 
-    public void method13372(boolean var1) {
-        List<Account> var5 = AccountSorter.sortByInputAltAccounts(this.accountManager.getAccounts(), this.field21023, this.field21024, this.field21026.getText());
-        this.runThisOnDimensionUpdate(new Class1428(this, this, var5, var1));
-    }
-
-    private void method13373(Object var1) {
+    public void updateAccountList(boolean forceRefresh) {
+        List<Account> var5 = AccountSorter.sortByInputAltAccounts(this.accountManager.getAccounts(), this.accountSortType, this.accountFilter, this.searchBox.getText());
+        this.runThisOnDimensionUpdate(new AccountListUpdater(this, this, var5, forceRefresh));
     }
 
     public int method13374() {
@@ -477,12 +460,12 @@ public class AltManagerScreen extends Screen {
 
     // $VF: synthetic method
     public static ScrollableContentPanel method13382(AltManagerScreen instance) {
-        return instance.field21010;
+        return instance.alts;
     }
 
     // $VF: synthetic method
     public static ScrollableContentPanel method13383(AltManagerScreen instance, ScrollableContentPanel var1) {
-        return instance.field21010 = var1;
+        return instance.alts = var1;
     }
 
     // $VF: synthetic method

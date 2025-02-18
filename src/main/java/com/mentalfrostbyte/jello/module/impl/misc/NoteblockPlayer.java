@@ -39,9 +39,9 @@ public class NoteblockPlayer extends Module {
 
     public NoteblockPlayer() {
         super(ModuleCategory.MISC, "NoteblockPlayer", "Plays noteblocks! Needs NBS files in sigma5/nbs");
-        File var3 = new File(Client.getInstance().file + "/nbs");
-        if (var3.exists()) {
-            this.field23640 = new ArrayList<>(Arrays.asList(var3.list()));
+        File nbsFile = new File(Client.getInstance().file + "/nbs");
+        if (nbsFile.exists()) {
+            this.field23640 = new ArrayList<>(Arrays.asList(nbsFile.list()));
 
             for (int var4 = 0; var4 < this.field23640.size(); var4++) {
                 if (this.field23640.get(var4).startsWith(".")) {
@@ -128,8 +128,8 @@ public class NoteblockPlayer extends Module {
                                                 var9 = BlockUtil.method34542(var8.field28401, Direction.DOWN);
                                             }
 
-                                            var1.setPitch(var9[0]);
-                                            var1.setYaw(var9[1]);
+                                            var1.setYaw(var9[0]);
+                                            var1.setPitch(var9[1]);
 
                                             mc.getConnection()
                                                     .sendPacket(new CPlayerDiggingPacket(
@@ -167,8 +167,8 @@ public class NoteblockPlayer extends Module {
             if (var5.field28402 == -1.0F && Math.sqrt(mc.player.getPosition()
                     .distanceSq(var5.field28401)) < (double) mc.playerController.getBlockReachDistance()) {
                 float[] var6 = BlockUtil.method34542(var5.field28401, Direction.UP);
-                event.setPitch(var6[0]);
-                event.setYaw(var6[1]);
+                event.setYaw(var6[0]);
+                event.setPitch(var6[1]);
 
                 mc.getConnection().sendPacket(new CPlayerDiggingPacket(CPlayerDiggingPacket.Action.START_DESTROY_BLOCK,
                         var5.field28401, Direction.UP));
@@ -228,8 +228,8 @@ public class NoteblockPlayer extends Module {
                     .getBlockReachDistance()) {
                 float[] var6 = BlockUtil.method34542(var5.field28401, Direction.UP);
                 mc.player.swingArm(Hand.MAIN_HAND);
-                event.setPitch(var6[0]);
-                event.setYaw(var6[1]);
+                event.setYaw(var6[0]);
+                event.setPitch(var6[1]);
                 mc.getConnection().sendPacket(new CPlayerTryUseItemOnBlockPacket(Hand.MAIN_HAND,
                         BlockUtil.rayTrace(var6[0], var6[1], mc.playerController.getBlockReachDistance() + 1.0F)));
                 this.positions.clear();

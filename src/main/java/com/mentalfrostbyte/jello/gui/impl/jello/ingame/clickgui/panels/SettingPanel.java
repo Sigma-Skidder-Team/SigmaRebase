@@ -133,12 +133,12 @@ public class SettingPanel extends ScrollableContentPanel implements Class4342 {
                 );
                 this.field21223.put(var34, setting);
                 setting.addObserver(var2x -> {
-                    if (var42.method13655() != ((ModeSetting) setting).getModeIndex()) {
+                    if (var42.getIndex() != ((ModeSetting) setting).getModeIndex()) {
                         var42.method13656(((ModeSetting) setting).getModeIndex());
                     }
                 });
                 var42.onPress(var2x -> {
-                    ((ModeSetting) setting).setModeByIndex(((Dropdown) var2x).method13655());
+                    ((ModeSetting) setting).setModeByIndex(((Dropdown) var2x).getIndex());
                     var42.method13656(((ModeSetting) setting).getModeIndex());
                 });
                 var42.setSize((var2x, var3x) -> var2x.setXA(panel.getWidthA() - 123 - var5));
