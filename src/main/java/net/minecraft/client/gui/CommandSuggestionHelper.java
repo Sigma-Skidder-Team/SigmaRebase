@@ -190,7 +190,6 @@ public class CommandSuggestionHelper
 
             this.inputField.setSuggestion(null); // clear old suggestions
             this.suggestions = null;
-            // TODO: Support populating the command usage
             this.exceptionList.clear();
 
             if (event.completions.length == 0) {

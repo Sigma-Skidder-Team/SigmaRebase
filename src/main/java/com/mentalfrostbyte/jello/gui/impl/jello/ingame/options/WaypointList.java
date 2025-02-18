@@ -51,7 +51,6 @@ public class WaypointList extends ScrollableContentPanel {
             this.addToList(var7);
             var7.doThis((var2x, var3x) -> {
                 if (var3x == 1) {
-                    //TODO: implement baritone gotod
                     Goal goal = new GoalBlock(var7.field21292.getX(), var7.field21292.getY() - 1, var7.field21292.getZ());
 
                     BaritoneAPI.getProvider()
