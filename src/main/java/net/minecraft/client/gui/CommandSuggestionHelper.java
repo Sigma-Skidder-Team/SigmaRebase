@@ -1,5 +1,7 @@
 package net.minecraft.client.gui;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.event.events.TabCompleteEvent;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -10,6 +12,7 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContextBuilder;
 import com.mojang.brigadier.context.ParsedArgument;
+import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.context.SuggestionContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
@@ -24,6 +27,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
@@ -168,6 +172,45 @@ public class CommandSuggestionHelper
 
     public void init()
     {
+        String prefix = this.inputField.getText().substring(0, Math.min(this.inputField.getText().length(), this.inputField.getCursorPosition()));
+
+        TabCompleteEvent event = new TabCompleteEvent(prefix);
+        BaritoneAPI.getProvider().getPrimaryBaritone().getGameEventHandler().onPreTabComplete(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        if (event.completions != null) {
+            this.parseResults = null; // stop coloring
+
+            if (this.isApplyingSuggestion) { // Supress suggestions update when cycling suggestions.
+                return;
+            }
+
+            this.inputField.setSuggestion(null); // clear old suggestions
+            this.suggestions = null;
+            // TODO: Support populating the command usage
+            this.exceptionList.clear();
+
+            if (event.completions.length == 0) {
+                this.suggestionsFuture = com.mojang.brigadier.suggestion.Suggestions.empty();
+            } else {
+                StringRange range = StringRange.between(prefix.lastIndexOf(" ") + 1, prefix.length()); // if there is no space this starts at 0
+
+                List<Suggestion> suggestionList = Stream.of(event.completions)
+                        .map(s -> new Suggestion(range, s))
+                        .collect(Collectors.toList());
+
+                com.mojang.brigadier.suggestion.Suggestions suggestions = new com.mojang.brigadier.suggestion.Suggestions(range, suggestionList);
+
+                this.suggestionsFuture = new CompletableFuture<>();
+                this.suggestionsFuture.complete(suggestions);
+            }
+            ((CommandSuggestionHelper) (Object) this).updateSuggestions(true); // actually populate the suggestions list from the suggestions future
+        }
+
+
         String s = this.inputField.getText();
 
         if (this.parseResults != null && !this.parseResults.getReader().getString().equals(s))

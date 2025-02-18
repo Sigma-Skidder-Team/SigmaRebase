@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
+import baritone.api.event.events.RenderEvent;
 import com.google.gson.JsonSyntaxException;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
@@ -826,7 +829,9 @@ public class GameRenderer implements IResourceManagerReloadListener, AutoCloseab
         matrixStackIn.rotate(Vector3f.XP.rotationDegrees(activerenderinfo.getPitch()));
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(activerenderinfo.getYaw() + 180.0F));
         this.mc.worldRenderer.updateCameraAndRender(matrixStackIn, partialTicks, finishTimeNano, flag1, activerenderinfo, this, this.lightmapTexture, matrix4f);
-
+        for (IBaritone ibaritone : BaritoneAPI.getProvider().getAllBaritones()) {
+            ibaritone.getGameEventHandler().onRenderPass(new RenderEvent(partialTicks, matrixStackIn, matrix4f));
+        }
         if (Reflector.ForgeHooksClient_dispatchRenderLast.exists()) {
             this.mc.getProfiler().endStartSection("forge_render_last");
             Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, this.mc.worldRenderer, matrixStackIn, partialTicks, matrix4f, finishTimeNano);

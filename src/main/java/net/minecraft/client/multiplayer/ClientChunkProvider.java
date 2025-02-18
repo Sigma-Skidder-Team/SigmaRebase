@@ -3,6 +3,9 @@ package net.minecraft.client.multiplayer;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.BooleanSupplier;
 import javax.annotation.Nullable;
+
+import baritone.utils.accessor.IChunkArray;
+import baritone.utils.accessor.IClientChunkProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -27,7 +30,7 @@ import net.optifine.reflect.Reflector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ClientChunkProvider extends AbstractChunkProvider
+public class ClientChunkProvider extends AbstractChunkProvider implements IClientChunkProvider
 {
     private static final Logger LOGGER = LogManager.getLogger();
     private final Chunk empty;
@@ -261,7 +264,24 @@ public class ClientChunkProvider extends AbstractChunkProvider
         return this.chunkExists(MathHelper.floor(entityIn.getPosX()) >> 4, MathHelper.floor(entityIn.getPosZ()) >> 4);
     }
 
-    public final class ChunkArray
+    @Override
+    public ClientChunkProvider createThreadSafeCopy() {
+        IChunkArray arr = extractReferenceArray();
+        ClientChunkProvider result = new ClientChunkProvider(world, arr.viewDistance() - 3); // -3 because its adds 3 for no reason lmao
+        IChunkArray copyArr = ((IClientChunkProvider) result).extractReferenceArray();
+        copyArr.copyFrom(arr);
+        if (copyArr.viewDistance() != arr.viewDistance()) {
+            throw new IllegalStateException(copyArr.viewDistance() + " " + arr.viewDistance());
+        }
+        return result;
+    }
+
+    @Override
+    public IChunkArray extractReferenceArray() {
+        return array;
+    }
+
+    public final class ChunkArray implements IChunkArray
     {
         public final AtomicReferenceArray<Chunk> chunks;
         private final int viewDistance;
@@ -318,6 +338,46 @@ public class ClientChunkProvider extends AbstractChunkProvider
         protected Chunk get(int chunkIndex)
         {
             return this.chunks.get(chunkIndex);
+        }
+
+        @Override
+        public void copyFrom(IChunkArray other) {
+            centerX = other.centerX();
+            centerZ = other.centerZ();
+
+            AtomicReferenceArray<Chunk> copyingFrom = other.getChunks();
+            for (int k = 0; k < copyingFrom.length(); ++k) {
+                Chunk chunk = copyingFrom.get(k);
+                if (chunk != null) {
+                    ChunkPos chunkpos = chunk.getPos();
+                    if (inView(chunkpos.x, chunkpos.z)) {
+                        int index = getIndex(chunkpos.x, chunkpos.z);
+                        if (chunks.get(index) != null) {
+                            throw new IllegalStateException("Doing this would mutate the client's REAL loaded chunks?!");
+                        }
+                        replace(index, chunk);
+                    }
+                }
+            }
+        }
+        @Override
+        public int centerX() {
+            return centerX;
+        }
+
+        @Override
+        public int centerZ() {
+            return centerZ;
+        }
+
+        @Override
+        public int viewDistance() {
+            return viewDistance;
+        }
+
+        @Override
+        public AtomicReferenceArray<Chunk> getChunks() {
+            return chunks;
         }
     }
 }

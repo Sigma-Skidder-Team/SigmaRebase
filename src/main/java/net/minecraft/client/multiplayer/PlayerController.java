@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import baritone.utils.accessor.IPlayerControllerMP;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.block.Block;
@@ -48,7 +49,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PlayerController
+public class PlayerController implements IPlayerControllerMP
 {
     private static final Logger LOGGER = LogManager.getLogger();
     protected final Minecraft mc;
@@ -619,5 +620,20 @@ public class PlayerController
             this.unacknowledgedDiggingPackets.removeFirst();
             LOGGER.error("Too many unacked block actions, dropping " + pair);
         }
+    }
+
+    @Override
+    public void setIsHittingBlock(boolean isHittingBlock) {
+        this.isHittingBlock = isHittingBlock;
+    }
+
+    @Override
+    public BlockPos getCurrentBlock() {
+        return currentBlock;
+    }
+
+    @Override
+    public void callSyncCurrentPlayItem() {
+        syncCurrentPlayItem();
     }
 }

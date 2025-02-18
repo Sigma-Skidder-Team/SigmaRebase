@@ -1,5 +1,9 @@
 package net.minecraft.network;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
+import baritone.api.event.events.PacketEvent;
+import baritone.api.event.events.type.EventState;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
@@ -154,6 +158,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<IPacket<?>> {
     }
 
     protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, IPacket<?> p_channelRead0_2_) throws Exception {
+        for (IBaritone ibaritone : BaritoneAPI.getProvider().getAllBaritones()) {
+            if (ibaritone.getPlayerContext().player() != null && ibaritone.getPlayerContext().player().connection.getNetworkManager() == (NetworkManager) (Object) this) {
+                ibaritone.getGameEventHandler().onReceivePacket(new PacketEvent((NetworkManager) (Object) this, EventState.PRE, p_channelRead0_2_));
+            }
+        }
         if (this.channel.isOpen()) {
 
             EventReceivePacket receivePacketEvent = new EventReceivePacket(p_channelRead0_2_);
@@ -169,6 +178,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<IPacket<?>> {
             }
 
             ++this.field_211394_q;
+        }
+        if (!this.channel.isOpen() || this.direction != PacketDirection.CLIENTBOUND) {
+            return;
+        }
+        for (IBaritone ibaritone : BaritoneAPI.getProvider().getAllBaritones()) {
+            if (ibaritone.getPlayerContext().player() != null && ibaritone.getPlayerContext().player().connection.getNetworkManager() == (NetworkManager) (Object) this) {
+                ibaritone.getGameEventHandler().onReceivePacket(new PacketEvent((NetworkManager) (Object) this, EventState.POST, p_channelRead0_2_));
+            }
         }
     }
 
@@ -230,6 +247,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<IPacket<?>> {
      * packet, otherwise it will add a task for the channel eventloop thread to do that.
      */
     private void dispatchPacket(IPacket<?> inPacket, @Nullable GenericFutureListener<? extends Future<? super Void>> futureListeners) {
+        for (IBaritone ibaritone : BaritoneAPI.getProvider().getAllBaritones()) {
+            if (ibaritone.getPlayerContext().player() != null && ibaritone.getPlayerContext().player().connection.getNetworkManager() == (NetworkManager) (Object) this) {
+                ibaritone.getGameEventHandler().onSendPacket(new PacketEvent((NetworkManager) (Object) this, EventState.PRE, inPacket));
+            }
+        }
+
         ProtocolType protocoltype = ProtocolType.getFromPacket(inPacket);
         ProtocolType protocoltype1 = this.channel.attr(PROTOCOL_ATTRIBUTE_KEY).get();
         ++this.field_211395_r;
@@ -266,6 +289,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<IPacket<?>> {
 
                 channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
             });
+        }
+
+        for (IBaritone ibaritone : BaritoneAPI.getProvider().getAllBaritones()) {
+            if (ibaritone.getPlayerContext().player() != null && ibaritone.getPlayerContext().player().connection.getNetworkManager() == (NetworkManager) (Object) this) {
+                ibaritone.getGameEventHandler().onSendPacket(new PacketEvent((NetworkManager) (Object) this, EventState.POST, inPacket));
+            }
         }
     }
 

@@ -1,5 +1,9 @@
 package com.mentalfrostbyte.jello.gui.impl.jello.ingame.options;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.Goal;
+import baritone.api.pathing.goals.GoalBlock;
+import baritone.api.pathing.goals.GoalXZ;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.gui.base.animations.Animation;
 import com.mentalfrostbyte.jello.gui.combined.CustomGuiScreen;
@@ -46,8 +50,20 @@ public class WaypointList extends ScrollableContentPanel {
             this.field21209.add(var7);
             this.addToList(var7);
             var7.doThis((var2x, var3x) -> {
-                MapPanel var6x = (MapPanel) this.getParent();
-                var6x.field20614.method13077(var7.field21292.getX(), var7.field21292.getZ());
+                if (var3x == 1) {
+                    //TODO: implement baritone gotod
+                    Goal goal = new GoalBlock(var7.field21292.getX(), var7.field21292.getY() - 1, var7.field21292.getZ());
+
+                    BaritoneAPI.getProvider()
+                            .getPrimaryBaritone()
+                            .getCustomGoalProcess()
+                            .setGoalAndPath(goal);
+
+                    System.out.println("Baritone is going to: " + var7.field21292.getX() + ", " + var7.field21292.getZ());
+                } else {
+                    MapPanel var6x = (MapPanel) this.getParent();
+                    var6x.field20614.method13077(var7.field21292.getX(), var7.field21292.getZ());
+                }
             });
             var7.onPress(
                     var3x -> {

@@ -1,5 +1,8 @@
 package net.minecraft.entity;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.IBaritone;
+import baritone.api.event.events.RotationMoveEvent;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -2481,11 +2484,22 @@ public abstract class LivingEntity extends Entity
         return 0.42F * this.getJumpFactor();
     }
 
+    private RotationMoveEvent jumpRotationEvent;
     /**
      * Causes this entity to do an upwards motion (jumping).
      */
     protected void jump()
     {
+        // noinspection ConstantConditions
+        if (ClientPlayerEntity.class.isInstance(this)) {
+            IBaritone baritone = BaritoneAPI.getProvider().getBaritoneForPlayer((ClientPlayerEntity) (Object) this);
+            if (baritone != null) {
+                this.jumpRotationEvent = new RotationMoveEvent(RotationMoveEvent.Type.JUMP, this.rotationYaw, this.rotationPitch);
+                baritone.getGameEventHandler().onPlayerRotationMove(this.jumpRotationEvent);
+            }
+        }
+
+
         float f = this.getJumpUpwardsMotion();
 
         if (this.isPotionActive(Effects.JUMP_BOOST))
@@ -2510,6 +2524,11 @@ public abstract class LivingEntity extends Entity
             Vector3d motion = this.getMotion().add((double)(-MathHelper.sin(f1) * 0.2F), 0.0D, (double)(MathHelper.cos(f1) * 0.2F));
             if (eventJump != null && eventJump.modified)
                 motion = eventJump.getVector();
+
+            if (this instanceof ClientPlayerEntity && BaritoneAPI.getProvider().getBaritoneForPlayer((ClientPlayerEntity) (Object) this) != null) {
+                f1 = this.jumpRotationEvent.getYaw() * ((float) Math.PI / 180F);
+            }
+            motion = motion.add((double)(-MathHelper.sin(f1) * 0.2F), 0.0D, (double)(MathHelper.cos(f1) * 0.2F));
             this.setMotion(motion);
             // MODIFICATION END
         }
