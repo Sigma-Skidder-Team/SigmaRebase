@@ -1,8 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Sigma Rebase" type="Application" factoryName="Application">
-    <envs>
-      <env name="__GL_THREADED_OPTIMIZATIONS" value="0" />
-    </envs>
     <option name="MAIN_CLASS_NAME" value="Start" />
     <module name="sigma-jello" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out/run" />
