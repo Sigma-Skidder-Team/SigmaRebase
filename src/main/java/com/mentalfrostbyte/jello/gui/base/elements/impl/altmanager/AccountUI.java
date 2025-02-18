@@ -18,9 +18,10 @@ public class AccountUI extends AnimatedIconPanel {
 //   private Texture field20800;
     private LoadingIndicator loadingIndicator;
     private boolean field20802 = false;
-    private Animation field20803 = new Animation(114, 114, Animation.Direction.BACKWARDS);
+
+    private Animation field20803 = new Animation(814, 114, Animation.Direction.BACKWARDS);
     private float field20804 = 0.0F;
-    public Animation field20805 = new Animation(300, 300, Animation.Direction.BACKWARDS);
+    public Animation field20805 = new Animation(800, 300, Animation.Direction.BACKWARDS);
     private int field20806 = 0;
     private int field20807 = 0;
     private int color = RenderUtil2.shiftTowardsOther(ClientColors.LIGHT_GREYISH_BLUE.getColor(), ClientColors.DEEP_TEAL.getColor(), 20.0F);

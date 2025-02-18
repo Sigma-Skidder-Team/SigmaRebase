@@ -19,11 +19,11 @@ import team.sdhq.eventBus.annotations.EventTarget;
 import team.sdhq.eventBus.annotations.priority.LowerPriority;
 
 public class NoFall extends Module {
-    private boolean field23507 = false;
+    private boolean AACFalling = false;
     public static boolean falling = false;
-    private boolean field23508;
-    private double field23509;
-    private boolean field23510;
+    private boolean falling2;
+    private double hypixel2Stage;
+    private boolean vanillaLegitFalling;
 
     public NoFall() {
         super(ModuleCategory.PLAYER, "NoFall", "Avoid you from getting fall damages");
@@ -34,9 +34,9 @@ public class NoFall extends Module {
 
     @Override
     public void onEnable() {
-        this.field23507 = false;
-        this.field23508 = false;
-        this.field23509 = 0.0;
+        this.AACFalling = false;
+        this.falling2 = false;
+        this.hypixel2Stage = 0.0;
     }
 
     @Override
@@ -55,12 +55,12 @@ public class NoFall extends Module {
                     && !mc.player.isOnGround()
                     && this.getStringSettingValueByName("Mode").equals("Hypixel")
                 && ServerUtil.isHypixel()) {
-                double[] var4 = MovementUtil.getVerticalOffsets();
-                double var6 = Double.MAX_VALUE;
+                double[] verticalOffsets = MovementUtil.getVerticalOffsets();
+                double otherYOffset = Double.MAX_VALUE;
 
-                for (double var9 : var4) {
-                    double var11 = mc.player.getPosY();
-                    double var13 = (double) ((int) (var11 + event.getY())) - var11 - event.getY() + var9;
+                for (double verticalOffset : verticalOffsets) {
+                    double curPosY = mc.player.getPosY();
+                    double yOffset = (double) ((int) (curPosY + event.getY())) - curPosY - event.getY() + verticalOffset;
                     double var15 = 0.02;
                     double var17 = -0.05;
 
@@ -68,24 +68,24 @@ public class NoFall extends Module {
                         var15 = 0.0;
                     }
 
-                    if (var13 > var17 && var13 < var15) {
-                        AxisAlignedBB var19 = mc.player.getBoundingBox().offset(event.getX(), event.getY() + var13 + var17, event.getZ());
-                        if (mc.world.getCollisionShapes(mc.player, var19).count() != 0L) {
-                            var13 -= 1.0E-5;
-                            event.setY(event.getY() + var13);
+                    if (yOffset > var17 && yOffset < var15) {
+                        AxisAlignedBB aabb = mc.player.getBoundingBox().offset(event.getX(), event.getY() + yOffset + var17, event.getZ());
+                        if (mc.world.getCollisionShapes(mc.player, aabb).findAny().isPresent()) {
+                            yOffset -= 1.0E-5;
+                            event.setY(event.getY() + yOffset);
                             mc.player.setMotion(mc.player.getMotion().x, event.getY(), mc.player.getMotion().z);
-                            var6 = Double.MAX_VALUE;
+                            otherYOffset = Double.MAX_VALUE;
                             break;
                         }
 
-                        if (Math.abs(var13) < var6) {
-                            var6 = var13;
+                        if (Math.abs(yOffset) < otherYOffset) {
+                            otherYOffset = yOffset;
                         }
                     }
                 }
 
-                if (Math.abs(var6) < 0.1) {
-                    event.setY(event.getY() + var6);
+                if (Math.abs(otherYOffset) < 0.1) {
+                    event.setY(event.getY() + otherYOffset);
                     mc.player.setMotion(mc.player.getMotion().x, event.getY(), mc.player.getMotion().z);
                 }
             }
@@ -148,24 +148,24 @@ public class NoFall extends Module {
                     case "OldHypixel":
                         if (packet.isPre()) {
                             if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
-                                this.field23509 = 0.0;
+                                this.hypixel2Stage = 0.0;
                                 return;
                             }
 
                             if (mc.player.getMotion().y < -0.1) {
-                                this.field23509 = this.field23509 - mc.player.getMotion().y;
+                                this.hypixel2Stage = this.hypixel2Stage - mc.player.getMotion().y;
                             }
 
-                            if (this.field23509 > 3.0) {
-                                this.field23509 = 1.0E-14;
+                            if (this.hypixel2Stage > 3.0) {
+                                this.hypixel2Stage = 1.0E-14;
                                 packet.setOnGround(true);
                             }
                         }
                         break;
                     case "Hypixel":
                         if (packet.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.isOnGround() && ServerUtil.isHypixel()) {
-                            for (double var10 : MovementUtil.getVerticalOffsets()) {
-                                if ((double) ((int) packet.getY()) - packet.getY() + var10 == 0.0) {
+                            for (double verticalOffset : MovementUtil.getVerticalOffsets()) {
+                                if ((double) ((int) packet.getY()) - packet.getY() + verticalOffset == 0.0) {
                                     packet.setOnGround(true);
                                     break;
                                 }
@@ -175,16 +175,16 @@ public class NoFall extends Module {
                     case "Hypixel2":
                         if (packet.isPre()) {
                             if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
-                                this.field23509 = 0.0;
+                                this.hypixel2Stage = 0.0;
                                 return;
                             }
 
                             if (mc.player.getMotion().y < -0.1 && mc.player.fallDistance > 3.0F) {
-                                this.field23509++;
-                                if (this.field23509 == 1.0) {
+                                this.hypixel2Stage++;
+                                if (this.hypixel2Stage == 1.0) {
                                     mc.getConnection().sendPacket(new CPlayerPacket(true));
-                                } else if (this.field23509 > 1.0) {
-                                    this.field23509 = 0.0;
+                                } else if (this.hypixel2Stage > 1.0) {
+                                    this.hypixel2Stage = 0.0;
                                 }
                             }
                         }
@@ -192,13 +192,18 @@ public class NoFall extends Module {
                     case "AAC":
                         if (packet.isPre()) {
                             if (mc.player.ticksExisted == 1) {
-                                this.field23507 = false;
+                                this.AACFalling = false;
                             }
 
-                            if (!this.field23507 && mc.player.fallDistance > 3.0F && this.getStringSettingValueByName("Mode").equals("AAC")) {
-                                this.field23507 = !this.field23507;
-                                CPlayerPacket.PositionPacket var7 = new CPlayerPacket.PositionPacket(mc.player.getPosX(), Double.NaN, mc.player.getPosZ(), true);
-                                mc.getConnection().sendPacket(var7);
+                            if (!this.AACFalling && mc.player.fallDistance > 3.0F && this.getStringSettingValueByName("Mode").equals("AAC")) {
+                                this.AACFalling = !this.AACFalling;
+                                CPlayerPacket.PositionPacket pos = new CPlayerPacket.PositionPacket(
+                                        mc.player.getPosX(),
+                                        Double.NaN,
+                                        mc.player.getPosZ(),
+                                        true
+                                );
+                                mc.getConnection().sendPacket(pos);
                             }
                         }
                         break;
@@ -213,28 +218,28 @@ public class NoFall extends Module {
                         }
 
                         if (mc.player.fallDistance > 3.0F) {
-                            this.field23510 = true;
+                            this.vanillaLegitFalling = true;
                         }
 
-                        if (this.field23510 && mc.player.isOnGround() && !mc.player.isInWater()) {
-                            double var12 = mc.player.getPosX();
-                            double var14 = mc.player.getPosY();
-                            double var16 = mc.player.getPosZ();
-                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14 + 3.01, var16, false));
-                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, false));
-                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(var12, var14, var16, true));
-                            this.field23510 = false;
+                        if (this.vanillaLegitFalling && mc.player.isOnGround() && !mc.player.isInWater()) {
+                            double cX = mc.player.getPosX();
+                            double cY = mc.player.getPosY();
+                            double cZ = mc.player.getPosZ();
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(cX, cY + 3.01, cZ, false));
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(cX, cY, cZ, false));
+                            mc.getConnection().sendPacket(new CPlayerPacket.PositionPacket(cX, cY, cZ, true));
+                            this.vanillaLegitFalling = false;
                         }
                         break;
                     case "NCPSpigot":
                         if (packet.isPre()) {
                             if (mc.player.fallDistance > 3.0F) {
-                                this.field23508 = true;
+                                this.falling2 = true;
                             }
 
-                            if (this.field23508 && Client.getInstance().playerTracker.getgroundTicks() == 0 && mc.player.isOnGround()) {
+                            if (this.falling2 && Client.getInstance().playerTracker.getgroundTicks() == 0 && mc.player.isOnGround()) {
                                 packet.setY(packet.getY() - 11.0);
-                                this.field23508 = false;
+                                this.falling2 = false;
                             }
                         }
                 }

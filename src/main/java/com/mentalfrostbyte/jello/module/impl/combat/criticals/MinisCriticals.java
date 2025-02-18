@@ -23,7 +23,7 @@ public class MinisCriticals extends Module {
     @EventTarget
     public void onJump(EventJump event) {
         if (this.isEnabled()) {
-            if (KillAura.isAuraActive) {
+            if (KillAura.isActive) {
                 mc.getConnection()
                         .sendPacket(new CPlayerPacket.PositionPacket(mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ(), true));
             }
@@ -33,7 +33,7 @@ public class MinisCriticals extends Module {
     @EventTarget
     public void onStep(EventStep event) {
         if (this.isEnabled()) {
-            if (KillAura.isAuraActive) {
+            if (KillAura.isActive) {
                 event.cancelled = true;
             }
         }

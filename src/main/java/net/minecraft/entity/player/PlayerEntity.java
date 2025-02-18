@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.mentalfrostbyte.jello.event.impl.player.EventKeepSprint;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMoveRelative;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventSafeWalk;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Either;
@@ -565,6 +566,9 @@ public abstract class PlayerEntity extends LivingEntity {
      * Called when the mob's health reaches 0.
      */
     public void onDeath(DamageSource cause) {
+        EventMoveRelative eventMoveFlying = new EventMoveRelative(rotationYaw);
+
+
         super.onDeath(cause);
         this.recenterBoundingBox();
 
@@ -573,7 +577,7 @@ public abstract class PlayerEntity extends LivingEntity {
         }
 
         if (cause != null) {
-            this.setMotion((double) (-MathHelper.cos((this.attackedAtYaw + this.rotationYaw) * ((float) Math.PI / 180F)) * 0.1F), (double) 0.1F, (double) (-MathHelper.sin((this.attackedAtYaw + this.rotationYaw) * ((float) Math.PI / 180F)) * 0.1F));
+            this.setMotion((double) (-MathHelper.cos((this.attackedAtYaw + eventMoveFlying.getYaw()) * ((float) Math.PI / 180F)) * 0.1F), (double) 0.1F, (double) (-MathHelper.sin((this.attackedAtYaw + eventMoveFlying.getYaw()) * ((float) Math.PI / 180F)) * 0.1F));
         } else {
             this.setMotion(0.0D, 0.1D, 0.0D);
         }
@@ -1151,10 +1155,11 @@ public abstract class PlayerEntity extends LivingEntity {
                         EventKeepSprint eventKeepSprint = new EventKeepSprint(i > 0);
                         EventBus.call(eventKeepSprint);
                         if (eventKeepSprint.greater) {
+                            EventMoveRelative eventMoveFlying = new EventMoveRelative(rotationYaw);
                             if (targetEntity instanceof LivingEntity) {
-                                ((LivingEntity) targetEntity).applyKnockback((float) i * 0.5F, (double) MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F))));
+                                ((LivingEntity) targetEntity).applyKnockback((float) i * 0.5F, (double) MathHelper.sin(eventMoveFlying.getYaw() * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(eventMoveFlying.getYaw() * ((float) Math.PI / 180F))));
                             } else {
-                                targetEntity.addVelocity((double) (-MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)) * (float) i * 0.5F));
+                                targetEntity.addVelocity((double) (-MathHelper.sin(eventMoveFlying.getYaw() * ((float) Math.PI / 180F)) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(eventMoveFlying.getYaw() * ((float) Math.PI / 180F)) * (float) i * 0.5F));
                             }
 
                             this.setMotion(this.getMotion().mul(0.6D, 1.0D, 0.6D));

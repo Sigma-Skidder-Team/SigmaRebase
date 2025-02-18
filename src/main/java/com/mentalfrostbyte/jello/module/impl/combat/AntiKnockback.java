@@ -18,7 +18,8 @@ public class AntiKnockback extends ModuleWithModuleSettings {
                 new SpartanAntiKB(),
                 new MinemenAntiKB(),
                 new GommeAntiKB(),
-                new VulcanAntiKB()
+                new VulcanAntiKB(),
+                new LegitAntiKB()
         );
     }
 

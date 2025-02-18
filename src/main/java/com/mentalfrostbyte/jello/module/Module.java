@@ -23,6 +23,7 @@ public class Module {
     public ModuleCategory category;
     public boolean enabled;
     public boolean allowed;
+//    public boolean hiddenFromActiveMods;
     private boolean availableOnClassic = true;
     private Module someMod = null;
 

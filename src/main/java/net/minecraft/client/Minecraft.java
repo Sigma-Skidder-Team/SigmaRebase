@@ -9,6 +9,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Queues;
 import com.google.gson.JsonElement;
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.event.impl.player.action.EventInputOptions;
+import com.mentalfrostbyte.jello.event.impl.player.action.EventPlace;
 import com.mentalfrostbyte.jello.util.client.ClientMode;
 import com.mentalfrostbyte.jello.event.impl.game.action.EventClick;
 import com.mentalfrostbyte.jello.event.impl.game.EventRayTraceResult;
@@ -1337,7 +1339,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
         }
     }
 
-    private void sendClickBlockToController(boolean leftClick) {
+    public void sendClickBlockToController(boolean leftClick) {
         if (!leftClick) {
             this.leftClickCounter = 0;
         }
@@ -1361,7 +1363,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
         }
     }
 
-    private void clickMouse() {
+    public void clickMouse() {
         EventClick eventClick = new EventClick(EventClick.Button.LEFT);
         EventBus.call(eventClick);
 
@@ -1754,8 +1756,11 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
             }
         }
 
+        EventInputOptions eventInputOptions = new EventInputOptions(this.gameSettings.keyBindUseItem.isKeyDown());
+        EventBus.call(eventInputOptions);
+
         if (this.player.isHandActive()) {
-            if (!this.gameSettings.keyBindUseItem.isKeyDown()) {
+            if (!eventInputOptions.isUseItem()) {
                 EventStopUseItem var6 = new EventStopUseItem();
                 EventBus.call(var6);
                 if (!var6.cancelled) {
@@ -1772,6 +1777,9 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
             while (this.gameSettings.keyBindPickBlock.isPressed()) {
             }
         } else {
+            EventPlace eventNaturalPlace = new EventPlace();
+            EventBus.call(eventNaturalPlace);
+
             while (this.gameSettings.keyBindAttack.isPressed()) {
                 this.clickMouse();
             }
@@ -1785,7 +1793,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
             }
         }
 
-        if (this.gameSettings.keyBindUseItem.isKeyDown() && this.rightClickDelayTimer == 0 && !this.player.isHandActive()) {
+        if (eventInputOptions.isUseItem() && this.rightClickDelayTimer == 0 && !this.player.isHandActive()) {
             this.rightClickMouse();
         }
 

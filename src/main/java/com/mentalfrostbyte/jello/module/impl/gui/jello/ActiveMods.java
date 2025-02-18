@@ -14,6 +14,7 @@ import com.mentalfrostbyte.jello.util.client.render.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil2;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.client.render.Resources;
+import org.jetbrains.annotations.NotNull;
 import org.newdawn.slick.TrueTypeFont;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
@@ -66,7 +67,7 @@ public class ActiveMods extends Module {
         this.activeModules.clear();
 
         for (Module module : Client.getInstance().moduleManager.getModuleMap().values()) {
-            if (module.getCategoryBasedOnMode() != ModuleCategory.GUI) {
+            if (module.getCategory() != ModuleCategory.GUI) {
                 this.activeModules.add(module);
                 this.animations.put(module, new Animation(150, 150, Animation.Direction.BACKWARDS));
 
@@ -82,23 +83,12 @@ public class ActiveMods extends Module {
 
     @EventTarget
     public void onGUI(EventRenderGUI event) {
+        if (!this.isEnabled()) return;
         if (mc.player != null) {
             if (!event.isRendering) {
                 GlStateManager.translatef(0.0F, (float) (-this.totalHeight), 0.0F);
             } else {
-                Scoreboard scoreboard = mc.world.getScoreboard();
-                ScoreObjective scoreobjective = null;
-                ScorePlayerTeam playerTeam = scoreboard.getPlayersTeam(mc.player.getScoreboardName());
-
-                if (playerTeam != null) {
-                    int colorIndex = playerTeam.getColor().getColorIndex();
-                    if (colorIndex >= 0) {
-                        scoreobjective = scoreboard.getObjectiveInDisplaySlot(3 + colorIndex);
-                    }
-                }
-
-                ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
-                Collection<Score> scores = scoreboard.getSortedScores(scoreobjective1);
+                Collection<Score> scores = getScores();
                 int offset = 0;
 
                 for (Module module : this.activeModules) {
@@ -121,6 +111,22 @@ public class ActiveMods extends Module {
                 }
             }
         }
+    }
+
+    private static @NotNull Collection<Score> getScores() {
+        Scoreboard scoreboard = mc.world.getScoreboard();
+        ScoreObjective scoreobjective = null;
+        ScorePlayerTeam playerTeam = scoreboard.getPlayersTeam(mc.player.getScoreboardName());
+
+        if (playerTeam != null) {
+            int colorIndex = playerTeam.getColor().getColorIndex();
+            if (colorIndex >= 0) {
+                scoreobjective = scoreboard.getObjectiveInDisplaySlot(3 + colorIndex);
+            }
+        }
+
+        ScoreObjective scoreObjective = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
+		return scoreboard.getSortedScores(scoreObjective);
     }
 
     @EventTarget

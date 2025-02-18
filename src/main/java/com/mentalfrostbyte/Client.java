@@ -81,6 +81,7 @@ public class Client {
 
     public void start() {
         this.logger = new ClientLogger(System.out, System.out, System.err);
+        System.setProperty("java.awt.headless", "false");
         this.logger.info("Initializing...");
         CloudConfigs.start();
 

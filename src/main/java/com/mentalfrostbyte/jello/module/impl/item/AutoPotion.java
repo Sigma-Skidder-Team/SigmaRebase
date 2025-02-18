@@ -51,7 +51,7 @@ public class AutoPotion extends Module {
     @LowestPriority
     public void method16629(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
-            if (this.getBooleanValueFromSettingName("In fight") || KillAura.currentTimedEntity == null && KillAura.currentTarget == null) {
+            if (this.getBooleanValueFromSettingName("In fight") || KillAura.targetData == null && KillAura.targetEntity == null) {
                 int var4 = this.method16631();
                 this.field23808++;
                 int[] var5 = new int[]{6, -1, -1};

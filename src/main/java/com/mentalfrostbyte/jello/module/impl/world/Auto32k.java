@@ -232,8 +232,8 @@ public class Auto32k extends Module {
                             if (this.field23873 == 1) {
                                 float yaw = BlockUtil.method34543(this.field23870.up(), Direction.UP)[0];
                                 float pitch = BlockUtil.method34543(this.field23870.up(), Direction.UP)[1];
-                                event.setYaw(yaw);
-                                event.setPitch(pitch);
+                                event.setPitch(yaw);
+                                event.setYaw(pitch);
 
                                 mc.player.inventory.currentItem = this.field23871;
                                 net.minecraft.util.math.vector.Vector3d var7 = BlockUtil.method34572(Direction.UP, this.field23870);
@@ -257,8 +257,8 @@ public class Auto32k extends Module {
                         } else {
                             float yaw = BlockUtil.method34543(this.field23870, Direction.UP)[0];
                             float pitch = BlockUtil.method34543(this.field23870, Direction.UP)[1];
-                            event.setYaw(yaw);
-                            event.setPitch(pitch);
+                            event.setPitch(yaw);
+                            event.setYaw(pitch);
 
                             this.field23873++;
                         }

@@ -8,6 +8,8 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRenderFire;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRenderShulker;
+import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
+import com.mentalfrostbyte.jello.util.client.rotation.RotationCore;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -265,13 +267,15 @@ public class GameRenderer implements IResourceManagerReloadListener, AutoCloseab
      * Gets the block or object that is being moused over.
      */
     public void getMouseOver(float partialTicks) {
+        boolean ka = mc.currentScreen == null && Client.getInstance().moduleManager.getModuleByClass(KillAura.class).isEnabled() && Client.getInstance().moduleManager.getModuleByClass(KillAura.class).getBooleanValueFromSettingName("Raytrace") && KillAura.targetEntity != null;
+
         Entity entity = this.mc.getRenderViewEntity();
 
         if (entity != null && this.mc.world != null && this.mc.playerController != null) {
             this.mc.getProfiler().startSection("pick");
             this.mc.pointedEntity = null;
             double d0 = (double) this.mc.playerController.getBlockReachDistance();
-            this.mc.objectMouseOver = entity.pick(d0, partialTicks, false);
+            this.mc.objectMouseOver = ka ? entity.customPick(d0,1.0F,RotationCore.currentYaw, RotationCore.currentPitch) : entity.pick(d0, partialTicks, false);
             Vector3d vector3d = entity.getEyePosition(partialTicks);
             boolean flag = false;
             int i = 3;
@@ -294,7 +298,8 @@ public class GameRenderer implements IResourceManagerReloadListener, AutoCloseab
                 d1 = this.mc.objectMouseOver.getHitVec().squareDistanceTo(vector3d);
             }
 
-            Vector3d vector3d1 = entity.getLook(1.0F);
+            Vector3d vector3d1 = ka ? entity.getLookCustom(1.0F,RotationCore.currentYaw,RotationCore.currentPitch) : entity.getLook(1.0F);
+
             Vector3d vector3d2 = vector3d.add(vector3d1.x * d0, vector3d1.y * d0, vector3d1.z * d0);
             float f = 1.0F;
             AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vector3d1.scale(d0)).grow(1.0D, 1.0D, 1.0D);

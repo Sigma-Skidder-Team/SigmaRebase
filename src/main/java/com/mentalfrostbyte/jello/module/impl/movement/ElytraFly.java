@@ -7,7 +7,6 @@ import com.mentalfrostbyte.jello.event.impl.player.movement.EventUpdateWalkingPl
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
-import com.mentalfrostbyte.jello.util.game.player.PlayerUtil;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
 import net.minecraft.entity.Entity;
@@ -136,7 +135,7 @@ public class ElytraFly extends Module {
             }
 
             if (this.field23533 > 0) {
-                var1.setPitch(-90.0F);
+                var1.setYaw(-90.0F);
             }
 
             if (!mc.player.isJumping) {

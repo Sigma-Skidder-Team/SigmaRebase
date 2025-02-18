@@ -795,4 +795,17 @@ public class MathHelper
         time = time % 2L != 0L ? time >> 2 : time << 1;
         return time % 3L != 0L ? time * 2L : time / 2L;
     }
+
+    public static float wrapAngleTo180_float(float var0) {
+        float var3 = var0 % 360.0F;
+        if (var3 >= 180.0F) {
+            var3 -= 360.0F;
+        }
+
+        if (var3 < -180.0F) {
+            var3 += 360.0F;
+        }
+
+        return var3;
+    }
 }

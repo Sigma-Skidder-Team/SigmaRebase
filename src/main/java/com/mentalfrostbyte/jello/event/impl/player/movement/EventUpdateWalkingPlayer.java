@@ -6,36 +6,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventUpdateWalkingPlayer extends CancellableEvent {
-    public static float prevPitch;
-    public static float prevYaw;
-    public static float postPitch;
-    public static float postYaw;
+    public static float PITCH;
+    public static float YAW;
+    public static float PREVPITCH;
+    public static float PREVYAW;
     public boolean pre;
     private double x;
     private double y;
     private double z;
-    private float pitch;
     private float yaw;
+    private float pitch;
     private boolean onGround;
     private boolean moving;
     private final List<Runnable> runnables = new ArrayList<>();
 
-    public EventUpdateWalkingPlayer(double x, double y, double z, float pitch, float yaw, boolean onGround) {
+    public EventUpdateWalkingPlayer(double x, double y, double z, float yaw, float pitch, boolean onGround) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.pitch = pitch;
         this.yaw = yaw;
+        this.pitch = pitch;
         this.onGround = onGround;
         this.pre = true;
         this.moving = false;
     }
 
     public void postUpdate() {
-        postPitch = prevPitch;
-        postYaw = prevYaw;
-        prevPitch = this.yaw;
-        prevYaw = this.pitch;
+        PREVPITCH = PITCH;
+        PREVYAW = YAW;
+        PITCH = this.pitch;
+        YAW = this.yaw;
         this.pre = false;
     }
 
@@ -71,20 +71,20 @@ public class EventUpdateWalkingPlayer extends CancellableEvent {
         this.z = z;
     }
 
-    public float getPitch() {
-        return this.pitch;
-    }
-
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
-    }
-
     public float getYaw() {
         return this.yaw;
     }
 
     public void setYaw(float yaw) {
         this.yaw = yaw;
+    }
+
+    public float getPitch() {
+        return this.pitch;
+    }
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
     }
 
     public boolean isOnGround() {

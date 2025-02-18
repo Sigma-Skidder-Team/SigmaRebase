@@ -76,4 +76,23 @@ public class MathHelper {
     public static double generateRandomSmallValue() {
         return Math.random() * 1.0E-8;
     }
+
+    public static double round(float number,float roundTo) {
+        double rounded = Math.round(number / roundTo);
+
+        return rounded * roundTo;
+    }
+
+    public static float wrapAngleTo180_float(float var0) {
+        float var3 = var0 % 360.0F;
+        if (var3 >= 180.0F) {
+            var3 -= 360.0F;
+        }
+
+        if (var3 < -180.0F) {
+            var3 += 360.0F;
+        }
+
+        return var3;
+    }
 }

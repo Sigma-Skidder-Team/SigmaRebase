@@ -108,8 +108,8 @@ public class CakeEater extends Module {
                                 (double) field23588.getX() + 0.5, (double) field23588.getZ() + 0.5, field23588.getY()
                         );
 
-                        event.setYaw(rots[0]);
-                        event.setPitch(rots[1]);
+                        event.setPitch(rots[0]);
+                        event.setYaw(rots[1]);
                     }
                 }
             }

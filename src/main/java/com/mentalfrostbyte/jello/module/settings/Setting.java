@@ -29,6 +29,10 @@ public abstract class Setting<T> {
         return jsonObject;
     }
 
+    public boolean isHidden() {
+        return false;
+    }
+
     public void resetToDefault() {
         this.currentValue = this.defaultValue;
     }

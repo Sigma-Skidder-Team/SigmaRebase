@@ -8,8 +8,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.player.LivingDeathEvent;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMoveRelative;
+import com.mentalfrostbyte.jello.module.impl.player.AutoSprint;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
@@ -32,6 +35,7 @@ import net.minecraft.block.HoneyBlock;
 import net.minecraft.block.LadderBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.TrapDoorBlock;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -1362,8 +1366,10 @@ public abstract class LivingEntity extends Entity
                     {
                         d1 = (Math.random() - Math.random()) * 0.01D;
                     }
+                    EventMoveRelative eventMoveFlying = new EventMoveRelative(Minecraft.getInstance().player.rotationYaw);
 
-                    this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)this.rotationYaw);
+
+                    this.attackedAtYaw = (float)(MathHelper.atan2(d0, d1) * (double)(180F / (float)Math.PI) - (double)eventMoveFlying.getYaw());
                     this.applyKnockback(0.4F, d1, d0);
                 }
                 else
@@ -2517,9 +2523,11 @@ public abstract class LivingEntity extends Entity
         }
         // MODIFICATION END
 
-        if (this.isSprinting())
-        {
-            float f1 = this.rotationYaw * ((float)Math.PI / 180F);
+        EventMoveRelative eventMoveFlying = new EventMoveRelative(rotationYaw);
+        EventBus.call(eventMoveFlying);
+
+        if (this.isSprinting()) {
+            float f1 = eventMoveFlying.getYaw() * ((float)Math.PI / 180F);
             // MODIFICATION START: Adjust our motion if the jump event was modified
             Vector3d motion = this.getMotion().add((double)(-MathHelper.sin(f1) * 0.2F), 0.0D, (double)(MathHelper.cos(f1) * 0.2F));
             if (eventJump != null && eventJump.modified)
@@ -3264,6 +3272,11 @@ public abstract class LivingEntity extends Entity
                     {
                         this.jump();
                         this.jumpTicks = 10;
+
+                        if(Client.getInstance().moduleManager.getModuleByClass(AutoSprint.class).enabled &&
+                                Client.getInstance().moduleManager.getModuleByClass(AutoSprint.class).getBooleanValueFromSettingName("NoJumpDelay")){
+                            jumpTicks = 0;
+                        }
                     }
                 }
                 else

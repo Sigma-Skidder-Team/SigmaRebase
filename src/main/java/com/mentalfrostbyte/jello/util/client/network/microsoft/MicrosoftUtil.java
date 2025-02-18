@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -36,19 +37,23 @@ public final class MicrosoftUtil {
 
     public static void openWebLink(final URI url) {
         try {
-            String os = System.getProperty("os.name").toLowerCase();
-            if (os.contains("win") || os.contains("mac")) {
-                final Class<?> desktop = Class.forName("java.awt.Desktop");
-                final Object object = desktop.getMethod("getDesktop").invoke(null);
-
-                desktop.getMethod("browse", URI.class).invoke(object, url);
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(url);
             } else {
-                new ProcessBuilder("xdg-open", url.toString()).start();
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    new ProcessBuilder("rundll32", "url.dll,FileProtocolHandler", url.toString()).start();
+                } else if (os.contains("mac")) {
+                    new ProcessBuilder("open", url.toString()).start();
+                } else {
+                    new ProcessBuilder("xdg-open", url.toString()).start();
+                }
             }
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     public static final RequestConfig REQUEST_CONFIG = RequestConfig
             .custom()

@@ -1,8 +1,10 @@
 package com.mentalfrostbyte.jello.util.game.player;
 
 import com.mentalfrostbyte.Client;
+import com.mentalfrostbyte.jello.event.impl.player.action.EventInputOptions;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.module.Module;
+import com.mentalfrostbyte.jello.module.impl.movement.BlockFly;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
 import com.mentalfrostbyte.jello.util.game.player.combat.RotationUtil;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -363,4 +365,51 @@ public class MovementUtil implements MinecraftUtil {
         return new double[]{0.0, 0.0625, 0.125, 0.25, 0.3125, 0.5, 0.625, 0.75, 0.8125, 0.875, 0.9375, 1.0, 1.0625,
                 1.125, 1.25, 1.3125, 1.375};
     }
+
+    public static double direction(float rotationYaw, final double moveForward, final double moveStrafing) {
+        if (moveForward < 0F) rotationYaw += 180F;
+
+        float forward = 1F;
+
+        if (moveForward < 0F) forward = -0.5F;
+        else if (moveForward > 0F) forward = 0.5F;
+
+        if (moveStrafing > 0F) rotationYaw -= 90F * forward;
+        if (moveStrafing < 0F) rotationYaw += 90F * forward;
+
+        return Math.toRadians(rotationYaw);
+    }
+
+    public static void silentStrafe(final EventInputOptions event, float yaw) {
+        final float forward = event.getForward();
+        final float strafe = event.getStrafe();
+
+        final double angle = MathHelper.wrapDegrees(Math.toDegrees(direction(mc.player.rotationYaw, forward, strafe)));
+
+        if (forward == 0 && strafe == 0) {
+            return;
+        }
+
+        float closestForward = 0, closestStrafe = 0, closestDifference = Float.MAX_VALUE;
+
+        for (float predictedForward = -1F; predictedForward <= 1F; predictedForward += 1F) {
+            for (float predictedStrafe = -1F; predictedStrafe <= 1F; predictedStrafe += 1F) {
+                if (predictedStrafe == 0 && predictedForward == 0) continue;
+
+                final double predictedAngle = MathHelper.wrapDegrees(Math.toDegrees(direction(yaw, predictedForward, predictedStrafe)));
+                final double difference = Math.abs(angle - predictedAngle);
+
+                if (difference < closestDifference) {
+                    closestDifference = (float) difference;
+                    closestForward = predictedForward;
+                    closestStrafe = predictedStrafe;
+                }
+            }
+            boolean skaf = Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).getStringSettingValueByName("Mode").equals("SideHit");
+
+            event.setForward(skaf ? -1 : closestForward);
+            event.setStrafe(closestStrafe);
+        }
+    }
+
 }

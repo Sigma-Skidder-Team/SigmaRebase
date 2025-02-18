@@ -56,10 +56,10 @@ public class TargetStrafe extends Module {
             }
             Entity var4 = null;
             if (Client.getInstance().moduleManager.getModuleByClass(Speed.class).isEnabled2() || !this.getBooleanValueFromSettingName("Only speed")) {
-                if (KillAura.currentTimedEntity != null) {
-                    var4 = KillAura.currentTimedEntity.getEntity();
-                } else if (KillAura.currentTarget != null) {
-                    var4 = KillAura.currentTarget;
+                if (KillAura.targetData != null) {
+                    var4 = KillAura.targetData.getEntity();
+                } else if (KillAura.targetEntity != null) {
+                    var4 = KillAura.targetEntity;
                 }
             }
 

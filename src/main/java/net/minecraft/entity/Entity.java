@@ -5,6 +5,7 @@ import baritone.api.event.events.RotationMoveEvent;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMoveRelative;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMoveRideable;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventStep;
 import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
@@ -1411,6 +1412,14 @@ public abstract class Entity implements INameable, ICommandSource
         }
     }
 
+    public RayTraceResult customPick(double rayTraceDistance, float partialTicks, float yaw, float pitch)
+    {
+        Vector3d vector3d = this.getEyePosition(partialTicks);
+        Vector3d vector3d1 = this.getLookCustom(partialTicks, yaw, pitch);
+        Vector3d vector3d2 = vector3d.add(vector3d1.x * rayTraceDistance, vector3d1.y * rayTraceDistance, vector3d1.z * rayTraceDistance);
+        return this.world.rayTraceBlocks(new RayTraceContext(vector3d, vector3d2, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, this));
+    }
+
     public boolean areEyesInFluid(ITag<Fluid> tagIn)
     {
         return this.field_241335_O_ == tagIn;
@@ -1427,6 +1436,12 @@ public abstract class Entity implements INameable, ICommandSource
     public void moveRelative(float p_213309_1_, Vector3d relative)
     {
         this.yawRestore = this.rotationYaw;
+        float yaw = this.rotationYaw;
+        EventMoveRelative eventMoveFlying = new EventMoveRelative(yaw);
+
+        if(this instanceof ClientPlayerEntity){
+            EventBus.call(eventMoveFlying);
+        }
         this.pitchRestore = this.rotationPitch;
         if (!ClientPlayerEntity.class.isInstance(this) || BaritoneAPI.getProvider().getBaritoneForPlayer((ClientPlayerEntity) (Object) this) == null) {
             return;
@@ -1439,6 +1454,11 @@ public abstract class Entity implements INameable, ICommandSource
         this.setMotion(this.getMotion().add(vector3d));
         this.rotationYaw = this.yawRestore;
         this.rotationPitch = this.pitchRestore;
+    }
+
+    public final Vector3d getLookCustom(float partialTicks, float yaw, float pitch)
+    {
+        return this.getVectorForRotation(pitch, yaw);
     }
 
     private static Vector3d getAbsoluteMotion(Vector3d relative, float p_213299_1_, float facing)
@@ -1547,9 +1567,22 @@ public abstract class Entity implements INameable, ICommandSource
         this.lastTickPosZ = z;
     }
 
+    public Vector3d getPositionVector() {
+        return new Vector3d(this.getPosX(), this.getPosY(), this.getPosZ());
+    }
+
     /**
      * Returns the distance to the entity.
      */
+
+    public double getDistance(double x, double y, double z)
+    {
+        double d0 = this.getPosX() - x;
+        double d1 = this.getPosY() - y;
+        double d2 = this.getPosZ() - z;
+        return (double)MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+    }
+
     public float getDistance(Entity entityIn)
     {
         float f = (float)(this.getPosX() - entityIn.getPosX());

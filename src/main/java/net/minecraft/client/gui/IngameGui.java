@@ -6,6 +6,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRenderGUI;
+import com.mentalfrostbyte.jello.module.Module;
+import com.mentalfrostbyte.jello.module.impl.player.OldHitting;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -629,7 +631,9 @@ public class IngameGui extends AbstractGui
             this.blit(matrixStack, i - 91, this.scaledHeight - 22, 0, 0, 182, 22);
             this.blit(matrixStack, i - 91 - 1 + playerentity.inventory.currentItem * 20, this.scaledHeight - 22 - 1, 0, 22, 24, 22);
 
-            if (!itemstack.isEmpty())
+            Module animations = Client.getInstance().moduleManager.getModuleByClass(OldHitting.class);
+
+            if (!itemstack.isEmpty() && !(animations.enabled))
             {
                 if (handside == HandSide.LEFT)
                 {
@@ -654,7 +658,7 @@ public class IngameGui extends AbstractGui
                 this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
             }
 
-            if (!itemstack.isEmpty())
+            if (!itemstack.isEmpty() && !(animations.enabled))
             {
                 CustomItems.setRenderOffHand(true);
                 int i2 = this.scaledHeight - 16 - 3;

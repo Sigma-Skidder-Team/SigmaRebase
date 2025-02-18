@@ -51,7 +51,7 @@ public class AAC4Criticals extends Module {
                 field23862 = 0;
             }
 
-            boolean var4 = !this.getBooleanValueFromSettingName("KillAura") || KillAura.currentTarget != null || KillAura.currentTimedEntity != null;
+            boolean var4 = !this.getBooleanValueFromSettingName("KillAura") || KillAura.targetEntity != null || KillAura.targetData != null;
             if (mc.player.isOnGround() && mc.player.collidedVertically && var4) {
                 field23862++;
                 mc.player.lastReportedPosY = 0.0;

@@ -245,8 +245,8 @@ public class Freecam extends Module {
     @EventTarget
     public void method16646(EventUpdateWalkingPlayer var1) {
         if (this.isEnabled() && var1.isPre()) {
-            var1.setYaw(this.field23821 % 360.0F);
-            var1.setPitch(this.field23822);
+            var1.setPitch(this.field23821 % 360.0F);
+            var1.setYaw(this.field23822);
             mc.player.lastReportedYaw = this.field23821;
             mc.player.lastReportedPitch = this.field23822;
             float[] var4 = MovementUtil.getDirectionArray(this.field23825, this.field23824);

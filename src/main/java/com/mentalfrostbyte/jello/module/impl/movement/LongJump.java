@@ -19,19 +19,19 @@ public class LongJump extends ModuleWithModuleSettings {
         this.registerSetting(new BooleanSetting("Auto Jump", "Automatically jumps when you can", true));
     }
 
-    public double method16730(int var1) {
-        double[] var4 = new double[]{0.345, 0.2699, 0.183, 0.103, 0.024, -0.008, -0.04, -0.072, -0.104, -0.13, -0.019, -0.097};
-        double[] var5 = new double[]{0.345, 0.2699, 0.183, 0.103, 0.024, -0.008, -0.04, -0.072, -0.14, -0.17, -0.019, -0.13};
-        var1--;
-        if (var1 < 0 || var1 >= var4.length) {
+    public double getNCPBasicY(int airTicks) {
+        double[] normalY = new double[]{0.345, 0.2699, 0.183, 0.103, 0.024, -0.008, -0.04, -0.072, -0.104, -0.13, -0.019, -0.097};
+        double[] collidedY = new double[]{0.345, 0.2699, 0.183, 0.103, 0.024, -0.008, -0.04, -0.072, -0.14, -0.17, -0.019, -0.13};
+        airTicks--;
+        if (airTicks < 0 || airTicks >= normalY.length) {
             return mc.player.getMotion().y;
         } else {
-            return MovementUtil.isMoving() && !mc.player.collidedHorizontally ? var4[var1] : var5[var1];
+            return MovementUtil.isMoving() && !mc.player.collidedHorizontally ? normalY[airTicks] : collidedY[airTicks];
         }
     }
 
-    public double method16731(int var1) {
-        double[] var4 = new double[]{
+    public double getNCPHighY(int airTicks) {
+        double[] yValues = new double[]{
                 0.423,
                 0.35,
                 0.28,
@@ -60,7 +60,7 @@ public class LongJump extends ModuleWithModuleSettings {
                 -0.371019,
                 -0.426
         };
-        var1--;
-        return var1 >= 0 && var1 < var4.length ? var4[var1] : mc.player.getMotion().y;
+        airTicks--;
+        return airTicks >= 0 && airTicks < yValues.length ? yValues[airTicks] : mc.player.getMotion().y;
     }
 }
