@@ -54,7 +54,7 @@ public class ViaManager implements MinecraftUtil {
     public static int field31494 = 0;
     private UUID field31497;
     public boolean field31498 = false;
-    public boolean field31499;
+    public boolean shouldUpdateRenderRotation;
 
     //public final Class8982 field31495;
     public CTabCompletePacket cTabComplete;
@@ -339,24 +339,24 @@ public class ViaManager implements MinecraftUtil {
     public void onRenderEntity(EventRenderEntity event) {
         if (event.getEntity() == mc.player || event.getEntity() == Freecam.player || event.getEntity() == Blink.clientPlayerEntity) {
             if (event.getPartialTicks() != 1.0F) {
-                if (EventUpdateWalkingPlayer.prevPitch - mc.player.rotationYawHead == 0.0F) {
-                    if (field31499) {
-                        event.setYawOffset(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer.postPitch, event.getEntity().renderYawOffset));
-                        event.setHeadYaw(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer.postPitch, event.getEntity().rotationYawHead));
-                        event.setPitch(MathHelper.lerp(event.getPartialTicks(), EventUpdateWalkingPlayer.postYaw, event.getEntity().rotationPitch));
+                if (EventUpdateWalkingPlayer._prevYaw - mc.player.rotationYawHead == 0.0F) {
+                    if (shouldUpdateRenderRotation) {
+                        event.setYawOffset(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer._yaw, event.getEntity().renderYawOffset));
+                        event.setHeadYaw(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer._yaw, event.getEntity().rotationYawHead));
+                        event.setPitch(MathHelper.lerp(event.getPartialTicks(), EventUpdateWalkingPlayer._pitch, event.getEntity().rotationPitch));
                         event.setYaw(event.getHeadYaw() - event.getYawOffset());
-                        event.getEntity().prevRotationPitch = EventUpdateWalkingPlayer.postYaw;
-                        event.getEntity().prevRotationYaw = EventUpdateWalkingPlayer.postPitch;
-                        event.getEntity().prevRotationYawHead = EventUpdateWalkingPlayer.postPitch;
-                        event.getEntity().prevRenderYawOffset = EventUpdateWalkingPlayer.postPitch;
-                        field31499 = !field31499;
+                        event.getEntity().prevRotationPitch = EventUpdateWalkingPlayer._pitch;
+                        event.getEntity().prevRotationYaw = EventUpdateWalkingPlayer._yaw;
+                        event.getEntity().prevRotationYawHead = EventUpdateWalkingPlayer._yaw;
+                        event.getEntity().prevRenderYawOffset = EventUpdateWalkingPlayer._yaw;
+                        shouldUpdateRenderRotation = !shouldUpdateRenderRotation;
                     }
                 } else {
-                    event.setYawOffset(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer.postPitch, EventUpdateWalkingPlayer.prevPitch));
-                    event.setHeadYaw(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer.postPitch, EventUpdateWalkingPlayer.prevPitch));
-                    event.setPitch(MathHelper.lerp(event.getPartialTicks(), EventUpdateWalkingPlayer.postYaw, EventUpdateWalkingPlayer.prevYaw));
+                    event.setYawOffset(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer._yaw, EventUpdateWalkingPlayer._prevYaw));
+                    event.setHeadYaw(MathHelper.interpolateAngle(event.getPartialTicks(), EventUpdateWalkingPlayer._yaw, EventUpdateWalkingPlayer._prevYaw));
+                    event.setPitch(MathHelper.lerp(event.getPartialTicks(), EventUpdateWalkingPlayer._pitch, EventUpdateWalkingPlayer._prevPitch));
                     event.setYaw(event.getHeadYaw() - event.getYawOffset());
-                    field31499 = true;
+                    shouldUpdateRenderRotation = true;
                 }
             }
         }

@@ -37,8 +37,8 @@ public class ModuleManager {
         this.modules = new ArrayList<>();
     }
 
-    private void register(Module var1) {
-        this.modules.add(var1);
+    private void register(Module module) {
+        this.modules.add(module);
     }
 
     private void sortBySuffixAndRegisterEvents() {
@@ -141,6 +141,7 @@ public class ModuleManager {
         this.register(new NoteblockPlayer());
         this.register(new PacketEssentials());
         this.register(new PacketDumper());
+        this.register(new PortalGodMode());
         this.register(new DebugSpeed());
         this.register(new AutoReconnect());
         // PLAYER

@@ -14,19 +14,24 @@ public class ModuleWithModuleSettings extends Module {
     public Module[] moduleArray;
     public Module parentModule;
     public ModeSetting modeSetting;
+    public String customModeName;
     private final List<String> stringList = new ArrayList<>();
 
     public ModuleWithModuleSettings(ModuleCategory category, String type, String description, Module... modules) {
+        this(category, type, description, "Type", modules);
+    }
+    public ModuleWithModuleSettings(ModuleCategory category, String type, String description, String customModeName, Module... modules) {
         super(category, type, description);
         this.moduleArray = modules;
 
-            for (Module moduleFromArray : moduleArray) {
+        for (Module moduleFromArray : moduleArray) {
             EventBus.register(moduleFromArray);
             stringList.add(moduleFromArray.getName());
             moduleFromArray.setSomeMod(this);
         }
 
-        this.registerSetting(modeSetting = new ModeSetting("Type", type + " mode", 0, stringList.toArray(new String[0])));
+        this.customModeName = customModeName;
+        this.registerSetting(modeSetting = new ModeSetting(customModeName, type + " mode", 0, stringList.toArray(new String[0])));
         this.modeSetting.addObserver(var1x -> calledOnEnable());
         this.calledOnEnable();
     }
@@ -35,7 +40,7 @@ public class ModuleWithModuleSettings extends Module {
         this.isTypeSetToThisModName();
 
         for (Module module : this.moduleArray) {
-            boolean isParent = this.getStringSettingValueByName("Type").equals(module.name);
+            boolean isParent = this.getStringSettingValueByName(this.customModeName).equals(module.name);
             if (this.isEnabled() && mc.player != null) {
                 module.setState(isParent);
                 if (isParent) {
@@ -53,13 +58,13 @@ public class ModuleWithModuleSettings extends Module {
         boolean isOurName = false;
 
         for (Module module : this.moduleArray) {
-            if (this.getStringSettingValueByName("Type").equals(module.name)) {
+            if (this.getStringSettingValueByName(this.customModeName).equals(module.name)) {
                 isOurName = true;
             }
         }
 
         if (!isOurName) {
-            this.setSetting("Type", this.moduleArray[0].name);
+            this.setSetting(this.customModeName, this.moduleArray[0].name);
         }
     }
 
@@ -67,7 +72,7 @@ public class ModuleWithModuleSettings extends Module {
         this.isTypeSetToThisModName();
 
         for (Module mod : this.moduleArray) {
-            if (this.getStringSettingValueByName("Type").equals(mod.name)) {
+            if (this.getStringSettingValueByName(this.customModeName).equals(mod.name)) {
                 return mod;
             }
         }

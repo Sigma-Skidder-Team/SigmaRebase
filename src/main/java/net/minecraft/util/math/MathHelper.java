@@ -725,9 +725,9 @@ public class MathHelper
         }
     }
 
-    public static float interpolateAngle(float p_219805_0_, float p_219805_1_, float p_219805_2_)
+    public static float interpolateAngle(float partialTicks, float startAngle, float endAngle)
     {
-        return p_219805_1_ + p_219805_0_ * wrapDegrees(p_219805_2_ - p_219805_1_);
+        return startAngle + partialTicks * wrapDegrees(endAngle - startAngle);
     }
 
     @Deprecated

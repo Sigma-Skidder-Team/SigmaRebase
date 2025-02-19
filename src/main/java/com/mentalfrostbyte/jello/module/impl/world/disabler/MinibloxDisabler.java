@@ -7,6 +7,7 @@ import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.ModuleCategory;
 //import com.mentalfrostbyte.jello.module.impl.movement.Fly;
 import com.mentalfrostbyte.jello.module.impl.player.NoFall;
+import com.mentalfrostbyte.jello.module.impl.player.nofall.CancelNoFall;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
@@ -107,7 +108,7 @@ public class MinibloxDisabler extends Module {
         if (rawPacket instanceof SPlayerPositionLookPacket packet
                 && mc.getConnection() != null
                 && mc.player.ticksExisted >= 100
-                && !NoFall.falling) {
+                && !CancelNoFall.falling) {
             if (waitForPos) {
                 MinecraftUtil.addChatMessage("[Miniblox Disabler] Accepting pos due to respawn");
                 waitForPos = false;
