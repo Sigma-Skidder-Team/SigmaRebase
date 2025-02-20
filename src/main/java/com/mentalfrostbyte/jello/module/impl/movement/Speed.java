@@ -51,7 +51,7 @@ public class Speed extends ModuleWithModuleSettings {
 
     @EventTarget
     public void RecievePacketEvent(EventReceivePacket event) {
-        if (event.getPacket() instanceof SPlayerPositionLookPacket && mc.player != null) {
+        if (event.packet instanceof SPlayerPositionLookPacket && mc.player != null) {
             tickCounter = 0;
             if (this.getBooleanValueFromSettingName("Lag back checker") && this.isEnabled() && mc.player.ticksExisted > 2) {
                 Client.getInstance().notificationManager.send(new Notification("Speed", "Disabled speed due to lagback."));

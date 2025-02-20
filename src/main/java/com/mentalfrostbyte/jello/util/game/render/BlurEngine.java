@@ -43,7 +43,7 @@ public class BlurEngine {
 
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
-        if (event.getPacket() instanceof SCloseWindowPacket) {
+        if (event.packet instanceof SCloseWindowPacket) {
             RenderUtil2.resetShaders();
         }
     }

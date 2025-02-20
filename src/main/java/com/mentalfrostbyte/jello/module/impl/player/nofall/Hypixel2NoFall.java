@@ -23,6 +23,8 @@ public class Hypixel2NoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
         if (event.isPre()) {
             if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
                 this.stage = 0.0;

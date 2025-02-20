@@ -23,7 +23,7 @@ public class FuncraftGameplay extends Module {
     @EventTarget
     public void onReceive(EventReceivePacket event) {
         if (this.isEnabled() && mc.player != null) {
-            IPacket<?> var4 = event.getPacket();
+            IPacket<?> var4 = event.packet;
             if (var4 instanceof SChatPacket chatPacket) {
                 String text = chatPacket.getChatComponent().getString();
                 String playerName = mc.player.getName().getString().toLowerCase();

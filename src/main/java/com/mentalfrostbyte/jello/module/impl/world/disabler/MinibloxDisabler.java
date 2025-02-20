@@ -88,7 +88,7 @@ public class MinibloxDisabler extends Module {
     @EventTarget
     @SuppressWarnings("unused")
     public void onSendPacket(EventSendPacket event) {
-        if (event.getPacket() instanceof CClientStatusPacket packet && packet.getStatus() == CClientStatusPacket.State.PERFORM_RESPAWN) {
+        if (event.packet instanceof CClientStatusPacket packet && packet.getStatus() == CClientStatusPacket.State.PERFORM_RESPAWN) {
             waitForPos = true;
         }
     }
@@ -96,7 +96,7 @@ public class MinibloxDisabler extends Module {
     @SuppressWarnings("unused")
     @EventTarget
     public void onReceivedPacket(EventReceivePacket event) {
-        IPacket<?> rawPacket = event.getPacket();
+        IPacket<?> rawPacket = event.packet;
         if (rawPacket instanceof SRespawnPacket) {
             waitForPos = true;
             return;

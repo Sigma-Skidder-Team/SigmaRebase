@@ -100,7 +100,7 @@ public class BasicAutoGapple extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled() && this.currentGappleSlot > 1) {
-            IPacket<?> packet = event.getPacket();
+            IPacket<?> packet = event.packet;
             if (packet instanceof SEntityMetadataPacket) {
                 SEntityMetadataPacket metadataPacket = (SEntityMetadataPacket) packet;
                 if (metadataPacket.getEntityId() == mc.player.getEntityId()) {

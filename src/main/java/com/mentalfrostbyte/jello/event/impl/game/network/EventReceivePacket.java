@@ -4,7 +4,7 @@ import com.mentalfrostbyte.jello.event.CancellableEvent;
 import net.minecraft.network.IPacket;
 
 public class EventReceivePacket extends CancellableEvent {
-    private IPacket<?> packet;
+    public IPacket<?> packet;
 
     public EventReceivePacket(IPacket<?> var1) {
         this.packet = var1;

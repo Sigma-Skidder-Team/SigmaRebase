@@ -12,6 +12,8 @@ public class VanillaNoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
         if (mc.player.getMotion().y < -0.1) {
             event.setOnGround(true);
         }

@@ -12,7 +12,7 @@ public class XCarry extends Module {
 
     @EventTarget
     public void onPacket(EventSendPacket event) {
-        if (event.getPacket() instanceof net.minecraft.network.play.client.CCloseWindowPacket) {
+        if (event.packet instanceof net.minecraft.network.play.client.CCloseWindowPacket) {
             event.cancelled = true;
         }
     }

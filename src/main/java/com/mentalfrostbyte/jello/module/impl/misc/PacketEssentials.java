@@ -17,12 +17,12 @@ public class PacketEssentials extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (!(event.getPacket() instanceof SSpawnObjectPacket sSpawnObjectPacket)) {
-                if (!(event.getPacket() instanceof SSpawnMobPacket sSpawnMobPacket)) {
-                    if (!(event.getPacket() instanceof SSpawnParticlePacket)) {
-                        if (!(event.getPacket() instanceof SUpdateBossInfoPacket)) {
-                            if (!(event.getPacket() instanceof SScoreboardObjectivePacket)) {
-                                if (event.getPacket() instanceof SEntityMetadataPacket) {
+            if (!(event.packet instanceof SSpawnObjectPacket sSpawnObjectPacket)) {
+                if (!(event.packet instanceof SSpawnMobPacket sSpawnMobPacket)) {
+                    if (!(event.packet instanceof SSpawnParticlePacket)) {
+                        if (!(event.packet instanceof SUpdateBossInfoPacket)) {
+                            if (!(event.packet instanceof SScoreboardObjectivePacket)) {
+                                if (event.packet instanceof SEntityMetadataPacket) {
                                     event.cancelled = true;
                                 }
                             } else {

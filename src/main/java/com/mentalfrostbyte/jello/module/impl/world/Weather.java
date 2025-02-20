@@ -46,10 +46,10 @@ public class Weather extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SUpdateTimePacket) {
+            if (event.packet instanceof SUpdateTimePacket) {
                 event.cancelled = true;
-            } else if (event.getPacket() instanceof SChangeGameStatePacket) {
-                SChangeGameStatePacket gameStatePacket = (SChangeGameStatePacket) event.getPacket();
+            } else if (event.packet instanceof SChangeGameStatePacket) {
+                SChangeGameStatePacket gameStatePacket = (SChangeGameStatePacket) event.packet;
                 if (gameStatePacket.func_241776_b_().field_241778_b_ == 7) {
                     this.isRaining = gameStatePacket.getValue() == 1.0F;
                     if (this.getBooleanValueFromSettingName("Disable rain")) {

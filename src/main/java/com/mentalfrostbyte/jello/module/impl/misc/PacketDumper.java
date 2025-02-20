@@ -74,14 +74,14 @@ public class PacketDumper extends Module {
     @EventTarget
     public void onPacketSend(EventSendPacket event) {
         if (this.isEnabled()) {
-            logPacket(event.getPacket(), true);
+            logPacket(event.packet, true);
         }
     }
 
     @EventTarget
     public void onPacketReceive(EventReceivePacket event) {
         if (this.isEnabled()) {
-            logPacket(event.getPacket(), false);
+            logPacket(event.packet, false);
         }
     }
 

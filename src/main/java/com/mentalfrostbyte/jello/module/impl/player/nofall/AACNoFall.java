@@ -22,22 +22,22 @@ public class AACNoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
-        if (event.isPre()) {
-			assert mc.player != null;
-			if (mc.player.ticksExisted == 1) {
-                this.falling = false;
-            }
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
+        if (!event.isPre()) return;
+        if (mc.player.ticksExisted == 1) {
+            this.falling = false;
+        }
 
-            if (!this.falling && mc.player.fallDistance > 3.0F) {
-                this.falling = !this.falling;
-                CPlayerPacket.PositionPacket pos = new CPlayerPacket.PositionPacket(
-                        mc.player.getPosX(),
-                        Double.NaN,
-                        mc.player.getPosZ(),
-                        true
-                );
-                mc.getConnection().sendPacket(pos);
-            }
+        if (!this.falling && mc.player.fallDistance > 3.0F) {
+            this.falling = !this.falling;
+            CPlayerPacket.PositionPacket pos = new CPlayerPacket.PositionPacket(
+                    mc.player.getPosX(),
+                    Double.NaN,
+                    mc.player.getPosZ(),
+                    true
+            );
+            mc.getConnection().sendPacket(pos);
         }
     }
 

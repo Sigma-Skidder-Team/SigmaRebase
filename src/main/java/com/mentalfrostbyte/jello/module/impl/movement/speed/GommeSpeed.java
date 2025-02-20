@@ -37,7 +37,7 @@ public class GommeSpeed extends Module {
     @EventTarget
     public void method16301(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (event.packet instanceof SPlayerPositionLookPacket) {
                 this.field23582 = 0;
             }
         }

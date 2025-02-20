@@ -152,7 +152,7 @@ public class PlayerFinder {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.field45878 == 1) {
-            if (event.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (event.packet instanceof SPlayerPositionLookPacket) {
                 this.field45878 = 2;
             }
         }

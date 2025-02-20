@@ -198,7 +198,7 @@ public class HypixelSpeed extends Module {
     @EventTarget
     public void method16040(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (var1.packet instanceof SPlayerPositionLookPacket) {
                 this.field23414 = -2;
             }
         }

@@ -112,8 +112,8 @@ public class CommandManager {
     @EventTarget
     public void onSendPacket(EventSendPacket var1) {
         if (Client.getInstance().clientMode != ClientMode.NOADDONS) {
-            if (var1.getPacket() instanceof CChatMessagePacket) {
-                CChatMessagePacket var4 = (CChatMessagePacket) var1.getPacket();
+            if (var1.packet instanceof CChatMessagePacket) {
+                CChatMessagePacket var4 = (CChatMessagePacket) var1.packet;
                 String var5 = var4.getMessage();
                 if (var5.startsWith(".") && var5.substring(1).startsWith(".")) {
                     var4.message = var5.substring(1);
@@ -152,7 +152,7 @@ public class CommandManager {
                 }
             }
 
-            if (var1.getPacket() instanceof CTabCompletePacket var11) {
+            if (var1.packet instanceof CTabCompletePacket var11) {
                 if (var11.getCommand().startsWith(".")) {
                     var1.cancelled = true;
                 }

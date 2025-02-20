@@ -15,20 +15,21 @@ public class OldHypixelNoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
-        if (event.isPre()) {
-            if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
-                this.stage = 0.0;
-                return;
-            }
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
+        if (!event.isPre()) return;
+        if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
+            this.stage = 0.0;
+            return;
+        }
 
-            if (mc.player.getMotion().y < -0.1) {
-                this.stage = this.stage - mc.player.getMotion().y;
-            }
+        if (mc.player.getMotion().y < -0.1) {
+            this.stage = this.stage - mc.player.getMotion().y;
+        }
 
-            if (this.stage > 3.0) {
-                this.stage = 1.0E-14;
-                event.setOnGround(true);
-            }
+        if (this.stage > 3.0) {
+            this.stage = 1.0E-14;
+            event.setOnGround(true);
         }
     }
 

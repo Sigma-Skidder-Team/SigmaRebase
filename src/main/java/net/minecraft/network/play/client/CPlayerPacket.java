@@ -74,6 +74,36 @@ public class CPlayerPacket implements IPacket<IServerPlayNetHandler>
         return this.rotating ? this.pitch : defaultValue;
     }
 
+    public void setX(double x)
+    {
+        if (this.moving)
+            this.x = x;
+    }
+
+    public void setY(double y)
+    {
+        if (this.moving)
+            this.y = y;
+    }
+
+    public void setZ(double z)
+    {
+        if (this.moving)
+            this.z = z;
+    }
+
+    public void setYaw(float yaw)
+    {
+        if (this.rotating)
+            this.yaw = yaw;
+    }
+
+    public void setPitch(float pitch)
+    {
+        if (this.rotating)
+            this.pitch = pitch;
+    }
+
     public boolean isOnGround()
     {
         return this.onGround;

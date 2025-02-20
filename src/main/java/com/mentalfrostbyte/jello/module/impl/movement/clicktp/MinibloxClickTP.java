@@ -117,7 +117,7 @@ public class MinibloxClickTP extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (!this.isEnabled()) return;
-        if (event.getPacket() instanceof SPlayerPositionLookPacket packet && teleporting) {
+        if (event.packet instanceof SPlayerPositionLookPacket packet && teleporting) {
             if (packet.getX() == prevX && packet.getZ() == prevZ)
                 Client.getInstance().notificationManager.send(new Notification("Miniblox ClickTP", "Please try again"));
             else

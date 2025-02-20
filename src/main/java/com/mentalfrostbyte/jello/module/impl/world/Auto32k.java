@@ -47,9 +47,9 @@ public class Auto32k extends Module {
     public void onEnable() {
         this.field23870 = null;
 
-        for (BlockPos var4 : BlockUtil.method34545(BlockUtil.method34561(mc.playerController.getBlockReachDistance()))) {
-            if (!(BlockUtil.method34550(mc.player, var4) < 2.0F)
-                    && BlockUtil.method34535(mc.player, var4)
+        for (BlockPos var4 : BlockUtil.sortPositionsByDistance(BlockUtil.getBlockPositionsInRange(mc.playerController.getBlockReachDistance()))) {
+            if (!(BlockUtil.getDistance(mc.player, var4) < 2.0F)
+                    && BlockUtil.canPlaceAt(mc.player, var4)
                     && (double) var4.getY() >= mc.player.getPosY() - 2.0
                     && (double) var4.getY() <= mc.player.getPosY() - 1.0
                     && this.method16717(var4)) {
@@ -235,7 +235,7 @@ public class Auto32k extends Module {
                                 event.setYaw(yaw);
 
                                 mc.player.inventory.currentItem = this.field23871;
-                                net.minecraft.util.math.vector.Vector3d var7 = BlockUtil.method34572(Direction.UP, this.field23870);
+                                net.minecraft.util.math.vector.Vector3d var7 = BlockUtil.getRandomlyOffsettedPos(Direction.UP, this.field23870);
                                 BlockRayTraceResult var8 = new BlockRayTraceResult(var7, Direction.UP, this.field23870, false);
                                 ActionResultType var9 = mc.playerController.func_217292_a(mc.player, mc.world, Hand.MAIN_HAND, var8);
                                 mc.player.swingArm(Hand.MAIN_HAND);
@@ -244,7 +244,7 @@ public class Auto32k extends Module {
                                     mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.PRESS_SHIFT_KEY));
                                     mc.player.movementInput.sneaking = true;
                                     mc.player.inventory.currentItem = this.field23872;
-                                    net.minecraft.util.math.vector.Vector3d var10 = BlockUtil.method34572(Direction.UP, this.field23870.up());
+                                    net.minecraft.util.math.vector.Vector3d var10 = BlockUtil.getRandomlyOffsettedPos(Direction.UP, this.field23870.up());
                                     BlockRayTraceResult var11 = new BlockRayTraceResult(var10, Direction.UP, this.field23870.up(), false);
                                     mc.playerController.func_217292_a(mc.player, mc.world, Hand.MAIN_HAND, var11);
                                     mc.player.swingArm(Hand.MAIN_HAND);
@@ -270,8 +270,8 @@ public class Auto32k extends Module {
     @EventTarget
     public void method16721(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SOpenWindowPacket) {
-                this.field23876 = (SOpenWindowPacket) var1.getPacket();
+            if (var1.packet instanceof SOpenWindowPacket) {
+                this.field23876 = (SOpenWindowPacket) var1.packet;
                 if (this.isEnabled() && this.field23876.getTitle() == ContainerType.HOPPER) {
                     var1.cancelled = true;
                 }
@@ -280,8 +280,8 @@ public class Auto32k extends Module {
                 this.field23877 = false;
             }
 
-            if (var1.getPacket() instanceof SSetSlotPacket) {
-                SSetSlotPacket var4 = (SSetSlotPacket) var1.getPacket();
+            if (var1.packet instanceof SSetSlotPacket) {
+                SSetSlotPacket var4 = (SSetSlotPacket) var1.packet;
                 int var5 = var4.getSlot();
                 ItemStack var6 = var4.getStack();
                 int var7 = var4.getWindowId();
@@ -309,7 +309,7 @@ public class Auto32k extends Module {
                 }
             }
 
-            if (var1.getPacket() instanceof SCloseWindowPacket) {
+            if (var1.packet instanceof SCloseWindowPacket) {
                 this.setEnabled(false);
             }
         }
@@ -318,17 +318,17 @@ public class Auto32k extends Module {
     @EventTarget
     public void method16722(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof CCloseWindowPacket) {
+            if (var1.packet instanceof CCloseWindowPacket) {
                 var1.cancelled = true;
             }
 
-            if (var1.getPacket() instanceof CUseEntityPacket) {
+            if (var1.packet instanceof CUseEntityPacket) {
                 float var4 = BlockUtil.method34543(this.field23870.up(), Direction.UP)[0];
                 float var5 = BlockUtil.method34543(this.field23870.up(), Direction.UP)[1];
             }
 
-            if (var1.getPacket() instanceof CPlayerPacket) {
-                CPlayerPacket var6 = (CPlayerPacket) var1.getPacket();
+            if (var1.packet instanceof CPlayerPacket) {
+                CPlayerPacket var6 = (CPlayerPacket) var1.packet;
                 var6.onGround = false;
             }
         }

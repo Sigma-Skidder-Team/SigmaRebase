@@ -46,7 +46,7 @@ public class AACSpeed extends Module {
     @EventTarget
     public void method16008(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (var1.packet instanceof SPlayerPositionLookPacket) {
                 this.field23399 = 0;
             }
         }

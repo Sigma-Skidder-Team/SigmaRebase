@@ -52,14 +52,14 @@ public class PlayerStateTracker {
 
     @EventTarget
     public void method31325(EventSendPacket var1) {
-        if (var1.getPacket() instanceof CClickWindowPacket) {
+        if (var1.packet instanceof CClickWindowPacket) {
             this.mode = 0;
         }
     }
 
     @EventTarget
     public void method31326(EventReceivePacket var1) {
-        if (var1.getPacket() instanceof SKeepAlivePacket) {
+        if (var1.packet instanceof SKeepAlivePacket) {
             long var4 = System.currentTimeMillis() - this.lastMilis;
             this.ping = Math.min(1.05F, Math.max(0.0F, 15000.0F / (float)var4));
             this.lastMilis = System.currentTimeMillis();

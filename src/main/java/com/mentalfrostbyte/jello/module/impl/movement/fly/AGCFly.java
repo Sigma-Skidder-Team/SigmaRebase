@@ -120,7 +120,7 @@ public class AGCFly extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
                 if (this.preUpdates >= (this.field23903 != 3 ? this.field23903 : 1)) {

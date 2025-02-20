@@ -28,9 +28,9 @@ public class LegitAntiKB extends Module {
     @EventTarget
     @HighestPriority
     public void onReceivePackett(EventReceivePacket event) {
-        if (event.getPacket() instanceof SEntityVelocityPacket) {
+        if (event.packet instanceof SEntityVelocityPacket) {
 
-            SEntityVelocityPacket var4 = (SEntityVelocityPacket) event.getPacket();
+            SEntityVelocityPacket var4 = (SEntityVelocityPacket) event.packet;
             if (var4.getEntityID() == mc.player.getEntityId()) {
                 s12_received = true;
             }

@@ -29,7 +29,7 @@ public class NameProtect extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket receivePacketEvent) {
         if (this.isEnabled()) {
-            IPacket<?> packet = receivePacketEvent.getPacket();
+            IPacket<?> packet = receivePacketEvent.packet;
 
             if (packet instanceof SUpdateScorePacket scorePacket) {
                 if (scorePacket.getAction() == ServerScoreboard.Action.CHANGE) {

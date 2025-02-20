@@ -70,7 +70,7 @@ public class FakeLag extends Module {
         } else {
             // If lag duration has not ended, process packets
             if (this.timerUtil.getElapsedTime() <= this.getNumberValueBySettingName("Lag duration") * 1000.0F) {
-                IPacket<?> packet = event.getPacket();
+                IPacket<?> packet = event.packet;
 
                 // Check for packet types and module settings
                 if (shouldDelayPacket(packet)) {

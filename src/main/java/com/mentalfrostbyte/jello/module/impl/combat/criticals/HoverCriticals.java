@@ -27,7 +27,7 @@ public class HoverCriticals extends Module {
     @EventTarget
     public void method16921(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof SPlayerPositionLookPacket) {
                 this.field23997 = 1.0E-11;
             }

@@ -63,7 +63,7 @@ public class ViperDisabler extends Module {
                     for (int index = 0; index < this.pendingEvents.size(); index++) {
                         ViperEvent event1 = this.pendingEvents.get(index);
                         if (event1.shouldSendPacket()) {
-                            mc.getConnection().sendPacket(event1.getPacket());
+                            mc.getConnection().sendPacket(event1.packet);
                             this.pendingEvents.remove(index);
                         }
                     }
@@ -75,7 +75,7 @@ public class ViperDisabler extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
-            IPacket incomingPacket = event.getPacket();
+            IPacket incomingPacket = event.packet;
             if (incomingPacket instanceof SKeepAlivePacket) {
                 event.cancelled = true;
             }

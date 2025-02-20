@@ -191,7 +191,7 @@ public class CubecraftFly extends Module {
     @EventTarget
     public void method16690(EventReceivePacket var1) {
         if (mc.world != null && mc.getConnection() != null && ServerUtil.isCubecraft()) {
-            IPacket packet = var1.getPacket();
+            IPacket packet = var1.packet;
             if (!(packet instanceof SPlayerPositionLookPacket)) {
                 if (packet instanceof SEntityVelocityPacket var5) {
                     if (var5.getEntityID() == mc.player.getEntityId()) {

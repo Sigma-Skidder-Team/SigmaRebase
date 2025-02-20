@@ -122,7 +122,7 @@ public class NCPPhase extends PremiumModule {
     @EventTarget
     public void method16429(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) var4;
                 var5.yaw = mc.player.rotationYaw;

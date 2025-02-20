@@ -64,8 +64,8 @@ public class MovementAntiBot extends AntiBotBase {
             this.field31116.clear();
          }
 
-         if (var1.getPacket() instanceof SEntityPacket.RelativeMovePacket) {
-            SEntityPacket.RelativeMovePacket relativeMovePacket = (SEntityPacket.RelativeMovePacket)var1.getPacket();
+         if (var1.packet instanceof SEntityPacket.RelativeMovePacket) {
+            SEntityPacket.RelativeMovePacket relativeMovePacket = (SEntityPacket.RelativeMovePacket)var1.packet;
             if (mc.world == null)
                return;
 

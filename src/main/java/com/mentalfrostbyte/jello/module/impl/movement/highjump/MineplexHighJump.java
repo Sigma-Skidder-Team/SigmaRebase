@@ -117,7 +117,7 @@ public class MineplexHighJump extends Module {
    @EventTarget
    public void method16973(EventReceivePacket var1) {
       if (this.isEnabled()) {
-         IPacket var4 = var1.getPacket();
+         IPacket var4 = var1.packet;
          if (var4 instanceof SPlayerPositionLookPacket) {
             this.access().toggle();
          }

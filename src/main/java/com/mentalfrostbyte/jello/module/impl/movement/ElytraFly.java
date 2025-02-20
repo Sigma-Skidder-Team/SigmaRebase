@@ -96,8 +96,8 @@ public class ElytraFly extends Module {
     @EventTarget
     public void method16222(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (mc.player != null && var1.getPacket() instanceof SEntityVelocityPacket) {
-                SEntityVelocityPacket var4 = (SEntityVelocityPacket) var1.getPacket();
+            if (mc.player != null && var1.packet instanceof SEntityVelocityPacket) {
+                SEntityVelocityPacket var4 = (SEntityVelocityPacket) var1.packet;
                 Entity var5 = mc.world.getEntityByID(var4.getEntityID());
                 if (var5 instanceof FireworkRocketEntity) {
                     FireworkRocketEntity var6 = (FireworkRocketEntity) var5;

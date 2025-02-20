@@ -115,8 +115,8 @@ public class OmegaCraftFly extends Module {
 
     @EventTarget
     public void method16497(EventReceivePacket var1) {
-        if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
-            SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
+        if (var1.packet instanceof SPlayerPositionLookPacket) {
+            SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.packet;
             double var5 = this.field23703[0];
             int var7 = this.field23703.length;
             double var8 = var4.getY() - (double) ((int) var4.getY());

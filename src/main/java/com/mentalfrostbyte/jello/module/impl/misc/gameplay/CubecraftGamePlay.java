@@ -29,7 +29,7 @@ public class CubecraftGamePlay extends Module {
     @EventTarget
     public void onPacket(EventReceivePacket event) {
         if (this.isEnabled() && mc.player != null) {
-            IPacket<?> packet = event.getPacket();
+            IPacket<?> packet = event.packet;
             if (packet instanceof SChatPacket chatPacket) {
                 String text = chatPacket.getChatComponent().getString();
                 String playerName = mc.player.getName().getString().toLowerCase();

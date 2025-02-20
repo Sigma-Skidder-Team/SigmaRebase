@@ -20,8 +20,8 @@ public class BasicAntiKB extends Module {
    @EventTarget
    public void method16068(EventReceivePacket event) {
       if (this.isEnabled()) {
-         if (mc.player != null && event.getPacket() instanceof SEntityVelocityPacket) {
-            SEntityVelocityPacket packet = (SEntityVelocityPacket)event.getPacket();
+         if (mc.player != null && event.packet instanceof SEntityVelocityPacket) {
+            SEntityVelocityPacket packet = (SEntityVelocityPacket)event.packet;
             if (packet.getEntityID() == mc.player.getEntityId()) {
                if (this.getNumberValueBySettingName("H-Multiplier") == 0.0F && this.getNumberValueBySettingName("V-Multiplier") == 0.0F) {
                   event.cancelled = true;
@@ -33,8 +33,8 @@ public class BasicAntiKB extends Module {
             }
          }
 
-         if (event.getPacket() instanceof SExplosionPacket && this.getBooleanValueFromSettingName("Explosions")) {
-            SExplosionPacket packet = (SExplosionPacket)event.getPacket();
+         if (event.packet instanceof SExplosionPacket && this.getBooleanValueFromSettingName("Explosions")) {
+            SExplosionPacket packet = (SExplosionPacket)event.packet;
             packet.motionX = packet.motionX * this.getNumberValueBySettingName("H-Multiplier");
             packet.motionZ = packet.motionZ * this.getNumberValueBySettingName("H-Multiplier");
             packet.motionY = packet.motionY * this.getNumberValueBySettingName("V-Multiplier");

@@ -19,7 +19,7 @@ public class ChatFilter extends Module {
     @EventTarget
     public void onSendPacket(EventSendPacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof CChatMessagePacket chatPacket) {
+            if (event.packet instanceof CChatMessagePacket chatPacket) {
                 String[] words = chatPacket.message.split(" ");
                 if (chatPacket.message.length() + words.length <= 100) {
                     StringBuilder modifiedMessage = new StringBuilder();

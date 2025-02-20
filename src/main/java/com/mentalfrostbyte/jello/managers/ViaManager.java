@@ -180,19 +180,19 @@ public class ViaManager implements MinecraftUtil {
 
     @EventTarget
     public void onSendPacket(EventSendPacket event) {
-        if (event.getPacket() instanceof CHeldItemChangePacket) {
-            int var4 = ((CHeldItemChangePacket) event.getPacket()).getSlotId();
+        if (event.packet instanceof CHeldItemChangePacket) {
+            int var4 = ((CHeldItemChangePacket) event.packet).getSlotId();
             if (PlayerInventory.isHotbar(var4)) {
                 field31494 = var4;
             }
         }
 
-        if (event.getPacket() instanceof CTabCompletePacket) {
-            if (((CTabCompletePacket) event.getPacket()).getCommand().length() == 1) {
+        if (event.packet instanceof CTabCompletePacket) {
+            if (((CTabCompletePacket) event.packet).getCommand().length() == 1) {
                 return;
             }
 
-            cTabComplete = (CTabCompletePacket) event.getPacket();
+            cTabComplete = (CTabCompletePacket) event.packet;
             event.cancelled = true;
         }
     }
@@ -204,7 +204,7 @@ public class ViaManager implements MinecraftUtil {
             if (!entities.isEmpty()) {
                 entities.clear();
             }
-        } else if (event.getPacket() instanceof SEntityEquipmentPacket packet) {
+        } else if (event.packet instanceof SEntityEquipmentPacket packet) {
             for (Pair<EquipmentSlotType, ItemStack> pair : packet.func_241790_c_()) {
                 if (pair.getFirst() == EquipmentSlotType.OFFHAND && pair.getSecond() != null && (Client.getInstance().moduleManager.getModuleByClass(OldHitting.class).isEnabled() || JelloPortal.getVersion().equalTo(ProtocolVersion.v1_8))) {
                     if (!(pair.getSecond().getItem() instanceof ShieldItem)) {
@@ -226,12 +226,12 @@ public class ViaManager implements MinecraftUtil {
 
         if (isOlderThan_v1_12_2()) {
             //Class8920.method32597(event, field31495);
-            if (!(event.getPacket() instanceof SHeldItemChangePacket)) {
-                if (event.getPacket() instanceof SUnloadChunkPacket && ServerUtil.isMinemen()) {
+            if (!(event.packet instanceof SHeldItemChangePacket)) {
+                if (event.packet instanceof SUnloadChunkPacket && ServerUtil.isMinemen()) {
                     event.cancelled = true;
-                } else if (!(event.getPacket() instanceof SAnimateHandPacket packet)) {
-                    if (!(event.getPacket() instanceof SUpdateViewDistancePacket)) {
-                        if (event.getPacket() instanceof SUpdateBossInfoPacket packet) {
+                } else if (!(event.packet instanceof SAnimateHandPacket packet)) {
+                    if (!(event.packet instanceof SUpdateViewDistancePacket)) {
+                        if (event.packet instanceof SUpdateBossInfoPacket packet) {
                             if (packet.getOperation() != SUpdateBossInfoPacket.Operation.ADD) {
                                 if (field31497 != null && packet.getOperation() == SUpdateBossInfoPacket.Operation.REMOVE) {
                                     if (field31497.compareTo(packet.getUniqueId()) != 0) {
@@ -256,7 +256,7 @@ public class ViaManager implements MinecraftUtil {
                     }
                 }
             } else {
-                int var12 = ((SHeldItemChangePacket) event.getPacket()).getHeldItemHotbarIndex();
+                int var12 = ((SHeldItemChangePacket) event.packet).getHeldItemHotbarIndex();
                 if (PlayerInventory.isHotbar(var12)) {
                     field31494 = var12;
                 }

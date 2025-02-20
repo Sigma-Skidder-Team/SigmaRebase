@@ -44,8 +44,8 @@ public class CakeEater extends Module {
     @EventTarget
     public void method16319(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SChatPacket) {
-                SChatPacket var4 = (SChatPacket) var1.getPacket();
+            if (var1.packet instanceof SChatPacket) {
+                SChatPacket var4 = (SChatPacket) var1.packet;
                 if (var4.getChatComponent().getString().equals("§9Game> §r§7You cannot eat your own cake!§r")) {
                     var1.cancelled = true;
                 }

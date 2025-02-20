@@ -22,6 +22,8 @@ public class NCPSpigotNoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
         if (event.isPre()) {
             if (mc.player.fallDistance > 3.0F) {
                 this.falling = true;

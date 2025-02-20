@@ -14,7 +14,7 @@ public class PortalGodMode extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof CConfirmTeleportPacket) {
+            if (var1.packet instanceof CConfirmTeleportPacket) {
                 var1.cancelled = true;
             }
         }

@@ -49,12 +49,12 @@ public class Blink extends Module {
 
     @EventTarget
     public void onSendPacket(EventSendPacket event) {
-        if (mc.player != null && (event.getPacket() instanceof CEntityActionPacket
-                || event.getPacket() instanceof CPlayerPacket
-                || event.getPacket() instanceof CUseEntityPacket
-                || event.getPacket() instanceof CAnimateHandPacket
-                || event.getPacket() instanceof CPlayerTryUseItemPacket)) {
-            this.packets.add(event.getPacket());
+        if (mc.player != null && (event.packet instanceof CEntityActionPacket
+                || event.packet instanceof CPlayerPacket
+                || event.packet instanceof CUseEntityPacket
+                || event.packet instanceof CAnimateHandPacket
+                || event.packet instanceof CPlayerTryUseItemPacket)) {
+            this.packets.add(event.packet);
             event.cancelled = true;
         }
     }

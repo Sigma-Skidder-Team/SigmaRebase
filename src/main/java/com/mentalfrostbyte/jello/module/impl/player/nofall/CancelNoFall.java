@@ -17,7 +17,7 @@ public class CancelNoFall extends Module {
     @EventTarget
     public void onSendPacket(EventSendPacket event) {
         if (!this.isEnabled() || event.cancelled) return;
-        if (event.getPacket() instanceof CPlayerPacket) {
+        if (event.packet instanceof CPlayerPacket) {
             if (mc.player.fallDistance > 3f) {
                 falling = true;
                 event.cancelled = true;
@@ -28,7 +28,7 @@ public class CancelNoFall extends Module {
     }
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
-        if (event.getPacket() instanceof SPlayerPositionLookPacket packet && falling) {
+        if (event.packet instanceof SPlayerPositionLookPacket packet && falling) {
             mc.getConnection().sendPacket(
                     new CPlayerPacket.PositionRotationPacket(
                             packet.getX(), packet.getY(),

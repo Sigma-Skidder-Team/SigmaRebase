@@ -275,7 +275,7 @@ public class Freecam extends Module {
     public void method16647(EventReceivePacket event) {
         if (this.isEnabled()) {
             if (mc.player != null) {
-                if (event.getPacket() instanceof SPlayerPositionLookPacket packet) {
+                if (event.packet instanceof SPlayerPositionLookPacket packet) {
                     this.field23821 = packet.yaw;
                     this.field23822 = packet.pitch;
                     packet.yaw = mc.player.rotationYaw;
@@ -297,12 +297,12 @@ public class Freecam extends Module {
     @EventTarget
     public void method16648(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof CAnimateHandPacket) {
+            if (var1.packet instanceof CAnimateHandPacket) {
                 player.swingArm(Hand.MAIN_HAND);
             }
 
-            if (var1.getPacket() instanceof CUseEntityPacket) {
-                CUseEntityPacket var4 = (CUseEntityPacket) var1.getPacket();
+            if (var1.packet instanceof CUseEntityPacket) {
+                CUseEntityPacket var4 = (CUseEntityPacket) var1.packet;
                 if (var4.getEntityFromWorld(mc.world) == null) {
                     var1.cancelled = true;
                 }

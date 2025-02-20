@@ -123,8 +123,8 @@ public class NCPStep extends Module {
 
     @EventTarget
     public void onSendPacketEvent(EventSendPacket var1) {
-        if (var1.getPacket() instanceof CPlayerPacket && !this.field23993.isEmpty()) {
-            this.field23993.add(var1.getPacket());
+        if (var1.packet instanceof CPlayerPacket && !this.field23993.isEmpty()) {
+            this.field23993.add(var1.packet);
             var1.cancelled = true;
             if (this.field23994 == 0) {
                 for (IPacket var5 : this.field23993) {

@@ -98,14 +98,14 @@ public class HypixelPredictionDisabler extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (mc.player == null) return;
-        if (event.getPacket() instanceof CClientStatusPacket) {
+        if (event.packet instanceof CClientStatusPacket) {
             if (caughtClientStatus) {
                 event.cancelled = true;
             }
 
             caughtClientStatus = false;
         }
-        if (event.getPacket() instanceof CCloseWindowPacket) {
+        if (event.packet instanceof CCloseWindowPacket) {
             if (caughtCloseWindow) {
                 event.cancelled = true;
             }
@@ -113,7 +113,7 @@ public class HypixelPredictionDisabler extends Module {
             caughtCloseWindow = true;
         }
 
-        if (motion.currentValue && !watchDogDisabled && stuckOnAir && event.getPacket() instanceof SPlayerPositionLookPacket) {
+        if (motion.currentValue && !watchDogDisabled && stuckOnAir && event.packet instanceof SPlayerPositionLookPacket) {
             airStuckTicks++;
             if (airStuckTicks >= 20) {
                 MinecraftUtil.addChatMessage("Watchdog jump checks disabled.");

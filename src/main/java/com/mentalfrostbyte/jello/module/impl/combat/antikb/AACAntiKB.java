@@ -69,7 +69,7 @@ public class AACAntiKB extends Module {
     @EventTarget
     public void method16789(EventReceivePacket var1) {
         if (this.isEnabled() && mc.player != null) {
-            IPacket packet = var1.getPacket();
+            IPacket packet = var1.packet;
             if (packet instanceof SEntityVelocityPacket) {
                 if (this.noStrength()) {
                     ticks = 0;
@@ -84,7 +84,7 @@ public class AACAntiKB extends Module {
                 }
             }
 //            unused
-//            if (var1.getPacket() instanceof SExplosionPacket) {
+//            if (var1.packet instanceof SExplosionPacket) {
 //            }
         }
     }

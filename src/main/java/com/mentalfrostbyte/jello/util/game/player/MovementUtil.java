@@ -17,7 +17,11 @@ import net.minecraft.util.math.MathHelper;
 public class MovementUtil implements MinecraftUtil {
 
     public static void stop() {
-        mc.player.setMotion(0, mc.player.getMotion().y, 0);
+        stop(false);
+    }
+
+    public static void stop(boolean stopY) {
+        mc.player.setMotion(0, stopY ? 0.0 : mc.player.getMotion().y, 0);
     }
 
     public static double getSpeed() {

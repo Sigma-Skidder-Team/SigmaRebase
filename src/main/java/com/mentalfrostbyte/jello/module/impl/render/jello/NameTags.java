@@ -114,14 +114,14 @@ public class NameTags extends Module {
     @EventTarget
     public void onSendPacket(EventSendPacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof CPlayerTryUseItemOnBlockPacket) {
-                CPlayerTryUseItemOnBlockPacket var4 = (CPlayerTryUseItemOnBlockPacket) event.getPacket();
+            if (event.packet instanceof CPlayerTryUseItemOnBlockPacket) {
+                CPlayerTryUseItemOnBlockPacket var4 = (CPlayerTryUseItemOnBlockPacket) event.packet;
                 if (mc.world.getBlockState(var4.func_218794_c().getPos()).getBlock() instanceof FurnaceBlock) {
                     this.currentBlockPos = var4.func_218794_c().getPos();
                 }
             }
 
-            if (event.getPacket() instanceof CClickWindowPacket clickWindowPacket) {
+            if (event.packet instanceof CClickWindowPacket clickWindowPacket) {
                 FurnaceTracker var5 = this.getFurnaceTrackerByWindowId(clickWindowPacket.getWindowId());
                 if (var5 == null) {
                     return;
@@ -140,7 +140,7 @@ public class NameTags extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SOpenWindowPacket sOpenWindowPacket) {
+            if (event.packet instanceof SOpenWindowPacket sOpenWindowPacket) {
                 if (sOpenWindowPacket.getContainerType() != ContainerType.FURNACE) {
                     return;
                 }
@@ -148,7 +148,7 @@ public class NameTags extends Module {
                 this.furnaceTrackers.put(this.currentBlockPos, new FurnaceTracker(sOpenWindowPacket.getWindowId()));
             }
 
-            if (event.getPacket() instanceof SSetSlotPacket sSetSlotPacket) {
+            if (event.packet instanceof SSetSlotPacket sSetSlotPacket) {
                 FurnaceTracker var5 = this.getFurnaceTrackerByWindowId(sSetSlotPacket.getWindowId());
                 if (var5 == null) {
                     return;
@@ -166,7 +166,7 @@ public class NameTags extends Module {
                 }
             }
 
-            if (event.getPacket() instanceof SWindowPropertyPacket sWindowPropertyPacket) {
+            if (event.packet instanceof SWindowPropertyPacket sWindowPropertyPacket) {
                 FurnaceTracker var8 = this.getFurnaceTrackerByWindowId(sWindowPropertyPacket.getWindowId());
                 if (var8 == null) {
                     return;

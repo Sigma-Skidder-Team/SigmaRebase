@@ -38,8 +38,8 @@ public class InvMove extends Module {
     @EventTarget
     public void method16584(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (this.field23757 && var1.getPacket() instanceof CEntityActionPacket && this.getBooleanValueFromSettingName("AACP")) {
-                CEntityActionPacket var4 = (CEntityActionPacket) var1.getPacket();
+            if (this.field23757 && var1.packet instanceof CEntityActionPacket && this.getBooleanValueFromSettingName("AACP")) {
+                CEntityActionPacket var4 = (CEntityActionPacket) var1.packet;
                 if (var4.getAction() == CEntityActionPacket.Action.START_SPRINTING) {
                     var1.cancelled = true;
                 }

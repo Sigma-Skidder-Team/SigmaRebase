@@ -10,6 +10,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
  * @author alarmingly_good (on discord)
  */
 public class VerusGlideFly extends Module {
+    int airTicks;
     public VerusGlideFly() {
         super(ModuleCategory.MOVEMENT, "Verus Glide", "A fly for Verus");
     }

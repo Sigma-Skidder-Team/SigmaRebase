@@ -67,8 +67,8 @@ public class SpartanClickTP extends Module {
     @EventTarget
     public void method16105(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
-                SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.getPacket();
+            if (var1.packet instanceof SPlayerPositionLookPacket) {
+                SPlayerPositionLookPacket var4 = (SPlayerPositionLookPacket) var1.packet;
                 if (var4.x == (double) this.field23465.getX() + 0.5
                         && var4.y == (double) (this.field23465.getY() + 1)
                         && var4.z == (double) this.field23465.getZ() + 0.5) {

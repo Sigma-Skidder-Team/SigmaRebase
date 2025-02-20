@@ -43,7 +43,7 @@ public class Murderer extends Module {
 
     @EventTarget
     public void onReceive(EventReceivePacket event) {
-        if (event.getPacket() instanceof SEntityEquipmentPacket entityEquipmentPacket) {
+        if (event.packet instanceof SEntityEquipmentPacket entityEquipmentPacket) {
             for (Pair<EquipmentSlotType, ItemStack> pair : entityEquipmentPacket.func_241790_c_()) {
                 if (pair.getSecond() != null
                         && pair.getSecond().getItem() instanceof SwordItem
@@ -66,7 +66,7 @@ public class Murderer extends Module {
             }
         }
 
-        if (event.getPacket() instanceof SRespawnPacket) {
+        if (event.packet instanceof SRespawnPacket) {
             this.foundMurderer = false;
         }
     }

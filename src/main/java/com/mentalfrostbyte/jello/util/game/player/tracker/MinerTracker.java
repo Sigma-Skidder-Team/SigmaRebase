@@ -280,7 +280,7 @@ public class MinerTracker {
                     }
                 }
 
-                BlockUtil.method34545(var4);
+                BlockUtil.sortPositionsByDistance(var4);
                 if (var4.isEmpty()) {
                     this.field39616 = null;
                 } else if (this.field39616 != null) {

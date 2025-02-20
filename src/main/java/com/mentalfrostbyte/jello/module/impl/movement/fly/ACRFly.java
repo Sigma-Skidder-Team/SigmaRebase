@@ -123,7 +123,7 @@ public class ACRFly extends Module {
     @EventTarget
     public void method16906(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket lookPacket = (SPlayerPositionLookPacket) var4;
                 if (this.preUpdates >= 1) {
@@ -140,7 +140,7 @@ public class ACRFly extends Module {
     @EventTarget
     public void method16907(EventSendPacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.preUpdates == -1 && this.getBooleanValueFromSettingName("NoFall")) {

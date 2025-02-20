@@ -75,7 +75,7 @@ public class Unstuck extends Module {
     public void onReceive(EventReceivePacket event) {
         if (this.isEnabled()) {
             if (mc.player != null) {
-                if (event.getPacket() instanceof SPlayerPositionLookPacket && !BlockUtil.isAboveBounds(mc.player, 0.3F) && mc.player.ticksExisted > 10) {
+                if (event.packet instanceof SPlayerPositionLookPacket && !BlockUtil.isAboveBounds(mc.player, 0.3F) && mc.player.ticksExisted > 10) {
                     this.packetCancelled++;
                     if ((float) this.packetCancelled > this.getNumberValueBySettingName("Flags")) {
                         event.cancelled = true;

@@ -41,7 +41,7 @@ public class HypixelGamePlay extends Module {
     @EventTarget
     public void onReceive(EventReceivePacket event) {
         if (mc.player != null) {
-            IPacket<?> packet = event.getPacket();
+            IPacket<?> packet = event.packet;
             if (packet instanceof SChatPacket chatPacket) {
                 String text = chatPacket.getChatComponent().getString().replaceAll("§.", "");
                 if (chatPacket.getType() != ChatType.SYSTEM && chatPacket.getType() != ChatType.CHAT) {

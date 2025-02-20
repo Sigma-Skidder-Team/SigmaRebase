@@ -266,7 +266,7 @@ public class ChestStealer extends Module {
                         "modalidades"
                 )
         );
-        List<BlockPos> positions = BlockUtil.method34561(8.0F);
+        List<BlockPos> positions = BlockUtil.getBlockPositionsInRange(8.0F);
         String cleanName = chest.getNarrationMessage().replaceAll("§.", "").toLowerCase();
 
         for (String keyword : doNotStealKeywords) {

@@ -192,7 +192,7 @@ public class MineplexFly extends Module {
     @EventTarget
     public void onReceivePacketEvent(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (var1.packet instanceof SPlayerPositionLookPacket) {
                 this.failed = true;
                 Client.getInstance().notificationManager
                         .send(new Notification("Mineplex fly", "Please try again"));
@@ -203,7 +203,7 @@ public class MineplexFly extends Module {
     @EventTarget
     public void onSendPacketEvent(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof CHeldItemChangePacket
+            if (var1.packet instanceof CHeldItemChangePacket
                     && this.currentItem != -1
                     && this.speed < (double) this.getNumberValueBySettingName("Boost")
                     && (mc.player.isOnGround() /*|| MultiUtilities.isAboveBounds(mc.player, 0.001F)*/)

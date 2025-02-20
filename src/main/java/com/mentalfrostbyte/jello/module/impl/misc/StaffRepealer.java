@@ -28,7 +28,7 @@ public class StaffRepealer extends Module {
     @EventTarget
     public void onReceive(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SPlayerListItemPacket listItemPacket) {
+            if (event.packet instanceof SPlayerListItemPacket listItemPacket) {
                 new Thread(() -> {
                     try {
                         Thread.sleep(2000L);

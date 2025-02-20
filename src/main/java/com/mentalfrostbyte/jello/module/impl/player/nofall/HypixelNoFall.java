@@ -14,6 +14,8 @@ public class HypixelNoFall extends Module {
     @EventTarget
     public void onUpdate(EventUpdateWalkingPlayer event) {
         if (!this.isEnabled()) return;
+		assert mc.player != null;
+		if (mc.player.getPosY() < 2.0) return;
         if (event.isPre() && mc.player.getMotion().y < 0.0 && !mc.player.isOnGround() && ServerUtil.isHypixel()) {
             for (double verticalOffset : MovementUtil.getVerticalOffsets()) {
                 if ((double) ((int) event.getY()) - event.getY() + verticalOffset == 0.0) {

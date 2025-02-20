@@ -14,7 +14,7 @@ public class ChatCleaner extends Module {
     @EventTarget
     public void onReceive(EventReceivePacket event) {
         if (isEnabled()) {
-            if (event.getPacket() instanceof SChatPacket packet) {
+            if (event.packet instanceof SChatPacket packet) {
                 if (isSpam(cleanChatMessage(packet.getChatComponent().getString()))) {
                     event.cancelled = true;
                 }

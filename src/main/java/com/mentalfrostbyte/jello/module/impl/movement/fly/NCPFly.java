@@ -83,7 +83,7 @@ public class NCPFly extends Module {
     @EventTarget
     public void method16802(EventReceivePacket event) {
         if (this.isEnabled()) {
-            IPacket packet = event.getPacket();
+            IPacket packet = event.packet;
             if (packet instanceof SPlayerPositionLookPacket) {
                 SPlayerPositionLookPacket var5 = (SPlayerPositionLookPacket) packet;
                 if (this.field23919 >= 1) {
@@ -100,7 +100,7 @@ public class NCPFly extends Module {
     @EventTarget
     public void method16803(EventSendPacket event) {
         if (this.isEnabled()) {
-            IPacket packet = event.getPacket();
+            IPacket packet = event.packet;
             if (packet instanceof CPlayerPacket) {
                 CPlayerPacket playerPacket = (CPlayerPacket) packet;
                 if (this.field23919 == -1) {

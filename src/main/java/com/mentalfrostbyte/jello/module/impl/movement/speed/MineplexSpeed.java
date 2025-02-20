@@ -154,7 +154,7 @@ public class MineplexSpeed extends Module {
     @EventTarget
     public void method16252(EventReceivePacket event) {
         if (this.isEnabled() && mc.player != null) {
-            if (event.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (event.packet instanceof SPlayerPositionLookPacket) {
                 this.field23553 = 0;
                 this.field23555 = 0.0;
             }

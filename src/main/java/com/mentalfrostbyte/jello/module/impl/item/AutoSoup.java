@@ -87,8 +87,8 @@ public class AutoSoup extends Module {
     @EventTarget
     public void method16058(EventSendPacket var1) {
         if (this.isEnabled()) {
-            if (this.field23433 && var1.getPacket() instanceof CClientStatusPacket) {
-                CClientStatusPacket var4 = (CClientStatusPacket) var1.getPacket();
+            if (this.field23433 && var1.packet instanceof CClientStatusPacket) {
+                CClientStatusPacket var4 = (CClientStatusPacket) var1.packet;
                 if (var4.getStatus() == CClientStatusPacket.State.OPEN_INVENTORY) {
                     var1.cancelled = true;
                 }

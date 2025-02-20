@@ -18,7 +18,7 @@ public class FlagDetector extends Module {
 
     @EventTarget
     public void RecievePacketEvent(EventReceivePacket event) {
-        if (event.getPacket() instanceof SPlayerPositionLookPacket && mc.player != null) {
+        if (event.packet instanceof SPlayerPositionLookPacket && mc.player != null) {
             flagCount++;
             Client.getInstance().notificationManager.send(new Notification("FlagDetector", "Detected Flag x" + flagCount));
         }

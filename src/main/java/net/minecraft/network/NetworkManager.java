@@ -212,7 +212,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<IPacket<?>> {
         EventBus.call(var5);
         // MODIFICATION END
         // MODIFICATION BEGIN: use the packet from the event
-        packetIn = var5.getPacket();
+        packetIn = var5.packet;
         // MODIFICATION END
 
         // MODIFICATION BEGIN: return early if the event was cancelled

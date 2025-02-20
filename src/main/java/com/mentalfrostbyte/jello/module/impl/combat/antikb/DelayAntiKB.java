@@ -28,14 +28,14 @@ public class DelayAntiKB extends Module {
     @EventTarget
     public void onReceivePacket(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SExplosionPacket) {
-                SExplosionPacket packet = (SExplosionPacket) event.getPacket();
+            if (event.packet instanceof SExplosionPacket) {
+                SExplosionPacket packet = (SExplosionPacket) event.packet;
                 this.packets.add(packet);
                 event.cancelled = true;
             }
 
-            if (mc.player != null && event.getPacket() instanceof SEntityVelocityPacket) {
-                SEntityVelocityPacket packet = (SEntityVelocityPacket) event.getPacket();
+            if (mc.player != null && event.packet instanceof SEntityVelocityPacket) {
+                SEntityVelocityPacket packet = (SEntityVelocityPacket) event.packet;
                 if (packet.getEntityID() == mc.player.getEntityId()) {
                     this.packets.add(packet);
                     event.cancelled = true;
@@ -51,8 +51,8 @@ public class DelayAntiKB extends Module {
 //    @EventTarget
 //    public void onSendPacket(SendPacketEvent event) {
 ////        if (this.isEnabled()) {
-//////            if (event.getPacket() instanceof CUseEntityPacket) {
-//////                CUseEntityPacket usePacket = (CUseEntityPacket) event.getPacket();
+//////            if (event.packet instanceof CUseEntityPacket) {
+//////                CUseEntityPacket usePacket = (CUseEntityPacket) event.packet;
 //////                CUseEntityPacket.Action var5 = usePacket.getAction();
 ////////                if (var5 != CUseEntityPacket.Action.ATTACK) {
 ////////                }

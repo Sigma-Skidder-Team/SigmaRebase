@@ -100,7 +100,7 @@ public class AntiVoid extends Module {
     @EventTarget
     public void onPacketReceive(EventReceivePacket event) {
         if (this.isEnabled() && this.disableTimer != 0) {
-            if (event.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (event.packet instanceof SPlayerPositionLookPacket) {
                 this.disableTimer = 0;
                 this.speedBoostTimer = 4;
             }

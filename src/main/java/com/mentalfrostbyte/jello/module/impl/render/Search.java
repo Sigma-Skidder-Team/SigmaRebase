@@ -66,18 +66,18 @@ public class Search extends Module {
     @EventTarget
     public void onPacketReceive(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SChangeBlockPacket) {
-                SChangeBlockPacket packet = (SChangeBlockPacket) event.getPacket();
+            if (event.packet instanceof SChangeBlockPacket) {
+                SChangeBlockPacket packet = (SChangeBlockPacket) event.packet;
                 this.updateChunkPosition(mc.world.getChunkAt(packet.getPos()).getPos());
             }
 
-            if (event.getPacket() instanceof SMultiBlockChangePacket) {
-                SMultiBlockChangePacket packet = (SMultiBlockChangePacket) event.getPacket();
+            if (event.packet instanceof SMultiBlockChangePacket) {
+                SMultiBlockChangePacket packet = (SMultiBlockChangePacket) event.packet;
                 this.updateChunkPosition(new ChunkPos(packet.getSectionPos().x, packet.getSectionPos().z));
             }
 
-            if (event.getPacket() instanceof SChunkDataPacket && Minecraft.getInstance().world != null) {
-                SChunkDataPacket packet = (SChunkDataPacket) event.getPacket();
+            if (event.packet instanceof SChunkDataPacket && Minecraft.getInstance().world != null) {
+                SChunkDataPacket packet = (SChunkDataPacket) event.packet;
                 this.updateChunkPosition(new ChunkPos(packet.getChunkX(), packet.getChunkZ()));
             }
         }

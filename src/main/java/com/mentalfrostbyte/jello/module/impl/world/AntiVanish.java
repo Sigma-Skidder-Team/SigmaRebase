@@ -70,8 +70,8 @@ public class AntiVanish extends Module {
     @EventTarget
     public void method16863(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (mc.getConnection() != null && var1.getPacket() instanceof SPlayerListItemPacket) {
-                SPlayerListItemPacket var4 = (SPlayerListItemPacket) var1.getPacket();
+            if (mc.getConnection() != null && var1.packet instanceof SPlayerListItemPacket) {
+                SPlayerListItemPacket var4 = (SPlayerListItemPacket) var1.packet;
                 if (var4.getAction() == SPlayerListItemPacket.Action.UPDATE_LATENCY) {
                     for (SPlayerListItemPacket.AddPlayerData var6 : var4.getEntries()) {
                         NetworkPlayerInfo var7 = mc.getConnection().getPlayerInfo(var6.getProfile().getId());

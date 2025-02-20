@@ -25,8 +25,8 @@ public class HitSounds extends Module {
     @LowerPriority
     public void onReceivePAKAR(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            if (var1.getPacket() instanceof SPlaySoundPacket) {
-                SPlaySoundPacket sp = (SPlaySoundPacket) var1.getPacket();
+            if (var1.packet instanceof SPlaySoundPacket) {
+                SPlaySoundPacket sp = (SPlaySoundPacket) var1.packet;
                 if(sp.getSoundName().toString().equalsIgnoreCase("minecraft:entity.player.hurt")){
                     if(getBooleanValueFromSettingName("Hypixel")){
                         for(int i = 0; i < 2; i++){

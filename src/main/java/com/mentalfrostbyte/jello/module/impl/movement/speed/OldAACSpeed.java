@@ -91,7 +91,7 @@ public class OldAACSpeed extends Module {
     @EventTarget
     public void onPacketReceive(EventReceivePacket event) {
         if (this.isEnabled()) {
-            if (event.getPacket() instanceof SPlayerPositionLookPacket) {
+            if (event.packet instanceof SPlayerPositionLookPacket) {
                 this.field23537 = 0;
                 this.field23534 = MovementUtil.getSpeed();
             }

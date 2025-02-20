@@ -138,7 +138,7 @@ public class ViperMCFly extends Module {
     @EventTarget
     public void method16333(EventReceivePacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (!(var4 instanceof SPlayerPositionLookPacket)) {
                 if (var4 instanceof SChatPacket) {
                     SChatPacket var5 = (SChatPacket) var4;
@@ -165,7 +165,7 @@ public class ViperMCFly extends Module {
     @EventTarget
     public void method16334(EventSendPacket var1) {
         if (this.isEnabled()) {
-            IPacket var4 = var1.getPacket();
+            IPacket var4 = var1.packet;
             if (var4 instanceof CPlayerPacket) {
                 CPlayerPacket var5 = (CPlayerPacket) var4;
                 if (this.field23594 == -1) {

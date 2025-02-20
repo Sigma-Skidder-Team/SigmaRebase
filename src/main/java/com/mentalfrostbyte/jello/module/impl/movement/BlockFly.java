@@ -886,7 +886,7 @@ public class BlockFly extends Module {
     @EventTarget
     public void methwod1we6810(EventSendPacket var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (var1.getPacket() instanceof CHeldItemChangePacket && packetBlockSlot >= 0) {
+            if (var1.packet instanceof CHeldItemChangePacket && packetBlockSlot >= 0) {
                 var1.cancelled = true;
             }
         }

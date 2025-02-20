@@ -82,7 +82,7 @@ public class HypixelFly extends Module {
     @HighestPriority
     public void onReceive(EventReceivePacket event) {
         if (mc.getConnection() != null && ServerUtil.isHypixel()) {
-            IPacket pack = event.getPacket();
+            IPacket pack = event.packet;
             if (this.isEnabled()) {
                 if (pack instanceof SPlayerPositionLookPacket) {
                     this.access().toggle();

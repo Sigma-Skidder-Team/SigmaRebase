@@ -42,8 +42,8 @@ public class VClip extends Module {
 
     @EventTarget
     public void method16290(EventSendPacket var1) {
-        if (var1.getPacket() instanceof CChatMessagePacket) {
-            CChatMessagePacket var4 = (CChatMessagePacket) var1.getPacket();
+        if (var1.packet instanceof CChatMessagePacket) {
+            CChatMessagePacket var4 = (CChatMessagePacket) var1.packet;
             String var5 = var4.getMessage();
             String var6 = "hclip";
             if (!var5.startsWith("/" + var6)) {

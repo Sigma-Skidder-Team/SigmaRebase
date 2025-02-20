@@ -79,7 +79,7 @@ public class PingSpoofDisabler extends Module {
 
     @EventTarget
     public void method16102(EventSendPacket var1) {
-        IPacket var4 = var1.getPacket();
+        IPacket var4 = var1.packet;
         if (var4 instanceof CClickWindowPacket) {
             CClickWindowPacket var5 = (CClickWindowPacket) var4;
             this.field23463 = var5.getActionNumber();
@@ -98,7 +98,7 @@ public class PingSpoofDisabler extends Module {
         }
 
         if (mc.getCurrentServerData() != null) {
-            IPacket var7 = var1.getPacket();
+            IPacket var7 = var1.packet;
             if (!(var7 instanceof SKeepAlivePacket)) {
                 if (!(var7 instanceof SConfirmTransactionPacket)) {
                     if (var7 instanceof SPlayerPositionLookPacket && this.field23462 > 0) {

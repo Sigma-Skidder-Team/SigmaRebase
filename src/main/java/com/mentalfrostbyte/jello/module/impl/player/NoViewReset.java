@@ -16,8 +16,8 @@ public class NoViewReset extends Module {
         if (this.isEnabled()) {
             if (mc.player != null) {
                 if (mc.player.ticksExisted >= 10) {
-                    if (mc.player != null && event.getPacket() instanceof SPlayerPositionLookPacket) {
-                        SPlayerPositionLookPacket positionLookPacket = (SPlayerPositionLookPacket) event.getPacket();
+                    if (mc.player != null && event.packet instanceof SPlayerPositionLookPacket) {
+                        SPlayerPositionLookPacket positionLookPacket = (SPlayerPositionLookPacket) event.packet;
                         mc.player.prevRotationYaw = positionLookPacket.yaw;
                         mc.player.prevRotationPitch = positionLookPacket.pitch;
                         positionLookPacket.yaw = mc.player.rotationYaw;

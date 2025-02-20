@@ -22,7 +22,7 @@ public class BanListener {
     @EventTarget
     public void onPacketReceive(EventReceivePacket event) {
         if (this.mc.getCurrentServerData() != null) {
-            if (event.getPacket() instanceof SChatPacket packet) {
+            if (event.packet instanceof SChatPacket packet) {
                 ArrayList<String> banMessages = new ArrayList<>(
                         Arrays.asList(
                                 "You are permanently banned from MinemenClub. ",
@@ -43,9 +43,9 @@ public class BanListener {
                 }
             }
 
-            if (!(event.getPacket() instanceof SDisconnectLoginPacket packet)) {
-                if (!(event.getPacket() instanceof SDisconnectPacket packet)) {
-                    if (event.getPacket() instanceof SLoginSuccessPacket) {
+            if (!(event.packet instanceof SDisconnectLoginPacket packet)) {
+                if (!(event.packet instanceof SDisconnectPacket packet)) {
+                    if (event.packet instanceof SLoginSuccessPacket) {
                         long currentTimeMillis = System.currentTimeMillis();
                         if (this.mc.getCurrentServerData() == null) {
                             return;
