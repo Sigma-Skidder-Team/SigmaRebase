@@ -1,5 +1,6 @@
 package net.minecraft.util.palette;
 
+import baritone.utils.accessor.IPalettedContainer;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ import net.minecraft.util.BitArray;
 import net.minecraft.util.ObjectIntIdentityMap;
 import net.minecraft.util.math.MathHelper;
 
-public class PalettedContainer<T> implements IResizeCallback<T>
+public class PalettedContainer<T> implements IResizeCallback<T>, IPalettedContainer<T>
 {
     private final IPalette<T> registryPalette;
     private final IResizeCallback<T> dummyPaletteResize = (p_205517_0_, p_205517_1_) ->
@@ -287,5 +288,17 @@ public class PalettedContainer<T> implements IResizeCallback<T>
     public interface ICountConsumer<T>
     {
         void accept(T p_accept_1_, int p_accept_2_);
+    }
+
+    @Override
+    public IPalette<T> getPalette()
+    {
+        return this.palette;
+    }
+
+    @Override
+    public BitArray getStorage()
+    {
+        return this.storage;
     }
 }
