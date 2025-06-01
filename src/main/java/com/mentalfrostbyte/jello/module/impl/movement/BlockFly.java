@@ -97,6 +97,7 @@ public class BlockFly extends Module {
         this.registerSetting(new ModeSetting("Picking mode", "The way it will move blocks in your inventory.", 0, "Basic", "FakeInv", "OpenInv"));
         this.registerSetting(new BooleanSetting("Tower while moving", "Allows you to tower while moving.", false));
         this.registerSetting(new BooleanSetting("AutoJump", "Keep jumping while bridging.", false));
+        this.registerSetting(new BooleanSetting("Verus Yport", "Makes you go fast on Verus.", false));
         this.registerSetting(new BooleanSetting("Raytrace", "Helps the BlockFly become more legit.", false));
         this.registerSetting(new BooleanSetting("SameY", "Keep same height while jumping.", false));
         this.registerSetting(new BooleanSetting("Show Block Amount", "Shows the amount of blocks in your inventory.", true));
@@ -713,6 +714,13 @@ public class BlockFly extends Module {
         if (getBooleanValueFromSettingName("AutoJump")) {
             if (MovementUtil.isMoving()) {
                 event.jump = true;
+            }
+        }
+
+
+        if (getBooleanValueFromSettingName("Verus Yport")) {
+            if (MovementUtil.isMoving() && mc.player.isOnGround()) {
+                mc.player.setMotion(mc.player.getMotion().x * 1.5, 0.019, mc.player.getMotion().z * 1.5);
             }
         }
     }

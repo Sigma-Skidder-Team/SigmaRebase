@@ -21,7 +21,8 @@ public class Disabler extends ModuleWithModuleSettings {
                 new MinibloxDesyncDisabler(),
                 new CustomDisabler(),
                 new VerusTimerDisabler(),
-                new VerusTestDisabler()
+                new VerusTestDisabler(),
+                new VerusFlyDisabler()
         );
     }
 }

@@ -7,7 +7,6 @@ import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.network.play.client.CPlayerPacket;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 /**
@@ -26,49 +25,6 @@ public class VerusFly extends Module {
                         "Glide", "Fast"
                 )
         );
-    }
-
-    @Override
-    public void onEnable() {
-        if (!mode.currentValue.equals("Fast")) return;
-        ClientPlayerEntity player = mc.player;
-        ClientPlayNetHandler network = mc.getConnection();
-        assert player != null;
-        assert network != null;
-        network.sendPacket(
-                new CPlayerPacket.PositionPacket(
-                        player.getPosX(),
-                        player.getPosY(),
-                        player.getPosZ(),
-                        false
-                )
-        );
-        network.sendPacket(
-                new CPlayerPacket.PositionPacket(
-                        player.getPosX(),
-                        player.getPosY() + 3.25,
-                        player.getPosZ(),
-                        false
-                )
-        );
-        network.sendPacket(
-                new CPlayerPacket.PositionPacket(
-                        player.getPosX(),
-                        player.getPosY(),
-                        player.getPosZ(),
-                        false
-                )
-        );
-        network.sendPacket(
-                new CPlayerPacket.PositionPacket(
-                        player.getPosX(),
-                        player.getPosY(),
-                        player.getPosZ(),
-                        true
-                )
-        );
-        speed = MovementUtil.getDumberSpeed();
-        player.setMotion(player.getMotion().x, 0.17, player.getMotion().z);
     }
 
     @SuppressWarnings("unused")
@@ -95,7 +51,23 @@ public class VerusFly extends Module {
                 }
                 break;
             case "Fast":
-                break;
+
+                if (!mc.gameSettings.keyBindJump.pressed && !mc.gameSettings.keyBindSneak.pressed) {
+                    mc.player.setMotion(mc.player.getMotion().x, 0.019, mc.player.getMotion().z);
+                    MovementUtil.strafe(0.34);
+
+                    if (player.ticksExisted % 2 == 0) {
+                        player.setMotion(player.getMotion().x, -0.019, player.getMotion().z);
+                    }
+                }
+
+                if (mc.gameSettings.keyBindJump.pressed && player.ticksExisted % 2 == 0) {
+                    player.setMotion(player.getMotion().x, 0.42F, player.getMotion().z);
+                }
+                if (mc.gameSettings.keyBindSneak.pressed) {
+                    player.setMotion(player.getMotion().x, Math.max(player.getMotion().y, -0.09800000190734863), player.getMotion().z);
+                }
+                    break;
+                }
         }
     }
-}
