@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class MinibloxDesyncDisabler extends Module {
 	public MinibloxDesyncDisabler() {
-		super(ModuleCategory.EXPLOIT, "Miniblox Desync", "Sends C0CInput packets to fix desyncs");
+		super(ModuleCategory.EXPLOIT, "Miniblox Desync", "Sends C0CInput packets to fix desyncs (not needed anymore, they reverted to the old ac)");
 	}
 
 	@EventTarget

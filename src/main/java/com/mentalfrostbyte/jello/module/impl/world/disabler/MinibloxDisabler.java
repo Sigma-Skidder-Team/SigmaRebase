@@ -29,7 +29,7 @@ public class MinibloxDisabler extends Module {
     private Rotation serverRot;
 
     public MinibloxDisabler() {
-        super(ModuleCategory.EXPLOIT, "Miniblox", "Disabler for pre-prediction Miniblox. (patched)");
+        super(ModuleCategory.EXPLOIT, "Miniblox", "Disabler for Miniblox. (not the prediction ac)");
         this.registerSetting(
                 this.floatingTooLongKickBypass = new BooleanSetting(
                         "Floating Kick Bypass",
