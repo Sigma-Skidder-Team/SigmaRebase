@@ -68,6 +68,11 @@
 
     <repositories>
         <repository>
+            <id>azisaba</id>
+            <url>https://repo.azisaba.net/repository/maven-public/</url>
+        </repository>
+
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -83,38 +88,34 @@
         </repository>
 
         <repository>
-            <id>beatunes</id>
-            <url>https://www.beatunes.com/repo/maven2</url>
-        </repository>
-
-        <repository>
             <id>clojars</id>
             <url>https://repo.clojars.org</url>
-        </repository>
-
-        <repository>
-            <id>viaversion</id>
-            <url>https://repo.viaversion.com/everything</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>com.viaversion</groupId>
-            <artifactId>viarewind</artifactId>
-            <version>4.0.7-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.viaversion</groupId>
             <artifactId>viaversion</artifactId>
-            <version>5.3.1-SNAPSHOT</version>
+            <version>5.4.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaVersion-5.4.2-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viabackwards</artifactId>
-            <version>5.3.1-SNAPSHOT</version>
+            <version>5.4.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaBackwards-5.4.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>viarewind</artifactId>
+            <version>4.0.9-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaRewind-4.0.9-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -395,9 +396,9 @@
         </dependency>
 
         <dependency>
-            <groupId>oshi-project</groupId>
+            <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>1.1</version>
+            <version>6.9.1</version>
         </dependency>
 
         <dependency>
