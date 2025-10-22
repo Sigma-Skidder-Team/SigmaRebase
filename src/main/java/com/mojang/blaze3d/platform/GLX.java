@@ -26,7 +26,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLCapabilities;
 import oshi.SystemInfo;
-import oshi.hardware.Processor;
+import oshi.hardware.CentralProcessor;
 
 public class GLX
 {
@@ -148,8 +148,8 @@ public class GLX
 
         try
         {
-            Processor[] aprocessor = (new SystemInfo()).getHardware().getProcessors();
-            cpuInfo = String.format("%dx %s", aprocessor.length, aprocessor[0]).replaceAll("\\s+", " ");
+            CentralProcessor aprocessor = (new SystemInfo()).getHardware().getProcessor();
+            cpuInfo = String.format("%dx %s", aprocessor.getLogicalProcessorCount(), aprocessor.getFeatureFlags().get(0)).replaceAll("\\s+", " ");
         }
         catch (Throwable throwable)
         {
