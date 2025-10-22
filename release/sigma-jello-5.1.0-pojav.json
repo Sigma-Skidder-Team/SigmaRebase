@@ -233,13 +233,13 @@
     {
       "downloads": {
         "artifact": {
-          "path": "oshi-project/oshi-core/1.1/oshi-core-1.1.jar",
-          "sha1": "9ddf7b048a8d701be231c0f4f95fd986198fd2d8",
-          "size": 30973,
-          "url": "https://libraries.minecraft.net/oshi-project/oshi-core/1.1/oshi-core-1.1.jar"
+          "path": "com/github/oshi/oshi-core/6.9.1/oshi-core-6.9.1.jar",
+          "sha1": "e2f8ef0610ad300151b12bd50404f67ad75f6047",
+          "size": 1022562,
+          "url": "https://repo1.maven.org/maven2/com/github/oshi/oshi-core/6.9.1/oshi-core-6.9.1.jar"
         }
       },
-      "name": "oshi-project:oshi-core:1.1"
+      "name": "com.github.oshi:oshi-core:6.9.1"
     },
     {
       "downloads": {

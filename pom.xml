@@ -54,7 +54,24 @@
         </profile>
     </profiles>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.lwjgl</groupId>
+                <artifactId>lwjgl-bom</artifactId>
+                <version>3.3.6</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <repositories>
+        <repository>
+            <id>azisaba</id>
+            <url>https://repo.azisaba.net/repository/maven-public/</url>
+        </repository>
+
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -71,50 +88,46 @@
         </repository>
 
         <repository>
-            <id>beatunes</id>
-            <url>https://www.beatunes.com/repo/maven2</url>
-        </repository>
-
-        <repository>
             <id>clojars</id>
             <url>https://repo.clojars.org</url>
-        </repository>
-
-        <repository>
-            <id>viaversion</id>
-            <url>https://repo.viaversion.com/everything</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>io.github.classgraph</groupId>
-            <artifactId>classgraph</artifactId>
-            <version>4.8.179</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.viaversion</groupId>
-            <artifactId>viarewind</artifactId>
-            <version>4.0.7-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viaversion</artifactId>
-            <version>5.3.1-SNAPSHOT</version>
+            <version>5.4.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaVersion-5.4.2-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viabackwards</artifactId>
-            <version>5.3.1-SNAPSHOT</version>
+            <version>5.4.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaBackwards-5.4.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>viarewind</artifactId>
+            <version>4.0.9-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ViaRewind-4.0.9-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>26.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>club.minnced</groupId>
+            <artifactId>java-discord-rpc</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>
@@ -148,15 +161,15 @@
         </dependency>
 
         <dependency>
-            <groupId>fr.litarvan</groupId>
-            <artifactId>openauth</artifactId>
-            <version>1.1.6</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
             <version>66.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.litarvan</groupId>
+            <artifactId>openauth</artifactId>
+            <version>1.1.6</version>
         </dependency>
 
         <dependency>
@@ -294,92 +307,86 @@
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-openal</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-openal</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-opengl</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-opengl</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-glfw</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-glfw</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-jemalloc</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-jemalloc</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-stb</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-stb</artifactId>
+            <version>3.3.6</version>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-tinyfd</artifactId>
-            <version>3.2.2</version>
+            <version>3.3.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-tinyfd</artifactId>
             <classifier>${lwjgl.natives}</classifier>
-            <version>3.2.2</version>
         </dependency>
 
         <dependency>
@@ -389,9 +396,9 @@
         </dependency>
 
         <dependency>
-            <groupId>oshi-project</groupId>
+            <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>1.1</version>
+            <version>6.9.1</version>
         </dependency>
 
         <dependency>
@@ -404,6 +411,12 @@
             <groupId>com.mojang</groupId>
             <artifactId>text2speech</artifactId>
             <version>1.11.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.classgraph</groupId>
+            <artifactId>classgraph</artifactId>
+            <version>4.8.179</version>
         </dependency>
     </dependencies>
 </project>
