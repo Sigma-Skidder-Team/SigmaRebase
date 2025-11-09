@@ -363,7 +363,6 @@
             <version>2.8.1</version>
         </dependency>
 
-        <!-- LWJGL依赖 -->
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
