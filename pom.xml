@@ -141,6 +141,10 @@
 			<id>clojars</id>
 			<url>https://repo.clojars.org</url>
 		</repository>
+        <repository>
+            <id>viaversion</id>
+            <url>https://repo.viaversion.com/everything</url>
+        </repository>
 	</repositories>
 
 	<dependencies>
