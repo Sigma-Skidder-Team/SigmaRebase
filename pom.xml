@@ -147,25 +147,19 @@
 		<dependency>
 			<groupId>com.viaversion</groupId>
 			<artifactId>viaversion</artifactId>
-			<version>5.4.2-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/ViaVersion-5.4.2-SNAPSHOT.jar</systemPath>
+			<version>5.5.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.viaversion</groupId>
 			<artifactId>viabackwards</artifactId>
-			<version>5.4.2-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/ViaBackwards-5.4.2-SNAPSHOT.jar</systemPath>
+			<version>5.5.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.viaversion</groupId>
 			<artifactId>viarewind</artifactId>
-			<version>4.0.9-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/ViaRewind-4.0.9-SNAPSHOT.jar</systemPath>
+			<version>4.0.12-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
