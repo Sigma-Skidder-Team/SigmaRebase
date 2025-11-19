@@ -73,7 +73,7 @@ public class JelloPortalScreen extends MultiplayerScreen {
         ArrayList<ProtocolVersion> availableVersions = new ArrayList<>();
 
         for (ProtocolInfo version : PROTOCOL_INFOS) {
-            availableVersions.add(version.getProtocolVersion());
+            availableVersions.add(version.protocolVersion());
         }
 
         return availableVersions;
@@ -82,7 +82,7 @@ public class JelloPortalScreen extends MultiplayerScreen {
     private ProtocolVersion getVersion(int index) {
         List<ProtocolVersion> availableVersions = getAvailableVersions();
         if (index < 0 || index >= availableVersions.size()) {
-            return ProtocolInfo.R1_16_4.getProtocolVersion(); // Fallback version
+            return ProtocolInfo.R1_16_4.protocolVersion(); // Fallback version
         }
         return availableVersions.get(index);
     }

@@ -50,8 +50,8 @@ public class JelloMainMenu extends CustomGuiScreen {
         List<ProtocolVersion> sorted = ProtocolInfo.
                 PROTOCOL_INFOS
                 .stream()
-                .sorted(Comparator.comparing(ProtocolInfo::getProtocolVersion))
-                .map(ProtocolInfo::getProtocolVersion)
+                .sorted(Comparator.comparing(ProtocolInfo::protocolVersion))
+                .map(ProtocolInfo::protocolVersion)
                 .toList();
         String oldestVersion = sorted.get(0).getIncludedVersions().stream().toList().get(0);
         List<String> newestIncludedVersions = sorted.get(sorted.size() - 1).getIncludedVersions().stream().toList();

@@ -142,10 +142,11 @@
 			<url>https://repo.clojars.org</url>
 		</repository>
         <repository>
-            <id>viaversion</id>
+            <id>viaversion-everything</id>
+            <name>ViaVersion Repository</name>
             <url>https://repo.viaversion.com/everything</url>
         </repository>
-	</repositories>
+    </repositories>
 
 	<dependencies>
 		<dependency>
