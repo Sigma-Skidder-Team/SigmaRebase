@@ -3,14 +3,6 @@
 > [!IMPORTANT]
 > Sigma Rebase is in development.
 
-Sigma Rebase is a rewrite of the Sigma Remap project.
-Since the authors of Sigma Remap used the "Generate Mappings" function of Recaf (which is destructive, even for non-obfuscated names!),
-which overrides every name in the jar with a generated name (e.g. Class123, field123, method123, var123).
-This is okay if it was filtered to just the obfuscated names, but it wasn't.
-There are many classes that are from Minecraft yet have the generated name.
-Sigma Rebase solves this by starting from MCP 1.16.4 and up,
-and its goal is to have all modules from Sigma Remap and not include any other classes than Sigma's.
-
 ## Instructions
 
 ### Base steps

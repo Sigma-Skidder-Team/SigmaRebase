@@ -40,7 +40,7 @@ public class VerusFly extends Module {
                     MovementUtil.stop();
                 }
 
-                if (!player.onGround) MovementUtil.strafe(0.334);
+                if (!player.onGround) MovementUtil.strafe(player.serverSprintState ? 0.36 : 0.34);
 
                 if (mc.gameSettings.keyBindJump.pressed) {
                     if (player.ticksExisted % 2 == 0) {

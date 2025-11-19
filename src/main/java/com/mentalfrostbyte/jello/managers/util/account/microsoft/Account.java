@@ -80,8 +80,8 @@ public class Account {
         }
 
         if (json.has("bans")) {
-            for (Object var5 : json.getAsJsonArray("bans")) {
-                this.bans.add(new Ban((JsonObject) var5));
+            for (var ban : json.getAsJsonArray("bans")) {
+                this.bans.add(new Ban(ban.getAsJsonObject()));
             }
         }
 

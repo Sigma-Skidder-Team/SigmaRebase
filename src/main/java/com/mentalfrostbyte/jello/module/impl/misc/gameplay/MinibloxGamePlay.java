@@ -1,9 +1,11 @@
 package com.mentalfrostbyte.jello.module.impl.misc.gameplay;
 
+import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.event.impl.game.world.EventLoadWorld;
 import com.mentalfrostbyte.jello.event.impl.player.LivingDeathEvent;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMotion;
+import com.mentalfrostbyte.jello.managers.util.notifs.Notification;
 import com.mentalfrostbyte.jello.module.impl.misc.gameplay.miniblox.AutoBuy;
 import com.mentalfrostbyte.jello.util.client.logger.TimedMessage;
 import com.mentalfrostbyte.jello.module.Module;
@@ -11,11 +13,17 @@ import com.mentalfrostbyte.jello.module.data.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.misc.GamePlay;
 import com.mentalfrostbyte.jello.module.settings.impl.*;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CCustomPayloadPacket;
 import net.minecraft.network.play.server.SChatPacket;
+import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.event.ClickEvent;
+import org.jetbrains.annotations.Nullable;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class MinibloxGamePlay extends Module {
@@ -23,11 +31,15 @@ public class MinibloxGamePlay extends Module {
     private final ModeSetting autoVoteMode;
     private final BooleanSetting autoVote;
     private final BooleanSetting autoBuy;
-    private final BooleanSetting oldTranslationLayerCompat;
-    private final InputSetting username;
-    private final BooleanSetting useCustomUsername;
     private GamePlay parentModule;
+    private @Nullable String minibloxName;
+    public static final ResourceLocation NAME_C2S_CHANNEL
+            = new ResourceLocation("layer", "name_c2s");
+    public static final ResourceLocation NAME_S2C_CHANNEL
+            = new ResourceLocation("layer", "name_s2c");
+    public static final PacketBuffer EMPTY_BUFFER = new PacketBuffer(Unpooled.buffer());
 //    private final ModeSetting kitPvPKit;
+    public boolean sent = false;
 
     public MinibloxGamePlay() {
         super(ModuleCategory.MISC, "Miniblox", "Gameplay for Miniblox");
@@ -37,25 +49,6 @@ public class MinibloxGamePlay extends Module {
                         "AutoVote",
                         "Automatically vote on the skywars gamemode poll",
                         true
-                )
-        );
-        registerSetting(this.oldTranslationLayerCompat = new BooleanSetting(
-                "Compatibility",
-                "Makes GamePlay compatible with the archived Miniblox Translation Layer by 7GrandDadPGN",
-                false
-        ));
-        registerSetting(
-                this.useCustomUsername = new BooleanSetting(
-                        "Use custom username",
-                        "Check this custom username instead of your session/Minecraft account's username?",
-                        false
-                )
-        );
-        registerSetting(
-                this.username = new InputSetting(
-                        "Username (if custom username enabled)",
-                        "Your Miniblox username",
-                        ""
                 )
         );
         registerSetting(
@@ -77,6 +70,14 @@ public class MinibloxGamePlay extends Module {
         );
     }
 
+    public String getMinibloxName() {
+        if (minibloxName != null) {
+            return minibloxName;
+        }
+        assert mc.player != null;
+        return mc.player.getName().getString();
+    }
+
     @Override
     public void initialize() {
         parentModule = (GamePlay) access();
@@ -85,8 +86,8 @@ public class MinibloxGamePlay extends Module {
     @SuppressWarnings("unused")
     @EventTarget
     public void onWorldEvent(EventLoadWorld e) {
-        if (!autoBuy.currentValue) return;
-        AutoBuy.onWorldEvent(e);
+        if (autoBuy.currentValue) AutoBuy.onWorldEvent(e);
+        sent = false;
     }
 
     @SuppressWarnings("unused")
@@ -103,21 +104,33 @@ public class MinibloxGamePlay extends Module {
         AutoBuy.onLivingDeathEvent(e);
     }
 
-
     @SuppressWarnings("unused")
     @EventTarget
     public void onReceive(EventReceivePacket event) {
+        IPacket<?> packet = event.packet;
         if (mc.player != null) {
-            IPacket<?> packet = event.packet;
+            if (packet instanceof SCustomPayloadPlayPacket pl) {
+                if (!pl.getChannelName().equals(NAME_S2C_CHANNEL)) return;
+                final var pb = pl.getBufferData();
+                minibloxName = pb.readString();
+                Client.getInstance().notificationManager.send(new Notification(
+                        "GamePlay",
+                        "Your miniblox username is " + minibloxName
+                ));
+            }
+            if (!sent) {
+                mc.getConnection().sendPacket(new CCustomPayloadPacket(
+                    NAME_C2S_CHANNEL, EMPTY_BUFFER
+                ));
+                sent = true;
+            }
             if (packet instanceof SChatPacket chatPacket) {
                 String text = chatPacket.getChatComponent().getString().replaceAll("§.", "");
-                if (oldTranslationLayerCompat.currentValue && chatPacket.getType() != ChatType.SYSTEM) {
+                if (chatPacket.getType() != ChatType.SYSTEM) {
                     return;
                 }
 
-                String playerName =
-                        (useCustomUsername.currentValue ? username.currentValue : mc.player.getName().getString())
-                                .toLowerCase();
+                String playerName = getMinibloxName();
 
                 if (autoVote.currentValue && text.equals("Poll started: Choose a gamemode")) {
                     switch (autoVoteMode.currentValue) {

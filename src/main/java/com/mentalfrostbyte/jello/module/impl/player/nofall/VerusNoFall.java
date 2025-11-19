@@ -16,22 +16,12 @@ public class VerusNoFall extends Module {
     @EventTarget
     public void onUpdate(EventMotion event) {
         if (!this.isEnabled()) return;
-        assert mc.player != null;
-        if (mc.player.getPosY() < 2.0) return;
-        if (!event.isPre()) return;
-        if (BlockUtil.isAboveBounds(mc.player, 1.0E-4F)) {
-            this.stage = 0.0;
-            return;
-        }
-
-        if (mc.player.getMotion().y < -0.1) {
-            this.stage = this.stage - mc.player.getMotion().y;
-        }
-
-        if (this.stage > 3.0 && mc.player.fallDistance > 2) {
-            this.stage = 1.0E-14;
-            mc.player.setMotion(mc.player.getMotion().x, 0.0, mc.player.getMotion().z);
+        // Thanks, @alarmingly_good.
+        if (!mc.player.onGround && mc.player.getMotion().y < 0 && mc.player.fallDistance > 2) {
+            mc.player.onGround = true;
             event.setOnGround(true);
+            mc.player.setMotion(mc.player.getMotion().x, 0.0, mc.player.getMotion().z);
+            mc.player.fallDistance = 0;
         }
     }
 

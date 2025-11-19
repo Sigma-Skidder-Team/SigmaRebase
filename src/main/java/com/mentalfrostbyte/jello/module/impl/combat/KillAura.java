@@ -387,10 +387,10 @@ public class KillAura extends Module {
 
             if (!event.isPre()) {
                 this.blockDelay = mc.player.inventory.currentItem;
+            } else {
                 if (targetEntity != null && autoBlock.canAutoBlock() && this.currentRotation != null) {
                     autoBlock.performAutoBlock(targetEntity, this.currentRotation.yaw, this.currentRotation.pitch);
                 }
-            } else {
                 eventUpdateYaw = event.getYaw();
                 eventUpdatePitch = event.getPitch();
 
