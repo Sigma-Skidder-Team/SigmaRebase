@@ -148,7 +148,7 @@
           "path": "com/viaversion/ViaBackwards/5.7.1-SNAPSHOT/ViaBackwards-5.7.1-SNAPSHOT.jar",
           "sha1": "1ba64a78c50e12c182015224bb3cedbfc0586a23",
           "size": 1431924,
-          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.7.1-SNAPSHOT%2B540/PAPER/ViaBackwards-5.7.1-SNAPSHOT.jar"
+          "url": "https://github.com/WonderlandCentral/wonderland-repository/raw/refs/heads/main/com/viaversion/ViaBackwards/5.7.1-SNAPSHOT/ViaBackwards-5.7.1-SNAPSHOT.jar"
         }
       },
       "name": "com.viaversion:ViaBackwards:5.7.1-SNAPSHOT"
@@ -159,7 +159,7 @@
           "path": "com/viaversion/ViaVersion/5.7.1-SNAPSHOT/ViaVersion-5.7.1-SNAPSHOT.jar",
           "sha1": "c06dd12d6ad5d552835e3e9fb33a111d32ff20c6",
           "size": 5978556,
-          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.7.1-SNAPSHOT%2B891/PAPER/ViaVersion-5.7.1-SNAPSHOT.jar"
+          "url": "https://github.com/WonderlandCentral/wonderland-repository/raw/refs/heads/main/com/viaversion/ViaVersion/5.7.1-SNAPSHOT/ViaVersion-5.7.1-SNAPSHOT.jar"
         }
       },
       "name": "com.viaversion:ViaVersion:5.7.1-SNAPSHOT"
@@ -170,7 +170,7 @@
           "path": "com/viaversion/ViaRewind/4.0.14-SNAPSHOT/ViaRewind-4.0.14-SNAPSHOT.jar",
           "sha1": "833eba4befd1d3e8d79d2a903b85a6370707d13c",
           "size": 379794,
-          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.14-SNAPSHOT%2B322/PAPER/ViaRewind-4.0.14-SNAPSHOT.jar"
+          "url": "https://github.com/WonderlandCentral/wonderland-repository/raw/refs/heads/main/com/viaversion/ViaRewind/4.0.14-SNAPSHOT/ViaRewind-4.0.14-SNAPSHOT.jar"
         }
       },
       "name": "com.viaversion:ViaRewind:4.0.14-SNAPSHOT"
