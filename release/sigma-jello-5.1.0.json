@@ -145,35 +145,35 @@
     {
       "downloads": {
         "artifact": {
-          "path": "com/viaversion/ViaBackwards/5.3.1-SNAPSHOT/ViaBackwards-5.3.1-SNAPSHOT.jar",
-          "sha1": "294e869da3ade71d5109f41a40d81d396c269dc2",
-          "size": 1262285,
-          "url": "https://repo.viaversion.com/everything/com/viaversion/viabackwards/5.3.1-SNAPSHOT/viabackwards-5.3.1-20250329.193710-4.jar"
+          "path": "com/viaversion/ViaBackwards/5.7.1-SNAPSHOT/ViaBackwards-5.7.1-SNAPSHOT.jar",
+          "sha1": "1ba64a78c50e12c182015224bb3cedbfc0586a23",
+          "size": 1431924,
+          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.7.1-SNAPSHOT%2B540/PAPER/ViaBackwards-5.7.1-SNAPSHOT.jar"
         }
       },
-      "name": "com.viaversion:ViaBackwards:5.3.1-SNAPSHOT"
+      "name": "com.viaversion:ViaBackwards:5.7.1-SNAPSHOT"
     },
     {
       "downloads": {
         "artifact": {
-          "path": "com/viaversion/ViaVersion/5.5.2-SNAPSHOT/ViaVersion-5.5.2-SNAPSHOT.jar",
-          "sha1": "d3ce46ef51818d9251e99031e683489f9e5b63e5",
-          "size": 5880000,
-          "url": "https://repo.viaversion.com/everything/com/viaversion/viaversion/5.5.2-SNAPSHOT/viaversion-5.5.2-20251014.154213-1.jar"
+          "path": "com/viaversion/ViaVersion/5.7.1-SNAPSHOT/ViaVersion-5.7.1-SNAPSHOT.jar",
+          "sha1": "c06dd12d6ad5d552835e3e9fb33a111d32ff20c6",
+          "size": 5978556,
+          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.7.1-SNAPSHOT%2B891/PAPER/ViaVersion-5.7.1-SNAPSHOT.jar"
         }
       },
-      "name": "com.viaversion:ViaVersion:5.5.2-SNAPSHOT"
+      "name": "com.viaversion:ViaVersion:5.7.1-SNAPSHOT"
     },
     {
       "downloads": {
         "artifact": {
-          "path": "com/viaversion/ViaRewind/4.0.12-SNAPSHOT/ViaRewind-4.0.12-SNAPSHOT.jar",
-          "sha1": "382fa2348a581d92100de8d84b3ddf1d38fda7a3",
-          "size": 380000,
-          "url": "https://repo.viaversion.com/everything/com/viaversion/viarewind/4.0.12-SNAPSHOT/viarewind-4.0.12-20251029.143015-1.jar"
+          "path": "com/viaversion/ViaRewind/4.0.14-SNAPSHOT/ViaRewind-4.0.14-SNAPSHOT.jar",
+          "sha1": "833eba4befd1d3e8d79d2a903b85a6370707d13c",
+          "size": 379794,
+          "url": "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaRewind/versions/4.0.14-SNAPSHOT%2B322/PAPER/ViaRewind-4.0.14-SNAPSHOT.jar"
         }
       },
-      "name": "com.viaversion:ViaRewind:4.0.12-SNAPSHOT"
+      "name": "com.viaversion:ViaRewind:4.0.14-SNAPSHOT"
     },
     {
       "downloads": {

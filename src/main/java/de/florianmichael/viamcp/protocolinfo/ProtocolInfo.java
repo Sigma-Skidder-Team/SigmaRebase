@@ -26,12 +26,13 @@ import java.util.List;
 public record ProtocolInfo(String name, String description, String releaseDate, ProtocolVersion protocolVersion) {
     private static final String NO_DESC = "No Description Available";
 
-    public static ProtocolInfo R1_21_9 = new ProtocolInfo("The Copper Age", NO_DESC, "Sep 30, 2025", ProtocolVersion.v1_21_9);
-    public static ProtocolInfo R1_21_7 = new ProtocolInfo("1.21.7-1.21.8", NO_DESC, "Jun 30, 2025", ProtocolVersion.v1_21_7);
-    public static ProtocolInfo R1_21_6 = new ProtocolInfo("Chase the Skies", NO_DESC, "Jun 17, 2025", ProtocolVersion.v1_21_6);
+    public static ProtocolInfo R1_21_11 = new ProtocolInfo("Mounts of Mayhem", NO_DESC, "December 9, 2025", ProtocolVersion.v1_21_11);
+    public static ProtocolInfo R1_21_9 = new ProtocolInfo("The Copper Age", NO_DESC, "September 30, 2025", ProtocolVersion.v1_21_9);
+    public static ProtocolInfo R1_21_7 = new ProtocolInfo("1.21.7-1.21.8", NO_DESC, "June 30, 2025", ProtocolVersion.v1_21_7);
+    public static ProtocolInfo R1_21_6 = new ProtocolInfo("Chase the Skies", NO_DESC, "June 17, 2025", ProtocolVersion.v1_21_6);
     public static ProtocolInfo R1_21_5 = new ProtocolInfo("Spring to Life", NO_DESC, "March 25, 2025", ProtocolVersion.v1_21_5);
-    public static ProtocolInfo R1_21_4 = new ProtocolInfo("The Garden Awakens", NO_DESC, "Dec 3, 2024", ProtocolVersion.v1_21_4);
-    public static ProtocolInfo R1_21_2 = new ProtocolInfo("Bundles of Bravery", NO_DESC, "Oct 22, 2024", ProtocolVersion.v1_21_2);
+    public static ProtocolInfo R1_21_4 = new ProtocolInfo("The Garden Awakens", NO_DESC, "December 3, 2024", ProtocolVersion.v1_21_4);
+    public static ProtocolInfo R1_21_2 = new ProtocolInfo("Bundles of Bravery", NO_DESC, "October 22, 2024", ProtocolVersion.v1_21_2);
     public static ProtocolInfo R1_21 = new ProtocolInfo("Tricky Trials", NO_DESC, "June 13, 2024", ProtocolVersion.v1_21);
     public static ProtocolInfo R1_20_5 = new ProtocolInfo("Trails & Tales", NO_DESC, "April 23, 2024", ProtocolVersion.v1_20_5);
     public static ProtocolInfo R1_20_3 = new ProtocolInfo("Trails & Tales", NO_DESC, "December 5, 2023", ProtocolVersion.v1_20_3);
@@ -88,7 +89,7 @@ public record ProtocolInfo(String name, String description, String releaseDate, 
             R1_18, R1_18_2,
             R1_19, R1_19_1, R1_19_3, R1_19_4,
             R1_20, R1_20_2, R1_20_3, R1_20_5,
-            R1_21, R1_21_2, R1_21_4, R1_21_5, R1_21_6, R1_21_7, R1_21_9
+            R1_21, R1_21_2, R1_21_4, R1_21_5, R1_21_6, R1_21_7, R1_21_9, R1_21_11
     );
 
     public static ProtocolInfo fromProtocolVersion(final ProtocolVersion protocolVersion) {
