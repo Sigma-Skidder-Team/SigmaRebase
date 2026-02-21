@@ -272,7 +272,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
             double z = event.getZ();
 
             float pitch = event.getPitch();
-            float yaw = event.getYaw() % 360.0F;
+            float yaw = event.getYaw();
 
             boolean onGround = event.isOnGround();
 
@@ -280,7 +280,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
             double newY = y - this.lastReportedPosY;
             double newZ = z - this.lastReportedPosZ;
 
-            double newYaw = (double) (yaw - this.lastReportedYaw % 360.0F);
+            double newYaw = (double) (yaw - this.lastReportedYaw);
             double newPitch = (double) (pitch - this.lastReportedPitch);
 
             ++this.positionUpdateTicks;
