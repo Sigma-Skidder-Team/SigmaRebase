@@ -723,11 +723,9 @@ public class KillAura extends Module {
                         }
 
                         if (!this.getBooleanValueFromSettingName("No swing")) {
+                            mc.playerController.attackEntity(mc.player, entity);
                             mc.player.swingArm(Hand.MAIN_HAND);
                         }
-
-                        mc.playerController.attackEntity(mc.player, entity);
-
                         // Record successful hit for JelloAI
                         if (rotationMode.currentValue.equals("JelloAI")) {
                             boolean wasMoving = MovementUtil.isMoving();

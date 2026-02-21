@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.player.EventKeepSprint;
 import com.mentalfrostbyte.jello.event.impl.player.EventRunLoop;
 import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMotion;
+import com.mentalfrostbyte.jello.gui.base.JelloPortal;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.combat.killaura.ClickDelayCalculator;
@@ -18,6 +19,7 @@ import com.mentalfrostbyte.jello.util.game.player.constructor.Rotation;
 import com.mentalfrostbyte.jello.util.game.world.EntityUtil;
 
 import com.mentalfrostbyte.jello.util.system.math.counter.Counter;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
@@ -303,9 +305,14 @@ public class NewAura extends Module {
             }
         }
     }
-
     private void attackEntity(LivingEntity entity) {
-        mc.player.swingArm(Hand.MAIN_HAND);
-        mc.playerController.attackEntity(mc.player, entity);
+        var viaversion = JelloPortal.getVersion();
+        if(viaversion.newerThanOrEqualTo(ProtocolVersion.v1_9)){
+            mc.playerController.attackEntity(mc.player, entity);
+            mc.player.swingArm(Hand.MAIN_HAND);
+        }else{
+            mc.player.swingArm(Hand.MAIN_HAND);
+            mc.playerController.attackEntity(mc.player, entity);
+        }
     }
 }
