@@ -87,6 +87,14 @@ public abstract class ContainerScreen<T extends Container> extends Screen implem
     private boolean doubleClick;
     private ItemStack shiftClickedSlot = ItemStack.EMPTY;
 
+    public int getGuiLeft() {
+        return this.guiLeft;
+    }
+
+    public int getGuiTop() {
+        return this.guiTop;
+    }
+
     public ContainerScreen(T screenContainer, PlayerInventory inv, ITextComponent titleIn)
     {
         super(titleIn);

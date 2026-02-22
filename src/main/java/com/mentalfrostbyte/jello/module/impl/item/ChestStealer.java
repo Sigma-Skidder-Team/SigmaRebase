@@ -7,6 +7,8 @@ import com.mentalfrostbyte.jello.event.impl.game.world.EventLoadWorld;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
+import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
+import com.mentalfrostbyte.jello.module.settings.SettingObserver;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.system.math.counter.TimerUtil;
@@ -14,6 +16,7 @@ import com.mentalfrostbyte.jello.util.game.player.combat.RotationUtil;
 import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.gui.screen.inventory.ChestScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.*;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChestStealer extends Module {
@@ -38,15 +42,41 @@ public class ChestStealer extends Module {
     private final TimerUtil field23623 = new TimerUtil();
     private final TimerUtil field23624 = new TimerUtil();
     private ChestTileEntity targetChest;
+    private double lastClickX = -1;
+    private double lastClickY = -1;
+    private final Random random = new Random();
+    private int clickCount = 0;
+    private double lastDelay = 0;
+    private static final double FITTS_A = 0.05;
+    private static final double FITTS_B = 0.08;
+    private static final double FITTS_W = 32.0;
 
     public ChestStealer() {
         super(ModuleCategory.ITEM, "ChestStealer", "Steals items from chest");
+        ModeSetting modeSetting = new ModeSetting("Mode", "Stealer mode", 0, "Normal", "Smart");
+        this.registerSetting(modeSetting);
         this.registerSetting(new BooleanSetting("Aura", "Automatically open chests near you.", false));
         this.registerSetting(new BooleanSetting("Ignore Junk", "Ignores useless items.", true));
         this.registerSetting(new BooleanSetting("Fix ViaVersion", "Fixes ViaVersion delay.", true));
         this.registerSetting(new BooleanSetting("Close", "Automatically closes the chest when done", true));
-        this.registerSetting(new NumberSetting<>("Delay", "Click delay", 0.2F, 0.0F, 1.0F, 0.01F));
-        this.registerSetting(new NumberSetting<>("First Item", "Tick delay before grabbing first item", 0.2F, 0.0F, 1.0F, 0.01F));
+        NumberSetting<Float> delaySetting = new NumberSetting<Float>("Delay", "Click delay", 0.2F, 0.0F, 1.0F, 0.01F) {
+            @Override
+            public boolean isHidden() {
+                return modeSetting.getCurrentValue().equals("Smart");
+            }
+        };
+        this.registerSetting(delaySetting);
+        NumberSetting<Float> firstItemSetting = new NumberSetting<Float>("First Item", "Tick delay before grabbing first item", 0.2F, 0.0F, 1.0F, 0.01F) {
+            @Override
+            public boolean isHidden() {
+                return modeSetting.getCurrentValue().equals("Smart");
+            }
+        };
+        this.registerSetting(firstItemSetting);
+        modeSetting.addObserver(setting -> {
+            delaySetting.notifyObservers();
+            firstItemSetting.notifyObservers();
+        });
         this.chests = new ConcurrentHashMap<>();
     }
 
@@ -54,9 +84,31 @@ public class ChestStealer extends Module {
     public void onEnable() {
         this.targetChest = null;
         this.field23621 = false;
+        this.resetHumanState();
         if (!this.chests.isEmpty()) {
             this.chests.clear();
         }
+    }
+
+    private void resetHumanState() {
+        this.clickCount = 0;
+        this.lastDelay = 0;
+        this.lastClickX = -1;
+        this.lastClickY = -1;
+    }
+    private double computeSmartDelay(double dist) {
+        double indexOfDifficulty = Math.log(1.0 + (2.0 * dist / FITTS_W)) / Math.log(2);
+        double fitts = FITTS_A + FITTS_B * indexOfDifficulty;
+
+        double noise = random.nextGaussian() * 0.025;
+        double hesitation = random.nextDouble() < 0.08 ? random.nextDouble() * 0.12 : 0.0;
+        double fatigue = Math.min(clickCount * 0.003, 0.06);
+
+        double raw = Math.max(0.10, fitts + noise + hesitation + fatigue);
+        double smoothed = lastDelay == 0.0 ? raw : lastDelay * 0.35 + raw * 0.65;
+        lastDelay = smoothed;
+
+        return smoothed;
     }
 
     @EventTarget
@@ -138,6 +190,7 @@ public class ChestStealer extends Module {
                 this.field23621 = false;
                 this.field23623.stop();
                 this.field23623.reset();
+                this.resetHumanState();
                 if (mc.currentScreen == null && InvManagerUtil.hasAllSlotsFilled()) {
                     this.field23624.reset();
                 }
@@ -164,12 +217,41 @@ public class ChestStealer extends Module {
                                 if (slot.getHasStack() && slot.slotNumber < chestScreen.getContainer().getNumRows() * 9) {
                                     ItemStack var8 = slot.getStack();
                                     if (!this.method16369(var8)) {
-                                        if (!this.field23621) {
-                                            if ((float) this.field23623.getElapsedTime() < this.getNumberValueBySettingName("First Item") * 1000.0F) {
+                                        if (this.getStringSettingValueByName("Mode").equals("Smart")) {
+                                            ContainerScreen<?> containerScreen = (ContainerScreen<?>) mc.currentScreen;
+                                            int guiLeft = containerScreen.getGuiLeft();
+                                            int guiTop = containerScreen.getGuiTop();
+                                            double targetX = guiLeft + slot.xPos + 8;
+                                            double targetY = guiTop + slot.yPos + 8;
+
+                                            if (this.lastClickX == -1) {
+                                                double mouseX = mc.mouseHelper.getMouseX() * (double) mc.getMainWindow().getScaledWidth() / (double) mc.getMainWindow().getWidth();
+                                                double mouseY = mc.mouseHelper.getMouseY() * (double) mc.getMainWindow().getScaledHeight() / (double) mc.getMainWindow().getHeight();
+                                                this.lastClickX = mouseX;
+                                                this.lastClickY = mouseY;
+                                            }
+
+                                            double dist = Math.sqrt(
+                                                    Math.pow(targetX - this.lastClickX, 2) +
+                                                            Math.pow(targetY - this.lastClickY, 2)
+                                            );
+
+                                            double delay = this.computeSmartDelay(dist);
+
+                                            if (this.field23623.getElapsedTime() < delay * 1000) {
                                                 return;
                                             }
 
-                                            this.field23621 = !this.field23621;
+                                            this.lastClickX = targetX;
+                                            this.lastClickY = targetY;
+                                        } else {
+                                            if (!this.field23621) {
+                                                if ((float) this.field23623.getElapsedTime() < this.getNumberValueBySettingName("First Item") * 1000.0F) {
+                                                    return;
+                                                }
+
+                                                this.field23621 = !this.field23621;
+                                            }
                                         }
 
                                         if (!this.getBooleanValueFromSettingName("Fix ViaVersion")) {
@@ -179,8 +261,9 @@ public class ChestStealer extends Module {
                                         }
 
                                         this.field23623.reset();
+                                        this.clickCount++;
                                         var5 = false;
-                                        if (this.getNumberValueBySettingName("Delay") > 0.0F) {
+                                        if (this.getStringSettingValueByName("Mode").equals("Smart") || this.getNumberValueBySettingName("Delay") > 0.0F) {
                                             break;
                                         }
                                     }
