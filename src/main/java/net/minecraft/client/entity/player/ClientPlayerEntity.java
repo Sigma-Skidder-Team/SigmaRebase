@@ -106,7 +106,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
      * player is not moving.
      */
     private boolean hasSentInitialPosition = false;
-    private int positionUpdateTicks = 20;
+    private int positionUpdateTicks;
     private boolean hasValidHealth;
     private String serverBrand;
     public MovementInput movementInput;
@@ -251,6 +251,17 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
         EventMotion event = new EventMotion(this.getPosX(), bounds.minY, this.getPosZ(), this.rotationYaw, this.rotationPitch, this.onGround);
         EventBus.call(event);
         if (event.cancelled) return;
+        if (!this.hasSentInitialPosition) {
+            this.lastReportedPosX = event.getX();
+            this.lastReportedPosY = event.getY();
+            this.lastReportedPosZ = event.getZ();
+            this.lastReportedYaw = event.getYaw();
+            this.lastReportedPitch = event.getPitch();
+            this.prevOnGround = event.isOnGround();
+            this.hasSentInitialPosition = true;
+            return;
+        }
+
         boolean flag = this.isSprinting();
 
         if (flag != this.serverSprintState) {
@@ -285,11 +296,12 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
             double newPitch = (double) (pitch - this.lastReportedPitch);
 
             ++this.positionUpdateTicks;
+
             final var targetVersion = JelloPortal.getVersion();
             final var isLegacy = targetVersion.equalTo(ProtocolVersion.v1_8);
             final var point3 = targetVersion.newerThanOrEqualTo(ProtocolVersion.v1_18_2) ? 4.0E-8D : 9.0E-4D;
-            boolean posMoved = !this.hasSentInitialPosition
-                    || newX * newX + newY * newY + newZ * newZ > point3
+
+            boolean posMoved = newX * newX + newY * newY + newZ * newZ > point3
                     || (isLegacy ? this.positionUpdateTicks >= 21 : this.positionUpdateTicks >= 19);
             boolean rotMoved = newYaw != 0.0D || newPitch != 0.0D;
 
@@ -312,7 +324,6 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
                 this.lastReportedPosY = event.getY();
                 this.lastReportedPosZ = event.getZ();
                 this.positionUpdateTicks = 0;
-                this.hasSentInitialPosition = true;
             }
 
             if (rotMoved) {
