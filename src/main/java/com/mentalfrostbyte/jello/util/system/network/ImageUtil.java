@@ -235,14 +235,15 @@ public class ImageUtil {
         try (InputStream inputStream = getInputStreamFromURL(urlString)) {
             return TextureLoader.getTexture("PNG", inputStream);
         } catch (IOException e) {
-            throw new IllegalStateException("Unable to load texture from URL: " + urlString, e);
+            System.out.println("Failed to load texture: " + e.getMessage());
+            return null;
         }
     }
 
     public static InputStream getInputStreamFromURL(String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("User-Agent", "Mozilla/5.0"); // Avoid blocking from some servers
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0");
         connection.setRequestMethod("GET");
         connection.setDoInput(true);
         connection.connect();
@@ -251,6 +252,13 @@ public class ImageUtil {
             throw new IOException("Failed to load image, HTTP response code: " + connection.getResponseCode());
         }
 
-        return new BufferedInputStream(connection.getInputStream());
+        InputStream stream = connection.getInputStream();
+        BufferedInputStream bis = new BufferedInputStream(stream, 8192);
+
+        if (bis.available() <= 0) {
+            throw new IOException("Empty stream from URL: " + urlString);
+        }
+
+        return bis;
     }
 }
