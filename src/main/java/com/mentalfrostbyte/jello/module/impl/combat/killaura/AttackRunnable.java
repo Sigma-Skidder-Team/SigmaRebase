@@ -2,7 +2,6 @@ package com.mentalfrostbyte.jello.module.impl.combat.killaura;
 
 import com.mentalfrostbyte.jello.module.impl.combat.KillAura;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.CAnimateHandPacket;
 import net.minecraft.util.Hand;
@@ -17,10 +16,10 @@ public class AttackRunnable implements Runnable, MinecraftUtil {
     @Override
     public void run() {
         if (KillAura.targetEntity != null
-                && KillAura.autoBlock.isBlocking()
+                && KillAura.autoBlockController.isBlocking()
                 && !this.killAura.getStringSettingValueByName("Autoblock Mode").equals("Vanilla")) {
 
-            KillAura.autoBlock.stopAutoBlock();
+            KillAura.autoBlockController.stopAutoBlock();
         }
 
         if (!mc.player.isAlive() || mc.player.isSpectator()) {
@@ -55,8 +54,8 @@ public class AttackRunnable implements Runnable, MinecraftUtil {
             }
         }
 
-        if (KillAura.targetEntity != null && KillAura.autoBlock.canAutoBlock() && this.killAura.getStringSettingValueByName("Autoblock Mode").equals("Basic1")) {
-            KillAura.autoBlock
+        if (KillAura.targetEntity != null && KillAura.autoBlockController.canAutoBlock() && this.killAura.getStringSettingValueByName("Autoblock Mode").equals("Basic1")) {
+            KillAura.autoBlockController
                     .performAutoBlock(KillAura.targetEntity, KillAura.getCurrentRotation(this.killAura).yaw, KillAura.getCurrentRotation(this.killAura).pitch);
         }
     }

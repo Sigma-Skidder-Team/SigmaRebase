@@ -223,7 +223,7 @@ public class MovementUtil implements MinecraftUtil {
     }
 
     public static float setMotion(double speed, float currentYaw, float targetYaw, float maxYawChange) {
-        float yawDifference = RotationUtil.angleDiff(targetYaw, currentYaw);
+        float yawDifference = RotationUtil.getWrappedAngleDifference(targetYaw, currentYaw);
         if (!(yawDifference > maxYawChange)) {
             targetYaw = currentYaw;
         } else {
@@ -236,7 +236,7 @@ public class MovementUtil implements MinecraftUtil {
     }
 
     public static float setMotion(EventMove event, double speed, float currentYaw, float targetYaw, float maxYawChange) {
-        float yawDifference = RotationUtil.angleDiff(targetYaw, currentYaw);
+        float yawDifference = RotationUtil.getWrappedAngleDifference(targetYaw, currentYaw);
         if (!(yawDifference > maxYawChange)) {
             targetYaw = currentYaw;
         } else {

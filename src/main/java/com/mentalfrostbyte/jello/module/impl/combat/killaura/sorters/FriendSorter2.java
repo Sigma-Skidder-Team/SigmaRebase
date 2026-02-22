@@ -2,13 +2,13 @@ package com.mentalfrostbyte.jello.module.impl.combat.killaura.sorters;
 
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.module.impl.combat.killaura.InteractAutoBlock;
+import com.mentalfrostbyte.jello.module.impl.combat.killaura.AutoBlockController;
 import com.mentalfrostbyte.jello.module.impl.combat.killaura.TimedEntity;
 import net.minecraft.entity.Entity;
 
 import java.util.Comparator;
 
-public record FriendSorter2(InteractAutoBlock interactAB) implements Comparator<TimedEntity> {
+public record FriendSorter2(AutoBlockController interactAB) implements Comparator<TimedEntity> {
 
     public int compare(TimedEntity sortingEntity1, TimedEntity sortingEntity2) {
         Entity entity1 = sortingEntity1.getEntity();

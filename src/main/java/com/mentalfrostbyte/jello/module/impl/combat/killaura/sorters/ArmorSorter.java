@@ -1,7 +1,7 @@
 package com.mentalfrostbyte.jello.module.impl.combat.killaura.sorters;
 
 
-import com.mentalfrostbyte.jello.module.impl.combat.killaura.InteractAutoBlock;
+import com.mentalfrostbyte.jello.module.impl.combat.killaura.AutoBlockController;
 import com.mentalfrostbyte.jello.module.impl.combat.killaura.TimedEntity;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import net.minecraft.entity.Entity;
@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.Comparator;
 
-public record ArmorSorter(InteractAutoBlock interactAB) implements Comparator<TimedEntity> {
+public record ArmorSorter(AutoBlockController interactAB) implements Comparator<TimedEntity> {
     public int compare(TimedEntity var1, TimedEntity var2) {
         Entity var5 = var1.getEntity();
         Entity var6 = var2.getEntity();

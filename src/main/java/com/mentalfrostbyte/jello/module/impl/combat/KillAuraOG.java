@@ -68,7 +68,7 @@ public class KillAuraOG extends Module {
     public static Rotation previousRotation = new Rotation(0.0F, 0.0F);
     public static int attackCooldown;
     public HashMap<Entity, Animation> entityGlowAnimations = new HashMap<>();
-    public static InteractAutoBlock interactAB;
+    public static InteractAutoBlock autoBlockController;
     private int attackDelay;
     private int blockDelay;
     private int groundTicks;
@@ -107,9 +107,9 @@ public class KillAuraOG extends Module {
         this.registerSetting(new NumberSetting<>("Range", "Range value", 4.0F,  2.8F, 8.0F, 0.01F));
         this.registerSetting(new NumberSetting<>("Block Range", "Block Range value", 4.0F,  2.8F, 8.0F, 0.2F));
         this.registerSetting(new NumberSetting<>("Min CPS", "Min CPS value", 8.0F, 1.0F,  20.0F, 1.0F)
-                        .addObserver(setting -> interactAB.initializeCpsTimings()));
+                        .addObserver(setting -> autoBlockController.initializeCpsTimings()));
         this.registerSetting(new NumberSetting<>("Max CPS", "Max CPS value", 8.0F, 1.0F, 20.0F, 1.0F)
-                        .addObserver(setting -> interactAB.initializeCpsTimings()));
+                        .addObserver(setting -> autoBlockController.initializeCpsTimings()));
         this.registerSetting(new NumberSetting<>("Hit box expand", "Hit Box expand", 0.05F, 0.0F, 1.0F, 0.01F));
         this.registerSetting(new NumberSetting<>("Hit Chance", "Hit Chance", 100.0F, 25.0F, 100.0F, 1.0F));
         this.registerSetting(new BooleanSetting("Interact auto block", "Send interact packet when blocking", true));
@@ -151,7 +151,7 @@ public class KillAuraOG extends Module {
     @Override
     public void initialize() {
         targetEntities = new ArrayList<>();
-        interactAB = new InteractAutoBlock(this);
+        autoBlockController = new InteractAutoBlock(this);
         super.initialize();
     }
 
@@ -159,7 +159,7 @@ public class KillAuraOG extends Module {
     public void onEnable() {
         resetState();
         initializeRotations();
-        interactAB.setBlockingState(isHoldingSword() && isUseItemKeyDown());
+        autoBlockController.setBlockingState(isHoldingSword() && isUseItemKeyDown());
         super.onEnable();
     }
 
@@ -275,22 +275,22 @@ public class KillAuraOG extends Module {
     public void onUpdate(EventMotion event) {
         if (!event.isPre()) {
             currentItemIndex = mc.player.inventory.currentItem;
-            if (currentTarget != null && interactAB.canAutoBlock() && currentRotations != null) {
+            if (currentTarget != null && autoBlockController.canAutoBlock() && currentRotations != null) {
                 if (this.getStringSettingValueByName("Autoblock Mode").equals("Fake")) {
                     mc.player.connection.sendPacket(new CPlayerPacket.PositionRotationPacket(
                             mc.player.getPosX(), mc.player.getPosY(), mc.player.getPosZ(),
                             mc.player.rotationYaw, mc.player.rotationPitch, mc.player.onGround
                     ));
                 } else {
-                    interactAB.performAutoBlock(currentTarget, currentRotations.yaw, currentRotations.pitch);
+                    autoBlockController.performAutoBlock(currentTarget, currentRotations.yaw, currentRotations.pitch);
                     isBlocking = true;
                 }
             }
             return;
         }
-        if (interactAB.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || currentTarget == null)) {
+        if (autoBlockController.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || currentTarget == null)) {
             if (!this.getStringSettingValueByName("Autoblock Mode").equals("Fake")) {
-                interactAB.setBlockingState(false);
+                autoBlockController.setBlockingState(false);
                 mc.getConnection().sendPacket(new CEntityActionPacket(mc.player, CEntityActionPacket.Action.START_SPRINTING));
 
             }
@@ -303,8 +303,8 @@ public class KillAuraOG extends Module {
         if (!event.isPre()) {
             currentItemIndex = mc.player.inventory.currentItem;
 
-            if (currentTarget != null && interactAB.canAutoBlock() && currentRotations != null) {
-                interactAB.performAutoBlock(currentTarget, currentRotations.yaw, currentRotations.pitch);
+            if (currentTarget != null && autoBlockController.canAutoBlock() && currentRotations != null) {
+                autoBlockController.performAutoBlock(currentTarget, currentRotations.yaw, currentRotations.pitch);
             }
             return;
         }
@@ -314,20 +314,20 @@ public class KillAuraOG extends Module {
         }
 
         if (currentTarget != null
-                && interactAB.isBlocking()
+                && autoBlockController.isBlocking()
                 && MovementUtil.isMoving()
                 && getStringSettingValueByName("Autoblock Mode").equals("NCP")) {
             CombatUtil.unblock();
         }
 
-        if (interactAB.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || currentTarget == null)) {
-            interactAB.setBlockingState(false);
+        if (autoBlockController.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || currentTarget == null)) {
+            autoBlockController.setBlockingState(false);
         }
 
         if (blockCooldown >= 0) {
             if (blockCooldown == 0) {
                 CombatUtil.unblock();
-                interactAB.setBlockingState(true);
+                autoBlockController.setBlockingState(true);
             }
             blockCooldown--;
         }
@@ -364,7 +364,7 @@ public class KillAuraOG extends Module {
             event.setPitch(currentRotations.pitch);
         }
 
-        boolean canAttack = interactAB.shouldAttack(attackDelay);
+        boolean canAttack = autoBlockController.shouldAttack(attackDelay);
 
         boolean shouldAttack = canAttack;
         if (getBooleanValueFromSettingName("Cooldown")) {
@@ -372,7 +372,7 @@ public class KillAuraOG extends Module {
         }
 
         if (canAttack) {
-            interactAB.setupDelay();
+            autoBlockController.setupDelay();
         }
 
         if (shouldAttack) {
@@ -461,14 +461,14 @@ public class KillAuraOG extends Module {
 
             if (statusPacket.getOpCode() == 3) {
                 Entity entity = statusPacket.getEntity(mc.world);
-                interactAB.field44349.remove(entity);
+                autoBlockController.field44349.remove(entity);
             }
             return;
         }
 
         if (packet instanceof SEntityPacket entityPacket) {
             if (entityPacket.func_229745_h_() && (entityPacket.posX != 0 || entityPacket.posY != 0 || entityPacket.posZ != 0)) {
-                for (Entry<Entity, List<Pair<Vector3d, Long>>> entry : interactAB.field44349.entrySet()) {
+                for (Entry<Entity, List<Pair<Vector3d, Long>>> entry : autoBlockController.field44349.entrySet()) {
                     Entity trackedEntity = entry.getKey();
                     List<Pair<Vector3d, Long>> trackedPositions = entry.getValue();
 
@@ -599,7 +599,7 @@ public class KillAuraOG extends Module {
         boolean shouldSetGround = true;
 
         if (blockDelay == 0 && groundTicks >= 1 && Step.updateTicksBeforeStep > 1) {
-            if (interactAB.method36820(attackDelay)) {
+            if (autoBlockController.method36820(attackDelay)) {
                 blockDelay = 1;
                 shouldSetGround = avoidFallDamage;
                 yOffset = !serverType.equals("Cubecraft") ? 0.0626 : MovementUtil.getJumpValue() / 10.0;
@@ -635,7 +635,7 @@ public class KillAuraOG extends Module {
             return null;
         }
 
-        var1 = interactAB.sortEntities(var1);
+        var1 = autoBlockController.sortEntities(var1);
         return !var1.isEmpty() && var1.get(0).getEntity().getDistance(mc.player) <= this.getNumberValueBySettingName("Block Range")
                 ? var1.get(0).getEntity()
                 : null;
@@ -646,23 +646,23 @@ public class KillAuraOG extends Module {
         float range = getNumberValueBySettingName("Range");
         String mode = getStringSettingValueByName("Mode");
 
-        List<TimedEntity> potentialTargets = interactAB.getEntitiesInRange(Math.max(blockRange, range));
+        List<TimedEntity> potentialTargets = autoBlockController.getEntitiesInRange(Math.max(blockRange, range));
         if (potentialTargets == null || potentialTargets.isEmpty() || mc.gameSettings.keyBindAttack.isPressed()) {
             resetState();
             return;
         }
 
-        potentialTargets = interactAB.sortEntities(potentialTargets);
+        potentialTargets = autoBlockController.sortEntities(potentialTargets);
         Entity closestEntity = getClosestEntity(potentialTargets);
         if (currentRotations == null) {
             onEnable();
         }
 
         currentTarget = closestEntity;
-        potentialTargets = interactAB.getEntitiesInRange(range);
+        potentialTargets = autoBlockController.getEntitiesInRange(range);
 
         if (mode.equals("Single") || mode.equals("Multi")) {
-            potentialTargets = interactAB.sortEntities(potentialTargets);
+            potentialTargets = autoBlockController.sortEntities(potentialTargets);
         }
 
         if (potentialTargets.isEmpty()) {

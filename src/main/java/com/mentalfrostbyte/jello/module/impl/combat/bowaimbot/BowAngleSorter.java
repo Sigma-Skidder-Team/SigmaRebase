@@ -15,8 +15,8 @@ public class BowAngleSorter implements Comparator<Entity> {
     }
 
     public int compare(Entity var1, Entity var2) {
-        float var5 = RotationUtil.angleDiff(RotationUtil.method34147(var1).yaw, Minecraft.getInstance().player.rotationYaw);
-        float var6 = RotationUtil.angleDiff(RotationUtil.method34147(var2).yaw, Minecraft.getInstance().player.rotationYaw);
+        float var5 = RotationUtil.getWrappedAngleDifference(RotationUtil.getRotationsToEntity(var1).yaw, Minecraft.getInstance().player.rotationYaw);
+        float var6 = RotationUtil.getWrappedAngleDifference(RotationUtil.getRotationsToEntity(var2).yaw, Minecraft.getInstance().player.rotationYaw);
         if (!(var5 - var6 < 0.0F)) {
             if (var5 - var6 != 0.0F) {
                 return 1;

@@ -283,8 +283,8 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
             double y = event.getY();
             double z = event.getZ();
 
-            float pitch = event.getPitch();
             float yaw = event.getYaw();
+            float pitch = event.getPitch();
 
             boolean onGround = event.isOnGround();
 
@@ -292,8 +292,8 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
             double newY = y - this.lastReportedPosY;
             double newZ = z - this.lastReportedPosZ;
 
-            double newYaw = (double) (yaw - this.lastReportedYaw);
-            double newPitch = (double) (pitch - this.lastReportedPitch);
+            double newYaw = yaw - this.lastReportedYaw;
+            double newPitch = pitch - this.lastReportedPitch;
 
             ++this.positionUpdateTicks;
 
@@ -333,10 +333,6 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
 
             this.prevOnGround = event.isOnGround();
             this.autoJumpEnabled = this.mc.gameSettings.autoJump;
-        }
-
-        for (Runnable runnable : event.getRunnableList()) {
-            runnable.run();
         }
 
         event.postUpdate();

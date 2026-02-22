@@ -49,7 +49,7 @@ public class KillAura extends Module {
     public static int attackCooldown;
     private final ModeSetting rotationMode;
     public HashMap<Entity, Animation> entityAnimation = new HashMap<>();
-    public static InteractAutoBlock autoBlock;
+    public static AutoBlockController autoBlockController;
     private int attackTimer;
     private int animationTimer;
     private float eventUpdateYaw, eventUpdatePitch;
@@ -97,10 +97,10 @@ public class KillAura extends Module {
         );
         this.registerSetting(new NumberSetting<>("Range", "Range value", 4.0F, 2.8F, 8.0F, 0.01F));
         this.registerSetting(
-                new NumberSetting<>("Min CPS", "Min CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlock.initializeCpsTimings())
+                new NumberSetting<>("Min CPS", "Min CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlockController.initializeCpsTimings())
         );
         this.registerSetting(
-                new NumberSetting<>("Max CPS", "Max CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlock.initializeCpsTimings())
+                new NumberSetting<>("Max CPS", "Max CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlockController.initializeCpsTimings())
         );
         this.registerSetting(new BooleanSetting("Interact autoblock", "Send interact packet when blocking", true));
         this.registerSetting(new BooleanSetting("Players", "Hit players", true));
@@ -137,7 +137,7 @@ public class KillAura extends Module {
     @Override
     public void initialize() {
         this.targets = new ArrayList<TimedEntity>();
-        autoBlock = new InteractAutoBlock(this);
+        autoBlockController = new AutoBlockController(this);
         super.initialize();
     }
 
@@ -146,7 +146,7 @@ public class KillAura extends Module {
         this.targets = new ArrayList<TimedEntity>();
         targetEntity = null;
         targetData = null;
-        this.attackTimer = (int) autoBlock.getCpsTiming(0);
+        this.attackTimer = (int) autoBlockController.getCpsTiming(0);
         this.animationTimer = 0;
         this.attackDelay = 0;
         attackCooldown = 0;
@@ -154,7 +154,7 @@ public class KillAura extends Module {
         this.currentRotation = new Rotation(mc.player.rotationYaw, mc.player.rotationPitch);
         rotation = new Rotation(mc.player.rotationYaw, mc.player.rotationPitch);
         this.targetPitch = -1.0F;
-        autoBlock
+        autoBlockController
                 .setBlockingState(mc.player.getHeldItem(Hand.MAIN_HAND).getItem() instanceof SwordItem && mc.gameSettings.keyBindUseItem.isKeyDown());
         this.isBlocking = false;
         this.currentSlot = -1;
@@ -235,18 +235,18 @@ public class KillAura extends Module {
                 this.animationProgress--;
             }
 
-            if (targetEntity != null && autoBlock.isBlocking() && MovementUtil.isMoving() && this.getStringSettingValueByName("Autoblock Mode").equals("NCP")) {
-                autoBlock.stopAutoBlock();
+            if (targetEntity != null && autoBlockController.isBlocking() && MovementUtil.isMoving() && this.getStringSettingValueByName("Autoblock Mode").equals("NCP")) {
+                autoBlockController.stopAutoBlock();
             }
 
-            if (autoBlock.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || targetEntity == null)) {
-                autoBlock.setBlockingState(false);
+            if (autoBlockController.isBlocking() && (!(mc.player.getHeldItemMainhand().getItem() instanceof SwordItem) || targetEntity == null)) {
+                autoBlockController.setBlockingState(false);
             }
 
             if (this.currentSlot >= 0) {
                 if (this.currentSlot == 0) {
-                    autoBlock.stopAutoBlock();
-                    autoBlock.setBlockingState(true);
+                    autoBlockController.stopAutoBlock();
+                    autoBlockController.setBlockingState(true);
                 }
 
                 this.currentSlot--;
@@ -266,16 +266,12 @@ public class KillAura extends Module {
 
                 this.updateRotation();
 
-                // Add JelloAI rotation handling
                 if (rotationMode.currentValue.equals("JelloAI") && targetEntity != null) {
-                    // Let JelloAI handle the rotations
                     JelloAI.faceEntity(targetEntity);
 
-                    // Update current rotation with JelloAI values
                     this.currentRotation.yaw = JelloAI.getCurrentYaw();
                     this.currentRotation.pitch = JelloAI.getCurrentPitch();
 
-                    // Update RotationCore values
                     RotationCore.currentYaw = this.currentRotation.yaw;
                     RotationCore.currentPitch = this.currentRotation.pitch;
                 } else if (eventUpdateYaw - mc.player.rotationYaw != 0.0F && (rotationMode.currentValue.equals("Test1") || rotationMode.currentValue.equals("Test")) && mc.player.ticksExisted % 50 == 0) {
@@ -295,7 +291,6 @@ public class KillAura extends Module {
                     RotationCore.currentPitch = currentRotation.pitch;
                 }
 
-                // Update JelloAI rotations every tick
                 if (rotationMode.currentValue.equals("JelloAI")) {
                     JelloAI.updateRotations();
                 }
@@ -320,34 +315,17 @@ public class KillAura extends Module {
 
         if (this.isEnabled() && this.targets != null && !this.targets.isEmpty()) {
             if (this.getBooleanValueFromSettingName("Silent")) {
-                // If using JelloAI, use its rotation values
                 if (rotationMode.currentValue.equals("JelloAI")) {
-                    // Use reflection to set the fields since they're private
                     try {
-                        // Get the field and make it accessible
-                        java.lang.reflect.Field yawField = event.getClass().getDeclaredField("yaw");
-                        java.lang.reflect.Field pitchField = event.getClass().getDeclaredField("pitch");
-
-                        yawField.setAccessible(true);
-                        pitchField.setAccessible(true);
-
-                        // Set the values
-                        yawField.set(event, JelloAI.getCurrentYaw());
-                        pitchField.set(event, JelloAI.getCurrentPitch());
+                        event.setYaw(JelloAI.getCurrentYaw());
+                        event.setPitch(JelloAI.getCurrentPitch());
                     } catch (Exception e) {
                         Client.logger.error("Error setting rotation values", e);
                     }
                 } else {
-                    // Use reflection for non-JelloAI rotations too
                     try {
-                        java.lang.reflect.Field yawField = event.getClass().getDeclaredField("yaw");
-                        java.lang.reflect.Field pitchField = event.getClass().getDeclaredField("pitch");
-
-                        yawField.setAccessible(true);
-                        pitchField.setAccessible(true);
-
-                        yawField.set(event, this.currentRotation.yaw);
-                        pitchField.set(event, this.currentRotation.pitch);
+                        event.setYaw(this.currentRotation.yaw);
+                        event.setPitch(this.currentRotation.pitch);
                     } catch (Exception e) {
                         Client.logger.error("Error setting rotation values", e);
                     }
@@ -357,8 +335,8 @@ public class KillAura extends Module {
             if (!event.isPre()) {
                 this.blockDelay = mc.player.inventory.currentItem;
             } else {
-                if (targetEntity != null && autoBlock.canAutoBlock() && this.currentRotation != null) {
-                    autoBlock.performAutoBlock(targetEntity, this.currentRotation.yaw, this.currentRotation.pitch);
+                if (targetEntity != null && autoBlockController.canAutoBlock() && this.currentRotation != null) {
+                    autoBlockController.performAutoBlock(targetEntity, this.currentRotation.yaw, this.currentRotation.pitch);
                 }
                 eventUpdateYaw = event.getYaw();
                 eventUpdatePitch = event.getPitch();
@@ -454,7 +432,7 @@ public class KillAura extends Module {
 
 
     private Entity getClosestTargetInBlockRange(List<TimedEntity> var1) {
-        var1 = autoBlock.sortTargets(var1);
+        var1 = autoBlockController.sortTargets(var1);
         return !var1.isEmpty() && var1.get(0).getEntity().getDistance(mc.player) <= this.getNumberValueBySettingName("Range")
                 ? var1.get(0).getEntity()
                 : null;
@@ -463,23 +441,23 @@ public class KillAura extends Module {
     private void updateTargetSelection() {
         float rangeF = this.getNumberValueBySettingName("Range");
         String mode = this.getStringSettingValueByName("Mode");
-        List<TimedEntity> targetList = autoBlock.getPotentialTargets(rangeF);
-        targetList = autoBlock.sortTargets(targetList);
+        List<TimedEntity> targetList = autoBlockController.getPotentialTargets(rangeF);
+        targetList = autoBlockController.sortTargets(targetList);
         if (this.currentRotation == null) {
             this.onEnable();
         }
 
         if (targetList != null && !targetList.isEmpty() && !mc.gameSettings.keyBindAttack.isPressed()) {
             targetEntity = this.getClosestTargetInBlockRange(targetList);
-            targetList = autoBlock.getPotentialTargets(rangeF);
+            targetList = autoBlockController.getPotentialTargets(rangeF);
             if (mode.equals("Single") || mode.equals("Multi")) {
-                targetList = autoBlock.sortTargets(targetList);
+                targetList = autoBlockController.sortTargets(targetList);
             }
 
             if (targetList.isEmpty()) {
                 targetData = null;
                 this.targets.clear();
-                this.attackTimer = (int) autoBlock.getCpsTiming(0);
+                this.attackTimer = (int) autoBlockController.getCpsTiming(0);
                 this.animationTimer = 0;
                 isActive = false;
                 this.currentRotation.yaw = mc.player.rotationYaw;
@@ -565,7 +543,7 @@ public class KillAura extends Module {
                 this.targets.clear();
             }
 
-            this.attackTimer = (int) autoBlock.getCpsTiming(0);
+            this.attackTimer = (int) autoBlockController.getCpsTiming(0);
             this.animationTimer = 0;
             isActive = false;
             this.currentRotation.yaw = mc.player.rotationYaw;
@@ -671,7 +649,7 @@ public class KillAura extends Module {
     }
 
     private void attack() {
-        if (this.attackTimer >= autoBlock.getCpsTiming(0)) {
+        if (this.attackTimer >= autoBlockController.getCpsTiming(0)) {
             if (targetData != null && targetData.getEntity() != null) {
                 Entity entity = targetData.getEntity();
                 if (entity.getDistance(mc.player) <= this.getNumberValueBySettingName("Range")) {
@@ -687,8 +665,8 @@ public class KillAura extends Module {
 
                     if (canAttack) {
                         // Existing attack code
-                        if (autoBlock.isBlocking()) {
-                            autoBlock.stopAutoBlock();
+                        if (autoBlockController.isBlocking()) {
+                            autoBlockController.stopAutoBlock();
                         }
 
                         if (!this.getBooleanValueFromSettingName("No swing")) {

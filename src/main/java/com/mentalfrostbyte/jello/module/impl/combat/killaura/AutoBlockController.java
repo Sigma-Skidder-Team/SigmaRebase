@@ -24,13 +24,13 @@ import net.minecraft.util.math.EntityRayTraceResult;
 
 import java.util.*;
 
-public class InteractAutoBlock {
+public class AutoBlockController {
     private float[] cpsTimings;
     private final Module parent;
     public Minecraft mc = Minecraft.getInstance();
     public boolean blocking;
 
-    public InteractAutoBlock(Module parent) {
+    public AutoBlockController(Module parent) {
         this.parent = parent;
         this.initializeCpsTimings();
     }

@@ -18,7 +18,6 @@ public class EventMotion extends CancellableEvent {
     private float pitch;
     private boolean onGround;
     private boolean moving;
-    private final List<Runnable> runnables = new ArrayList<>();
 
     public EventMotion(double x, double y, double z, float yaw, float pitch, boolean onGround) {
         this.x = x;
@@ -97,13 +96,5 @@ public class EventMotion extends CancellableEvent {
 
     public boolean isPre() {
         return this.pre;
-    }
-
-    public void attackPost(Runnable runnable) {
-        this.runnables.add(runnable);
-    }
-
-    public List<Runnable> getRunnableList() {
-        return this.runnables;
     }
 }
