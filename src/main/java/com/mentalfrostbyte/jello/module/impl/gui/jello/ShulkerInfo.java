@@ -131,10 +131,10 @@ public class ShulkerInfo extends Module {
             double var8 = var1.getPosY() - mc.player.getPosY() - (double) mc.player.getHeight() + 0.4F;
             double var10 = var1.getPosZ() - mc.player.getPosZ();
             double var12 = MathHelper.sqrt(var6 * var6 + var10 * var10);
-            float var14 = RotationUtil.calculate(mc.player.rotationYaw,
-                    (float) (Math.atan2(var10, var6) * 180.0 / Math.PI) - 90.0F, 360.0F);
-            float var15 = RotationUtil.calculate(mc.player.rotationPitch,
-                    (float) (-(Math.atan2(var8, var12) * 180.0 / Math.PI)), 360.0F);
+            float var14 = RotationUtil.wrap(mc.player.rotationYaw,
+                    (float) (Math.atan2(var10, var6) * 180.0 / Math.PI) - 90.0F);
+            float var15 = RotationUtil.wrap(mc.player.rotationPitch,
+                    (float) (-(Math.atan2(var8, var12) * 180.0 / Math.PI)));
             return this.method16673(mc.player.rotationYaw, var14) <= var5
                     && this.method16673(mc.player.rotationPitch, var15) <= var5;
         }

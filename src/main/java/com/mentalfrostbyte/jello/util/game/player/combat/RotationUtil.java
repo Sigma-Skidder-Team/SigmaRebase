@@ -11,10 +11,9 @@ import net.minecraft.util.math.vector.Vector3d;
 public class RotationUtil {
     private static final Minecraft mc = Minecraft.getInstance();
 
-    public static float calculate(float current, float var1, float max) {
-        float wrapped = MathHelper.wrapDegrees(var1 - current);
-
-        return current + wrapped;
+    public static float wrap(float start, float end) {
+        float wrappedDelta = MathHelper.wrapDegrees(end - start);
+        return start + wrappedDelta;
     }
 
     public static float[] method34144(double var0, double var2, double var4) {
@@ -40,8 +39,8 @@ public class RotationUtil {
 
         // Calculate horizontal distance and yaw/pitch angles
         double horizontalDistance = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-        float yaw = calculate(mc.player.rotationYaw, (float)(Math.atan2(deltaZ, deltaX) * 180.0 / Math.PI) - 90.0F, 360.0F);
-        float pitch = calculate(mc.player.rotationPitch, (float)(-(Math.atan2(deltaY, horizontalDistance) * 180.0 / Math.PI)), 360.0F);
+        float yaw = wrap(mc.player.rotationYaw, (float)(Math.atan2(deltaZ, deltaX) * 180.0 / Math.PI) - 90.0F);
+        float pitch = wrap(mc.player.rotationPitch, (float)(-(Math.atan2(deltaY, horizontalDistance) * 180.0 / Math.PI)));
 
         // Return the calculated yaw and pitch
         return new float[]{yaw, pitch};
@@ -80,8 +79,8 @@ public class RotationUtil {
         double var6 = var1.z - var0.z;
         double var8 = var1.y - var0.y;
         double var10 = MathHelper.sqrt(var4 * var4 + var6 * var6);
-        float var12 = calculate(0.0F, (float)(Math.atan2(var6, var4) * 180.0 / Math.PI) - 90.0F, 360.0F);
-        float var13 = calculate(mc.player.rotationPitch, (float)(-(Math.atan2(var8, var10) * 180.0 / Math.PI)), 360.0F);
+        float var12 = wrap(0.0F, (float)(Math.atan2(var6, var4) * 180.0 / Math.PI) - 90.0F);
+        float var13 = wrap(mc.player.rotationPitch, (float)(-(Math.atan2(var8, var10) * 180.0 / Math.PI)));
         return new float[]{var12, var13};
     }
 
