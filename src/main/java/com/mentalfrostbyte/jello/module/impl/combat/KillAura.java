@@ -7,7 +7,6 @@ import com.mentalfrostbyte.jello.event.impl.game.render.EventRender3D;
 import com.mentalfrostbyte.jello.event.impl.game.world.EventLoadWorld;
 
 import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
-import com.mentalfrostbyte.jello.event.impl.player.action.EventPlace;
 import com.mentalfrostbyte.jello.event.impl.player.action.EventStopUseItem;
 import com.mentalfrostbyte.jello.event.impl.player.action.EventUseItem;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMotion;
@@ -49,9 +48,6 @@ public class KillAura extends Module {
     private Rotation rotation = new Rotation(0.0F, 0.0F);
     public static int attackCooldown;
     private final ModeSetting rotationMode;
-    private final NumberSetting<Float> rotationSpeed;
-    private final BooleanSetting useRotationSpeed;
-    private final BooleanSetting hitEvent;
     public HashMap<Entity, Animation> entityAnimation = new HashMap<>();
     public static InteractAutoBlock autoBlock;
     private int attackTimer;
@@ -99,8 +95,6 @@ public class KillAura extends Module {
                 "LockView", "Test",
                 "Test2", "JelloAI", "None")
         );
-        this.registerSetting(this.useRotationSpeed = new BooleanSetting("Use Rotation Speed", "Max rotation change per tick.", true));
-        this.registerSetting(this.rotationSpeed = new NumberSetting<>("Rotation Speed", "Max rotation change per tick.", 6.0F, 6.0F, 360, 6F));
         this.registerSetting(new NumberSetting<>("Range", "Range value", 4.0F, 2.8F, 8.0F, 0.01F));
         this.registerSetting(
                 new NumberSetting<>("Min CPS", "Min CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlock.initializeCpsTimings())
@@ -109,7 +103,6 @@ public class KillAura extends Module {
                 new NumberSetting<>("Max CPS", "Max CPS value", 8.0F, 1.0F, 20.0F, 1.0F).addObserver(var1 -> autoBlock.initializeCpsTimings())
         );
         this.registerSetting(new BooleanSetting("Interact autoblock", "Send interact packet when blocking", true));
-        this.registerSetting(this.hitEvent = new BooleanSetting("HitEvent", "Change the hit event (vanilla autoblock?legit)", true));
         this.registerSetting(new BooleanSetting("Players", "Hit players", true));
         this.registerSetting(new BooleanSetting("Animals", "Hit animals", false));
         this.registerSetting(new BooleanSetting("Monsters", "Hit monsters", false));
@@ -292,16 +285,7 @@ public class KillAura extends Module {
 
                 // Only apply GCD and rotation limits if not using JelloAI
                 if (!rotationMode.currentValue.equals("JelloAI")) {
-                    float hSpeed = rotationSpeed.currentValue;
-                    float vSpeed = rotationSpeed.currentValue;
-
-                    Rotation lastCopy = new Rotation(lastRotation.yaw, lastRotation.pitch);
-                    Rotation currentCopy = new Rotation(currentRotation.yaw, currentRotation.pitch);
-                    Rotation limit = !useRotationSpeed.currentValue
-                            ? currentCopy
-                            : RotationUtils.limitAngleChange(lastCopy, currentCopy, hSpeed, vSpeed);
-
-                    float[] limitedRotation = new float[]{limit.yaw, limit.pitch};
+                    float[] limitedRotation = new float[]{currentRotation.yaw, currentRotation.pitch};
                     float[] oldRots = {mc.player.lastReportedYaw, mc.player.lastReportedPitch};
 
                     currentRotation.yaw = RotationUtils.gcdFix(limitedRotation, oldRots)[0];
@@ -318,9 +302,7 @@ public class KillAura extends Module {
 
                 mc.gameRenderer.getMouseOver(1.0F); // might fix issue with slow raytrace update
 
-                if (!this.hitEvent.currentValue) {
-                    attack();
-                }
+                attack();
 
                 if (attackCooldown > 0) {
                     attackCooldown--;
@@ -329,19 +311,6 @@ public class KillAura extends Module {
         }
     }
 
-
-    @EventTarget
-    @HighestPriority
-    public void method16821(EventPlace var1) {
-        if (Client.getInstance().moduleManager.getModuleByClass(BlockFly.class).enabled)
-            return;
-
-        if (this.targets != null && !this.targets.isEmpty()) {
-            if (this.hitEvent.currentValue) {
-                attack();
-            }
-        }
-    }
 
     @EventTarget
     @HighestPriority
