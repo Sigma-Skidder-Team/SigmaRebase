@@ -974,10 +974,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
 
     public void move(MoverType typeIn, Vector3d pos) {
         EventMove eventMove = new EventMove(pos);
-        try {
-            EventBus.call(eventMove);
-        } catch (ConcurrentModificationException ignored) {
-        }
+        EventBus.call(eventMove);
 
         if (eventMove.cancelled) {
             return;
@@ -985,7 +982,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
 
         double d0 = this.getPosX();
         double d1 = this.getPosZ();
-        super.move(typeIn, pos);
+        super.move(typeIn, eventMove.vector);
         this.updateAutoJump((float) (this.getPosX() - d0), (float) (this.getPosZ() - d1));
     }
 
