@@ -4,24 +4,26 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2DOffset;
 import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
-import com.mentalfrostbyte.jello.gui.base.animations.Animation;
 import com.mentalfrostbyte.jello.gui.base.JelloPortal;
+import com.mentalfrostbyte.jello.gui.base.animations.Animation;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
 import com.mentalfrostbyte.jello.module.data.ModuleWithModuleSettings;
-import com.mentalfrostbyte.jello.module.impl.movement.blockfly.*;
+import com.mentalfrostbyte.jello.module.impl.movement.blockfly.BlockFlyAACMode;
+import com.mentalfrostbyte.jello.module.impl.movement.blockfly.BlockFlyHypixelMode;
+import com.mentalfrostbyte.jello.module.impl.movement.blockfly.BlockFlyNCPMode;
+import com.mentalfrostbyte.jello.module.impl.movement.blockfly.BlockFlySmoothMode;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
-import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.client.ClientMode;
 import com.mentalfrostbyte.jello.util.client.render.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.client.render.Resources;
+import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
 import com.mentalfrostbyte.jello.util.system.math.MathHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import net.minecraft.block.*;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.item.Item;
@@ -32,8 +34,6 @@ import net.minecraft.network.play.client.CHeldItemChangePacket;
 import net.minecraft.util.Hand;
 import org.lwjgl.opengl.GL11;
 import team.sdhq.eventBus.annotations.EventTarget;
-
-import java.util.Arrays;
 
 public class BlockFly extends ModuleWithModuleSettings {
     public int lastSpoofedSlot;
@@ -239,7 +239,7 @@ public class BlockFly extends ModuleWithModuleSettings {
         return -1;
     }
 
-    public void onMove(EventMove var1) {
+    public void onMove(EventMove event) {
         if (mc.timer.timerSpeed == 0.8038576F) {
             mc.timer.timerSpeed = 1.0F;
         }
@@ -250,17 +250,17 @@ public class BlockFly extends ModuleWithModuleSettings {
                 String var4 = this.getStringSettingValueByName("Tower Mode");
                 switch (var4) {
                     case "NCP":
-                        if (var1.getY() > 0.0) {
+                        if (event.getY() > 0.0) {
                             if (MovementUtil.getJumpBoost() == 0) {
-                                if (var1.getY() > 0.247 && var1.getY() < 0.249) {
-                                    var1.setY(
-                                            (double) ((int) (mc.player.getPosY() + var1.getY())) - mc.player.getPosY());
+                                if (event.getY() > 0.247 && event.getY() < 0.249) {
+                                    event.setY(
+                                            (double) ((int) (mc.player.getPosY() + event.getY())) - mc.player.getPosY());
                                 }
                             } else {
-                                double var6 = (int) (mc.player.getPosY() + var1.getY());
+                                double var6 = (int) (mc.player.getPosY() + event.getY());
                                 if (var6 != (double) ((int) mc.player.getPosY())
-                                        && mc.player.getPosY() + var1.getY() - var6 < 0.15) {
-                                    var1.setY(var6 - mc.player.getPosY());
+                                        && mc.player.getPosY() + event.getY() - var6 < 0.15) {
+                                    event.setY(var6 - mc.player.getPosY());
                                 }
                             }
                         }
@@ -270,25 +270,25 @@ public class BlockFly extends ModuleWithModuleSettings {
                             if (mc.gameSettings.keyBindJump.isPressed()) {
                                 if (!MovementUtil.isMoving()) {
                                     MovementUtil.moveInDirection(0.0);
-                                    MovementUtil.setMotion(var1, 0.0);
+                                    MovementUtil.setMotion(event, 0.0);
                                 }
 
-                                var1.setY(MovementUtil.getJumpValue());
+                                event.setY(MovementUtil.getJumpValue());
                             } else {
-                                var1.setY(-1.0E-5);
+                                event.setY(-1.0E-5);
                             }
                         }
                         break;
                     case "AAC":
-                        if (var1.getY() > 0.247 && var1.getY() < 0.249) {
-                            var1.setY((double) ((int) (mc.player.getPosY() + var1.getY())) - mc.player.getPosY());
+                        if (event.getY() > 0.247 && event.getY() < 0.249) {
+                            event.setY((double) ((int) (mc.player.getPosY() + event.getY())) - mc.player.getPosY());
                             if (mc.gameSettings.keyBindJump.isPressed() && !MovementUtil.isMoving()) {
                                 MovementUtil.moveInDirection(0.0);
-                                MovementUtil.setMotion(var1, 0.0);
+                                MovementUtil.setMotion(event, 0.0);
                             }
                         } else if (mc.player.getPosY() == (double) ((int) mc.player.getPosY())
                                 && BlockUtil.isAboveBounds(mc.player, 0.001F)) {
-                            var1.setY(-1.0E-10);
+                            event.setY(-1.0E-10);
                         }
                         break;
                     case "Vanilla":
@@ -298,8 +298,8 @@ public class BlockFly extends ModuleWithModuleSettings {
                                 .count() == 0L) {
                             mc.player
                                     .setPosition(mc.player.getPosX(), mc.player.getPosY() + 1.0, mc.player.getPosZ());
-                            var1.setY(0.0);
-                            MovementUtil.setMotion(var1, 0.0);
+                            event.setY(0.0);
+                            MovementUtil.setMotion(event, 0.0);
                             mc.timer.timerSpeed = 0.8038576F;
                         }
                 }
@@ -312,17 +312,17 @@ public class BlockFly extends ModuleWithModuleSettings {
                     && BlockUtil.isAboveBounds(mc.player, 0.001F)
                     && mc.gameSettings.keyBindJump.isPressed()) {
                 mc.player.jumpTicks = 20;
-                var1.setY(MovementUtil.getJumpValue());
+                event.setY(MovementUtil.getJumpValue());
             }
         } else if (!MovementUtil.isMoving() || this.getBooleanValueFromSettingName("Tower while moving")) {
             mc.player.jumpTicks = 0;
             mc.player.jump();
-            MovementUtil.setMotion(var1, MovementUtil.getSmartSpeed());
+            MovementUtil.setMotion(event, MovementUtil.getSmartSpeed());
             MovementUtil.moveInDirection(MovementUtil.getSmartSpeed());
         }
 
         if (!this.getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")) {
-            mc.player.setMotion(mc.player.getMotion().x, var1.getY(), mc.player.getMotion().z);
+            mc.player.setMotion(mc.player.getMotion().x, event.getY(), mc.player.getMotion().z);
         }
     }
 

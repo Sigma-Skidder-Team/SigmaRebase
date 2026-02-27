@@ -1,6 +1,5 @@
 package com.mentalfrostbyte.jello.event.impl.player.movement;
 
-
 import com.mentalfrostbyte.jello.event.CancellableEvent;
 
 public class EventSafeWalk extends CancellableEvent {
@@ -28,5 +27,5 @@ public class EventSafeWalk extends CancellableEvent {
         DEFAULT, // IDK, it's only used in constructor
         PLAYER,
         SAFE
-	}
+    }
 }
