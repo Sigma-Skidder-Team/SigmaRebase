@@ -649,7 +649,10 @@ public class KillAura extends Module {
     }
 
     private void attack() {
-        if (this.attackTimer >= autoBlockController.getCpsTiming(0)) {
+        boolean useCooldown = this.getBooleanValueFromSettingName("Cooldown");
+        boolean ready = useCooldown ? mc.player.getCooledAttackStrength(0.0F) >= 1.0F : this.attackTimer >= autoBlockController.getCpsTiming(0);
+
+        if (ready) {
             if (targetData != null && targetData.getEntity() != null) {
                 Entity entity = targetData.getEntity();
                 if (entity.getDistance(mc.player) <= this.getNumberValueBySettingName("Range")) {
@@ -683,6 +686,7 @@ public class KillAura extends Module {
 
                         // Rest of existing attack code
                         this.attackTimer = 0;
+                        autoBlockController.updateCpsTimings();
                         isActive = true;
 
                         if (this.getStringSettingValueByName("Mode").equals("Multi2")) {
