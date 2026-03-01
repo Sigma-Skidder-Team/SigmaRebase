@@ -297,7 +297,7 @@ public class GuiManager {
 
     public void method33465(float var1) {
         if (this.screen != null && Minecraft.getInstance().loadingGui == null) {
-            this.screen.voidEvent3(var1);
+            this.screen.onScroll(var1);
         }
     }
 

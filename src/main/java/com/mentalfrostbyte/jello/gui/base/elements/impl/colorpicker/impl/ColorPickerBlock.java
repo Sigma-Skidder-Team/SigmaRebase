@@ -44,7 +44,7 @@ public class ColorPickerBlock extends Element {
         int var4 = RenderUtil2.applyAlpha(Color.HSBtoRGB(this.field21347, 0.0F, 1.0F), partialTicks);
         int var5 = RenderUtil2.applyAlpha(Color.HSBtoRGB(this.field21347, 1.0F, 1.0F), partialTicks);
         int var6 = RenderUtil2.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks);
-        RenderUtil.method11415(this);
+        RenderUtil.scissorScreenArea(this);
         RenderUtil.drawQuad(
                 this.getXA(), this.getYA(), this.getXA() + this.getWidthA(), this.getYA() + this.getHeightA(), var4, var5, var5, var4
         );

@@ -60,7 +60,7 @@ public class WalkNodeProcessor extends NodeProcessor
         int i = MathHelper.floor(this.entity.getPosY());
         BlockState blockstate = this.blockaccess.getBlockState(blockpos$mutable.setPos(this.entity.getPosX(), (double)i, this.entity.getPosZ()));
 
-        if (!this.entity.func_230285_a_(blockstate.getFluidState().getFluid()))
+        if (!this.entity.isFluidLava(blockstate.getFluidState().getFluid()))
         {
             if (this.getCanSwim() && this.entity.isInWater())
             {
@@ -93,7 +93,7 @@ public class WalkNodeProcessor extends NodeProcessor
         }
         else
         {
-            while (this.entity.func_230285_a_(blockstate.getFluidState().getFluid()))
+            while (this.entity.isFluidLava(blockstate.getFluidState().getFluid()))
             {
                 ++i;
                 blockstate = this.blockaccess.getBlockState(blockpos$mutable.setPos(this.entity.getPosX(), (double)i, this.entity.getPosZ()));

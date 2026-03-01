@@ -101,7 +101,7 @@ public class AltManagerScreen extends Screen {
         );
         this.alts.setListening(false);
         this.altView.setListening(false);
-        this.alts.method13515(false);
+        this.alts.setScissor(false);
         this.altView
                 .addToList(
                         this.head = new Head(
@@ -221,7 +221,7 @@ public class AltManagerScreen extends Screen {
                 if (this.head.account == accountUI.selectedAccount && accountUI.method13168()) {
                     this.loginToAccount(accountUI);
                 } else {
-                    this.altView.method13512(0);
+                    this.altView.setScrollBarOffset(0);
                 }
 
                 this.head.handleSelectedAccount(accountUI.selectedAccount);
@@ -340,7 +340,7 @@ public class AltManagerScreen extends Screen {
             if (!(var5 instanceof VerticalScrollBar)) {
                 for (CustomGuiScreen var7 : var5.getChildren()) {
                     if (var7 instanceof AccountUI accountUI) {
-                        if (var7.getYA() <= Minecraft.getInstance().getMainWindow().getHeight() && this.alts.method13513() == 0) {
+                        if (var7.getYA() <= Minecraft.getInstance().getMainWindow().getHeight() && this.alts.getScrollBarOffset() == 0) {
                             if (var3 > 0.2F) {
                                 accountUI.field20805.changeDirection(Animation.Direction.FORWARDS);
                             }

@@ -96,8 +96,8 @@ public class MapFrame extends Element {
     }
 
     @Override
-    public void voidEvent3(float scroll) {
-        super.voidEvent3(scroll);
+    public void onScroll(float scroll) {
+        super.onScroll(scroll);
         if (this.method13298()) {
             this.field20649 = Math.round(Math.max(3.0F, Math.min(33.0F, (float) this.field20649 + scroll / 10.0F)));
             this.method13083();

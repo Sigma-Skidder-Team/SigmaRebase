@@ -118,7 +118,7 @@ public class NoteblockPlayer extends Module {
                                     for (Class6463 var8 : this.field23641) {
                                         if ((var6.method28780() != 3 && this.method16414(var8) == 0
                                                 || var8.method19640() == var6.method28780())
-                                                && Class2121.method8807(
+                                                && NotePitch.getClosestNote(
                                                 var8.field28402) == (float) (var6.method28782() - 33)
                                                 && Math.sqrt(mc.player.getPosition()
                                                 .distanceSq(var8.field28401)) < (double) mc.playerController

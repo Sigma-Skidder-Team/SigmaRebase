@@ -13,7 +13,7 @@ public record AccountListUpdater(AltManagerScreen screen, AltManagerScreen prevS
     public void run() {
         int var3 = 0;
         if (AltManagerScreen.method13382(this.screen) != null) {
-            var3 = AltManagerScreen.method13382(this.screen).method13513();
+            var3 = AltManagerScreen.method13382(this.screen).getScrollBarOffset();
             this.prevScreen.removeChildren(AltManagerScreen.method13382(this.screen));
         }
 
@@ -41,8 +41,8 @@ public record AccountListUpdater(AltManagerScreen screen, AltManagerScreen prevS
             AltManagerScreen.method13386(this.screen, var6, this.forceRefresh);
         }
 
-        AltManagerScreen.method13382(this.screen).method13512(var3);
+        AltManagerScreen.method13382(this.screen).setScrollBarOffset(var3);
         AltManagerScreen.method13382(this.screen).setListening(false);
-        AltManagerScreen.method13382(this.screen).method13515(false);
+        AltManagerScreen.method13382(this.screen).setScissor(false);
     }
 }

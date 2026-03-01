@@ -247,7 +247,11 @@ public class BlockUtil {
     }
 
     public static BlockRayTraceResult rayTrace(float yaw, float pitch, float var2, EventMotion var3) {
-        Vector3d var6 = new Vector3d(var3.getX(), (double) mc.player.getEyeHeight() + var3.getY(), var3.getZ());
+        return rayTrace(yaw, pitch, var2, new Vector3d(var3.getX(), var3.getY(), var3.getZ()));
+    }
+
+    public static BlockRayTraceResult rayTrace(float yaw, float pitch, float var2, Vector3d pos) {
+        Vector3d var6 = new Vector3d(pos.getX(), (double) mc.player.getEyeHeight() + pos.getY(), pos.getZ());
         yaw = (float) Math.toRadians(yaw);
         pitch = (float) Math.toRadians(pitch);
         float var7 = -MathHelper.sin(yaw) * MathHelper.cos(pitch);

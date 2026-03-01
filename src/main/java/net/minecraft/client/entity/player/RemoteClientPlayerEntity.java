@@ -47,7 +47,7 @@ public class RemoteClientPlayerEntity extends AbstractClientPlayerEntity
     public void tick()
     {
         super.tick();
-        this.func_233629_a_(this, false);
+        this.updateLimbSwing(this, false);
     }
 
     /**

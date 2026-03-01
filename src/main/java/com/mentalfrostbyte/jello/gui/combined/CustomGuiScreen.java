@@ -23,7 +23,7 @@ import java.util.List;
 public class CustomGuiScreen implements IGuiEventListener {
     private final List<CustomGuiScreen> children = new ArrayList<>();
     private final List<IWidthSetter> field20894 = new ArrayList<>();
-    private final List<CustomGuiScreen> field20916 = new ArrayList<>();
+    private final List<CustomGuiScreen> pendingChildren = new ArrayList<>();
     private final List<CustomGuiScreen> field20918 = new ArrayList<>();
     private final List<Class7914> field20920 = new ArrayList<>();
     private final List<MouseListener> mouseButtonListeners = new ArrayList<>();
@@ -54,7 +54,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     public ColorHelper textColor;
     private final ArrayList<Runnable> runOnDimensionUpdate = new ArrayList<Runnable>();
     private boolean field20917;
-    private CustomGuiScreen field20919;
+    private CustomGuiScreen focusedChild;
     private int heightO;
     private int widthO;
 
@@ -103,7 +103,7 @@ public class CustomGuiScreen implements IGuiEventListener {
         this.saveSize = false;
     }
 
-    private void method13220() {
+    private void reorderChildren() {
         for (CustomGuiScreen screen : new ArrayList<CustomGuiScreen>(this.children)) {
             if (screen.shouldReAddChildren()) {
                 this.children.remove(screen);
@@ -146,25 +146,25 @@ public class CustomGuiScreen implements IGuiEventListener {
      * This method does not take any parameters and does not return a value.
      * It operates on the class's internal lists and fields.
      */
-    private void method13223() {
+    private void processPendingChildren() {
         for (CustomGuiScreen var4 : this.field20918) {
             this.children.remove(var4);
-            if (this.field20919 == var4) {
-                this.field20919 = null;
+            if (this.focusedChild == var4) {
+                this.focusedChild = null;
             }
         }
 
-        this.field20916.clear();
+        this.pendingChildren.clear();
 
-        this.children.addAll(this.field20916);
+        this.children.addAll(this.pendingChildren);
 
-        this.field20916.clear();
-        if (this.field20919 != null) {
-            this.children.remove(this.field20919);
-            this.children.add(this.field20919);
+        this.pendingChildren.clear();
+        if (this.focusedChild != null) {
+            this.children.remove(this.focusedChild);
+            this.children.add(this.focusedChild);
         }
 
-        this.method13220();
+        this.reorderChildren();
     }
 
     public void updatePanelDimensions(int newHeight, int newWidth) {
@@ -201,7 +201,7 @@ public class CustomGuiScreen implements IGuiEventListener {
             }
         }
 
-        this.method13223();
+        this.processPendingChildren();
         this.field20917 = false;
     }
 
@@ -335,10 +335,10 @@ public class CustomGuiScreen implements IGuiEventListener {
     }
 
     @Override
-    public void voidEvent3(float scroll) {
+    public void onScroll(float scroll) {
         for (CustomGuiScreen var5 : this.children) {
             if (var5.isHovered() && var5.isSelfVisible()) {
-                var5.voidEvent3(scroll);
+                var5.onScroll(scroll);
             }
         }
     }
@@ -392,12 +392,12 @@ public class CustomGuiScreen implements IGuiEventListener {
 
             var1.setParent(this);
             if (this.field20917) {
-                this.field20916.add(var1);
+                this.pendingChildren.add(var1);
             } else {
                 try {
                     this.children.add(var1);
                 } catch (ConcurrentModificationException var6) {
-                    this.field20916.add(var1);
+                    this.pendingChildren.add(var1);
                 }
             }
         }
@@ -422,7 +422,7 @@ public class CustomGuiScreen implements IGuiEventListener {
             }
 
             var1.setParent(this);
-            this.field20916.add(var1);
+            this.pendingChildren.add(var1);
         }
     }
 
@@ -453,11 +453,11 @@ public class CustomGuiScreen implements IGuiEventListener {
 
     public void removeChildren(CustomGuiScreen guiIn) {
         this.children.remove(guiIn);
-        if (this.field20919 != null && this.field20919.equals(guiIn)) {
-            this.field20919 = null;
+        if (this.focusedChild != null && this.focusedChild.equals(guiIn)) {
+            this.focusedChild = null;
         }
 
-        this.field20916.remove(guiIn);
+        this.pendingChildren.remove(guiIn);
     }
 
     public void method13237(CustomGuiScreen var1) {
@@ -487,7 +487,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     public void method13242() {
         this.setFocused(true);
         if (this.parent != null) {
-            this.parent.field20919 = this;
+            this.parent.focusedChild = this;
             this.parent.method13242();
         }
     }
@@ -766,7 +766,7 @@ public class CustomGuiScreen implements IGuiEventListener {
     }
 
     /**
-     * used in {@link CustomGuiScreen#method13220} to re-add a child (if this returns true)
+     * used in {@link CustomGuiScreen#reorderChildren} to re-add a child (if this returns true)
      */
     public boolean shouldReAddChildren() {
         return this.reAddChildren;

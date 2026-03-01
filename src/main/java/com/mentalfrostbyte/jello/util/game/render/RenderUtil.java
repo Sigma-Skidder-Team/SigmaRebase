@@ -709,7 +709,7 @@ public class RenderUtil implements MinecraftUtil {
         GL11.glPopMatrix();
     }
 
-    public static void method11415(CustomGuiScreen var0) {
+    public static void scissorScreenArea(CustomGuiScreen var0) {
         startScissor(var0.getXA(), var0.getYA(), var0.getWidthA() + var0.getXA(), var0.getHeightA() + var0.getYA(), true);
     }
 

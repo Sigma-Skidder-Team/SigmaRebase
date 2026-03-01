@@ -184,7 +184,7 @@ public class Dropdown extends Element {
                 partialTicks * 0.2F * this.animation.calcPercent()
         );
         if (this.getText() != null) {
-            RenderUtil.method11415(this);
+            RenderUtil.scissorScreenArea(this);
             String var4 = "";
 
             for (Entry var6 : this.field21331.entrySet()) {

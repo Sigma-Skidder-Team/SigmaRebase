@@ -17,7 +17,6 @@ import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.client.render.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil2;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
-import com.mentalfrostbyte.jello.util.client.render.Resources;
 import com.mentalfrostbyte.jello.util.client.render.FontSizeAdjust;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuHolder;
@@ -210,7 +209,7 @@ public class ClassicAltScreen extends Screen {
         List<com.mentalfrostbyte.jello.managers.util.account.microsoft.Account> var4 = AccountSorter.sortByInputAltAccounts(this.accountManager.getAccounts(), AccountCompareType.DateAdded, "", this.altSearchBox.getText());
         int var5 = 0;
         if (this.altList != null) {
-            var5 = this.altList.method13513();
+            var5 = this.altList.getScrollBarOffset();
             this.removeChildren(this.altList);
         }
 
@@ -227,9 +226,9 @@ public class ClassicAltScreen extends Screen {
             this.method13395(var10);
         }
 
-        this.altList.method13512(var5);
+        this.altList.setScrollBarOffset(var5);
         this.altList.setListening(false);
-        this.altList.method13515(true);
+        this.altList.setScissor(true);
         this.altList.method13242();
     }
 

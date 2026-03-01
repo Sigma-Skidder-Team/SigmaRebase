@@ -31,7 +31,7 @@ public class MusicInitializer implements Runnable {
                                     MusicPlayer.getTabs(this.musicPlayer2),
                                     this.thumbnail.videoId,
                                     0,
-                                    MusicPlayer.getTabs(this.musicPlayer2).getButton().getChildren().size() * MusicPlayer.getHeight(this.musicPlayer2),
+                                    MusicPlayer.getTabs(this.musicPlayer2).getButtonList().getChildren().size() * MusicPlayer.getHeight(this.musicPlayer2),
                                     MusicPlayer.getWidth(this.musicPlayer2),
                                     MusicPlayer.getHeight(this.musicPlayer2),
                                     this.colorHelper,
@@ -53,7 +53,7 @@ public class MusicInitializer implements Runnable {
                                     this.thumbnail.name
                             )
                     );
-            queue.method13514(true);
+            queue.setOnlyUpdateWhenSelfVisible(true);
             queue.setSelfVisible(false);
             queue.setListening(false);
             if (this.thumbnail.videoList != null) {

@@ -1016,7 +1016,7 @@ public abstract class PlayerEntity extends LivingEntity {
         return super.isMovementBlocked() || this.isSleeping();
     }
 
-    public boolean func_241208_cS_() {
+    public boolean isUnableToFly() {
         return !this.abilities.isFlying;
     }
 

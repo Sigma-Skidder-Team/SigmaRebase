@@ -53,7 +53,7 @@ default boolean ride(MobEntity mount, BoostHelper helper, Vector3d p_233622_3_)
                 }
                 else
                 {
-                    mount.func_233629_a_(mount, false);
+                    mount.updateLimbSwing(mount, false);
                     mount.setMotion(Vector3d.ZERO);
                 }
 

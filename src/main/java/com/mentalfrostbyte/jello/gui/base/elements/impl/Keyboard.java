@@ -7,7 +7,7 @@ import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
 
 public class Keyboard extends Element {
-   public int field20696;
+   public int keyCode;
 
    public Keyboard(CustomGuiScreen var1, String var2, int var3, int var4) {
       super(var1, var2, var3, var4, 1060, 357, false);
@@ -27,7 +27,7 @@ public class Keyboard extends Element {
             )
          );
          var11.onClick((var2x, var3x) -> {
-            this.field20696 = var11.field20690;
+            this.keyCode = var11.field20690;
             this.callUIHandlers();
          });
       }
@@ -40,7 +40,7 @@ public class Keyboard extends Element {
       if (mouseButton <= 1) {
          return super.onClick(mouseX, mouseY, mouseButton);
       } else {
-         this.field20696 = mouseButton;
+         this.keyCode = mouseButton;
          this.callUIHandlers();
          return false;
       }
@@ -55,7 +55,7 @@ public class Keyboard extends Element {
          }
       }
 
-      this.field20696 = keyCode;
+      this.keyCode = keyCode;
       this.callUIHandlers();
       super.keyPressed(keyCode);
    }

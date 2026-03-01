@@ -81,8 +81,8 @@ public class ThumbnailButton extends AnimatedIconPanel {
         if (this.getParent() != null && this.getParent().getParent() != null) {
             CustomGuiScreen var3 = this.getParent().getParent();
             if (var3 instanceof ScrollableContentPanel var4) {
-				int var5 = var4.method13513() + var4.getHeightA() + this.getHeightA();
-                int var6 = var4.method13513() - this.getHeightA();
+				int var5 = var4.getScrollBarOffset() + var4.getHeightA() + this.getHeightA();
+                int var6 = var4.getScrollBarOffset() - this.getHeightA();
                 return this.getYA() <= var5 && this.getYA() >= var6;
             }
         }
@@ -190,7 +190,7 @@ public class ThumbnailButton extends AnimatedIconPanel {
             );
             TrueTypeFont var11 = ResourceRegistry.JelloLightFont12;
             if (this.text != null) {
-                RenderUtil.method11415(this);
+                RenderUtil.scissorScreenArea(this);
                 String[] var12 = this.getText().replaceAll("\\(.*\\)", "").replaceAll("\\[.*\\]", "").split(" - ");
                 if (var12.length > 1) {
                     RenderUtil.drawString(

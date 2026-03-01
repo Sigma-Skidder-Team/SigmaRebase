@@ -57,7 +57,7 @@ public abstract class FlyingEntity extends MobEntity
             this.setMotion(this.getMotion().scale((double)f));
         }
 
-        this.func_233629_a_(this, false);
+        this.updateLimbSwing(this, false);
     }
 
     /**

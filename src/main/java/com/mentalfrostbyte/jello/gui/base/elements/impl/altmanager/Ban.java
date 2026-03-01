@@ -84,7 +84,7 @@ public class Ban extends AnimatedIconPanel {
                 }
             }
 
-            RenderUtil.method11415(this);
+            RenderUtil.scissorScreenArea(this);
             RenderUtil.drawRoundedRect(
                     (float) this.xA,
                     (float) this.yA,

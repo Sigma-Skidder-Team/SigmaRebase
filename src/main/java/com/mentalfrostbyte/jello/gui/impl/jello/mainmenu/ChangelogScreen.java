@@ -8,7 +8,7 @@ import com.mentalfrostbyte.jello.gui.base.animations.Animation;
 import com.mentalfrostbyte.jello.gui.combined.CustomGuiScreen;
 import com.mentalfrostbyte.jello.gui.base.elements.impl.Change;
 import com.mentalfrostbyte.jello.gui.impl.jello.buttons.ScrollableContentPanel;
-import com.mentalfrostbyte.jello.gui.impl.jello.mainmenu.changelog.Class576;
+import com.mentalfrostbyte.jello.gui.impl.jello.mainmenu.changelog.ChangelogParser;
 import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.system.math.SmoothInterpolator;
 import com.mentalfrostbyte.jello.util.client.render.ResourceRegistry;
@@ -25,14 +25,14 @@ public class ChangelogScreen extends CustomGuiScreen {
         super(var1, var2, var3, var4, var5, var6);
         this.setListening(false);
         this.scrollPanel = new ScrollableContentPanel(this, "scroll", 100, 200, var5 - 200, var6 - 200);
-        this.scrollPanel.method13518(true);
+        this.scrollPanel.setScrollable(true);
         this.showAlert(this.scrollPanel);
         new Thread(() -> this.method13490(this.getChangelog())).start();
     }
 
     public void method13490(JsonArray var1) {
         if (var1 != null) {
-            this.getParent().runThisOnDimensionUpdate(new Class576(this, var1));
+            this.getParent().runThisOnDimensionUpdate(new ChangelogParser(this, var1));
         }
     }
 
@@ -41,7 +41,7 @@ public class ChangelogScreen extends CustomGuiScreen {
         super.updatePanelDimensions(newHeight, newWidth);
         if (this.scrollPanel != null) {
             if (this.isHovered() && this.isSelfVisible()) {
-                for (CustomGuiScreen var9 : this.scrollPanel.getButton().getChildren()) {
+                for (CustomGuiScreen var9 : this.scrollPanel.getButtonList().getChildren()) {
                     Change var10 = (Change) var9;
                     var10.animation2.changeDirection(Animation.Direction.FORWARDS);
                     if ((double) var10.animation2.calcPercent() < 0.5) {
@@ -49,7 +49,7 @@ public class ChangelogScreen extends CustomGuiScreen {
                     }
                 }
             } else {
-                for (CustomGuiScreen var6 : this.scrollPanel.getButton().getChildren()) {
+                for (CustomGuiScreen var6 : this.scrollPanel.getButtonList().getChildren()) {
                     Change var7 = (Change) var6;
                     var7.animation2.changeDirection(Animation.Direction.BACKWARDS);
                 }

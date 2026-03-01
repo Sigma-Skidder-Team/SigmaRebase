@@ -18,10 +18,10 @@ public class Class543 implements Runnable {
       for (CustomGuiScreen var4 : this.field2603.getChildren()) {
          if (var4 instanceof PopOver var5) {
 			 var5.method13712();
-            this.field2604.field20957.method13104();
+            this.field2604.keyboard.method13104();
             var5.setReAddChildren(true);
             var5.method13242();
-            this.field2603.method13234(this.field2604.field20960);
+            this.field2603.method13234(this.field2604.modsPanel);
          }
       }
    }

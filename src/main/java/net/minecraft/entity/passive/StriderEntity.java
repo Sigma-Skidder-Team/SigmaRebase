@@ -179,9 +179,9 @@ public class StriderEntity extends AnimalEntity implements IRideable, IEquipable
         return this.getRidingEntity() instanceof StriderEntity ? ((StriderEntity)this.getRidingEntity()).func_234315_eI_() : this.dataManager.get(field_234311_bx_);
     }
 
-    public boolean func_230285_a_(Fluid p_230285_1_)
+    public boolean isFluidLava(Fluid fluid)
     {
-        return p_230285_1_.isIn(FluidTags.LAVA);
+        return fluid.isIn(FluidTags.LAVA);
     }
 
     /**

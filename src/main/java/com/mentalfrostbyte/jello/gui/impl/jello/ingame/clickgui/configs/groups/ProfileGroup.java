@@ -185,7 +185,7 @@ public class ProfileGroup extends AnimatedIconPanel {
       this.buttonList.setHovered(this.field21265.calcPercent() == 1.0F);
       this.buttonList.setWidthA(Math.max(0, (int)((float)this.field21270 * var5)));
       this.buttonList.method13284((int)((float)this.field21270 * (1.0F - var5)));
-      RenderUtil.method11415(this);
+      RenderUtil.scissorScreenArea(this);
       float var6 = this.method13212() && this.field21265.getDirection().equals(Animation.Direction.BACKWARDS) ? 0.03F : 0.0F;
       RenderUtil.drawRoundedRect2(
          (float)this.xA,

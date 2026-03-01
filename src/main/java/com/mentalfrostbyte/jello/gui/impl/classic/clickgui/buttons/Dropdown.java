@@ -141,7 +141,7 @@ public class Dropdown extends Element {
       }
 
       if (this.getText() != null) {
-         RenderUtil.method11415(this);
+         RenderUtil.scissorScreenArea(this);
          RenderUtil.drawString(
             this.getFont(),
             (float)(this.getXA() + 7),
@@ -153,7 +153,7 @@ public class Dropdown extends Element {
       }
 
       if (!this.method13673()) {
-         RenderUtil.method11415(this);
+         RenderUtil.scissorScreenArea(this);
       }
 
       super.draw(partialTicks);

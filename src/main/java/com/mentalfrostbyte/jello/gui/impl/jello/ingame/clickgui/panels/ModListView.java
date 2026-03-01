@@ -43,10 +43,10 @@ public class ModListView extends ScrollableContentPanel implements Class4342 {
                     .setTextColor(!var5.isEnabled() ? ClientColors.DEEP_TEAL.getColor() : ClientColors.LIGHT_GREYISH_BLUE.getColor());
             var12.method19412(FontSizeAdjust.field14488);
             Button var13;
-            this.getButton()
+            this.getButtonList()
                     .addToList(
                             var13 = new Button(
-                                    this.getButton(), var5.getName() + "Button", 0, var3 * 30, this.getWidthA(), 30, var12, var5.getName(), ResourceRegistry.JelloLightFont20
+                                    this.getButtonList(), var5.getName() + "Button", 0, var3 * 30, this.getWidthA(), 30, var12, var5.getName(), ResourceRegistry.JelloLightFont20
                             )
                     );
             if (!var5.isEnabled()) {
@@ -83,7 +83,7 @@ public class ModListView extends ScrollableContentPanel implements Class4342 {
             var3++;
         }
 
-        this.getButton().method13246(new Class7262(1));
+        this.getButtonList().method13246(new Class7262(1));
     }
 
     private float method13523() {

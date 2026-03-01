@@ -182,7 +182,7 @@ public class MusicPlayer extends AnimatedIconPanel {
         this.field20849 = var1.getText();
         this.field20852 = var1;
         this.searchBox.setSelfVisible(false);
-        this.field20852.field21207 = 65;
+        this.field20852.scrollStep = 65;
     }
 
     private void playSong(Thumbnails manager, YoutubeVideoData video) {
@@ -473,7 +473,7 @@ public class MusicPlayer extends AnimatedIconPanel {
 
     private void method13196(float var1) {
         this.field20852.setReAddChildren(false);
-        if (this.field20863 != this.field20852.method13513()) {
+        if (this.field20863 != this.field20852.getScrollBarOffset()) {
             try {
                 if (this.texture != null) {
                     this.texture.release();
@@ -529,7 +529,7 @@ public class MusicPlayer extends AnimatedIconPanel {
                 Resources.shadowBottomPNG,
                 RenderUtil2.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), var4 * var1 * 0.5F)
         );
-        this.field20863 = this.field20852.method13513();
+        this.field20863 = this.field20852.getScrollBarOffset();
     }
 
     public static ScrollableContentPanel getTabs(MusicPlayer player) {

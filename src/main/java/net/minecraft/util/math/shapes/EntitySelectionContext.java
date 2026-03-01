@@ -39,7 +39,7 @@ public class EntitySelectionContext implements ISelectionContext
     @Deprecated
     protected EntitySelectionContext(Entity entityIn)
     {
-        this(entityIn.isDescending(), entityIn.getPosY(), entityIn instanceof LivingEntity ? ((LivingEntity)entityIn).getHeldItemMainhand().getItem() : Items.AIR, entityIn instanceof LivingEntity ? ((LivingEntity)entityIn)::func_230285_a_ : (fluid) ->
+        this(entityIn.isDescending(), entityIn.getPosY(), entityIn instanceof LivingEntity ? ((LivingEntity)entityIn).getHeldItemMainhand().getItem() : Items.AIR, entityIn instanceof LivingEntity ? ((LivingEntity)entityIn)::isFluidLava : (fluid) ->
         {
             return false;
         });

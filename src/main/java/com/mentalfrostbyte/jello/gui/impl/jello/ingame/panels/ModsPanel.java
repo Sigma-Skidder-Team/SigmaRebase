@@ -54,7 +54,7 @@ public class ModsPanel extends Element {
       );
       var10.addChangeListener(var2x -> {
          this.field21307 = var10.getText();
-         this.field21308.method13512(0);
+         this.field21308.setScrollBarOffset(0);
       });
       var10.method13242();
       this.addToList(
