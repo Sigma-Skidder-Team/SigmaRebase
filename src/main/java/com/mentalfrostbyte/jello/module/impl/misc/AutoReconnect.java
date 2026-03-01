@@ -9,7 +9,7 @@ import team.sdhq.eventBus.annotations.EventTarget;
 
 public class AutoReconnect extends Module {
 
-    public ServerData serverData;
+    public static ServerData serverData;
 
     public AutoReconnect() {
         super(ModuleCategory.MISC, "AutoReconnect", "Automatically reconnects you to the server if you got disconnected");

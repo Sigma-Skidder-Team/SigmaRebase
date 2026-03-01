@@ -41,7 +41,7 @@ public class DisconnectedScreen extends Screen
         if (Client.getInstance().moduleManager.getModuleByClass(AutoReconnect.class).getBooleanValueFromSettingName("Reconnect button")) {
             this.addButton(new Button(this.width / 2 - 100, Math.min(this.height / 2 + this.textHeight / 2 + 9, this.height - 30) + 25, 200, 20, new TranslationTextComponent("Reconnect"), (p_213033_1_) ->
             {
-                ServerData serverData = ((AutoReconnect)(Client.getInstance().moduleManager.getModuleByClass(AutoReconnect.class))).serverData;
+                ServerData serverData = AutoReconnect.serverData;
                 if (serverData!= null) this.minecraft.displayGuiScreen(new ConnectingScreen(this, Minecraft.getInstance(), serverData));
             }));
         }
