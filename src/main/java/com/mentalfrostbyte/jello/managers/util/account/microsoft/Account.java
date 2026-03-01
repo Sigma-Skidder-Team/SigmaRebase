@@ -15,11 +15,15 @@ import net.minecraft.util.Session;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import com.google.gson.JsonParser;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -231,6 +235,20 @@ public class Account {
     }
 
     public Session login() throws MicrosoftAuthenticationException {
+        if (this.token != null && !this.token.isEmpty()) {
+            try {
+                JsonObject profile = fetchProfile(this.token);
+                if (profile != null) {
+                    this.knownName = profile.get("name").getAsString();
+                    this.uuid = fixUUID(profile.get("id").getAsString());
+                    this.updateSkin();
+                    this.lastUsed = System.currentTimeMillis();
+                    return new Session(this.knownName, this.uuid.replace("-", ""), this.token, "mojang");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         if (!this.isEmailAValidEmailFormat()) {
             MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
             MicrosoftAuthResult result = authenticator.loginWithCredentials(email, password);
@@ -344,5 +362,29 @@ public class Account {
 
         Pattern var3 = Pattern.compile("[a-zA-Z0-9_]{2,16}");
         return var3.matcher(this.getEmail()).matches();
+    }
+
+    private JsonObject fetchProfile(String accessToken) {
+        try {
+            URL url = new URL("https://api.minecraftservices.com/minecraft/profile");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            if (connection.getResponseCode() == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                return JsonParser.parseString(response.toString()).getAsJsonObject();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
