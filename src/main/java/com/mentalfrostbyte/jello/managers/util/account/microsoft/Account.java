@@ -209,17 +209,6 @@ public class Account {
         return this.head;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        try {
-            if (this.head != null) {
-                Client.getInstance().addTexture(this.head);
-            }
-        } finally {
-            super.finalize();
-        }
-    }
-
     public BufferedImage getSkin() {
         return this.skin;
     }
