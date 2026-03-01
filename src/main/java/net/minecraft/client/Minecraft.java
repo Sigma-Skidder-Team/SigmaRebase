@@ -1130,7 +1130,7 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
     }
 
     private int getFramerateLimit() {
-        return this.world != null || this.currentScreen == null && this.loadingGui == null ? this.mainWindow.getLimitFramerate() : 60;
+        return this.world != null || this.currentScreen == null && this.loadingGui == null ? this.mainWindow.getLimitFramerate() : 120;
     }
 
     /**
