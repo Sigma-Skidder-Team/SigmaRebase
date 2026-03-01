@@ -145,6 +145,7 @@ public class SettingPanel extends ScrollableContentPanel implements Class4342 {
                 panel.addToList(var34);
                 panel.addToList(var42);
                 var4 += 27 + var5;
+                break;
             case UNUSED:
             default:
                 break;
@@ -243,6 +244,7 @@ public class SettingPanel extends ScrollableContentPanel implements Class4342 {
                 panel.addToList(var11);
                 panel.addToList(var12);
                 var4 += 150 + var5 - 10;
+                break;
         }
 
         return var4 - (var5 - 10);
