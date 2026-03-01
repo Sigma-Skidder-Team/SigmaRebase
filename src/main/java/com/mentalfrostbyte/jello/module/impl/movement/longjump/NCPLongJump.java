@@ -52,20 +52,20 @@ public class NCPLongJump extends Module {
             if (mc.player.isOnGround()) {
                 this.airTicks = 0;
                 this.groundTicks++;
-                if (this.jumpEventTriggered && e.getY() != 0.599 && this.access().getBooleanValueFromSettingName("Auto Disable")) {
-                    this.access().toggle();
+                if (this.jumpEventTriggered && e.getY() != 0.599 && this.getParent().getBooleanValueFromSettingName("Auto Disable")) {
+                    this.getParent().toggle();
                     MovementUtil.setMotion(e, MovementUtil.getDumberSpeed() * 0.8);
                     return;
                 }
 
                 BlockPos bp = new BlockPos(mc.player.getPosX(), mc.player.getPosY() - 0.4, mc.player.getPosZ());
                 if (Step.updateTicksBeforeStep > 1) {
-                    if (this.access().getBooleanValueFromSettingName("BorderJump") && !BlockUtil.isValidBlockPosition(bp) && this.groundTicks > 0 && MovementUtil.isMoving()) {
+                    if (this.getParent().getBooleanValueFromSettingName("BorderJump") && !BlockUtil.isValidBlockPosition(bp) && this.groundTicks > 0 && MovementUtil.isMoving()) {
                         mc.player.jump();
                         e.setX(mc.player.getMotion().x);
                         e.setY(mc.player.getMotion().y);
                         e.setZ(mc.player.getMotion().z);
-                    } else if (this.access().getBooleanValueFromSettingName("Auto Jump") && this.groundTicks > (this.jumpEventTriggered ? 1 : 0) && MovementUtil.isMoving()) {
+                    } else if (this.getParent().getBooleanValueFromSettingName("Auto Jump") && this.groundTicks > (this.jumpEventTriggered ? 1 : 0) && MovementUtil.isMoving()) {
                         mc.player.jump();
                         e.setX(mc.player.getMotion().x);
                         e.setY(mc.player.getMotion().y);
@@ -108,10 +108,10 @@ public class NCPLongJump extends Module {
                         String glideMode = this.getStringSettingValueByName("Glide Mode");
                         switch (glideMode) {
                             case "Basic":
-                                e.setY(((LongJump) this.access()).getNCPBasicY(this.airTicks));
+                                e.setY(((LongJump) this.getParent()).getNCPBasicY(this.airTicks));
                                 break;
                             case "High":
-                                e.setY(((LongJump) this.access()).getNCPHighY(this.airTicks));
+                                e.setY(((LongJump) this.getParent()).getNCPHighY(this.airTicks));
                                 if (ServerUtil.isHypixel()
                                         && Client.getInstance().moduleManager.getModuleByClass(NoFall.class).isEnabled()
                                         && (this.airTicks == 8 || this.airTicks == 21)) {
@@ -130,7 +130,7 @@ public class NCPLongJump extends Module {
                     }
                 }
 
-                if (this.groundTicks == 1 && mc.player.getMotion().y < 0.0 && this.access().getBooleanValueFromSettingName("Auto Jump")) {
+                if (this.groundTicks == 1 && mc.player.getMotion().y < 0.0 && this.getParent().getBooleanValueFromSettingName("Auto Jump")) {
                     MovementUtil.setMotion(e, MovementUtil.getDumberSpeed() * 0.2);
                 }
             }

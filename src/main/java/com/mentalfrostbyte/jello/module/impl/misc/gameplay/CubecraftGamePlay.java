@@ -1,13 +1,12 @@
 package com.mentalfrostbyte.jello.module.impl.misc.gameplay;
 
-
 import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.managers.util.notifs.Notification;
-import com.mentalfrostbyte.jello.util.client.logger.TimedMessage;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
 import com.mentalfrostbyte.jello.module.impl.misc.GamePlay;
+import com.mentalfrostbyte.jello.util.client.logger.TimedMessage;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SChatPacket;
 import net.minecraft.util.text.ITextComponent;
@@ -23,7 +22,7 @@ public class CubecraftGamePlay extends Module {
 
     @Override
     public void initialize() {
-        this.parentModule = (GamePlay) this.access();
+        this.parentModule = (GamePlay) this.getParent();
     }
 
     @EventTarget
@@ -50,8 +49,6 @@ public class CubecraftGamePlay extends Module {
                 if (text.contains("§a§lPlay Again §r§8• §r§6§lAuto Mode §r§8• §r§c§lLeave") && this.parentModule.getBooleanValueFromSettingName("Auto Join")) {
                     for (ITextComponent textCom : chatPacket.getChatComponent().getSiblings()) {
                         ClickEvent clickEvent = textCom.getStyle().getClickEvent();
-                        if (clickEvent != null && clickEvent.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent.getValue().contains("playagain")) {
-                        }
                         this.parentModule.updateTimedMessage(new TimedMessage(clickEvent.getValue(), (long) this.parentModule.getNumberValueBySettingName("Auto Join delay") * 1000L));
                         Client.getInstance()
                                 .notificationManager

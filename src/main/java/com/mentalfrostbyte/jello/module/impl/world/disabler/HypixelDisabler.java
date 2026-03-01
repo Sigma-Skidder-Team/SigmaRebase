@@ -1,10 +1,10 @@
 package com.mentalfrostbyte.jello.module.impl.world.disabler;
 
 import com.mentalfrostbyte.Client;
-import com.mentalfrostbyte.jello.event.impl.player.movement.EventMotion;
-import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventReceivePacket;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMotion;
+import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.managers.util.notifs.Notification;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
@@ -54,9 +54,9 @@ public class HypixelDisabler extends Module {
         this.timer.reset();
         this.timer.start();
         if (this.doStuff) {
-			for (IPacket<?> heldPacket : this.heldPackets) {
-				mc.getConnection().sendPacket(heldPacket);
-			}
+            for (IPacket<?> heldPacket : this.heldPackets) {
+                mc.getConnection().sendPacket(heldPacket);
+            }
 
             Client.getInstance().notificationManager.send(new Notification("Hypixel disabler", "Disabler canceled"));
         }
@@ -94,14 +94,14 @@ public class HypixelDisabler extends Module {
             if (this.timer.getElapsedTime() > 10000L && this.doStuff) {
                 this.doStuff = false;
 
-				for (IPacket<?> heldPacket : this.heldPackets) {
-					mc.getConnection().sendPacket(heldPacket);
-				}
+                for (IPacket<?> heldPacket : this.heldPackets) {
+                    mc.getConnection().sendPacket(heldPacket);
+                }
 
                 this.heldPackets.clear();
                 this.timer.reset();
                 this.timer.stop();
-                this.access().toggle();
+                this.getParent().toggle();
                 Client.getInstance().notificationManager.send(new Notification("Hypixel disabler", "Disabler failed"));
             }
         }
@@ -131,7 +131,7 @@ public class HypixelDisabler extends Module {
         if (mc.player != null && this.doStuff) {
             if (this.isEnabled() || this.getBooleanValueFromSettingName("Instant")) {
                 if (e.packet instanceof SPlayerPositionLookPacket pkt) {
-                    this.access().toggle();
+                    this.getParent().toggle();
                     if (!this.getBooleanValueFromSettingName("Instant")) {
                         Client.getInstance().notificationManager
                                 .send(new Notification("Hypixel disabler", "You can do what you want for 5s"));
@@ -141,9 +141,9 @@ public class HypixelDisabler extends Module {
                                 .sendPacket(new CPlayerPacket.PositionRotationPacket(pkt.getX(), pkt.getY(), pkt.getZ(), pkt.yaw,
                                         pkt.pitch, false));
 
-						for (IPacket<?> heldPacket : this.heldPackets) {
-							mc.getConnection().sendPacket(heldPacket);
-						}
+                        for (IPacket<?> heldPacket : this.heldPackets) {
+                            mc.getConnection().sendPacket(heldPacket);
+                        }
 
                         this.heldPackets.clear();
                         Client.getInstance().notificationManager

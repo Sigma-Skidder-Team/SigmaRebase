@@ -38,9 +38,9 @@ public class BasicClickTP extends Module {
 
     @EventTarget
     public void onClick(EventClick event) {
-        if (this.isEnabled() && (mc.player.isSneaking() || !this.access().getBooleanValueFromSettingName("Sneak"))) {
+        if (this.isEnabled() && (mc.player.isSneaking() || !this.getParent().getBooleanValueFromSettingName("Sneak"))) {
             if (event.getButton() == EventClick.Button.RIGHT) {
-                BlockPos hit = ((ClickTP)this.access()).getRotationHit();
+                BlockPos hit = ((ClickTP)this.getParent()).getRotationHit();
 
                 double targetX = (double) hit.getX() + 0.5;
                 double targetY = hit.getY() + 1;
@@ -78,8 +78,8 @@ public class BasicClickTP extends Module {
                 mc.player.setPosition(targetX, targetY, targetZ);
                 this.timer.reset();
                 this.timer.start();
-                if (this.access().getBooleanValueFromSettingName("Auto Disable")) {
-                    this.access().toggle();
+                if (this.getParent().getBooleanValueFromSettingName("Auto Disable")) {
+                    this.getParent().toggle();
                 }
             }
         }

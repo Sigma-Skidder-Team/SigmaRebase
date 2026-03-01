@@ -35,7 +35,7 @@ public class HypixelGamePlay extends Module {
 
     @Override
     public void initialize() {
-        parentModule = (GamePlay) access();
+        parentModule = (GamePlay) getParent();
     }
 
     @EventTarget

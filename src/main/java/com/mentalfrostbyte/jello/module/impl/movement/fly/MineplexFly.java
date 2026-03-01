@@ -140,7 +140,7 @@ public class MineplexFly extends Module {
                 } else {
                     if (this.field23669 > 0) {
                         MovementUtil.setMotion(var1, 0.0);
-                        this.access().toggle();
+                        this.getParent().toggle();
                         return;
                     }
 

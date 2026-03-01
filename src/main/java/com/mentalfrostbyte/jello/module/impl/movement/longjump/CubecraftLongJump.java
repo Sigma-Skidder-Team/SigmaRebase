@@ -42,12 +42,12 @@ public class CubecraftLongJump extends Module {
 
                 MovementUtil.moveInDirection(this.speed);
                 if (this.airTicks > 5) {
-                    this.access().toggle();
+                    this.getParent().toggle();
                 }
             } else {
                 if (this.airTicks > 0) {
                     MovementUtil.moveInDirection(0.0);
-                    this.access().toggle();
+                    this.getParent().toggle();
                     this.airTicks = 0;
                 }
 

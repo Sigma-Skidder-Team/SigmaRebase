@@ -53,14 +53,14 @@ public class BlockFlySmoothMode extends Module {
 
     @Override
     public void initialize() {
-        this.blockFly = (BlockFly) this.access();
+        this.blockFly = (BlockFly) this.getParent();
     }
 
     @Override
     public void onEnable() {
         this.previousItem = mc.player.inventory.currentItem;
         this.yaw = this.pitch = 999.0F;
-        ((BlockFly) this.access()).lastSpoofedSlot = -1;
+        ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
         this.posY = -1.0;
         this.called = false;
         if (mc.player.isOnGround()) {
@@ -72,14 +72,14 @@ public class BlockFlySmoothMode extends Module {
 
     @Override
     public void onDisable() {
-        if (this.previousItem != -1 && this.access().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
+        if (this.previousItem != -1 && this.getParent().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
             mc.player.inventory.currentItem = this.previousItem;
         }
 
         this.previousItem = -1;
-        if (((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+        if (((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
             mc.getConnection().sendPacket(new CHeldItemChangePacket(mc.player.inventory.currentItem));
-            ((BlockFly) this.access()).lastSpoofedSlot = -1;
+            ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
         }
 
         MovementUtil.moveInDirection(MovementUtil.getSmartSpeed() * 0.9);
@@ -192,23 +192,21 @@ public class BlockFlySmoothMode extends Module {
                         }
 
                         int currentItem = mc.player.inventory.currentItem;
-                        if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
+                        if (!this.getParent().getStringSettingValueByName("ItemSpoof").equals("None")) {
                             this.blockFly.switchToValidHotbarItem();
                         }
-
-
 
                         //new ItemUseContext(mc.player, Hand.MAIN_HAND, rayTraceResult);
                         mc.playerController.func_217292_a(mc.player, mc.world, this.hand, rayTraceResult);
                         this.blockCache = null;
-                        if (!this.access().getBooleanValueFromSettingName("NoSwing")) {
+                        if (!this.getParent().getBooleanValueFromSettingName("NoSwing")) {
                             mc.player.swingArm(this.hand);
                         } else {
                             mc.getConnection().sendPacket(new CAnimateHandPacket(this.hand));
 
                         }
 
-                        if (this.access().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.access().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
+                        if (this.getParent().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.getParent().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
                             mc.player.inventory.currentItem = currentItem;
                         }
                     }
@@ -225,7 +223,7 @@ public class BlockFlySmoothMode extends Module {
                 this.posY = mc.player.getPosY();
             }
 
-            if (this.access().getBooleanValueFromSettingName("No Sprint")) {
+            if (this.getParent().getBooleanValueFromSettingName("No Sprint")) {
                 mc.player.setSprinting(false);
             }
 
@@ -236,7 +234,7 @@ public class BlockFlySmoothMode extends Module {
             }
 
             if (this.blockFly == null) {
-                this.blockFly = (BlockFly) this.access();
+                this.blockFly = (BlockFly) this.getParent();
             }
 
             switch (this.getStringSettingValueByName("Speed Mode")) {
@@ -326,7 +324,7 @@ public class BlockFlySmoothMode extends Module {
                     }
             }
 
-            this.blockFly.onMove(event);
+            this.blockFly.performTower(event);
         }
     }
 
@@ -334,7 +332,7 @@ public class BlockFlySmoothMode extends Module {
     @LowerPriority
     public void onPacket(EventSendPacket event) {
         if (this.isEnabled() && mc.player != null) {
-            if (event.packet instanceof CHeldItemChangePacket && ((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+            if (event.packet instanceof CHeldItemChangePacket && ((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
                 event.cancelled = true;
             }
         }
@@ -343,8 +341,8 @@ public class BlockFlySmoothMode extends Module {
     @EventTarget
     public void onJump(EventJump event) {
         if (this.isEnabled() && this.called) {
-            if (this.access().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
-                    && (!MovementUtil.isMoving() || this.access().getBooleanValueFromSettingName("Tower while moving"))) {
+            if (this.getParent().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
+                    && (!MovementUtil.isMoving() || this.getParent().getBooleanValueFromSettingName("Tower while moving"))) {
                 event.cancelled = true;
             }
         }

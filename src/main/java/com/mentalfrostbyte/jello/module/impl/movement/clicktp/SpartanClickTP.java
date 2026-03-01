@@ -39,11 +39,11 @@ public class SpartanClickTP extends Module {
 
     @EventTarget
     public void method16104(EventClick var1) {
-        if (this.isEnabled() && (mc.player.isSneaking() || !this.access().getBooleanValueFromSettingName("Sneak"))) {
+        if (this.isEnabled() && (mc.player.isSneaking() || !this.getParent().getBooleanValueFromSettingName("Sneak"))) {
             if (var1.getButton() == EventClick.Button.RIGHT) {
                 BlockRayTraceResult trace = BlockUtil.rayTrace(
                         mc.player.rotationYaw, mc.player.rotationPitch,
-                        this.access().getNumberValueBySettingName("Maximum range"));
+                        this.getParent().getNumberValueBySettingName("Maximum range"));
                 BlockPos hit = null;
                 if (trace != null) {
                     hit = trace.getPos();
@@ -73,7 +73,7 @@ public class SpartanClickTP extends Module {
                         && var4.z == (double) this.hit.getZ() + 0.5) {
                     Client.getInstance().notificationManager
                             .send(new Notification("ClickTP", "Successfully teleported"));
-                    if (!this.access().getBooleanValueFromSettingName("Auto Disable")) {
+                    if (!this.getParent().getBooleanValueFromSettingName("Auto Disable")) {
                         this.field23464 = -1;
                         this.hit = null;
                         mc.player.setMotion(mc.player.getMotion().x, -0.08, mc.player.getMotion().z);
@@ -81,7 +81,7 @@ public class SpartanClickTP extends Module {
                         MovementUtil.moveInDirection(var5);
                         mc.timer.timerSpeed = 1.0F;
                     } else {
-                        this.access().toggle();
+                        this.getParent().toggle();
                     }
                 }
             }

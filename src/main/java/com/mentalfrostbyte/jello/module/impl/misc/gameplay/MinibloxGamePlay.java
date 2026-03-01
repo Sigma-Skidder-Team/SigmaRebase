@@ -80,7 +80,7 @@ public class MinibloxGamePlay extends Module {
 
     @Override
     public void initialize() {
-        parentModule = (GamePlay) access();
+        parentModule = (GamePlay) getParent();
     }
 
     @SuppressWarnings("unused")
