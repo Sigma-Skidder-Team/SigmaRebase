@@ -8,7 +8,7 @@ public class ServerPackFinder implements IPackFinder
 
     public void findPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory)
     {
-        ResourcePackInfo resourcepackinfo = ResourcePackInfo.createResourcePack("vanilla", false, () ->
+        ResourcePackInfo resourcepackinfo = ResourcePackInfo.createResourcePack("vanilla", true, () ->
         {
             return this.field_195738_a;
         }, infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.BUILTIN);
