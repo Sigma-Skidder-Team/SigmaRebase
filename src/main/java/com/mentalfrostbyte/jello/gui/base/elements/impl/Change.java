@@ -10,7 +10,6 @@ import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.client.render.theme.ColorHelper;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil2;
 import com.mentalfrostbyte.jello.util.system.math.SmoothInterpolator;
-import org.lwjgl.opengl.GL11;
 
 public class Change extends CustomGuiScreen {
     public Animation animation2 = new Animation(370, 150, Animation.Direction.BACKWARDS);
@@ -19,9 +18,6 @@ public class Change extends CustomGuiScreen {
         super(var1, var2);
         this.setWidthA(this.getParent().getWidthA());
         int var6 = 0;
-        if (var3.has("deprecated")) {
-            GL11.glTexEnvi(8960, 8704, 260);
-        }
 
         String var7 = var3.get("title").getAsString();
         JsonArray var8 = var3.getAsJsonArray("changes");
