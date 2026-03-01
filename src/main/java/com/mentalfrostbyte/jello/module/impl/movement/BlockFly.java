@@ -360,7 +360,7 @@ public class BlockFly extends ModuleWithModuleSettings {
                     this.renderJelloBlockCount(
                             mc.getMainWindow().getWidth() / 2,
                             mc.getMainWindow().getHeight() - 138
-                                    - (int) (25.0F * MathHelper.calculateTransition(this.animation.calcPercent(), 0.0F,
+                                    - (int) (25.0F * MathHelper.easeOutCubic(this.animation.calcPercent(), 0.0F,
                                     1.0F, 1.0F)),
                             this.animation.calcPercent());
                 }

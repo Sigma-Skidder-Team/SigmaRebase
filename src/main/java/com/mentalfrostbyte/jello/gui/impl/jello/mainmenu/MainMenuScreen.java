@@ -130,9 +130,9 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void draw(float partialTicks) {
-        float transitionProgress = MathHelper.calculateTransition(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
+        float transitionProgress = MathHelper.easeOutCubic(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
         if (this.field20972.getDirection() == Animation.Direction.BACKWARDS) {
-            transitionProgress = MathHelper.calculateBackwardTransition(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
+            transitionProgress = MathHelper.easeInCubic(this.field20972.calcPercent(), 0.0F, 1.0F, 1.0F);
         }
 
         float scaleOffset = 0.07F * transitionProgress;

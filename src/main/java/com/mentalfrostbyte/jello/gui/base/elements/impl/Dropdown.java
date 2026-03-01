@@ -123,7 +123,7 @@ public class Dropdown extends Element {
     }
 
     private int method13648() {
-        float var3 = MathHelper.calculateTransition(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+        float var3 = MathHelper.easeOutCubic(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
         if (this.animation.getDirection() != Animation.Direction.FORWARDS) {
             var3 = QuadraticEasing.easeInQuad(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
         }

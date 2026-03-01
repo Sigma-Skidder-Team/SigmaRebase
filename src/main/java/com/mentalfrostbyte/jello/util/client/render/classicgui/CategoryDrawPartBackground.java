@@ -48,9 +48,9 @@ public class   CategoryDrawPartBackground {
    }
 
    public void render(float partialTicks) {
-      float transitionFactor = MathHelper.calculateTransition(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+      float transitionFactor = MathHelper.easeOutCubic(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
       if (this.animation.getDirection() == Animation.Direction.BACKWARDS) {
-         transitionFactor = MathHelper.calculateBackwardTransition(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+         transitionFactor = MathHelper.easeInCubic(this.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
       }
 
       RenderUtil.startScissor((float)this.getStartX(), (float)this.getStartY(), (float)this.getWidth() * transitionFactor, (float)this.getHeight());

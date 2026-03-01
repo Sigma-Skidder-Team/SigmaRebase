@@ -193,9 +193,9 @@ public class Class4345 extends ScrollableContentPanel {
 
     @Override
     public void draw(float partialTicks) {
-        int var4 = Math.round((float) this.getHeightA() * MathHelper.calculateTransition(this.anim.calcPercent(), 0.0F, 1.0F, 1.0F));
+        int var4 = Math.round((float) this.getHeightA() * MathHelper.easeOutCubic(this.anim.calcPercent(), 0.0F, 1.0F, 1.0F));
         if (this.anim.getDirection() == Animation.Direction.BACKWARDS) {
-            var4 = Math.round((float) this.getHeightA() * MathHelper.calculateBackwardTransition(this.anim.calcPercent(), 0.0F, 1.0F, 1.0F));
+            var4 = Math.round((float) this.getHeightA() * MathHelper.easeInCubic(this.anim.calcPercent(), 0.0F, 1.0F, 1.0F));
         }
 
         RenderUtil.startScissor((float) this.xA, (float) (70 + this.getHeightA() - var4), (float) this.getWidthA(), (float) var4);

@@ -3,28 +3,19 @@ package com.mentalfrostbyte.jello.util.system.math;
 import javax.sound.sampled.AudioFormat;
 
 public class MathHelper {
-    public static float calculateBackwardTransition(float var0, float var1, float var2, float var3) {
-        var0 /= var3;
-        return var2 * var0 * var0 * var0 + var1;
+    public static float easeInCubic(float elapsedTime, float startValue, float change, float duration) {
+        elapsedTime /= duration;
+        return change * elapsedTime * elapsedTime * elapsedTime + startValue;
     }
 
-    public static float calculateTransition(float var0, float var1, float var2, float var3) {
-        var0 /= var3;
-        return var2 * (var0 * var0 * --var0 + 1.0F) + var1;
+    public static float easeOutCubic(float elapsedTime, float startValue, float change, float duration) {
+        elapsedTime /= duration;
+        elapsedTime--; // equivalent to --t in classic easing formula
+        return change * (elapsedTime * elapsedTime * elapsedTime + 1.0F) + startValue;
     }
 
     public static double getRandomValue() {
         return Math.random() * 1.0E-8;
-    }
-
-    public static float method27665(float var0, float var1, float var2, float var3) {
-        var0 /= var3 / 2.0F;
-        if (!(var0 < 1.0F)) {
-            var0 -= 2.0F;
-            return var2 / 2.0F * (var0 * var0 * var0 + 2.0F) + var1;
-        } else {
-            return var2 / 2.0F * var0 * var0 * var0 + var1;
-        }
     }
 
     public static float[] convertToPCMFloatArray(byte[] audioBytes, AudioFormat audioFormat) {
@@ -81,18 +72,5 @@ public class MathHelper {
         double rounded = Math.round(number / roundTo);
 
         return rounded * roundTo;
-    }
-
-    public static float wrapAngleTo180_float(float var0) {
-        float var3 = var0 % 360.0F;
-        if (var3 >= 180.0F) {
-            var3 -= 360.0F;
-        }
-
-        if (var3 < -180.0F) {
-            var3 += 360.0F;
-        }
-
-        return var3;
     }
 }

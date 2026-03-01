@@ -267,7 +267,7 @@ public class ClickGuiScreen extends Screen {
         if (this.settingGroup != null) {
             float var8 = EasingFunctions.easeOutBack(this.settingGroup.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
             if (this.settingGroup.animation.getDirection() == Animation.Direction.BACKWARDS) {
-                var8 = MathHelper.calculateBackwardTransition(this.settingGroup.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
+                var8 = MathHelper.easeInCubic(this.settingGroup.animation.calcPercent(), 0.0F, 1.0F, 1.0F);
             }
 
             fadeAmount -= this.settingGroup.animation.calcPercent() * 0.1F;

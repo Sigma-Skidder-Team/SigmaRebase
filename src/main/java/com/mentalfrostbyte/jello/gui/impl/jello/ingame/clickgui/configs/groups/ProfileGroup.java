@@ -179,7 +179,7 @@ public class ProfileGroup extends AnimatedIconPanel {
       partialTicks *= 1.0F - this.animation.calcPercent();
       float var5 = SmoothInterpolator.interpolate(this.field21265.calcPercent(), 0.28, 1.26, 0.33, 1.04);
       if (this.field21265.getDirection().equals(Animation.Direction.BACKWARDS)) {
-         var5 = MathHelper.calculateBackwardTransition(this.field21265.calcPercent(), 0.0F, 1.0F, 1.0F);
+         var5 = MathHelper.easeInCubic(this.field21265.calcPercent(), 0.0F, 1.0F, 1.0F);
       }
 
       this.buttonList.setHovered(this.field21265.calcPercent() == 1.0F);

@@ -5,7 +5,6 @@ import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2DOffset;
 import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
 import com.mentalfrostbyte.jello.gui.base.animations.Animation;
-import com.mentalfrostbyte.jello.module.impl.gui.jello.ActiveMods;
 import com.mentalfrostbyte.jello.util.client.ClientMode;
 import com.mentalfrostbyte.jello.util.client.render.classicgui.CategoryDrawPart;
 import com.mentalfrostbyte.jello.util.client.render.classicgui.CategoryDrawPartBackground;
@@ -245,9 +244,9 @@ public class TabGUI extends Module {
                     description = currentSetting.getDescription();
                 }
 
-                float animationProgressValue = MathHelper.calculateTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
+                float animationProgressValue = MathHelper.easeOutCubic(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F) * animationProgress.calcPercent();
                 if (this.firstAnimationProgress.getDirection() == Animation.Direction.BACKWARDS) {
-                    animationProgressValue = MathHelper.calculateBackwardTransition(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+                    animationProgressValue = MathHelper.easeInCubic(this.firstAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
                 }
 
                 RenderUtil.renderCategoryBox(
@@ -260,7 +259,7 @@ public class TabGUI extends Module {
                 int descriptionX = activeCategoryPart.getStartX() + activeCategoryPart.getWidth() + 4 + Math.round(animationProgressValue * 28.0F);
                 int descriptionY = activeCategoryPart.getStartY() + 25 * activeCategoryPart.currentOffset + 4;
                 int descriptionWidth = activeCategoryPart.font.getWidth(description) + 8;
-                float secondAnimationValue = MathHelper.calculateTransition(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
+                float secondAnimationValue = MathHelper.easeOutCubic(this.secondAnimationProgress.calcPercent(), 0.0F, 1.0F, 1.0F);
                 RenderUtil.drawRoundedRect2((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F, RenderUtil2.applyAlpha(ClientColors.DEEP_TEAL.getColor(), partialTicks * 0.6F));
                 RenderUtil.startScissor((float) descriptionX, (float) descriptionY, (float) descriptionWidth * secondAnimationValue, 25.0F);
                 RenderUtil.drawString(
