@@ -15,6 +15,7 @@ import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.play.server.SPlayerListItemPacket;
 import net.minecraft.profiler.IProfiler;
@@ -43,6 +44,7 @@ public class Head extends AnimatedIconPanel {
     private static ClientWorld clientWorld;
     public Account account;
     private DynamicTexture field20827;
+    private ResourceLocation customSkinLocation;
     private UIClientPlayerEntity entity;
 
     public Head(CustomGuiScreen var1, String var2, int var3, int var4, int var5, int var6, String skinName) {
@@ -58,6 +60,11 @@ public class Head extends AnimatedIconPanel {
     @Override
     public void draw(float partialTicks) {
         if (this.account != null) {
+            if (this.account.getSkin() != null && this.field20827 == null) {
+                this.field20827 = new DynamicTexture(com.mentalfrostbyte.jello.util.system.network.ImageUtil.toNativeImage(this.account.getSkin()));
+                this.customSkinLocation = this.mc.getTextureManager().getDynamicTextureLocation("skin_" + this.account.getKnownName(), this.field20827);
+            }
+
             GL11.glEnable(2929);
             RenderHelper.enableStandardItemLighting();
             RenderSystem.disableDepthTest();
@@ -85,6 +92,8 @@ public class Head extends AnimatedIconPanel {
             }
 
             this.entity.setUniqueId(uid);
+            this.entity.customSkin = this.customSkinLocation;
+
             float var10 = (float) (System.currentTimeMillis() % 1750L) / 278.52115F;
             var10 = (float) Math.sin(var10);
             RenderSystem.pushMatrix();
@@ -113,6 +122,9 @@ public class Head extends AnimatedIconPanel {
 
     public void handleSelectedAccount(Account var1) {
         this.account = var1;
+        if (this.account != null) {
+            this.account.updateSkin();
+        }
         this.field20827 = null;
     }
 

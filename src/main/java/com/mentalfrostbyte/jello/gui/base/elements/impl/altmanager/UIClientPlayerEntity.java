@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class UIClientPlayerEntity extends AbstractClientPlayerEntity {
+    public ResourceLocation customSkin;
+
     public UIClientPlayerEntity(ClientWorld var1, GameProfile var2) {
         super(var1, var2);
     }
@@ -37,11 +39,14 @@ public class UIClientPlayerEntity extends AbstractClientPlayerEntity {
 
     @Override
     public boolean hasSkin() {
-        return false;
+        return true;
     }
 
     @Override
     public ResourceLocation getLocationSkin() {
+        if (customSkin != null) {
+            return customSkin;
+        }
         NetworkPlayerInfo var3 = this.getPlayerInfo();
         return var3 != null ? var3.getLocationSkin() : DefaultPlayerSkin.getDefaultSkin(this.getUniqueID());
     }

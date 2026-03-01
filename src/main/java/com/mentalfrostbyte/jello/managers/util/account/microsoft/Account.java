@@ -6,9 +6,11 @@ import com.mentalfrostbyte.Client;
 import com.mentalfrostbyte.jello.util.system.network.ImageUtil;
 import com.mentalfrostbyte.jello.util.client.render.Resources;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Base64OutputStream;
@@ -188,10 +190,23 @@ public class Account {
 
     public Texture setHeadTexture() {
         if (this.head == null) {
-            this.head = ImageUtil.loadTextureFromURL("https://crafatar.com/avatars/" + getFormattedUUID());
+            this.head = Resources.head; 
+            new Thread(() -> {
+                String identifier = (this.password == null || this.password.isEmpty()) ? getName() : getFormattedUUID();
+                BufferedImage bufferedImage = ImageUtil.loadBufferedImageFromURL("https://mc-heads.net/avatar/" + identifier + "/100");
+                if (bufferedImage != null) {
+                    Minecraft.getInstance().execute(() -> {
+                        try {
+                            this.head = BufferedImageUtil.getTexture(getFormattedUUID(), bufferedImage);
+                        } catch (IOException e) {
+                            System.out.println("Failed to convert buffered image to texture: " + e.getMessage());
+                        }
+                    });
+                }
+            }).start();
         }
 
-        return this.head != null ? this.head : Resources.head;
+        return this.head;
     }
 
     @Override
@@ -205,11 +220,16 @@ public class Account {
         }
     }
 
+    public BufferedImage getSkin() {
+        return this.skin;
+    }
+
     public void updateSkin() {
-        if (!this.getUUID().contains("8667ba71-b85a-4004-af54-457a9734eed7") && this.skinUpdateThread == null) {
+        if (this.skinUpdateThread == null) {
             this.skinUpdateThread = new Thread(() -> {
                 try {
-                    this.skin = ImageIO.read(new URL(ImageUtil.getSkinUrlByID(getFormattedUUID())));
+                    String identifier = (this.password == null || this.password.isEmpty()) ? getName() : getFormattedUUID();
+                    this.skin = ImageIO.read(new URL(ImageUtil.getSkinUrlByID(identifier)));
                 } catch (Exception ignored) {
                 }
             });

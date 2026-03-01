@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -22,8 +23,8 @@ import java.nio.ByteBuffer;
 
 public class ImageUtil {
 
-    public static String getSkinUrlByID(String uuid) {
-        return "https://crafatar.com/skins/" + uuid;
+    public static String getSkinUrlByID(String identifier) {
+        return "https://mc-heads.net/skin/" + identifier;
     }
 
     public static BufferedImage applyBlur(BufferedImage image, int amount) {
@@ -231,6 +232,15 @@ public class ImageUtil {
         return method35036(var0, var1, var2, var3, var4, var5, ClientColors.DEEP_TEAL.getColor(), false);
     }
 
+    public static BufferedImage loadBufferedImageFromURL(String urlString) {
+        try (InputStream inputStream = getInputStreamFromURL(urlString)) {
+            return ImageIO.read(inputStream);
+        } catch (IOException e) {
+            System.out.println("Failed to load buffered image: " + e.getMessage());
+            return null;
+        }
+    }
+
     public static Texture loadTextureFromURL(String urlString) {
         try (InputStream inputStream = getInputStreamFromURL(urlString)) {
             return TextureLoader.getTexture("PNG", inputStream);
@@ -260,5 +270,20 @@ public class ImageUtil {
         }
 
         return bis;
+    }
+
+    public static net.minecraft.client.renderer.texture.NativeImage toNativeImage(BufferedImage bufferedImage) {
+        net.minecraft.client.renderer.texture.NativeImage nativeImage = new net.minecraft.client.renderer.texture.NativeImage(bufferedImage.getWidth(), bufferedImage.getHeight(), false);
+        for (int y = 0; y < bufferedImage.getHeight(); y++) {
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                int argb = bufferedImage.getRGB(x, y);
+                int a = (argb >> 24) & 0xFF;
+                int r = (argb >> 16) & 0xFF;
+                int g = (argb >> 8) & 0xFF;
+                int b = argb & 0xFF;
+                nativeImage.setPixelRGBA(x, y, (a << 24) | (b << 16) | (g << 8) | r);
+            }
+        }
+        return nativeImage;
     }
 }
