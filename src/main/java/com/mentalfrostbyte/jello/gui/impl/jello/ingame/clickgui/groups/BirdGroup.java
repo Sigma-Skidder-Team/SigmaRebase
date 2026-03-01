@@ -67,7 +67,7 @@ public class BirdGroup extends AnimatedIconPanel {
     @Override
     public void draw(float partialTicks) {
         this.method13184();
-        RenderUtil.method11415(this);
+        RenderUtil.scissorScreenArea(this);
 
         for (int var4 = 0; var4 < 3; var4++) {
             RenderUtil.drawImage((float) (this.xA + 288 * var4), (float) this.yA, 288.0F, 512.0F, this.backgrnd);

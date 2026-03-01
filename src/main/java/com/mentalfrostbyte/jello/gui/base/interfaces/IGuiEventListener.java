@@ -38,5 +38,5 @@ public interface IGuiEventListener {
      *
      * @param scroll <= -1 is down, > -1 is up
      */
-   void voidEvent3(float scroll);
+   void onScroll(float scroll);
 }

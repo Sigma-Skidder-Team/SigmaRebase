@@ -115,12 +115,12 @@ public class ConfigScreen extends Element {
     public void method13615() {
         int var3 = 0;
         if (this.profileScrollView != null) {
-            var3 = this.profileScrollView.method13513();
+            var3 = this.profileScrollView.getScrollBarOffset();
             this.removeChildren(this.profileScrollView);
         }
 
         this.addToList(this.profileScrollView = new ScrollableContentPanel(this, "profileScrollView", 10, 80, this.widthA - 20, this.heightA - 80 - 10));
-        this.profileScrollView.method13512(var3);
+        this.profileScrollView.setScrollBarOffset(var3);
         this.field21301.clear();
         int var4 = 0;
         int var5 = 70;

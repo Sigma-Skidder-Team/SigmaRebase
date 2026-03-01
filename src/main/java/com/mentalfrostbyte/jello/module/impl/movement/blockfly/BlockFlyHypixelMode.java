@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
 import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventSafeWalk;
@@ -21,6 +22,7 @@ import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
 import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
+import com.mentalfrostbyte.jello.util.game.player.rotation.RotationCore;
 import com.mentalfrostbyte.jello.util.game.world.pathing.BlockCache;
 import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
 import net.minecraft.network.play.client.CAnimateHandPacket;
@@ -49,6 +51,8 @@ public class BlockFlyHypixelMode extends Module {
     private boolean field23474;
     private boolean field23475 = false;
     private double field23476;
+
+    private boolean useRotation;
 
     public BlockFlyHypixelMode() {
         super(ModuleCategory.MOVEMENT, "Hypixel", "Places block underneath");
@@ -114,6 +118,8 @@ public class BlockFlyHypixelMode extends Module {
         }
 
         this.offGroundTicks = -1;
+
+        this.useRotation = false;
     }
 
     @Override
@@ -206,77 +212,99 @@ public class BlockFlyHypixelMode extends Module {
                         }
                     }
                 } else {
-                    this.rotationStabilityCounter++;
                     event.setMoving(true);
-                    this.hand = Hand.MAIN_HAND;
-                    if (InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(Hand.OFF_HAND).getItem())
-                            && (
-                            mc.player.getHeldItem(this.hand).isEmpty()
-                                    || !InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(this.hand).getItem())
-                    )) {
-                        this.hand = Hand.OFF_HAND;
-                    }
 
-                    double var5 = event.getX();
-                    double var7 = event.getZ();
-                    double var9 = event.getY();
-                    if (mc.player.getMotion().y < 0.0
-                            && mc.player.fallDistance > 1.0F
-                            && BlockUtil.rayTrace(0.0F, 90.0F, 3.0F).getType() == RayTraceResult.Type.MISS) {
-                        var9 += Math.min(mc.player.getMotion().y * 2.0, 4.0);
-                    } else if (this.field23474 && this.getBooleanValueFromSettingName("Downwards")) {
-                        var9--;
-                    } else if ((this.getStringSettingValueByName("Speed Mode").equals("Jump") || this.getStringSettingValueByName("Speed Mode").equals("Cubecraft"))
-                            && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                        var9 = this.field23476;
-                    }
-
-                    if (!BlockUtil.isValidBlockPosition(
-                            new BlockPos(
-                                    mc.player.getPositionVec().getX(),
-                                    mc.player.getPositionVec().getY() - 1.0,
-                                    mc.player.getPositionVec().getZ()
-                            )
-                    )) {
-                        var5 = mc.player.getPositionVec().getX();
-                        var7 = mc.player.getPositionVec().getZ();
-                    }
-
-                    BlockPos var11 = new BlockPos(var5, var9 - 1.0, var7);
-                    if (!BlockUtil.isValidBlockPosition(var11) && this.blockFly.canPlaceItem(this.hand)) {
-                        BlockCache var12 = BlockUtil.findValidBlockCache(var11, !this.field23474 && this.getBooleanValueFromSettingName("Downwards"));
-                        this.blockCache = var12;
-                        if (var12 != null) {
-                            float[] var13 = BlockUtil.method34542(this.blockCache.position, this.blockCache.direction);
-                            if ((double) var12.position.getY() - mc.player.getPosY() < 0.0) {
-                                double var14 = mc.player.getPosX()
-                                        - ((double) var12.position.getX() + 0.5 + (double) var12.direction.getXOffset() / 2.0);
-                                double var16 = mc.player.getPosZ()
-                                        - ((double) var12.position.getZ() + 0.5 + (double) var12.direction.getZOffset() / 2.0);
-                                double var18 = Math.sqrt(var14 * var14 + var16 * var16);
-                                if (var18 < 2.0) {
-                                    var13[0] = mc.player.rotationYaw + 1.0F;
-                                    var13[1] = 90.0F;
-                                }
-                            }
-
-                            this.yaw = var13[0];
-                            this.pitch = var13[1];
-                            event.setYaw(this.yaw);
-                            event.setPitch(this.pitch);
-                        }
+                    if (this.useRotation) {
+                        event.setYaw(this.yaw);
+                        event.setPitch(this.pitch);
                     } else {
                         if (this.getBooleanValueFromSettingName("KeepRotations") && this.pitch != 999.0F) {
                             event.setPitch(90.0F);
                             event.setYaw(mc.player.rotationYaw + 1.0F);
                         }
-
-                        this.blockCache = null;
                     }
 
                     if (mc.player.rotationYaw != event.getYaw() && mc.player.rotationPitch != event.getPitch()) {
                         this.rotationStabilityCounter = 0;
                     }
+                }
+            }
+        }
+    }
+
+    @EventTarget
+    @LowerPriority
+    public void onUpdate(EventUpdate event) {
+        this.useRotation = false;
+        if (this.isEnabled() && this.blockFly.getValidItemCount() != 0) {
+            ModuleWithModuleSettings var4 = (ModuleWithModuleSettings) Client.getInstance().moduleManager.getModuleByClass(Fly.class);
+            if (!var4.isEnabled() || !var4.getStringSettingValueByName("Type").equalsIgnoreCase("Hypixel") || !var4.getModWithTypeSetToName().getStringSettingValueByName("Bypass").equals("Blink")) {
+                this.rotationStabilityCounter++;
+                this.hand = Hand.MAIN_HAND;
+                if (InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(Hand.OFF_HAND).getItem())
+                        && (
+                        mc.player.getHeldItem(this.hand).isEmpty()
+                                || !InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(this.hand).getItem())
+                )) {
+                    this.hand = Hand.OFF_HAND;
+                }
+
+                double var5 = mc.player.getPosX();
+                double var7 = mc.player.getPosZ();
+                double var9 = mc.player.getPosY();
+                if (mc.player.getMotion().y < 0.0
+                        && mc.player.fallDistance > 1.0F
+                        && BlockUtil.rayTrace(0.0F, 90.0F, 3.0F).getType() == RayTraceResult.Type.MISS) {
+                    var9 += Math.min(mc.player.getMotion().y * 2.0, 4.0);
+                } else if (this.field23474 && this.getBooleanValueFromSettingName("Downwards")) {
+                    var9--;
+                } else if ((this.getStringSettingValueByName("Speed Mode").equals("Jump") || this.getStringSettingValueByName("Speed Mode").equals("Cubecraft"))
+                        && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    var9 = this.field23476;
+                }
+
+                if (!BlockUtil.isValidBlockPosition(
+                        new BlockPos(
+                                mc.player.getPositionVec().getX(),
+                                mc.player.getPositionVec().getY() - 1.0,
+                                mc.player.getPositionVec().getZ()
+                        )
+                )) {
+                    var5 = mc.player.getPositionVec().getX();
+                    var7 = mc.player.getPositionVec().getZ();
+                }
+
+                BlockPos var11 = new BlockPos(var5, var9 - 1.0, var7);
+                if (!BlockUtil.isValidBlockPosition(var11) && this.blockFly.canPlaceItem(this.hand)) {
+                    BlockCache var12 = BlockUtil.findValidBlockCache(var11, !this.field23474 && this.getBooleanValueFromSettingName("Downwards"));
+                    this.blockCache = var12;
+                    if (var12 != null) {
+                        float[] var13 = BlockUtil.method34542(this.blockCache.position, this.blockCache.direction);
+                        if ((double) var12.position.getY() - mc.player.getPosY() < 0.0) {
+                            double var14 = mc.player.getPosX()
+                                    - ((double) var12.position.getX() + 0.5 + (double) var12.direction.getXOffset() / 2.0);
+                            double var16 = mc.player.getPosZ()
+                                    - ((double) var12.position.getZ() + 0.5 + (double) var12.direction.getZOffset() / 2.0);
+                            double var18 = Math.sqrt(var14 * var14 + var16 * var16);
+                            if (var18 < 2.0) {
+                                var13[0] = mc.player.rotationYaw + 1.0F;
+                                var13[1] = 90.0F;
+                            }
+                        }
+
+                        this.yaw = var13[0];
+                        this.pitch = var13[1];
+                        this.useRotation = true;
+                        RotationCore.currentYaw = this.yaw;
+                        RotationCore.currentPitch = this.pitch;
+                    }
+                } else {
+                    if (this.getBooleanValueFromSettingName("KeepRotations") && this.pitch != 999.0F) {
+                        RotationCore.currentYaw = mc.player.rotationYaw + 1.0F;
+                        RotationCore.currentPitch = 90.0F;
+                    }
+
+                    this.blockCache = null;
                 }
             }
         }

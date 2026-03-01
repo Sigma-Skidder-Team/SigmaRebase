@@ -5,6 +5,7 @@ import com.mentalfrostbyte.jello.event.impl.game.action.EventKeyPress;
 import com.mentalfrostbyte.jello.event.impl.game.action.EventMouseHover;
 import com.mentalfrostbyte.jello.event.impl.game.network.EventSendPacket;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender2D;
+import com.mentalfrostbyte.jello.event.impl.player.EventUpdate;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventJump;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventMove;
 import com.mentalfrostbyte.jello.event.impl.player.movement.EventSafeWalk;
@@ -18,8 +19,8 @@ import com.mentalfrostbyte.jello.module.impl.movement.Speed;
 import com.mentalfrostbyte.jello.module.settings.impl.BooleanSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.ModeSetting;
 import com.mentalfrostbyte.jello.module.settings.impl.NumberSetting;
-import com.mentalfrostbyte.jello.util.game.player.InvManagerUtil;
 import com.mentalfrostbyte.jello.util.game.player.MovementUtil;
+import com.mentalfrostbyte.jello.util.game.player.rotation.RotationCore;
 import com.mentalfrostbyte.jello.util.game.world.pathing.BlockCache;
 import com.mentalfrostbyte.jello.util.game.world.blocks.BlockUtil;
 import net.minecraft.network.play.client.CAnimateHandPacket;
@@ -47,6 +48,8 @@ public class BlockFlyNCPMode extends Module {
     private boolean field23929;
     private boolean field23930 = false;
     private double field23931;
+
+    private boolean updateRotation;
 
     public BlockFlyNCPMode() {
         super(ModuleCategory.MOVEMENT, "NCP", "Places block underneath");
@@ -112,6 +115,8 @@ public class BlockFlyNCPMode extends Module {
         }
 
         this.field23926 = -1;
+
+        this.updateRotation = false;
     }
 
     @Override
@@ -178,104 +183,119 @@ public class BlockFlyNCPMode extends Module {
         if (this.isEnabled() && this.parent.getValidItemCount() != 0) {
             if (event.isPre()) {
                 event.setMoving(true);
-                this.hand = Hand.MAIN_HAND;
-
-                double x = event.getX();
-                double z = event.getZ();
-                double y = event.getY();
-
-                if (!mc.player.collidedHorizontally && !mc.gameSettings.keyBindJump.isPressed()) {
-                    double[] expandPos = this.method16813();
-                    x = expandPos[0];
-                    z = expandPos[1];
-                }
-
-                if (mc.player.getMotion().y < 0.0
-                        && mc.player.fallDistance > 1.0F
-                        && BlockUtil.rayTrace(0.0F, 90.0F, 3.0F).getType() == RayTraceResult.Type.MISS) {
-                    y += Math.min(mc.player.getMotion().y * 2.0, 4.0);
-                } else if ((this.getStringSettingValueByName("Speed Mode").equals("Jump")
-                        || this.getStringSettingValueByName("Speed Mode").equals("Cubecraft"))
-                        && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                    y = this.field23931;
-                }
-
-                if (!BlockUtil.isValidBlockPosition(
-                        new BlockPos(
-                                mc.player.getPositionVec().getX(),
-                                mc.player.getPositionVec().getY() - 1.0,
-                                mc.player.getPositionVec().getZ()
-                        )
-                )) {
-                    x = mc.player.getPositionVec().getX();
-                    z = mc.player.getPositionVec().getZ();
-                }
-
-                BlockPos blockPos = new BlockPos(x, y - 1.0, z);
-
-                if (!BlockUtil.isValidBlockPosition(blockPos)
-                        && this.parent.canPlaceItem(this.hand)) {
-
-                    BlockCache blockCache = BlockUtil.findValidBlockCache(blockPos, !this.field23929 && this.getBooleanValueFromSettingName("Downwards"));
-                    this.field23923 = blockCache;
-
-                    if (blockCache != null) {
-                        float[] rotations = BlockUtil.method34542(blockCache.position, blockCache.direction);
-                        if (rotations != null) {
-                            this.yaw = rotations[0];
-                            this.pitch = rotations[1];
-                            event.setYaw(this.yaw);
-                            event.setPitch(this.pitch);
-                        }
-                    }
-                } else {
-                    this.field23923 = null;
-                }
-
-                if (this.yaw != 999.0F) {
+                if (this.updateRotation) {
                     event.setYaw(this.yaw);
                     event.setPitch(this.pitch);
                 }
+            }
+        }
+    }
 
-                if (this.yaw != 999.0F) {
-                    this.parent.method16736();
+    @EventTarget
+    @LowerPriority
+    public void onUpdate(EventUpdate event) {
+        this.updateRotation = false;
 
-                    if (this.field23923 != null) {
-                        BlockRayTraceResult rayTraceResult = new BlockRayTraceResult(
-                                BlockFlyNCPMode.method16814(this.field23923.position, this.field23923.direction),
-                                this.field23923.direction,
-                                this.field23923.position,
-                                false
-                        );
+        if (this.isEnabled() && this.parent.getValidItemCount() != 0) {
+            this.hand = Hand.MAIN_HAND;
 
-                        int currentItem = mc.player.inventory.currentItem;
-                        int spoofSlot = -1;
+            double x = mc.player.getPosX();
+            double z = mc.player.getPosZ();
+            double y = mc.player.getPosY();
 
-                        if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
-                            spoofSlot = this.parent.getValidHotbarItemSlot();
-                            if (spoofSlot != -1 && spoofSlot != currentItem) {
-                                mc.getConnection().sendPacket(new CHeldItemChangePacket(spoofSlot));
-                                mc.player.inventory.currentItem = spoofSlot;
-                                ((BlockFly) this.access()).lastSpoofedSlot = spoofSlot;
-                            }
+            if (!mc.player.collidedHorizontally && !mc.gameSettings.keyBindJump.isPressed()) {
+                double[] expandPos = this.method16813();
+                x = expandPos[0];
+                z = expandPos[1];
+            }
+
+            if (mc.player.getMotion().y < 0.0
+                    && mc.player.fallDistance > 1.0F
+                    && BlockUtil.rayTrace(0.0F, 90.0F, 3.0F).getType() == RayTraceResult.Type.MISS) {
+                y += Math.min(mc.player.getMotion().y * 2.0, 4.0);
+            } else if ((this.getStringSettingValueByName("Speed Mode").equals("Jump")
+                    || this.getStringSettingValueByName("Speed Mode").equals("Cubecraft"))
+                    && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                y = this.field23931;
+            }
+
+            if (!BlockUtil.isValidBlockPosition(
+                    new BlockPos(
+                            mc.player.getPositionVec().getX(),
+                            mc.player.getPositionVec().getY() - 1.0,
+                            mc.player.getPositionVec().getZ()
+                    )
+            )) {
+                x = mc.player.getPositionVec().getX();
+                z = mc.player.getPositionVec().getZ();
+            }
+
+            BlockPos blockPos = new BlockPos(x, y - 1.0, z);
+
+            if (!BlockUtil.isValidBlockPosition(blockPos)
+                    && this.parent.canPlaceItem(this.hand)) {
+
+                BlockCache blockCache = BlockUtil.findValidBlockCache(blockPos, !this.field23929 && this.getBooleanValueFromSettingName("Downwards"));
+                this.field23923 = blockCache;
+
+                if (blockCache != null) {
+                    float[] rotations = BlockUtil.method34542(blockCache.position, blockCache.direction);
+                    if (rotations != null) {
+                        this.yaw = rotations[0];
+                        this.pitch = rotations[1];
+                        this.updateRotation = true;
+                        RotationCore.currentYaw = this.yaw;
+                        RotationCore.currentPitch = this.pitch;
+                    }
+                }
+            } else {
+                this.field23923 = null;
+            }
+
+            if (this.yaw != 999.0F) {
+                this.updateRotation = true;
+                RotationCore.currentYaw = this.yaw;
+                RotationCore.currentPitch = this.pitch;
+            }
+
+            if (this.yaw != 999.0F) {
+                this.parent.method16736();
+
+                if (this.field23923 != null) {
+                    BlockRayTraceResult rayTraceResult = new BlockRayTraceResult(
+                            BlockFlyNCPMode.method16814(this.field23923.position, this.field23923.direction),
+                            this.field23923.direction,
+                            this.field23923.position,
+                            false
+                    );
+
+                    int currentItem = mc.player.inventory.currentItem;
+                    int spoofSlot = -1;
+
+                    if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
+                        spoofSlot = this.parent.getValidHotbarItemSlot();
+                        if (spoofSlot != -1 && spoofSlot != currentItem) {
+                            mc.getConnection().sendPacket(new CHeldItemChangePacket(spoofSlot));
+                            mc.player.inventory.currentItem = spoofSlot;
+                            ((BlockFly) this.access()).lastSpoofedSlot = spoofSlot;
                         }
+                    }
 
-                        mc.playerController.func_217292_a(mc.player, mc.world, this.hand, rayTraceResult);
-                        this.field23923 = null;
+                    mc.playerController.func_217292_a(mc.player, mc.world, this.hand, rayTraceResult);
+                    this.field23923 = null;
 
-                        if (!this.access().getBooleanValueFromSettingName("NoSwing")) {
-                            mc.player.swingArm(this.hand);
-                        } else {
-                            mc.getConnection().sendPacket(new CAnimateHandPacket(this.hand));
-                        }
+                    if (!this.access().getBooleanValueFromSettingName("NoSwing")) {
+                        mc.player.swingArm(this.hand);
+                    } else {
+                        mc.getConnection().sendPacket(new CAnimateHandPacket(this.hand));
+                    }
 
-                        if (this.access().getStringSettingValueByName("ItemSpoof").equals("Spoof")
-                                || this.access().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
-                            if (spoofSlot != -1 && spoofSlot != currentItem) {
-                                mc.getConnection().sendPacket(new CHeldItemChangePacket(currentItem));
-                                mc.player.inventory.currentItem = currentItem;
-                                ((BlockFly) this.access()).lastSpoofedSlot = -1;
-                            }
+                    if (this.access().getStringSettingValueByName("ItemSpoof").equals("Spoof")
+                            || this.access().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
+                        if (spoofSlot != -1 && spoofSlot != currentItem) {
+                            mc.getConnection().sendPacket(new CHeldItemChangePacket(currentItem));
+                            mc.player.inventory.currentItem = currentItem;
+                            ((BlockFly) this.access()).lastSpoofedSlot = -1;
                         }
                     }
                 }

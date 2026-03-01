@@ -51,7 +51,6 @@ import net.minecraft.util.text.ITextComponent;
 import team.sdhq.eventBus.EventBus;
 
 import javax.annotation.Nullable;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -288,22 +287,22 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
 
             boolean onGround = event.isOnGround();
 
-            double newX = x - this.lastReportedPosX;
-            double newY = y - this.lastReportedPosY;
-            double newZ = z - this.lastReportedPosZ;
+            double deltaX = x - this.lastReportedPosX;
+            double deltaY = y - this.lastReportedPosY;
+            double deltaZ = z - this.lastReportedPosZ;
 
-            double newYaw = yaw - this.lastReportedYaw;
-            double newPitch = pitch - this.lastReportedPitch;
+            double deltaYaw = yaw - this.lastReportedYaw;
+            double deltaPitch = pitch - this.lastReportedPitch;
 
             ++this.positionUpdateTicks;
 
             final var targetVersion = JelloPortal.getVersion();
             final var isLegacy = targetVersion.equalTo(ProtocolVersion.v1_8);
-            final var point3 = targetVersion.newerThanOrEqualTo(ProtocolVersion.v1_18_2) ? 4.0E-8D : 9.0E-4D;
+            final var minimumMovement = targetVersion.newerThanOrEqualTo(ProtocolVersion.v1_18_2) ? 4.0E-8D : 9.0E-4D;
 
-            boolean posMoved = newX * newX + newY * newY + newZ * newZ > point3
+            boolean posMoved = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > minimumMovement
                     || (isLegacy ? this.positionUpdateTicks >= 21 : this.positionUpdateTicks >= 19);
-            boolean rotMoved = newYaw != 0.0D || newPitch != 0.0D;
+            boolean rotMoved = deltaYaw != 0.0D || deltaPitch != 0.0D;
 
             if (this.isPassenger()) {
                 Vector3d vector3d = this.getMotion();
@@ -830,7 +829,7 @@ public class ClientPlayerEntity extends AbstractClientPlayerEntity {
 
         this.wasFallFlying = this.isElytraFlying();
 
-        if (this.isInWater() && this.movementInput.sneaking && this.func_241208_cS_()) {
+        if (this.isInWater() && this.movementInput.sneaking && this.isUnableToFly()) {
             this.handleFluidSneak();
         }
 

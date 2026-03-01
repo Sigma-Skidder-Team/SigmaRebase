@@ -79,13 +79,13 @@ public class VolumeSlider extends Element {
     }
 
     @Override
-    public void voidEvent3(float scroll) {
+    public void onScroll(float scroll) {
         if (this.method13298()) {
             this.setVolume(this.getVolume() - scroll / 2000.0F);
             this.method13710();
         }
 
-        super.voidEvent3(scroll);
+        super.onScroll(scroll);
     }
 
     public float getVolume() {

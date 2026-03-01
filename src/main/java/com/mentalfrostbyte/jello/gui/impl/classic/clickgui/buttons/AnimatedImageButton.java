@@ -14,7 +14,7 @@ public class AnimatedImageButton extends Element {
 
    @Override
    public void updatePanelDimensions(int newHeight, int newWidth) {
-      this.image.method23108();
+      this.image.tick();
    }
 
    @Override

@@ -453,10 +453,10 @@ public abstract class AbstractOption
     });
     public static final BooleanOption field_244786_G = new BooleanOption("options.hideMatchedNames", field_244787_ad, (p_lambda$static$83_0_) ->
     {
-        return p_lambda$static$83_0_.field_244794_ae;
+        return p_lambda$static$83_0_.hideMatchednames;
     }, (p_lambda$static$84_0_, p_lambda$static$84_1_) ->
     {
-        p_lambda$static$84_0_.field_244794_ae = p_lambda$static$84_1_;
+        p_lambda$static$84_0_.hideMatchednames = p_lambda$static$84_1_;
     });
     public static final BooleanOption CHAT_COLOR = new BooleanOption("options.chat.color", (p_lambda$static$85_0_) ->
     {

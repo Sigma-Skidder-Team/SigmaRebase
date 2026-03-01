@@ -1593,8 +1593,8 @@ public class Minecraft extends RecursiveEventLoop<Runnable> implements ISnooperI
 
         if (this.world != null) {
             if (!this.isGamePaused) {
-                if (!this.gameSettings.field_244601_E && this.func_244600_aM()) {
-                    this.gameSettings.field_244601_E = true;
+                if (!this.gameSettings.joinedFirstServer && this.func_244600_aM()) {
+                    this.gameSettings.joinedFirstServer = true;
                     this.gameSettings.saveOptions();
                 }
 

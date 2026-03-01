@@ -79,7 +79,7 @@ public class Picker extends Element {
                 }
             }
 
-            this.field20642.getButton().method13246(new Class7260(0));
+            this.field20642.getButtonList().method13246(new Class7260(0));
         });
     }
 

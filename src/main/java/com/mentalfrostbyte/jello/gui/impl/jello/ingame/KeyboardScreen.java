@@ -21,25 +21,25 @@ import java.util.Date;
 import java.util.Map.Entry;
 
 public class KeyboardScreen extends Screen {
-   private static final Minecraft field20953 = Minecraft.getInstance();
-   private Texture field20954;
-   public Date field20955;
-   public PopOver field20956;
-   public Keyboard field20957;
+   private static final Minecraft mc = Minecraft.getInstance();
+   private Texture texture;
+   public Date date;
+   public PopOver popOver;
+   public Keyboard keyboard;
    public boolean field20958 = false;
    public boolean field20959;
-   public ModsPanel field20960;
-   public int field20961;
+   public ModsPanel modsPanel;
+   public int keyCode;
    public boolean field20962;
    private boolean field20963;
    private boolean field20964;
 
    public KeyboardScreen() {
       super("KeybindManager");
-      this.field20955 = new Date();
-      this.addToList(this.field20957 = new Keyboard(this, "keyboard", (this.widthA - 1060) / 2, (this.heightA - 357) / 2));
-      this.field20957.method13279(0.4F, 0.4F);
-      this.field20957
+      this.date = new Date();
+      this.addToList(this.keyboard = new Keyboard(this, "keyboard", (this.widthA - 1060) / 2, (this.heightA - 357) / 2));
+      this.keyboard.method13279(0.4F, 0.4F);
+      this.keyboard
          .onPress(
             var2 -> {
                boolean var5 = false;
@@ -51,20 +51,20 @@ public class KeyboardScreen extends Screen {
 				   }
                }
 
-               if (this.field20957.field20696 == this.field20961 && var5) {
+               if (this.keyboard.keyCode == this.keyCode && var5) {
                   this.method13333();
                } else {
-                  int[] var8 = this.field20957.method13105(this.field20957.field20696);
-                  String var9 = RenderUtil.getKeyName(this.field20957.field20696);
-                  this.field20956 = new PopOver(
-                     this, "popover", this.field20957.getXA() + var8[0], this.field20957.getYA() + var8[1], this.field20957.field20696, var9
+                  int[] var8 = this.keyboard.method13105(this.keyboard.keyCode);
+                  String var9 = RenderUtil.getKeyName(this.keyboard.keyCode);
+                  this.popOver = new PopOver(
+                     this, "popover", this.keyboard.getXA() + var8[0], this.keyboard.getYA() + var8[1], this.keyboard.keyCode, var9
                   );
-                  this.field20956.onPress(var1x -> this.method13329(this.field20957));
-                  this.field20956.method13713(var1x -> {
+                  this.popOver.onPress(var1x -> this.method13329(this.keyboard));
+                  this.popOver.method13713(var1x -> {
                      var1x.setReAddChildren(false);
                      this.method13331();
                   });
-                  this.field20961 = this.field20957.field20696;
+                  this.keyCode = this.keyboard.keyCode;
                }
             }
          );
@@ -108,17 +108,17 @@ public class KeyboardScreen extends Screen {
    @Override
    public void updatePanelDimensions(int newHeight, int newWidth) {
       if (this.method13212()) {
-         this.field20957.method13242();
+         this.keyboard.method13242();
          this.clearChildren();
-         this.field20961 = 0;
-         this.field20956 = null;
+         this.keyCode = 0;
+         this.popOver = null;
       }
 
-      if (this.field20956 != null) {
-         this.field20957.method13242();
+      if (this.popOver != null) {
+         this.keyboard.method13242();
          this.clearChildren();
-         this.addToList(this.field20956);
-         this.field20956 = null;
+         this.addToList(this.popOver);
+         this.popOver = null;
       }
 
       super.updatePanelDimensions(newHeight, newWidth);
@@ -135,13 +135,13 @@ public class KeyboardScreen extends Screen {
       super.keyPressed(keyCode);
       if (keyCode == 256) {
          RenderUtil2.resetShaders();
-         field20953.displayGuiScreen(null);
+         mc.displayGuiScreen(null);
       }
    }
 
    @Override
    public void draw(float partialTicks) {
-      partialTicks = (float)Math.min(200L, new Date().getTime() - this.field20955.getTime()) / 200.0F;
+      partialTicks = (float)Math.min(200L, new Date().getTime() - this.date.getTime()) / 200.0F;
       float var4 = EasingFunctions.easeOutBack(partialTicks, 0.0F, 1.0F, 1.0F);
       this.method13279(0.8F + var4 * 0.2F, 0.8F + var4 * 0.2F);
       float var5 = 0.25F * partialTicks;

@@ -944,7 +944,7 @@ public abstract class AbstractHorseEntity extends AnimalEntity implements IInven
                     this.setHorseJumping(false);
                 }
 
-                this.func_233629_a_(this, false);
+                this.updateLimbSwing(this, false);
             }
             else
             {

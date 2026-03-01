@@ -139,7 +139,7 @@ public class PanelGroup extends AnimatedIconPanel {
         GL11.glPushMatrix();
         super.draw(partialTicks * partialTicks);
         GL11.glPopMatrix();
-        if (this.modListView.method13513() > 0) {
+        if (this.modListView.getScrollBarOffset() > 0) {
             RenderUtil.drawImage(
                     (float) this.getXA(),
                     (float) (this.getYA() + 60),

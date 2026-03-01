@@ -109,7 +109,7 @@ public class GameSettings
     private final Map<SoundCategory, Float> soundLevels = Maps.newEnumMap(SoundCategory.class);
     public boolean useNativeTransport = true;
     public AttackIndicatorStatus attackIndicator = AttackIndicatorStatus.CROSSHAIR;
-    public boolean field_244601_E = false;
+    public boolean joinedFirstServer = false;
     public int biomeBlendRadius = 2;
     public double mouseWheelSensitivity = 1.0D;
     public boolean rawMouseInput = true;
@@ -134,7 +134,7 @@ public class GameSettings
     public boolean toggleCrouch;
     public boolean toggleSprint;
     public boolean skipMultiplayerWarning;
-    public boolean field_244794_ae = true;
+    public boolean hideMatchednames = true;
     public final KeyBinding keyBindForward = new KeyBinding("key.forward", 87, "key.categories.movement");
     public final KeyBinding keyBindLeft = new KeyBinding("key.left", 65, "key.categories.movement");
     public final KeyBinding keyBindBack = new KeyBinding("key.back", 83, "key.categories.movement");
@@ -755,12 +755,12 @@ public class GameSettings
 
                     if ("hideMatchedNames".equals(s))
                     {
-                        this.field_244794_ae = "true".equals(s1);
+                        this.hideMatchednames = "true".equals(s1);
                     }
 
                     if ("joinedFirstServer".equals(s))
                     {
-                        this.field_244601_E = "true".equals(s1);
+                        this.joinedFirstServer = "true".equals(s1);
                     }
 
                     if ("syncChunkWrites".equals(s))
@@ -948,8 +948,8 @@ public class GameSettings
                 printwriter.println("rawMouseInput:" + AbstractOption.RAW_MOUSE_INPUT.get(this));
                 printwriter.println("glDebugVerbosity:" + this.glDebugVerbosity);
                 printwriter.println("skipMultiplayerWarning:" + this.skipMultiplayerWarning);
-                printwriter.println("hideMatchedNames:" + this.field_244794_ae);
-                printwriter.println("joinedFirstServer:" + this.field_244601_E);
+                printwriter.println("hideMatchedNames:" + this.hideMatchednames);
+                printwriter.println("joinedFirstServer:" + this.joinedFirstServer);
                 printwriter.println("syncChunkWrites:" + this.syncChunkWrites);
 
                 for (KeyBinding keybinding : this.keyBindings)
