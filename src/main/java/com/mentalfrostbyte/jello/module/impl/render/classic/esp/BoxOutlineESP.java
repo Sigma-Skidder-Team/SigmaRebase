@@ -60,9 +60,9 @@ public class BoxOutlineESP extends Module {
                     .forEach(
                             (var1, var2) -> {
                                 boolean var5 = PlayerUtil.getEntityCategory(var2) == PlayerUtil.EntityTypeCategory.PLAYER
-                                        && this.access().getBooleanValueFromSettingName("Show Players");
+                                        && this.getParent().getBooleanValueFromSettingName("Show Players");
                                 boolean var6 = !var2.isInvisible()
-                                        || this.access().getBooleanValueFromSettingName("Show Invisibles");
+                                        || this.getParent().getBooleanValueFromSettingName("Show Invisibles");
                                 if (!Client.getInstance().botManager.isBot(var2) && var5 && var6
                                         && var2 != mc.player) {
                                     double var7 = PositionUtil.getRelativePosition(var2).x;
@@ -94,12 +94,12 @@ public class BoxOutlineESP extends Module {
         for (Entity var5 : mc.world.getAllEntities()) {
             if (!Client.getInstance().botManager.isBot(var5)) {
                 boolean var6 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.PLAYER
-                        && this.access().getBooleanValueFromSettingName("Show Players");
+                        && this.getParent().getBooleanValueFromSettingName("Show Players");
                 boolean var7 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.MONSTER
-                        && this.access().getBooleanValueFromSettingName("Show Mobs");
+                        && this.getParent().getBooleanValueFromSettingName("Show Mobs");
                 boolean var8 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.NON_PLAYER
-                        && this.access().getBooleanValueFromSettingName("Show Passives");
-                boolean var9 = !var5.isInvisible() || this.access().getBooleanValueFromSettingName("Show Invisibles");
+                        && this.getParent().getBooleanValueFromSettingName("Show Passives");
+                boolean var9 = !var5.isInvisible() || this.getParent().getBooleanValueFromSettingName("Show Invisibles");
                 if ((var7 || var6 || var8) && var9 && var5 != mc.player) {
                     GL11.glPushMatrix();
                     GL11.glTranslated(

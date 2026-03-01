@@ -94,14 +94,14 @@ public class BlockFlyHypixelMode extends Module {
 
     @Override
     public void initialize() {
-        this.blockFly = (BlockFly) this.access();
+        this.blockFly = (BlockFly) this.getParent();
     }
 
     @Override
     public void onEnable() {
         this.field23469 = mc.player.inventory.currentItem;
         this.yaw = this.pitch = 999.0F;
-        ((BlockFly) this.access()).lastSpoofedSlot = -1;
+        ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
         if (mc.gameSettings.keyBindSneak.isKeyDown() && this.getBooleanValueFromSettingName("Downwards")) {
             mc.gameSettings.keyBindSneak.setPressed(false);
             this.field23474 = true;
@@ -124,14 +124,14 @@ public class BlockFlyHypixelMode extends Module {
 
     @Override
     public void onDisable() {
-        if (this.field23469 != -1 && this.access().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
+        if (this.field23469 != -1 && this.getParent().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
             mc.player.inventory.currentItem = this.field23469;
         }
 
         this.field23469 = -1;
-        if (((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+        if (((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
             mc.getConnection().sendPacket(new CHeldItemChangePacket(mc.player.inventory.currentItem));
-            ((BlockFly) this.access()).lastSpoofedSlot = -1;
+            ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
         }
 
         MovementUtil.moveInDirection(MovementUtil.getSmartSpeed() * 0.9);
@@ -196,18 +196,18 @@ public class BlockFlyHypixelMode extends Module {
                                 method16116(this.blockCache.position, this.blockCache.direction), this.blockCache.direction, this.blockCache.position, false
                         );
                         int var21 = mc.player.inventory.currentItem;
-                        if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
+                        if (!this.getParent().getStringSettingValueByName("ItemSpoof").equals("None")) {
                             this.blockFly.switchToValidHotbarItem();
                         }
 
                         mc.playerController.func_217292_a(mc.player, mc.world, this.hand, var20);
-                        if (!this.access().getBooleanValueFromSettingName("NoSwing")) {
+                        if (!this.getParent().getBooleanValueFromSettingName("NoSwing")) {
                             mc.player.swingArm(this.hand);
                         } else {
                             mc.getConnection().sendPacket(new CAnimateHandPacket(this.hand));
                         }
 
-                        if (this.access().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.access().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
+                        if (this.getParent().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.getParent().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
                             mc.player.inventory.currentItem = var21;
                         }
                     }
@@ -318,7 +318,7 @@ public class BlockFlyHypixelMode extends Module {
                 this.field23476 = mc.player.getPosY();
             }
 
-            if (this.access().getBooleanValueFromSettingName("No Sprint")) {
+            if (this.getParent().getBooleanValueFromSettingName("No Sprint")) {
                 mc.player.setSprinting(false);
             }
 
@@ -329,7 +329,7 @@ public class BlockFlyHypixelMode extends Module {
             }
 
             if (this.blockFly == null) {
-                this.blockFly = (BlockFly) this.access();
+                this.blockFly = (BlockFly) this.getParent();
             }
 
             String var4 = this.getStringSettingValueByName("Speed Mode");
@@ -420,7 +420,7 @@ public class BlockFlyHypixelMode extends Module {
                     }
             }
 
-            this.blockFly.onMove(event);
+            this.blockFly.performTower(event);
         }
     }
 
@@ -428,7 +428,7 @@ public class BlockFlyHypixelMode extends Module {
     @LowerPriority
     public void method16113(EventSendPacket var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (var1.packet instanceof CHeldItemChangePacket && ((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+            if (var1.packet instanceof CHeldItemChangePacket && ((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
                 var1.cancelled = true;
             }
         }
@@ -437,8 +437,8 @@ public class BlockFlyHypixelMode extends Module {
     @EventTarget
     public void method16114(EventJump var1) {
         if (this.isEnabled() && this.field23475) {
-            if (this.access().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
-                    && (!MovementUtil.isMoving() || this.access().getBooleanValueFromSettingName("Tower while moving"))) {
+            if (this.getParent().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
+                    && (!MovementUtil.isMoving() || this.getParent().getBooleanValueFromSettingName("Tower while moving"))) {
                 var1.cancelled = true;
             }
         }

@@ -57,19 +57,19 @@ public class BlockFlyAACMode extends Module {
         this.pitch = mc.player.rotationPitch;
         this.placeY = (int) mc.player.getPosY();
         this.speedValue = -1;
-        ((BlockFly) this.access()).lastSpoofedSlot = -1;
+        ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
     }
 
     @Override
     public void onDisable() {
-        if (this.previousSlot != -1 && this.access().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
+        if (this.previousSlot != -1 && this.getParent().getStringSettingValueByName("ItemSpoof").equals("Switch")) {
             mc.player.inventory.currentItem = this.previousSlot;
         }
 
         this.previousSlot = -1;
-        if (((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+        if (((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
             mc.getConnection().sendPacket(new CHeldItemChangePacket(mc.player.inventory.currentItem));
-            ((BlockFly) this.access()).lastSpoofedSlot = -1;
+            ((BlockFly) this.getParent()).lastSpoofedSlot = -1;
         }
 
         mc.timer.timerSpeed = 1.0F;
@@ -79,7 +79,7 @@ public class BlockFlyAACMode extends Module {
     @LowerPriority
     public void method16202(EventSendPacket var1) {
         if (this.isEnabled() && mc.player != null) {
-            if (var1.packet instanceof CHeldItemChangePacket && ((BlockFly) this.access()).lastSpoofedSlot >= 0) {
+            if (var1.packet instanceof CHeldItemChangePacket && ((BlockFly) this.getParent()).lastSpoofedSlot >= 0) {
                 var1.cancelled = true;
             }
         }
@@ -106,7 +106,7 @@ public class BlockFlyAACMode extends Module {
     @EventTarget
     public void method16205(EventMove var1) {
         if (this.isEnabled()) {
-            if (this.access().getBooleanValueFromSettingName("No Sprint")) {
+            if (this.getParent().getBooleanValueFromSettingName("No Sprint")) {
                 mc.player.setSprinting(false);
             }
 
@@ -115,7 +115,7 @@ public class BlockFlyAACMode extends Module {
                 mc.player.setSprinting(false);
             }
 
-            ((BlockFly) this.access()).onMove(var1);
+            ((BlockFly) this.getParent()).performTower(var1);
             if (this.getBooleanValueFromSettingName("Haphe (AACAP)")) {
                 if (!mc.player.isOnGround() || mc.player.moveForward == 0.0F && mc.player.moveStrafing == 0.0F) {
                     if (this.field23524 >= 0) {
@@ -155,7 +155,7 @@ public class BlockFlyAACMode extends Module {
         BlockRayTraceResult var3 = (BlockRayTraceResult) BlockUtil.method34569(mc.player.lastReportedYaw, mc.player.lastReportedPitch, BlockUtil.getBlockReachDistance(), 0.0F);
         boolean var4 = false;
         if (var3 != null && var3.getType() == RayTraceResult.Type.BLOCK) {
-            if (this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
+            if (this.getParent().getStringSettingValueByName("ItemSpoof").equals("None")) {
                 if (!InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(Hand.MAIN_HAND).getItem())) {
                     return false;
                 }
@@ -181,19 +181,19 @@ public class BlockFlyAACMode extends Module {
                 return false;
             }
 
-            ((BlockFly) this.access()).method16736();
+            ((BlockFly) this.getParent()).method16736();
             int var5 = mc.player.inventory.currentItem;
-            if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
-                ((BlockFly) this.access()).switchToValidHotbarItem();
+            if (!this.getParent().getStringSettingValueByName("ItemSpoof").equals("None")) {
+                ((BlockFly) this.getParent()).switchToValidHotbarItem();
             }
 
             ActionResultType var6 = mc.playerController.func_217292_a(mc.player, mc.world, Hand.MAIN_HAND, var3);
-            if (this.access().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.access().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
+            if (this.getParent().getStringSettingValueByName("ItemSpoof").equals("Spoof") || this.getParent().getStringSettingValueByName("ItemSpoof").equals("LiteSpoof")) {
                 mc.player.inventory.currentItem = var5;
             }
 
             if (var6 == ActionResultType.SUCCESS) {
-                if (!this.access().getBooleanValueFromSettingName("NoSwing")) {
+                if (!this.getParent().getBooleanValueFromSettingName("NoSwing")) {
                     mc.player.swingArm(Hand.MAIN_HAND);
                 } else {
                     mc.getConnection().sendPacket(new CAnimateHandPacket(Hand.MAIN_HAND));
@@ -261,8 +261,8 @@ public class BlockFlyAACMode extends Module {
     @EventTarget
     public void method16211(EventJump var1) {
         if (this.isEnabled()) {
-            if (this.access().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
-                    && (!MovementUtil.isMoving() || this.access().getBooleanValueFromSettingName("Tower while moving"))) {
+            if (this.getParent().getStringSettingValueByName("Tower Mode").equalsIgnoreCase("Vanilla")
+                    && (!MovementUtil.isMoving() || this.getParent().getBooleanValueFromSettingName("Tower while moving"))) {
                 var1.cancelled = true;
             }
         }

@@ -279,7 +279,7 @@ public class Module {
         this.someMod = mod;
     }
 
-    public Module access() {
+    public Module getParent() {
         return this.someMod != null ? this.someMod : this;
     }
 

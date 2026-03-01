@@ -22,7 +22,7 @@ public class JartexGamePlay extends Module {
 
     @Override
     public void initialize() {
-        this.parentModule = (GamePlay) this.access();
+        this.parentModule = (GamePlay) this.getParent();
     }
 
     @EventTarget

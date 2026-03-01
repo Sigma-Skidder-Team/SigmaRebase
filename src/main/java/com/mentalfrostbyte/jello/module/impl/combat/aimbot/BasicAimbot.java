@@ -19,7 +19,7 @@ public class BasicAimbot extends Module {
    @EventTarget
    public void Render3DEvent(EventRender3D event) {
       if (this.isEnabled()) {
-         Entity target = ((Aimbot)this.access()).getTarget(this.getNumberValueBySettingName("Range"));
+         Entity target = ((Aimbot)this.getParent()).getTarget(this.getNumberValueBySettingName("Range"));
          if (target != null) {
             Rotation rotation = RotationUtils.getAdvancedRotation(target, false);
             mc.player.rotationYaw = rotation.yaw;

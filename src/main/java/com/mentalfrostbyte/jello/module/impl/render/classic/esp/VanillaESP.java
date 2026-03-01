@@ -19,10 +19,10 @@ public class VanillaESP extends Module {
         if (this.isEnabled()) {
             for (Entity var5 : mc.world.getAllEntities()) {
                 if (!Client.getInstance().botManager.isBot(var5)) {
-                    boolean var6 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.PLAYER && this.access().getBooleanValueFromSettingName("Show Players");
-                    boolean var7 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.MONSTER && this.access().getBooleanValueFromSettingName("Show Mobs");
-                    boolean var8 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.NON_PLAYER && this.access().getBooleanValueFromSettingName("Show Passives");
-                    boolean var9 = !var5.isInvisible() || this.access().getBooleanValueFromSettingName("Show Invisibles");
+                    boolean var6 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.PLAYER && this.getParent().getBooleanValueFromSettingName("Show Players");
+                    boolean var7 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.MONSTER && this.getParent().getBooleanValueFromSettingName("Show Mobs");
+                    boolean var8 = PlayerUtil.getEntityCategory(var5) == PlayerUtil.EntityTypeCategory.NON_PLAYER && this.getParent().getBooleanValueFromSettingName("Show Passives");
+                    boolean var9 = !var5.isInvisible() || this.getParent().getBooleanValueFromSettingName("Show Invisibles");
                     var5.setGlowing((var7 || var6 || var8) && var9 && var5 != mc.player);
                 }
             }

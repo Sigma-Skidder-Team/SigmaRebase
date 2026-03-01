@@ -37,7 +37,7 @@ public class SpiderStep extends Module {
     public void onStep(EventStep event) {
         if (this.isEnabled() && !event.cancelled) {
             double var4 = event.getHeight();
-            Step.StepEnum var6 = ((Step) this.access()).method16748(event);
+            Step.StepEnum var6 = ((Step) this.getParent()).method16748(event);
             if (var6 == Step.StepEnum.NORMAL_BLOCK) {
                 event.cancelled = true;
             } else if (var6 != Step.StepEnum.STAIRS) {

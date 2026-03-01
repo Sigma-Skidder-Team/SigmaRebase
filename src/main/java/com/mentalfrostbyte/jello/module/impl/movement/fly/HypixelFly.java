@@ -85,7 +85,7 @@ public class HypixelFly extends Module {
             IPacket pack = event.packet;
             if (this.isEnabled()) {
                 if (pack instanceof SPlayerPositionLookPacket) {
-                    this.access().toggle();
+                    this.getParent().toggle();
                 }
             }
         }

@@ -51,7 +51,7 @@ public class BowAimbot extends Module {
             if (!(mc.player.getActiveItemStack().getItem() instanceof BowItem)) {
                 this.field23754.clear();
             } else {
-                this.field23754 = this.validEntity(this.access().getNumberValueBySettingName("Range"));
+                this.field23754 = this.validEntity(this.getParent().getNumberValueBySettingName("Range"));
             }
 
             if (!this.field23754.isEmpty() && this.getBooleanValueFromSettingName("Silent")) {

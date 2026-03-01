@@ -214,7 +214,7 @@ public class BlockFly extends ModuleWithModuleSettings {
     }
 
     public boolean canPlaceItem(Hand var1) {
-        if (!this.access().getStringSettingValueByName("ItemSpoof").equals("None")) {
+        if (!this.getParent().getStringSettingValueByName("ItemSpoof").equals("None")) {
             return this.getValidItemCount() != 0;
         } else
             return InvManagerUtil.shouldPlaceItem(mc.player.getHeldItem(var1).getItem());
@@ -239,7 +239,7 @@ public class BlockFly extends ModuleWithModuleSettings {
         return -1;
     }
 
-    public void onMove(EventMove event) {
+    public void performTower(EventMove event) {
         if (mc.timer.timerSpeed == 0.8038576F) {
             mc.timer.timerSpeed = 1.0F;
         }

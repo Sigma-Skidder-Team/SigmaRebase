@@ -80,7 +80,7 @@ public class InfiniteAura extends Module {
     @Override
     public void onEnable() {
         this.alwaysFalse = false;
-        this.attacksPerTick = (int) (20.0F / this.access().getNumberValueBySettingName("CPS"));
+        this.attacksPerTick = (int) (20.0F / this.getParent().getNumberValueBySettingName("CPS"));
         this.attacksPerTickF = (float) this.attacksPerTick;
     }
 
@@ -98,7 +98,7 @@ public class InfiniteAura extends Module {
             List<TimedEntity> var4 = this.getTimedEntities((float) ((int) this.getNumberValueBySettingName("Range")));
             if (var4 != null && !var4.isEmpty()) {
                 if (this.attacksPerTickF < 1.0F) {
-                    this.attacksPerTickF = this.attacksPerTickF + 20.0F / this.access().getNumberValueBySettingName("CPS");
+                    this.attacksPerTickF = this.attacksPerTickF + 20.0F / this.getParent().getNumberValueBySettingName("CPS");
                 }
 
                 this.attacksPerTick++;

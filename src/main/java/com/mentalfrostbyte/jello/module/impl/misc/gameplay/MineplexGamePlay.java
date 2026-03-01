@@ -22,7 +22,7 @@ public class MineplexGamePlay extends Module {
 
     @Override
     public void initialize() {
-        this.parentModule = (GamePlay) this.access();
+        this.parentModule = (GamePlay) this.getParent();
     }
 
     @Override

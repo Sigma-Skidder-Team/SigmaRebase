@@ -70,11 +70,11 @@ public class MinibloxClickTP extends Module {
     public void onClick(EventClick event) {
         if (!this.isEnabled()) return;
         assert mc.player != null;
-        if (!(mc.player.isSneaking() || !this.access().getBooleanValueFromSettingName("Sneak"))) return;
+        if (!(mc.player.isSneaking() || !this.getParent().getBooleanValueFromSettingName("Sneak"))) return;
         if (event.getButton() != EventClick.Button.RIGHT) return;
         BlockRayTraceResult var4 = BlockUtil.rayTrace(
                 mc.player.rotationYaw, mc.player.rotationPitch,
-                this.access().getNumberValueBySettingName("Maximum range"));
+                this.getParent().getNumberValueBySettingName("Maximum range"));
         BlockPos hit = var4.getPos();
 
         this.targetX = (double) hit.getX() + 0.5;
@@ -108,8 +108,8 @@ public class MinibloxClickTP extends Module {
         mc.player.setMotion(mc.player.getMotion().x, 0.42f, mc.player.getMotion().z);
         this.timer.reset();
         this.timer.start();
-        if (this.access().getBooleanValueFromSettingName("Auto Disable")) {
-            this.access().toggle();
+        if (this.getParent().getBooleanValueFromSettingName("Auto Disable")) {
+            this.getParent().toggle();
         }
     }
 

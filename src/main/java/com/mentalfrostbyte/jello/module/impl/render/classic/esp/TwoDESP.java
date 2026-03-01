@@ -123,7 +123,7 @@ public class TwoDESP extends Module {
     @EventTarget
     public void method16515(EventRender2DCustom var1) {
         if (this.isEnabled()) {
-            boolean var4 = this.access().getBooleanValueFromSettingName("Show Invisibles");
+            boolean var4 = this.getParent().getBooleanValueFromSettingName("Show Invisibles");
             boolean var5 = this.getBooleanValueFromSettingName("Show Health");
             RenderSystem.pushMatrix();
 
