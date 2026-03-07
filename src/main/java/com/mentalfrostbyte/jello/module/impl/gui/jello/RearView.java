@@ -82,7 +82,7 @@ public class RearView extends Module {
     }
 
     @EventTarget
-    public void onRender(EventRender2DOffset onRender) {
+    public void onRender(EventRender2DOffset event) {
         if (framebuffer != null) {
             if (this.isEnabled()) {
                 if (! Minecraft.getInstance().gameSettings.hideGUI) {
