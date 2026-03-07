@@ -6,7 +6,7 @@ import com.mentalfrostbyte.jello.event.impl.game.render.EventRenderEntity;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRenderNameTag;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
-import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.Class2329;
+import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.RenderShapeMode;
 import com.mentalfrostbyte.jello.module.settings.impl.ColorSetting;
 import com.mentalfrostbyte.jello.util.client.render.Resources;
 import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
@@ -20,36 +20,33 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.TextureImpl;
 import team.sdhq.eventBus.annotations.EventTarget;
 
 public class ShadowESP extends Module {
-    public static RenderState currentRenderMode = RenderState.DEFAULT;
-    public IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.getImpl(mc.getRenderTypeBuffers().fixedBuffers, new BufferBuilder(256));
+    private static RenderState currentRenderMode = RenderState.DEFAULT;
+    private final IRenderTypeBuffer.Impl renderBuffer = IRenderTypeBuffer.getImpl(mc.getRenderTypeBuffers().fixedBuffers, new BufferBuilder(256));
 
     public ShadowESP() {
         super(ModuleCategory.RENDER, "Shadow", "Draws a line arround entities");
-        this.registerSetting(
-                new ColorSetting("Color", "The tracers color", ClientColors.LIGHT_GREYISH_BLUE.getColor()));
+        this.registerSetting(new ColorSetting("Color", "The tracers color", ClientColors.LIGHT_GREYISH_BLUE.getColor()));
     }
 
     @EventTarget
     public void onRender(EventRender3D event) {
         if (mc.player != null && mc.world != null) {
-            this.method16612();
-            RenderUtil.method11476();
+            this.setupShadowRenderState();
+            RenderUtil.beginStencilWrite();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.applyRenderMode(RenderState.PRE_RENDER);
-            RenderUtil.method11477(Class2329.field15941);
+            RenderUtil.configureStencilTest(RenderShapeMode.OUTLINE);
             GL11.glLineWidth(1.0F);
-            this.method16606();
+            this.renderShadowSprites();
             this.applyRenderMode(RenderState.OUTLINE);
             RenderSystem.alphaFunc(518, 0.0F);
             RenderSystem.enableAlphaTest();
@@ -57,45 +54,44 @@ public class ShadowESP extends Module {
             GL11.glEnable(3042);
             GL11.glDisable(2896);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderUtil.method11478();
-            this.method16613();
+            RenderUtil.endStencilWrite();
+            this.resetShadowRenderState();
             this.renderBuffer.finish();
         }
     }
 
-    public void method16606() {
+    public void renderShadowSprites() {
         int color = RenderUtil.applyAlpha(ClientColors.LIGHT_GREYISH_BLUE.getColor(), 0.8F);
-        mc.world.entitiesById
-                .forEach(
-                        (i, entity) -> {
-                            if (this.isValid(entity)) {
-                                double var6 = PositionUtil.getRelativePosition(entity).x;
-                                double var8 = PositionUtil.getRelativePosition(entity).y;
-                                double var10 = PositionUtil.getRelativePosition(entity).z;
-                                GL11.glPushMatrix();
-                                GL11.glAlphaFunc(519, 0.0F);
-                                GL11.glTranslated(var6, var8, var10);
-                                GL11.glTranslatef(0.0F, entity.getHeight(), 0.0F);
-                                GL11.glTranslatef(0.0F, 0.1F, 0.0F);
-                                GL11.glRotatef(mc.gameRenderer.getActiveRenderInfo().getYaw(), 0.0F, -1.0F, 0.0F);
-                                GL11.glScalef(-0.11F, -0.11F, -0.11F);
-                                RenderUtil.drawImage2(
-                                        -entity.getWidth() * 22.0F,
-                                        -entity.getHeight() * 5.5F,
-                                        entity.getWidth() * 44.0F,
-                                        entity.getHeight() * 21.0F,
-                                        Resources.shadowPNG,
-                                        color,
-                                        false);
-                                Resources.shoutIconPNG.bind();
-                                GL11.glPopMatrix();
-                            }
-                        });
+        mc.world.entitiesById.forEach((i, entity) -> {
+            if (this.isValid(entity)) {
+                double x = PositionUtil.getRelativePosition(entity).x;
+                double y = PositionUtil.getRelativePosition(entity).y;
+                double z = PositionUtil.getRelativePosition(entity).z;
+                GL11.glPushMatrix();
+                GL11.glAlphaFunc(519, 0.0F);
+                GL11.glTranslated(x, y, z);
+                GL11.glTranslatef(0.0F, entity.getHeight(), 0.0F);
+                GL11.glTranslatef(0.0F, 0.1F, 0.0F);
+                GL11.glRotatef(mc.gameRenderer.getActiveRenderInfo().getYaw(), 0.0F, -1.0F, 0.0F);
+                GL11.glScalef(-0.11F, -0.11F, -0.11F);
+                RenderUtil.drawImage2(
+                        -entity.getWidth() * 22.0F,
+                        -entity.getHeight() * 5.5F,
+                        entity.getWidth() * 44.0F,
+                        entity.getHeight() * 21.0F,
+                        Resources.shadowPNG,
+                        color,
+                        false);
+                Resources.shoutIconPNG.bind();
+                GL11.glPopMatrix();
+            }
+        });
     }
 
     public void applyRenderMode(RenderState renderState) {
         GL11.glDepthFunc(519);
         currentRenderMode = renderState;
+
         int colorValue = this.parseSettingValueToIntBySettingName("Color");
         float alpha = (float) (colorValue >> 24 & 0xFF) / 255.0F;
         float red = (float) (colorValue >> 16 & 0xFF) / 255.0F;
@@ -106,6 +102,7 @@ public class ShadowESP extends Module {
         GL11.glLightModelfv(2899, new float[]{red, green, blue, alpha});
 
         RenderSystem.enableLighting();
+
         if (currentRenderMode == RenderState.OUTLINE) {
             GL11.glEnable(10754);
             GL11.glLineWidth(2.0F);
@@ -119,13 +116,13 @@ public class ShadowESP extends Module {
             if (this.isValid(entity)) {
                 GL11.glPushMatrix();
 
-                Vector3d renderVector = mc.gameRenderer.getActiveRenderInfo().getPos();
-                double renderPosX = renderVector.getX();
-                double renderPosY = renderVector.getY();
-                double renderPosZ = renderVector.getZ();
+                Vector3d cameraPos = mc.gameRenderer.getActiveRenderInfo().getPos();
+                double renderPosX = cameraPos.getX();
+                double renderPosY = cameraPos.getY();
+                double renderPosZ = cameraPos.getZ();
 
-                MatrixStack matrix = new MatrixStack();
-                boolean shadows = mc.gameSettings.entityShadows;
+                MatrixStack matrixStack = new MatrixStack();
+                boolean previousShadowState = mc.gameSettings.entityShadows;
 
                 RenderSystem.disableLighting();
                 RenderSystem.color4f(0.0F, 0.0F, 1.0F, 0.5F);
@@ -139,11 +136,11 @@ public class ShadowESP extends Module {
                 entity.setFire(0);
                 entity.setFlag(0, false);
 
-                this.renderEntity(entity, renderPosX, renderPosY, renderPosZ, mc.timer.renderPartialTicks, matrix, this.renderBuffer);
+                this.renderEntity(entity, renderPosX, renderPosY, renderPosZ, mc.timer.renderPartialTicks, matrixStack, this.renderBuffer);
 
                 entity.setFire(fireTimer);
                 entity.setFlag(0, burning);
-                mc.gameSettings.entityShadows = shadows;
+                mc.gameSettings.entityShadows = previousShadowState;
                 GL11.glPopMatrix();
             }
         }
@@ -176,7 +173,7 @@ public class ShadowESP extends Module {
     @EventTarget
     public void onRenderEntity(EventRenderEntity event) {
         if (currentRenderMode != RenderState.DEFAULT) {
-            event.method13957(false);
+            event.setRender(false);
         }
     }
 
@@ -188,22 +185,23 @@ public class ShadowESP extends Module {
     }
 
     public boolean isValid(Entity entity) {
-        if (entity instanceof LivingEntity) {
-            if (entity instanceof PlayerEntity) {
-                if (!(entity instanceof ClientPlayerEntity)) {
-                    return !entity.isInvisible() && !Client.getInstance().botManager.isBot(entity);
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
+        if (!(entity instanceof LivingEntity)) {
             return false;
         }
+
+        if (!(entity instanceof PlayerEntity)) {
+            return false;
+        }
+
+        if (entity instanceof ClientPlayerEntity) {
+            return false;
+        }
+
+        return !entity.isInvisible()
+                && !Client.getInstance().botManager.isBot(entity);
     }
 
-    public void method16612() {
+    public void setupShadowRenderState() {
         GL11.glLineWidth(3.0F);
         GL11.glPointSize(3.0F);
         GL11.glEnable(2832);
@@ -218,14 +216,12 @@ public class ShadowESP extends Module {
         mc.gameRenderer.lightmapTexture.enableLightmap();
     }
 
-    private void method16613() {
+    private void resetShadowRenderState() {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
         GL11.glEnable(3553);
         GL11.glEnable(2903);
         RenderSystem.glMultiTexCoord2f(33986, 240.0F, 240.0F);
-        TextureImpl.unbind();
-        mc.getTextureManager().bindTexture(TextureManager.RESOURCE_LOCATION_EMPTY);
         mc.gameRenderer.lightmapTexture.enableLightmap();
         GL11.glLightModelfv(2899, new float[]{0.4F, 0.4F, 0.4F, 1.0F});
         currentRenderMode = RenderState.DEFAULT;
@@ -235,5 +231,5 @@ public class ShadowESP extends Module {
         DEFAULT,
         PRE_RENDER,
         OUTLINE
-	}
+    }
 }

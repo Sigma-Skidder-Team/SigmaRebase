@@ -5,7 +5,7 @@ import com.mentalfrostbyte.jello.gui.impl.jello.ingame.buttons.keybind.Keys;
 import com.mentalfrostbyte.jello.managers.GuiManager;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
-import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.Class2329;
+import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.RenderShapeMode;
 import com.mentalfrostbyte.jello.util.client.render.FontSizeAdjust;
 import com.mentalfrostbyte.jello.util.client.render.ResourceRegistry;
 import com.mentalfrostbyte.jello.util.client.render.Resources;
@@ -133,7 +133,7 @@ public class RenderUtil implements MinecraftUtil {
         }
     }
 
-    public static void method11476() {
+    public static void beginStencilWrite() {
         GL11.glPushMatrix();
         resetDepthBuffer();
         GL11.glEnable(2960);
@@ -146,14 +146,14 @@ public class RenderUtil implements MinecraftUtil {
         field18461 = true;
     }
 
-    public static void method11477(Class2329 var0) {
+    public static void configureStencilTest(RenderShapeMode var0) {
         GL11.glColorMask(true, true, true, true);
         GL11.glDepthMask(true);
         GL11.glStencilMask(0);
-        GL11.glStencilFunc(var0 != Class2329.field15940 ? 517 : 514, 1, 1);
+        GL11.glStencilFunc(var0 != RenderShapeMode.FILLED ? 517 : 514, 1, 1);
     }
 
-    public static void method11478() {
+    public static void endStencilWrite() {
         GL11.glStencilMask(-1);
         GL11.glDisable(2960);
         GL11.glPopMatrix();
@@ -1440,7 +1440,7 @@ public class RenderUtil implements MinecraftUtil {
         return new float[]{var4, var5, var6, var3};
     }
 
-    public static int method17691(int var0, float var1) {
+    public static int darkenColor(int var0, float var1) {
         int var4 = var0 >> 24 & 0xFF;
         int var5 = var0 >> 16 & 0xFF;
         int var6 = var0 >> 8 & 0xFF;

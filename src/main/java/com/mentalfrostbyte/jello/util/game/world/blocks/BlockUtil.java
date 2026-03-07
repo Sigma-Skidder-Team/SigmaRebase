@@ -185,9 +185,9 @@ public class BlockUtil {
         return var3;
     }
 
-    public static List<PlayerEntity> method34549(List<PlayerEntity> var0) {
-        Collections.sort(var0, new Class3583());
-        return var0;
+    public static List<PlayerEntity> sortPlayers(List<PlayerEntity> players) {
+        players.sort(new Class3583());
+        return players;
     }
 
     public static BlockCache findValidBlockCache(BlockPos basePos, boolean var1) {

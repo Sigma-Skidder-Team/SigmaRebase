@@ -210,7 +210,7 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
                 this.entityModel.render(matrixStackIn, ivertexbuilder, packedLightIn, i, 1.0F, 1.0F, 1.0F, flag2 ? 0.15F : 1.0F);
             }
 
-            if (!entityIn.isSpectator() && eventRenderEntity.method13954()) {
+            if (!entityIn.isSpectator() && eventRenderEntity.isRender()) {
                 for (LayerRenderer<T, M> layerrenderer : this.layerRenderers) {
                     layerrenderer.render(matrixStackIn, bufferIn, packedLightIn, entityIn, f5, f9, partialTicks, f8, f2, f7);
                 }

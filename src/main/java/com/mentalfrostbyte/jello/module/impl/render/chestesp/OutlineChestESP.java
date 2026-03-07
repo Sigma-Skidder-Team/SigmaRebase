@@ -3,7 +3,7 @@ package com.mentalfrostbyte.jello.module.impl.render.chestesp;
 import com.mentalfrostbyte.jello.event.impl.game.render.EventRender3D;
 import com.mentalfrostbyte.jello.module.Module;
 import com.mentalfrostbyte.jello.module.data.ModuleCategory;
-import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.Class2329;
+import com.mentalfrostbyte.jello.module.impl.render.jello.esp.util.RenderShapeMode;
 import com.mentalfrostbyte.jello.util.client.render.theme.ClientColors;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil;
 import com.mentalfrostbyte.jello.util.game.render.RenderUtil2;
@@ -29,10 +29,10 @@ public class OutlineChestESP extends Module {
         if (this.isEnabled()) {
             if (mc.player != null && mc.world != null) {
                 this.method16965();
-                RenderUtil.method11476();
+                RenderUtil.beginStencilWrite();
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 this.method16964(false);
-                RenderUtil.method11477(Class2329.field15941);
+                RenderUtil.configureStencilTest(RenderShapeMode.OUTLINE);
                 GL11.glLineWidth(3.0F);
                 RenderSystem.alphaFunc(518, 0.0F);
                 RenderSystem.enableAlphaTest();
@@ -41,7 +41,7 @@ public class OutlineChestESP extends Module {
                 GL11.glDisable(2896);
                 this.method16964(true);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                RenderUtil.method11478();
+                RenderUtil.endStencilWrite();
                 this.method16966();
             }
         }

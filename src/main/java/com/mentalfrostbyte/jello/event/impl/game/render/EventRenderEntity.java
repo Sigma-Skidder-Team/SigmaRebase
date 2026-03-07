@@ -11,8 +11,7 @@ public class EventRenderEntity extends CancellableEvent {
     private float pitch;
     private final float partialTicks;
     private final LivingEntity entity;
-    private boolean field21533 = true;
-    private boolean field21534 = true;
+    private boolean render = true;
     private RenderState state;
 
     public EventRenderEntity(float yawOffset, float headYaw, float yaw, float pitch, float partialTicks, LivingEntity entity) {
@@ -73,20 +72,12 @@ public class EventRenderEntity extends CancellableEvent {
         return this.entity;
     }
 
-    public boolean method13954() {
-        return this.field21533;
+    public boolean isRender() {
+        return this.render;
     }
 
-    public void method13955(boolean var1) {
-        this.field21534 = var1;
-    }
-
-    public boolean method13956() {
-        return this.field21534;
-    }
-
-    public void method13957(boolean var1) {
-        this.field21533 = var1;
+    public void setRender(boolean var1) {
+        this.render = var1;
     }
 
     public enum RenderState {
