@@ -93,7 +93,6 @@ public class ModuleManager {
         this.register(new WTap());
         this.register(new BowAimbot());
         this.register(new InfiniteAura());
-        this.register(new NewAura());
         // RENDER
         this.register(new AntiBlind());
         this.register(new DVDSimulator());
