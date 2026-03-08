@@ -1,7 +1,8 @@
 # Sigma Rebase
 
 > [!IMPORTANT]
-> Sigma Rebase is in development.
+> Sigma Rebase is getting replaced by Sigma Remake
+> .
 
 ## Instructions
 
