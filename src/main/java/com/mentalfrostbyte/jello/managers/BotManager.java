@@ -17,19 +17,19 @@ public class BotManager extends Manager {
     public AntiBotBase antiBot;
     public List<Entity> bots = new CopyOnWriteArrayList<>();
 
-    public boolean isBot(Entity var1) {
-        return this.bots.contains(var1);
+    public boolean isBot(Entity entity) {
+        return this.bots.contains(entity);
     }
 
     @EventTarget
     @HighestPriority
-    public void onLoadWorld(EventLoadWorld var1) {
+    public void onLoadWorld(EventLoadWorld event) {
         this.bots.clear();
     }
 
     @EventTarget
     @HighestPriority
-    public void onPlayerTick(EventUpdate var1) {
+    public void onPlayerTick(EventUpdate event) {
         if (this.antiBot != null) {
             for (PlayerEntity entity : EntityUtil.getPlayerEntities()) {
                 if (!this.antiBot.isBot(entity)) {

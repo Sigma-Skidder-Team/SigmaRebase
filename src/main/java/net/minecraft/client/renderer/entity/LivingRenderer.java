@@ -164,9 +164,6 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
                 }
             }
 
-            eventRenderEntity.setState(EventRenderEntity.RenderState.MID);
-            EventBus.call(eventRenderEntity);
-
             this.entityModel.setLivingAnimations(entityIn, f5, f9, partialTicks);
             this.entityModel.setRotationAngles(entityIn, f5, f9, f8, f2, f7);
 
@@ -226,8 +223,6 @@ public abstract class LivingRenderer<T extends LivingEntity, M extends EntityMod
                 this.renderEntity = null;
             }
 
-            eventRenderEntity.setState(EventRenderEntity.RenderState.POST);
-            EventBus.call(eventRenderEntity);
             matrixStackIn.pop();
             super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 

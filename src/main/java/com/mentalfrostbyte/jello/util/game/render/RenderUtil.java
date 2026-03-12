@@ -80,10 +80,10 @@ public class RenderUtil implements MinecraftUtil {
         drawRect(var0, var1, var0 + var2, var1 + var3, var4);
     }
 
-    public static void drawImage2(float var0, float var1, float var2, float var3, Texture var4, int var5,
-                                  boolean var6) {
-        drawImage(var0, var1, var2, var3, var4, var5, 0.0F, 0.0F, (float) var4.getImageWidth(),
-                (float) var4.getImageHeight(), var6);
+    public static void drawImage2(float x, float y, float width, float height, Texture texture, int color,
+                                  boolean linearFiltering) {
+        drawImage(x, y, width, height, texture, color, 0.0F, 0.0F, (float) texture.getImageWidth(),
+                (float) texture.getImageHeight(), linearFiltering);
     }
 
     public static void renderWireframeBox(BoundingBox boxIn, int color) {
@@ -143,7 +143,6 @@ public class RenderUtil implements MinecraftUtil {
         GL11.glStencilOp(7681, 7680, 7680);
         GL11.glStencilMask(1);
         GL11.glClear(1024);
-        field18461 = true;
     }
 
     public static void configureStencilTest(RenderShapeMode var0) {
@@ -157,7 +156,6 @@ public class RenderUtil implements MinecraftUtil {
         GL11.glStencilMask(-1);
         GL11.glDisable(2960);
         GL11.glPopMatrix();
-        field18461 = false;
     }
 
     public static void method11446(float var0, float var1, float var2, float var3, float var4, float var5, int var6) {

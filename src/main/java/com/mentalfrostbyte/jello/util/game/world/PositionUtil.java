@@ -3,6 +3,7 @@ package com.mentalfrostbyte.jello.util.game.world;
 import com.mentalfrostbyte.jello.util.game.MinecraftUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class PositionUtil implements MinecraftUtil {
     public static double calculateDistanceSquared(Entity entity) {
@@ -38,21 +39,9 @@ public class PositionUtil implements MinecraftUtil {
 
     public static Vector3d getRelativePosition(BlockPos blockPos) {
         return new Vector3d(
-                (double)blockPos.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
-                (double)blockPos.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
-                (double)blockPos.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
+                (double) blockPos.getX() - mc.gameRenderer.getActiveRenderInfo().getPos().getX(),
+                (double) blockPos.getY() - mc.gameRenderer.getActiveRenderInfo().getPos().getY(),
+                (double) blockPos.getZ() - mc.gameRenderer.getActiveRenderInfo().getPos().getZ()
         );
-    }
-
-    public static class Vector3d {
-        public double x;
-        public double y;
-        public double z;
-
-        public Vector3d(double x, double y, double z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
     }
 }

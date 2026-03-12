@@ -20,7 +20,7 @@ public class Timer extends Module {
     }
 
     @Override
-public void onDisable() {
-    mc.timer.timerSpeed = 1.0F;
-}
+    public void onDisable() {
+        mc.timer.timerSpeed = 1.0F;
+    }
 }

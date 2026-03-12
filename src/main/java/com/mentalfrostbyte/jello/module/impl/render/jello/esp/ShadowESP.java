@@ -38,9 +38,23 @@ public class ShadowESP extends Module {
     }
 
     @EventTarget
+    public void onRenderEntity(EventRenderEntity event) {
+        if (currentRenderMode != RenderState.DEFAULT) {
+            event.setRender(false);
+        }
+    }
+
+    @EventTarget
+    public void onNametagRender(EventRenderNameTag event) {
+        if (currentRenderMode != RenderState.DEFAULT && event.getEntity() instanceof PlayerEntity) {
+            event.cancelled = true;
+        }
+    }
+
+    @EventTarget
     public void onRender(EventRender3D event) {
         if (mc.player != null && mc.world != null) {
-            this.setupShadowRenderState();
+            this.setup();
             RenderUtil.beginStencilWrite();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.applyRenderMode(RenderState.PRE_RENDER);
@@ -55,7 +69,7 @@ public class ShadowESP extends Module {
             GL11.glDisable(2896);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderUtil.endStencilWrite();
-            this.resetShadowRenderState();
+            this.reset();
             this.renderBuffer.finish();
         }
     }
@@ -170,20 +184,6 @@ public class ShadowESP extends Module {
         mc.worldRenderer.renderManager.renderEntityStatic(entity, interpolatedX - offsetX, interpolatedY - offsetY, interpolatedZ - offsetZ, interpolatedYaw, partialTicks, matrixStack, typeBuffer, 238);
     }
 
-    @EventTarget
-    public void onRenderEntity(EventRenderEntity event) {
-        if (currentRenderMode != RenderState.DEFAULT) {
-            event.setRender(false);
-        }
-    }
-
-    @EventTarget
-    public void onNametagRender(EventRenderNameTag event) {
-        if (currentRenderMode != RenderState.DEFAULT && event.getEntity() instanceof PlayerEntity) {
-            event.cancelled = true;
-        }
-    }
-
     public boolean isValid(Entity entity) {
         if (!(entity instanceof LivingEntity)) {
             return false;
@@ -201,7 +201,7 @@ public class ShadowESP extends Module {
                 && !Client.getInstance().botManager.isBot(entity);
     }
 
-    public void setupShadowRenderState() {
+    public void setup() {
         GL11.glLineWidth(3.0F);
         GL11.glPointSize(3.0F);
         GL11.glEnable(2832);
@@ -216,7 +216,7 @@ public class ShadowESP extends Module {
         mc.gameRenderer.lightmapTexture.enableLightmap();
     }
 
-    private void resetShadowRenderState() {
+    private void reset() {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(2896);
         GL11.glEnable(3553);
@@ -227,7 +227,7 @@ public class ShadowESP extends Module {
         currentRenderMode = RenderState.DEFAULT;
     }
 
-    public enum RenderState {
+    private enum RenderState {
         DEFAULT,
         PRE_RENDER,
         OUTLINE

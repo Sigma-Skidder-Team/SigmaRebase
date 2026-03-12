@@ -4,14 +4,14 @@ import com.mentalfrostbyte.jello.event.CancellableEvent;
 import net.minecraft.entity.Entity;
 
 public class EventRenderNameTag extends CancellableEvent {
-    private final Entity field21580;
+    private final Entity entity;
 
     public EventRenderNameTag(Entity var1) {
-        this.field21580 = var1;
+        this.entity = var1;
     }
 
     public Entity getEntity() {
-        return this.field21580;
+        return this.entity;
     }
 }
 

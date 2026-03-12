@@ -42,7 +42,7 @@ public class BoxOutlineESP extends Module {
                 GL11.glLineWidth(3.0F);
                 RenderSystem.alphaFunc(518, 0.0F);
                 RenderSystem.enableAlphaTest();
-                this.method16507();
+                this.renderShadowSprites();
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.1F);
                 GL11.glEnable(3042);
                 GL11.glDisable(2896);
@@ -54,7 +54,7 @@ public class BoxOutlineESP extends Module {
         }
     }
 
-    private void method16507() {
+    private void renderShadowSprites() {
         if (Client.getInstance().clientMode == ClientMode.JELLO) {
             mc.world.entitiesById
                     .forEach(
